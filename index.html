@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Danmaku</title>
+		<link href="./css/danmaku.css" rel="stylesheet" type="text/css" />
+
+		<!-- Polyfills -->
+		<script src="./js/midi/inc/shim/Base64.js" type="text/javascript" defer></script>
+		<script src="./js/midi/inc/shim/Base64binary.js" type="text/javascript" defer></script>
+		
+		<!-- Jasmid -->
+		<script src="./js/midi/inc/jasmid/stream.js" type="text/javascript" defer></script>
+		<script src="./js/midi/inc/jasmid/midifile.js" type="text/javascript" defer></script>
+		<script src="./js/midi/inc/jasmid/replayer.js" type="text/javascript" defer></script
+		
+		<!-- Midi -->
+		<script src="./js/midi/color/SpaceW3.js" type="text/javascript" defer></script>
+		<script src="./js/midi/AudioDetect.js" type="text/javascript" defer></script>
+		<script src="./js/midi/LoadPlugin.js" type="text/javascript" defer></script>
+		<script src="./js/midi/Plugin.js" type="text/javascript" defer></script>
+		<script src="./js/midi/Player.js" type="text/javascript" defer></script>
+		<script src="./js/midi/window/DOMLoader.XMLHttp.js" type="text/javascript" defer></script>
+		<script src="./js/midi/window/Queue.js" type="text/javascript" defer></script>
+		
+		<!-- jQuery -->
+		<script src="js/jquery/jquery-1.11.1.min.js" type="text/javascript" defer></script>
+		<script src="./js/jquery/jquery.hotkeys.js" type="text/javascript" defer></script>
+		<script src="./js/jquery/jquery.key-status.js" type="text/javascript" defer></script>
+		
+		<!-- Danmaku -->
+		<script src="./js/danmaku/common/stg.js" type="text/javascript" defer></script>
+		<script src="./js/danmaku/common/stg.config.js" type="text/javascript" defer></script>
+		<script src="./js/fsm/fsm.js" type="text/javascript" defer></script>
+		<script src="./js/fsm/fsm.state.js" type="text/javascript" defer></script>
+		<script src="./js/danmaku/states/fsm.enemy.js" type="text/javascript" defer></script>
+		<script src="./js/danmaku/states/fsm.player.js" type="text/javascript" defer></script>
+		<script src="./js/danmaku/states/fsm.stage.js" type="text/javascript" defer></script>
+		<script src="./js/danmaku/states/fsm.menu.js" type="text/javascript" defer></script>
+		<script src="./js/danmaku/states/fsm.intro.js" type="text/javascript" defer></script>
+		<script src="./js/danmaku/danmaku.js" type="text/javascript" defer></script>
+	</head>
+	<body>
+		<div class="danmaku">
+			<canvas id="screen-layer">Your browser does not support HTML5 Canvas.</canvas>
+			<canvas id="buffer-layer" class="hide sub-layer">Your browser does not support HTML5 Canvas.</canvas>
+			<canvas id="odd-layer" class="hide sub-layer paint-layer">Your browser does not support HTML5 Canvas.</canvas>
+			<canvas id="even-layer" class="hide sub-layer paint-layer">Your browser does not support HTML5 Canvas.</canvas>
+			<canvas id="sprite-layer" class="hide sub-layer">Your browser does not support HTML5 Canvas.</canvas>
+		</div>
+		<section class="centered">
+			<h2 class="centered">Danmaku HTML5</h2>
+			<a class="centered" href="https://www.shippingsoon.com/">Copyright 2014 - Shipping Soon</a>
+		</section>
+		<div class="resources">
+			<img id="canvas-bg" width="480" height="560" src="sprite/bg/canvas.png" alt=""/>
+			<img id="stage-bg" width="800" height="600" src="sprite/bg/stage.png" alt=""/>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,63 @@
+body {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	background-color:#666;
+}
+
+.centered {
+	text-align:center;
+}
+
+.danmaku {
+	position:relative;
+	margin:50px auto;
+	display:block;
+	border-radius:4px;
+	outline:solid 1px #CCC;
+	overflow:visible;
+}
+
+	.danmaku canvas {
+		background-color:transparent;
+		position:absolute;
+		left:0px;
+		top:0px;
+		z-index:1;
+	}
+	
+	.danmaku, #screen-layer {
+		width:800px;
+		height:600px;
+	}
+
+#sprite-layer {
+	z-index:3;
+	/*background-color:rgba(0, 55, 0, .5);*/
+}
+
+
+.danmaku .paint-layer {
+	z-index:2;
+}
+
+.danmaku .sub-layer {
+	width:480px;
+	height:560px;
+	left:40px;
+	top:20px;
+}
+
+.resources {
+	display:none;
+}
+
+.hide {
+	display:none;
+}
+
+#odd-layer {
+	z-index:1;
+}
+
+#buffer-layer {
+	z-index:10;
+}
