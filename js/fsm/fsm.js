@@ -153,8 +153,8 @@ FSM.Init = (function(globals, stg) {
 		var screen_layer = document.getElementById('screen-layer');
 		
 		//Set the width and height of our sprite layer.
-		screen_layer.width = stg.Config.CANVAS_WIDTH;
-		screen_layer.height = stg.Config.CANVAS_HEIGHT;
+		screen_layer.width = 480; //stg.Config.CANVAS_WIDTH;
+		screen_layer.height = 560; //stg.Config.CANVAS_HEIGHT;
 		
 		return screen_layer.getContext('2d')
 	}

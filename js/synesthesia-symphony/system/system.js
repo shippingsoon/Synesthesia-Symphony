@@ -1,7 +1,7 @@
 /*
-	@description - Danmaku configuration module.
+	@description - Synesthesia Symphony's configuration module.
 	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/TBA
+	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/
 	@version - v0.01
 	@license - GPLv3
@@ -9,7 +9,7 @@
 
 var STG = STG || {};
 
-//Danmaku module. 
+//STG module. 
 STG = (function(globals) {
 	"use strict";
 	

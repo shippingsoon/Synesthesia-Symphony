@@ -1,0 +1,129 @@
+@font-face {
+	font-family:'Open Sans';
+	font-style:normal;
+	font-weight:300;
+	src:local('Open Sans Light'), local('OpenSans-Light'), url('../font/opensans/opensans-light.woff') format('woff');
+}
+
+@font-face {
+	font-family:'Open Sans';
+	font-style:normal;
+	font-weight:400;
+	src:local('Open Sans'), local('OpenSans'), url('../font/opensans/opensans.woff') format('woff');
+}
+
+@font-face {
+	font-family:'Open Sans';
+	font-style:normal;
+	font-weight:600;
+	src:local('Open Sans Semibold'), local('OpenSans-Semibold'), url('../font/opensans/opensans-semibold.woff') format('woff');
+}
+
+@font-face {
+	font-family:'Open Sans';
+	font-style:normal;
+	font-weight:700;
+	src:local('Open Sans Bold'), local('OpenSans-Bold'), url('../font/opensans/opensans-bold.woff') format('woff');
+}
+
+@font-face {
+	font-family:'Open Sans';
+	font-style:italic;
+	font-weight:300;
+	src:local('Open Sans Light Italic'), local('OpenSansLight-Italic'), url('../font/opensans/opensans-light-italic.woff') format('woff');
+}
+
+@font-face {
+	font-family:'Open Sans';
+	font-style:italic;
+	font-weight:400;
+	src:local('Open Sans Italic'), local('OpenSans-Italic'), url('../font/opensans/opensans-italic.woff') format('woff');
+}
+
+@font-face {
+	font-family:'Open Sans';
+	font-style:italic;
+	font-weight:600;
+	src:local('Open Sans Semibold Italic'), local('OpenSans-SemiboldItalic'), url('../font/opensans/opensans-semibold-italic.woff') format('woff');
+}
+
+.opensans {
+	font-family:Open Sans, Helvetica, Arial;
+}
+
+.light-weight {
+	margin-top:0px;
+	font-weight:300;
+}
+
+a {
+	text-decoration:none;
+}
+
+body {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	background-color:#666;
+	background-image:url('../sprite/bg/body-texture.png');
+	color:white;
+	text-shadow: black 1px 1px 1px;
+}
+
+.centered {
+	text-align:center;
+}
+
+.synesthesia-symphony {
+	position:relative;
+	margin:50px auto;
+	display:block;
+	border-radius:4px;
+	/*outline:solid 1px #CCC;*/
+	overflow:visible;
+}
+
+	.synesthesia-symphony canvas {
+		background-color:transparent;
+		position:absolute;
+		left:0px;
+		top:0px;
+		z-index:1;
+		border-radius:4px;
+	}
+	
+	.synesthesia-symphony, #screen-layer {
+		width:800px;
+		height:600px;
+	}
+
+#sprite-layer {
+	z-index:3;
+	/*background-color:rgba(0, 55, 0, .5);*/
+}
+
+
+.synesthesia-symphony .paint-layer {
+	z-index:2;
+}
+
+.synesthesia-symphony .sub-layer {
+	width:480px;
+	height:560px;
+	left:40px;
+	top:20px;
+}
+
+.resources {
+	display:none;
+}
+
+.hide {
+	display:none;
+}
+
+#odd-layer {
+	z-index:1;
+}
+
+#buffer-layer {
+	z-index:10;
+}

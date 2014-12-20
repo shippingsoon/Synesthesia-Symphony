@@ -1,7 +1,7 @@
 /*
-	@description - Danmaku
+	@description - Synesthesia Symphony
 	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/TBA
+	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/
 	@version - v0.01
 	@license - GPLv3
@@ -10,11 +10,12 @@
  /*
   * Main function.
   * @param {Object} globals - Explicit global namespace.
-  * @param {Object} stg - Danmaku's primary module.
+  * @param {Object} system - Synesthesia Symphony's primary module.
   * @param {Object} $ -jQuery library.
   */
-$(document).ready(function(){
-  (function(globals, stg, $) {
+var System = System || {};
+
+(function(globals, system, $) {
 	//Initiate our state machine.
 	var game = new FSM.Init({});
 
@@ -33,8 +34,11 @@ $(document).ready(function(){
 		game.render();
 	};
 	
-	//Call our main function every n frames per second.
-	globals.interval = setInterval(main, (1000 / stg.Config.FPS));
-}(window || {}, STG, jQuery));
+	//If online mode is enabled load a session.
+	//if (system.Config.online)
+	//	Session.load(main);
+	//else
+		//Call our main function every n frames per second.
+		globals.interval = setInterval(main, (1000 / system.Config.FPS));
+}(window, System, jQuery));
 
-})
