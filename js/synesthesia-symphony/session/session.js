@@ -1,5 +1,5 @@
 /*
-	@description - Synesthesia Symphony's configuration module.
+	@description - Synesthesia Symphony's session module.
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/
@@ -7,11 +7,11 @@
 	@license - GPLv3
 */
 
-var Session = Session || {};
 var System = System || {};
+var Resource = Resource || {};
 
 //This module handles sessions.
-Session = (function(globals, system, $) {
+var Session = Session || (function(globals, system, resource, $) {
 	"use strict";
 	
 	return {
@@ -26,12 +26,17 @@ Session = (function(globals, system, $) {
 					system.Config.hiscore = data.hiscore;
 					system.Config.resolution = data.resolution;
 					
+					//Load the game resources.
+					resource.load();
+					
 					//Call our main function every n frames per second.
 					globals.interval = setInterval(callback, (1000 / system.Config.FPS));
 				},
 				error: function(data) {
 					if (system.Config.debug)
 						console.log(data);
+					
+					
 					
 					//Call our main function every n frames per second.
 					globals.interval = setInterval(callback, (1000 / system.Config.FPS));
@@ -60,4 +65,4 @@ Session = (function(globals, system, $) {
 			});
 		}
 	};
-}(window, System, jQuery)); 
+}(window, System, Resource, jQuery)); 

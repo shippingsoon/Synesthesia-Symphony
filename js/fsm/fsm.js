@@ -8,9 +8,10 @@
 */
 
 var FSM = FSM || {};
+var STG = STG || {};
 
 //Finite state machine.
-FSM.Init = (function(globals, stg) {
+FSM.Init = (function(globals, stg, resource) {
 	"use strict";
 	
 	/*
@@ -22,22 +23,16 @@ FSM.Init = (function(globals, stg) {
 		var states = [];
 		
 		//Canvas.
-		var canvas = options.canvas || document.createElement('canvas');
-		this.ctx = getScreenContext(); //options.context || canvas.getContext('2d');
 		var that = this;
-		
-		//If a canvas element is not found append one.
-		if (document.getElementsByTagName('canvas').length === 0)
-			document.body.appendChild(canvas);
 		
 		/*
 		 * Handle events in the current state.
 		 * @param {Number} event - Numeric event code.
 		 */
-		this.controller = function(event) {
+		this.controller = function(event) {alert("hi");
 			if (states.length !== 0 && event) {
 				//Handle events in the current state.
-				_fsm({fsm: that, ctx: that.ctx, state: states[states.length - 1], method: 'controller', event: event});
+				_fsm({fsm: that, ctx: resource.layers.screen.ctx, state: states[states.length - 1], method: 'controller', event: event});
 			}
 		};
 		
@@ -47,7 +42,7 @@ FSM.Init = (function(globals, stg) {
 		this.update = function() {
 			if (states.length !== 0) {
 				//Update the current state.
-				_fsm({fsm: that, ctx: that.ctx, state: states[states.length - 1], method: 'update'});
+				_fsm({fsm: that, ctx: resource.layers.screen.ctx, state: states[states.length - 1], method: 'update'});
 			}
 		};
 		
@@ -57,10 +52,10 @@ FSM.Init = (function(globals, stg) {
 		this.render = function() {
 			if (states.length !== 0) {
 				//Clear the canvas.
-				this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+				resource.layers.screen.ctx.clearRect(0, 0, resource.layers.screen.width, resource.layers.screen.height);
 
 				//Render the current state.
-				_fsm({fsm: that, ctx: that.ctx, state: states[states.length - 1], method: 'render'});
+				_fsm({fsm: that, ctx: resource.layers.screen.ctx, state: states[states.length - 1], method: 'render'});
 			}
 		};
 		
@@ -71,13 +66,13 @@ FSM.Init = (function(globals, stg) {
 		this.forward = function(state) {
 			//Pause the current state.
 			if (states.length !== 0)
-				_fsm({fsm: that, ctx: that.ctx, state: states[states.length - 1], method: 'pause'});
+				_fsm({fsm: that, ctx: resource.layers.screen.ctx, state: states[states.length - 1], method: 'pause'});
 			
 			//Push a new state and invoke its constructor.
 			states.push(state);
 			
 			//Initiate the current state.
-			_fsm({fsm: that, ctx: that.ctx, state: states[states.length - 1], method: 'start'});
+			_fsm({fsm: that, ctx: resource.layers.screen.ctx, state: states[states.length - 1], method: 'start'});
 		};
 		
 		/*
@@ -88,13 +83,13 @@ FSM.Init = (function(globals, stg) {
 			if (states.length !== 0) {
 				//Determine if we will pause the current state.
 				if (pause)
-					_fsm({fsm: that, ctx: that.ctx, state: states[states.length - 1], method: 'stop'});
+					_fsm({fsm: that, ctx: resource.layers.screen.ctx, state: states[states.length - 1], method: 'stop'});
 				
 				//Pop the current state.
 				states.pop();
 				
 				//Resume the previous state.
-				_fsm({fsm: that, ctx: that.ctx, state: states[states.length - 1], method: 'play'});
+				_fsm({fsm: that, ctx: resource.layers.screen.ctx, state: states[states.length - 1], method: 'play'});
 			}
 		};
 		
@@ -105,7 +100,7 @@ FSM.Init = (function(globals, stg) {
 		this.transition = function(state) {
 			if (states.length !== 0) {
 				//Stop the current state.
-				_fsm({fsm: that, ctx: that.ctx, state: states[states.length - 1], method: 'stop'});
+				_fsm({fsm: that, ctx: resource.layers.screen.ctx, state: states[states.length - 1], method: 'stop'});
 				
 				//Remove the state.
 				states.pop();
@@ -142,22 +137,14 @@ FSM.Init = (function(globals, stg) {
 				_fsm(options);
 			}
 		}
-	}
-	
-	/*
-	 * Sets properties for the screen layer and returns a 2D context.
-	 * @param {Object||Canvas} canvases - An array of canvases.
-	 */
-	function getScreenContext() {
-		//Set our screen canvas layer.
-		var screen_layer = document.getElementById('screen-layer');
 		
-		//Set the width and height of our sprite layer.
-		screen_layer.width = 480; //stg.Config.CANVAS_WIDTH;
-		screen_layer.height = 560; //stg.Config.CANVAS_HEIGHT;
-		
-		return screen_layer.getContext('2d')
+		this.setCanvas = function(layer) {
+			canvas = layer;
+			
+			if (canvas)
+				that.ctx = canvas.getContext('2d');
+		};
 	}
 	
 	return Init;
-}(window, STG));
+}(window, STG, Resource));

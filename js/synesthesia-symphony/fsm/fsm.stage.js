@@ -8,61 +8,19 @@
 */
 	
 var FSM = FSM || {};
+var STG = STG || {};
+var Resource = Resource || {};
 
 //Stage state.
-FSM.Stage = (function(fsm, stg) {
+FSM.Stage = (function(fsm, stg, resource) {
 	"use strict";
 	
 	function Stage(options) {
 		var state = new fsm.State({});
 		var player = new fsm.Player({x:80});
 		var enemies = [];
-		var test_height = 5000;
-		
-		
-		//The images.
-		var sprites = {
-			//Background image.
-			stage_bg: document.getElementById('stage-bg'),
-			
-			//Canvas textured background image.
-			canvas_bg: document.getElementById('canvas-bg'),
-		};
-		
-		sprites.canvas_bg.x = 0;
-		sprites.canvas_bg.y = 0;
-		
-		//The drawing layers.
-		var layers = {
-			//Buffer layer. All layers will be drawn to this layer before it is draw to the screen layer.
-			buffer: document.getElementById('buffer-layer'),
-			
-			//Even paint layer. The paint trails will be drawn on this layer.
-			even: document.getElementById('even-layer'),
-			
-			//Odd paint layer. The paint trails will be drawn on this layer.
-			odd: document.getElementById('odd-layer'),
-		};
-		
-		//Initiate the drawing layers.
-		for (var layer in layers) {
-			//Set the width and height of the layers.
-			layers[layer].width = 480;
-			layers[layer].height = 560;
-			
-			//Set the x and y coordinates of the layers.
-			layers[layer].x = 0;
-			layers[layer].y = 0;
-			
-			//Get the 2D context for drawing the layer.
-			layers[layer].ctx = layers[layer].getContext('2d');
-		}
-		
-		//Draw the canvas sprite on to the odd and even layers.
-		layers.odd.height = test_height;
-		layers.odd.ctx.drawImage(sprites.canvas_bg, 0, 0, 480, 560);
-		layers.even.ctx.drawImage(sprites.canvas_bg, 0, 0, 480, 560);
-		
+		var layers = resource.layers;
+		var sprites = resource.sprites;
 		
 		/*
 		 * Initiate this state.
@@ -89,9 +47,9 @@ FSM.Stage = (function(fsm, stg) {
 			//Used for debugging.
 			window.addEventListener('mousemove', function(e) {
 				for (var i = 0; i < 8; i++) {
-					var rect = game.ctx.canvas.getBoundingClientRect();
-					var image_data = layers.odd.ctx.getImageData(-40 + e.clientX - rect.left, -20 + e.clientY - rect.top, 1, 1);
-					var data = image_data.data;
+					//var rect = game.ctx.canvas.getBoundingClientRect();
+					//var image_data = layers.odd.ctx.getImageData(-40 + e.clientX - rect.left, -20 + e.clientY - rect.top, 1, 1);
+					//var data = image_data.data;
 					//console.log(data);
 				}
 				
@@ -107,17 +65,7 @@ FSM.Stage = (function(fsm, stg) {
 			cy += 5;
 		};
 		
-		/*
-			if (bullet.color != player.color) {
-				if (bullet.collision(this, player)) {
-					player.colorCollision();
-				}
-					
-			}
-		*/
 		state.render = function(game) {
-			
-			
 			//Draw the canvas image.
 			game.ctx.drawImage(
 				sprites.canvas_bg,
@@ -136,8 +84,7 @@ FSM.Stage = (function(fsm, stg) {
 			);
 			
 			//Draw the background image.
-			game.ctx.drawImage(sprites.stage_bg, 0, 0);
-			
+			game.ctx.drawImage(sprites.stages_bg[0], 0, 0);
 		};
 		
 		/*
@@ -155,4 +102,4 @@ FSM.Stage = (function(fsm, stg) {
 	}
 	
 	return Stage;
-}(FSM, STG || {}));
+}(FSM, STG, Resource));
