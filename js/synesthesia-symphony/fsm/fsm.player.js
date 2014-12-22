@@ -8,9 +8,11 @@
 */
 
 var FSM = FSM || {};
+var STG = STG || {};
+var System = System || {};
 
 //Player singleton.
-FSM.Player = (function(fsm, stg) {
+FSM.Player = (function(fsm, stg, system) {
 	"use strict";
 	
 	//An instance of our player.
@@ -31,6 +33,7 @@ FSM.Player = (function(fsm, stg) {
 		var color = options.color || 'blue';
 		var velocity = options.color || 10;
 		var that = this;
+		this.lives = this.lives || system.Config.INITIAL_LIVES;
 		
 		//Set the player's position.
 		this.setPosition = function(positions) {
@@ -110,4 +113,4 @@ FSM.Player = (function(fsm, stg) {
 	};
 	
 	return Player;
-}(FSM, STG || {}));
+}(FSM, STG, System));

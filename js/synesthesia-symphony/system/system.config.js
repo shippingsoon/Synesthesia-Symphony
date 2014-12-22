@@ -26,6 +26,9 @@ System.Config = System.Cfg = (function(globals) {
 		//Version.
 		VERSION: 'v0.01',
 		
+		//The intial lives.
+		INITIAL_LIVES: 5,
+		
 		//Screen resolutions.
 		resolution: {
 			width: [800, 1024],
@@ -35,10 +38,16 @@ System.Config = System.Cfg = (function(globals) {
 		},
 		
 		//Difficulty settings.
-		diffiuclty: {
+		difficulty: {
 			titles: ['Easy', 'Normal', 'Hard', 'Lunatic'],
 			cleared: [false, false, false, false],
 			mode: 0
 		},
+		
+		//Current score.
+		score: 0,
+		
+		//Hiscore.
+		hiscore: 0,
 	};
 }(window)); 
