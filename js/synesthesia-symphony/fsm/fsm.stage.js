@@ -16,11 +16,15 @@ FSM.Stage = (function(fsm, stg, resource) {
 	"use strict";
 	
 	function Stage(options) {
-		var state = new fsm.State({});
-		var player = new fsm.Player({x:80});
-		var enemies = [];
 		var layers = resource.layers;
 		var sprites = resource.sprites;
+		var state = new fsm.State({});
+		var player = new fsm.Player({ctx: layers.buffer.ctx});
+		var enemies = [];
+		var canvas_position = [
+			{x: 0, y: 0},
+			{x: 0, y: -sprites.canvas_bg.height}
+		];
 		
 		/*
 		 * Initiate this state.
@@ -38,8 +42,9 @@ FSM.Stage = (function(fsm, stg, resource) {
 			for (var enemy_count = 0; enemy_count < 20; enemy_count++) {
 				//Create several enemies at random locations.
 				enemies.push(new fsm.Enemy({
-					x:Math.floor((Math.random() * 500) + 40),
-					y:Math.floor((Math.random() * 300) + 20)
+					x: Math.floor((Math.random() * 460) + 40),
+					y: Math.floor((Math.random() * 300) + 20),
+					ctx: layers.buffer.ctx
 				}));
 				state.setSubstates(enemies[enemy_count].state);
 			}
@@ -47,44 +52,53 @@ FSM.Stage = (function(fsm, stg, resource) {
 			//Used for debugging.
 			window.addEventListener('mousemove', function(e) {
 				for (var i = 0; i < 8; i++) {
-					//var rect = game.ctx.canvas.getBoundingClientRect();
-					//var image_data = layers.odd.ctx.getImageData(-40 + e.clientX - rect.left, -20 + e.clientY - rect.top, 1, 1);
-					//var data = image_data.data;
-					//console.log(data);
+					var rect = layers.screen.getBoundingClientRect();
+					var x = e.clientX - rect.left - 40;
+					var y = e.clientY - rect.top - 20;
+					var image_data = layers.buffer.ctx.getImageData(x, y, 1, 1);
+					var data = image_data.data;
+					var color = (data[0] === 0 && data[1] === 0 && data[2] === 255) ? "blue" : "unknown";
+					
+					console.log({x: x, y: y, color: color});	
 				}
-				
 			}, false);
 		};
 		
-		var cy = 20;
-		
-		state.update = function(game) {
+		//Moves the canvas.
+		function conveyorBelt(canvas_position, height, speed) {
+			conveyorBelt.is_odd_belt = (conveyorBelt.is_odd_belt === undefined)
+				? true
+				: conveyorBelt.is_odd_belt;
 			
-			if (cy === 560)
-				cy = 0;
-			cy += 5;
+			var index = (conveyorBelt.is_odd_belt) ? 0 : 1;
+			
+			if (canvas_position[index].y === height) {
+				canvas_position[index].y = -height;
+				conveyorBelt.is_odd_belt = !conveyorBelt.is_odd_belt;
+			}
+			canvas_position[0].y += speed;
+			canvas_position[1].y += speed;
+		}
+
+		state.update = function(game) {
+			conveyorBelt(canvas_position, sprites.canvas_bg.height, 5);
 		};
 		
 		state.render = function(game) {
-			//Draw the canvas image.
-			game.ctx.drawImage(
-				sprites.canvas_bg,
-				40,
-				cy,
-				480 - 40,
-				560
-			);
-			
-			game.ctx.drawImage(
-				sprites.canvas_bg,
-				40,
-				cy - 560,
-				480 - 40,
-				560
-			);
-			
-			//Draw the background image.
+
 			game.ctx.drawImage(sprites.stages_bg[0], 0, 0);
+			layers.buffer.ctx.drawImage(sprites.canvas_bg, 0, canvas_position[0].y);
+			layers.buffer.ctx.drawImage(sprites.canvas_bg, 0, canvas_position[1].y);
+			
+			
+			stg.Canvas.Text({x: 660, y: 40, message: 'Normal', ctx: game.ctx, color: 'white', shadowColor: 'red', font: 'bold 28px arial', align: 'center'});
+			//stg.Canvas.Text({x: 660, y: 70, message: 'Normal', ctx: game.ctx, color: 'white', shadowColor: 'blue', font: 'bold 28px arial', align: 'center'});
+			
+			return function () {
+				game.ctx.drawImage(layers.buffer, 40, 20);
+			};
+				
+			
 		};
 		
 		/*

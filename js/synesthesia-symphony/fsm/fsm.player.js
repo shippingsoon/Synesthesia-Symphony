@@ -23,16 +23,13 @@ FSM.Player = (function(fsm, stg) {
 		else
 			_instance = this;
 		
-		this.state = new fsm.State({});
-		var x = options.x || 40;
-		var y = options.y || 40;
-		var radius = options.radius || 15;
-		
-		//var colors = {
-			
-		//};
+		this.state = new fsm.State(options);
+		var x = options.x || 0;
+		var y = options.y || 0;
+		var radius = options.radius || 6;
+		var ctx = options.ctx || null;
 		var color = options.color || 'blue';
-		var velocity = 20;
+		var velocity = options.color || 10;
 		var that = this;
 		
 		//Set the player's position.
@@ -77,7 +74,7 @@ FSM.Player = (function(fsm, stg) {
 		
 		//Move the player.
 		function movement() {
-			var speed = (!Keydown.shift) ? velocity : (velocity / 3);
+			var speed = (!Keydown.shift) ? velocity : (velocity / 2);
 			
 			if (Keydown.up)
 				that.move({y: -speed});
@@ -89,25 +86,26 @@ FSM.Player = (function(fsm, stg) {
 				that.move({x: speed});
 		};
 		
-		this.state.update = function(game) {
 		
+		this.state.update = function(game) {
+			//console.log(that.state.ctx)
 			movement();
-			
+			//console.log(game);
 			for (var i = 0; i < 8; i++) {
-				var image_data = game.ctx.getImageData(x, y, 1, 1);
-				var data = image_data.data;
+				//var image_data = game.ctx.getImageData(x, y, 1, 1);
+				//var data = image_data.data;
 			}
 		};
 		
 		//Draws the player.
 		this.state.render = function(game) {
-			game.ctx.beginPath();
-			game.ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
-			game.ctx.fillStyle = color;
-			game.ctx.fill();
-			game.ctx.lineWidth = 2;
-			game.ctx.strokeStyle = 'black';
-			game.ctx.stroke();
+			if (ctx) {
+				stg.Canvas.Circle({x: x, y: y, radius: radius, color: color, ctx: ctx, lineWidth: 1});
+				
+				
+				stg.Canvas.Square({x: 20 + 5, y: 530 + 5, w: 10, h: 10, color: 'red', ctx: ctx, lineWidth: 1});
+				stg.Canvas.Square({x: 20, y: 530, w: 10, h: 10, color: color, ctx: ctx, lineWidth: 1});
+			}
 		};
 	};
 	

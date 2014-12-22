@@ -20,22 +20,25 @@ var Resource = Resource || {};
 	//Load the game resources.
 	resource.load(null);
 	
+	//Retrieve our canvas elements.
+	var layers = resource.layers;
+	
 	//Initiate our state machine.
 	var game = new FSM.Init({});
 	
 	//Transition into the intro state.
-	game.transition(new FSM.Stage({}));
+	game.transition({state: new FSM.Stage({}), ctx: layers.screen.ctx});
 
 	//Main function.
 	function main() {
 		//Handle events of the current state.
-		game.controller();
+		game.controller({ctx: layers.screen.ctx});
 		
 		//Handle logic of the current state.
-		game.update();
+		game.update({ctx: layers.screen.ctx});
 		
 		//Render the current state.
-		game.render();
+		game.render({ctx: layers.screen.ctx});
 	};
 	
 	//If online mode is enabled load a session.
@@ -45,5 +48,3 @@ var Resource = Resource || {};
 		//Call our main function every n frames per second.
 		globals.interval = setInterval(main, (1000 / system.Config.FPS));
 }(window, System, Resource, jQuery));
-
-

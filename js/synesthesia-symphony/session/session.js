@@ -36,7 +36,8 @@ var Session = Session || (function(globals, system, resource, $) {
 					if (system.Config.debug)
 						console.log(data);
 					
-					
+					//Since we failed to make a connection to the server we will assume we are offline.
+					system.Config.online = false;
 					
 					//Call our main function every n frames per second.
 					globals.interval = setInterval(callback, (1000 / system.Config.FPS));

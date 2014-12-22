@@ -23,16 +23,19 @@ FSM.Enemy = (function(fsm, stg) {
 		var radius = options.radius || 4;
 		var color = options.color || 'green';
 		var that = this;
+		var ctx = options.ctx || null;
 		
 		//Draws the enemy.
 		this.state.render = function(game) {
-			game.ctx.beginPath();
-			game.ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
-			game.ctx.fillStyle = color;
-			game.ctx.fill();
-			game.ctx.lineWidth = 2;
-			game.ctx.strokeStyle = 'black';
-			game.ctx.stroke();
+			if (ctx) {
+				ctx.beginPath();
+				ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+				ctx.fillStyle = color;
+				ctx.fill();
+				ctx.lineWidth = 2;
+				ctx.strokeStyle = 'black';
+				ctx.stroke();
+			}
 		};
 		
 		//Set the player's position.
@@ -68,12 +71,14 @@ FSM.Enemy = (function(fsm, stg) {
 		this.state.update = function() {
 			var player = fsm.Player({});
 			
+			/*
 			if (stg.circleCollision(that, player)) {
 				if (color == player.getColor().color)
 					console.log("foo");
 				else
 					console.log("bar");
 			}
+			*/
 		};
 	};
 	

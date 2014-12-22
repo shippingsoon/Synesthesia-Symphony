@@ -10,12 +10,12 @@
 var System = System || {};
 
 //Synesthesia Symphony's configuration module. 
-System.Config = System.cfg = (function(globals) {
+System.Config = System.Cfg = (function(globals) {
 	"use strict";
 	
 	return {
 		//Determines if we will use sessions. If this game is not played on a server then this should be set to false.
-		online: true,
+		online: false,
 		
 		//Debug mode.
 		debug: true,
@@ -32,6 +32,13 @@ System.Config = System.cfg = (function(globals) {
 			height: [600, 720],
 			titles: ['Small', 'Medium'],
 			mode: 0
-		}
+		},
+		
+		//Difficulty settings.
+		diffiuclty: {
+			titles: ['Easy', 'Normal', 'Hard', 'Lunatic'],
+			cleared: [false, false, false, false],
+			mode: 0
+		},
 	};
 }(window)); 
