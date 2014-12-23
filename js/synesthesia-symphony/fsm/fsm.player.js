@@ -30,10 +30,12 @@ FSM.Player = (function(fsm, stg, system) {
 		var y = options.y || 0;
 		var radius = options.radius || 6;
 		var ctx = options.ctx || null;
-		var color = options.color || 'blue';
-		var velocity = options.color || 10;
+		var colors = options.color || ['blue', 'pink'];
+		var color_idx = 0;
+		var velocity = options.velocity || 10;
 		var that = this;
 		this.lives = this.lives || system.Config.INITIAL_LIVES;
+		this.power = this.power || system.Config.INITIAL_POWER;
 		
 		//Set the player's position.
 		this.setPosition = function(positions) {
@@ -77,7 +79,15 @@ FSM.Player = (function(fsm, stg, system) {
 		
 		//Move the player.
 		function movement() {
-			var speed = (!Keydown.shift) ? velocity : (velocity / 2);
+			var speed = velocity;
+			
+			//If the Shift key is pressed.
+			if (Keydown.shift) {
+				speed = velocity / 2;
+				color_idx = 1;
+			}
+			else
+				color_idx = 0;
 			
 			if (Keydown.up)
 				that.move({y: -speed});
@@ -103,11 +113,12 @@ FSM.Player = (function(fsm, stg, system) {
 		//Draws the player.
 		this.state.render = function(game) {
 			if (ctx) {
-				stg.Canvas.Circle({x: x, y: y, radius: radius, color: color, ctx: ctx, lineWidth: 1});
+				//Draw the player's hitbox.
+				stg.Canvas.Circle({x: x, y: y, radius: radius, color: colors[color_idx], ctx: ctx, lineWidth: 1});
 				
 				
-				stg.Canvas.Square({x: 20 + 5, y: 530 + 5, w: 10, h: 10, color: 'red', ctx: ctx, lineWidth: 1});
-				stg.Canvas.Square({x: 20, y: 530, w: 10, h: 10, color: color, ctx: ctx, lineWidth: 1});
+				//stg.Canvas.Square({x: 20 + 4, y: 530 + 4, w: 8, h: 8, color: 'red', ctx: ctx, lineWidth: 1});
+				//stg.Canvas.Square({x: 20, y: 530, w: 8, h: 8, color: color, ctx: ctx, lineWidth: 1});
 			}
 		};
 	};

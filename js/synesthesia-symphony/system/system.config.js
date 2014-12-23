@@ -26,8 +26,11 @@ System.Config = System.Cfg = (function(globals) {
 		//Version.
 		VERSION: 'v0.01',
 		
-		//The intial lives.
+		//The player's initial lives.
 		INITIAL_LIVES: 5,
+		
+		//The player's initial power.
+		INITIAL_POWER: 1,
 		
 		//Screen resolutions.
 		resolution: {

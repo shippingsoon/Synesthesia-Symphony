@@ -65,98 +65,9 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 				}
 			}, false);
 		};
-		
-		//Moves the canvas.
-		function conveyorBelt(canvas_position, height, speed) {
-			conveyorBelt.is_odd_belt = (conveyorBelt.is_odd_belt === undefined)
-				? true
-				: conveyorBelt.is_odd_belt;
-			
-			var index = (conveyorBelt.is_odd_belt) ? 0 : 1;
-			
-			if (canvas_position[index].y === height) {
-				canvas_position[index].y = -height;
-				conveyorBelt.is_odd_belt = !conveyorBelt.is_odd_belt;
-			}
-			canvas_position[0].y += speed;
-			canvas_position[1].y += speed;
-		}
-		
-		//Draws the game text.
-		function gameInfo(ctx, player) {
-			var mode = config.difficulty.mode;
-			var difficulty = config.difficulty.titles[mode];
-			var pad = "000000000";
-			var hiscore = config.hiscore.toString();
-			var score = config.score.toString();
-			var lives = "";
-			hiscore = pad.substring(0, pad.length - hiscore.length) + hiscore;
-			score = pad.substring(0, pad.length - score.length) + score;
-			
-			for (var live = 0; live < player.lives; live++)
-				lives += ' \u2B51'
-				
-			system.Config.score += 10;
-			if (system.Config.score > system.Config.hiscore)
-				system.Config.hiscore = system.Config.score;
-			
-			//Draw the difficulty.
-			stg.Canvas.Text({
-				x: 660, y: 65,
-				message: difficulty,
-				ctx: ctx, color: 'white',
-				font: 'bold 28px arial', align: 'center',
-				shadowColor: 'red', shadowBlur: 2,
-				shadowoffsetX: 3, shadowoffsetY: 3,
-			});
-			
-			//Draw the hiscore.
-			stg.Canvas.Text({
-				x: 660, y: 105,
-				message: 'HiScore ' + hiscore,
-				ctx: ctx,
-				color: 'white',
-				font: 'bold 24px arial', align: 'center',
-				shadowColor: 'black', shadowBlur: 2,
-				shadowoffsetX: 3, shadowoffsetY: 3,
-			});
-			
-			//Draw the current score.
-			stg.Canvas.Text({
-				x: 660, y: 135,
-				message: '    Score ' + score,
-				ctx: ctx,
-				color: 'white',
-				font: 'bold 24px arial', align: 'center',
-				shadowColor: 'black', shadowBlur: 2,
-				shadowoffsetX: 3, shadowoffsetY: 3,
-			});
-				
-			//Draw the player's lives.
-			stg.Canvas.Text({
-				x: 660 - 10, y: 175,
-				message: 'Player '+lives,
-				ctx: ctx,
-				color: 'white',
-				font: 'bold 24px arial', align: 'center',
-				shadowColor: 'black', shadowBlur: 2,
-				shadowoffsetX: 3, shadowoffsetY: 3,
-			});
-			
-			//Draw the player's power.
-			stg.Canvas.Text({
-				x: 660 - 34, y: 205,
-				message: 'Power  1.0',
-				ctx: ctx,
-				color: 'white',
-				font: 'bold 24px arial', align: 'center',
-				shadowColor: 'black', shadowBlur: 2,
-				shadowoffsetX: 3, shadowoffsetY: 3,
-			});
-		}
 
 		state.update = function(game) {
-			conveyorBelt(canvas_position, sprites.canvas_bg.height, 5);
+			stg.Stage.conveyorBelt(canvas_position, sprites.canvas_bg.height, 5);
 		};
 		
 		state.render = function(game) {
@@ -165,7 +76,7 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 			layers.buffer.ctx.drawImage(sprites.canvas_bg, 0, canvas_position[0].y);
 			layers.buffer.ctx.drawImage(sprites.canvas_bg, 0, canvas_position[1].y);
 			
-			gameInfo(game.ctx, player);
+			stg.Stage.drawStageInfo(game.ctx, player);
 			
 			return function () {
 				game.ctx.drawImage(layers.buffer, 40, 20);
