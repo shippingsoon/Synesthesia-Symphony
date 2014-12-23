@@ -82,8 +82,8 @@ STG.Stage = (function(globals, system, stg) {
 			
 			//Draw the player's power.
 			stg.Canvas.Text({
-				x: 660 - 34, y: 205,
-				message: 'Power ' + player.power.toFixed(1),
+				x: 660 + 6, y: 205,
+				message: 'Power  ' + player.power.toFixed(2) + ' / 4.00',
 				ctx: ctx,
 				color: 'white',
 				font: 'bold 24px arial', align: 'center',
