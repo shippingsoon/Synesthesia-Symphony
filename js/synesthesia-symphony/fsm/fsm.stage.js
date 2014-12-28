@@ -38,7 +38,7 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 			window.addEventListener('keydown', game.fsm.controller, false);
 			
 			//Add the player substate.
-			state.setSubstates(player.state);
+			state.setSubstate(player.state);
 			
 			//Add the enemy substates.
 			for (var enemy_count = 0; enemy_count < 20; enemy_count++) {
@@ -48,7 +48,7 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 					y: Math.floor((Math.random() * 300) + 20),
 					ctx: layers.buffer.ctx
 				}));
-				state.setSubstates(enemies[enemy_count].state);
+				state.setSubstate(enemies[enemy_count].state);
 			}
 			
 			//Used for debugging.
@@ -96,9 +96,14 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 			//Remove the event.
 			window.removeEventListener('keydown', game.fsm.controller, false);
 		};
+		
+		
+		this.getState = function() {
+			return state;
+		}
 
 		//Return an instance of this state.
-		return state;
+		return this.getState();
 	}
 	
 	return Stage;

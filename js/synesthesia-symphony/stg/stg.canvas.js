@@ -15,7 +15,7 @@ STG.Canvas = (function(globals) {
 	
 	return {
 		//Draws a line.
-		Line : function(options) {
+		line : function(options) {
 			var ctx = options.ctx || null;
 			
 			if (ctx) {
@@ -34,7 +34,7 @@ STG.Canvas = (function(globals) {
 		},
 		
 		//Draws a circle.
-		Circle : function(options) {
+		circle : function(options) {
 			var ctx = options.ctx || null;
 			
 			if (ctx) {
@@ -56,7 +56,7 @@ STG.Canvas = (function(globals) {
 		},
 		
 		//Draws a square.
-		Square : function(options) {
+		square : function(options) {
 			var ctx = options.ctx || null;
 			
 			if (ctx) {
@@ -78,7 +78,7 @@ STG.Canvas = (function(globals) {
 		},
 		
 		//Draws text.
-		Text : function(options) {
+		text : function(options) {
 			var ctx = options.ctx || null;
 			
 			if (ctx) {

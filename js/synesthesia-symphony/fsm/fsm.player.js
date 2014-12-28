@@ -44,11 +44,9 @@ FSM.Player = (function(fsm, stg, system, resource) {
 			x: options.x || 0,
 			y: options.y || 0
 		});
-		/*
-		var position = new stg.Vector({
-			x: options.x || 0,
-			y: options.y || 0
-		});*/
+		
+		//The velocity vector.
+		var velocity = new stg.Vector({});
 		
 		var x = options.x || 0;
 		var y = options.y || 0;
@@ -63,10 +61,10 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		var color_idx = 0;
 		
 		//The player's speed.
-		var velocity = options.velocity || config.PLAYER_SPEED;
+		var speed = options.speed || config.PLAYER_SPEED;
 		
 		//The player's focused speed.
-		var focus_velocity = options.focus_velocity || config.PLAYER_FOCUS_SPEED;
+		var focused_speed = options.focused_speed || config.PLAYER_FOCUS_SPEED;
 		
 		//The player's lives.
 		var lives = options.lives || config.INITIAL_LIVES;
@@ -79,33 +77,23 @@ FSM.Player = (function(fsm, stg, system, resource) {
 			movement();
 		};
 		
+		this.name = "A Player";
+		
 		//Draws the player.
 		this.state.render = function(game) {
 			if (ctx) {
+				var x = position.getPosition().x;
+				var y = position.getPosition().y;
+				
 				//Draw the player's hitbox.
-				stg.Canvas.Circle({x: x, y: y, radius: radius, color: colors[color_idx], ctx: ctx, lineWidth: 1});
+				stg.Canvas.circle({x: x, y: y, radius: radius, color: colors[color_idx], ctx: ctx, lineWidth: 1});
 				
 				//Draw the player's color boxes.
-				//console.log({x: x, y: y});
 				if (x > 60 || y < 530) {
-					stg.Canvas.Square({x: 10 + 4, y: 540 + 4, w: 8, h: 8, color: colors[color_idx === 0 ? 1 : 0], ctx: ctx, lineWidth: 1});
-					stg.Canvas.Square({x: 10, y: 540, w: 8, h: 8, color: colors[color_idx === 0 ? 0 : 1], ctx: ctx, lineWidth: 1});
+					stg.Canvas.square({x: 10 + 4, y: 540 + 4, w: 8, h: 8, color: colors[color_idx === 0 ? 1 : 0], ctx: ctx, lineWidth: 1});
+					stg.Canvas.square({x: 10, y: 540, w: 8, h: 8, color: colors[color_idx === 0 ? 0 : 1], ctx: ctx, lineWidth: 1});
 				}
 			}
-		};
-		
-		//Set the player's position.
-		this.setPosition = function(positions) {
-			if (positions.x)
-				x = positions.x;
-			
-			if (positions.y)
-				y = positions.y;	
-		};
-		
-		//Get the player's position.
-		this.getPosition = function() {
-			return {x: x, y: y};
 		};
 		
 		//Set the player's radius.
@@ -138,12 +126,6 @@ FSM.Player = (function(fsm, stg, system, resource) {
 			return {power: power};
 		};
 		
-		//Move the player relative to its current position.
-		this.move = function(positions) {
-			x += positions.x || 0;
-			y += positions.y || 0;
-		};
-		
 		//Set the player's color.
 		this.setColor = function(c) {
 			color = c;
@@ -154,34 +136,48 @@ FSM.Player = (function(fsm, stg, system, resource) {
 			return {color: color};
 		};
 		
+		this.state.start = function() {
+			var b = new stg.Bullet({
+				state: {
+					update: function() {
+						console.log("hi", this.getParent().name);
+					}
+				}
+			});
+			that.state.setSubstate(b.state);
+			//alert("here");
+			
+		};
+		
 		//Move the player.
 		function movement() {
-			var speed = velocity;
-			
-			//If the Shift key is pressed.
+			var s = speed;
+			//If the Shift key is pressed switch to focused movement.
 			if (Keydown.shift) {
-				speed = focus_velocity;
+				s = focused_speed;
 				color_idx = 1;
 			}
 			else
 				color_idx = 0;
 			
 			//The Up key has been pressed.
-			if (Keydown.up && (y - velocity) > 0)
-				that.move({y: -speed});
+			if (Keydown.up /*&& (y - velocity) > 0*/)
+				position.add({x: 0, y: -s});
 				
 			//The Down key has been pressed.
-			if (Keydown.down && (y + velocity) < layers.buffer.height)
-				that.move({y: speed});
+			if (Keydown.down /*&& (y + velocity) < layers.buffer.height*/)
+				position.add({x: 0, y: s});
 			
 			//The Left key is pressed.
-			if (Keydown.left && (x - velocity) > 0)
-				that.move({x: -speed});
+			if (Keydown.left /*&& (x - velocity) > 0*/)
+				position.add({x: -s, y: 0});
 			
 			//The Right key has been pressed.
-			if (Keydown.right && (x + velocity) < layers.buffer.width)
-				that.move({x: speed});
+			if (Keydown.right /*&& (x + velocity) < layers.buffer.width*/)
+				position.add({x: s, y: 0});
 		};
+		
+	
 	};
 	
 	return Player;

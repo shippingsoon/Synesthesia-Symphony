@@ -133,7 +133,7 @@ FSM.Init = (function(globals, stg, resource) {
 					callback = options.state[options.method](options);
 					
 				//Retrieve the substates.
-				var substates = options.state.getSubstates();
+				var substates = options.state.getSubstate();
 				
 				//Process the current substate and recursively process its substates.
 				for (var substate = 0; substate < substates.length; substate++) {

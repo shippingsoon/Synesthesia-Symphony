@@ -79,8 +79,8 @@ STG.Vector = (function(stg) {
 		 * @param {STG.Vector} vector - The new position.
 		 */
 		this.setPosition = function(vector) {
-			x = vector.x || x;
-			y = vector.y || y;
+			x = (vector.x !== undefined) ? vector.x : x;
+			y = (vector.y !== undefined) ? vector.y : y;
 			
 			return this;
 		};

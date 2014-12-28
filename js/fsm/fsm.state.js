@@ -54,19 +54,19 @@ FSM.State = (function(globals) {
 		var parentState = null;
 		
 		//Add a substate.
-		this.setSubstates = function(substate, parent) {
+		this.setSubstate = function(substate, parent) {
 			substates.push(substate);
 			
 			//Set the parent of this state.
 			if (parent !== undefined)
 				substate.setParent(parent);
 			
-			//Set the parent state of this state.
+			//Set the parent state of the substate.
 			substate.setParentState(this);
 		};
 		
 		//Retrieve a substate.
-		this.getSubstates = function(index) {
+		this.getSubstate = function(index) {
 			if (index === undefined)
 				return substates;
 			return substates[index];

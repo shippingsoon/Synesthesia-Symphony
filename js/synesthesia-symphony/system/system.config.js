@@ -41,7 +41,7 @@ System.Config = System.Cfg = (function(globals) {
 		//The player's focused speed.
 		PLAYER_FOCUS_SPEED: 10 / 2,
 		
-		//The player's radius.
+		//The player's hitbox radius.
 		HITBOX_RADIUS: 6,
 		
 		//The average frames per second.

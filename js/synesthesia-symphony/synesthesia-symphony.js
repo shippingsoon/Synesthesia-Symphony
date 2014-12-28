@@ -9,6 +9,7 @@
 
 var System = System || {};
 var Resource = Resource || {};
+var FSM = FSM || {};
 var STG = STG || {};
 
  /*
@@ -17,7 +18,7 @@ var STG = STG || {};
   * @param {Object} system - Synesthesia Symphony's primary module.
   * @param {Object} $ -jQuery library.
   */
-(function(globals, system, resource, $) {
+(function(globals, system, resource, fsm, $, stg) {
 	//Load the game resources.
 	resource.load(null);
 	
@@ -25,15 +26,15 @@ var STG = STG || {};
 	var layers = resource.layers;
 	
 	//Initiate our state machine.
-	var game = new FSM.Init({});
+	var game = new fsm.Init({});
 	
 	//Transition into the intro state.
-	game.transition({state: new FSM.Stage({}), ctx: layers.screen.ctx});
+	game.transition({state: new fsm.Stage({}), ctx: layers.screen.ctx});
 	
 	//Keep track of the delta time.
 	var previous_time = new Date;
 	var current_time = 0;
-
+	
 	//Main function. Todo: Use fixed times steps and requestAnimationFrame().
 	function main() {
 		//Handle events of the current state.
@@ -61,4 +62,4 @@ var STG = STG || {};
 	else
 		//Call our main function every n frames per second.
 		globals.interval = setInterval(main, 1000 / system.Config.TARGET_FPS);
-}(window, System, Resource, jQuery));
+}(window, System, Resource, FSM, jQuery, STG));

@@ -22,8 +22,8 @@ STG.Math = (function(globals, system, stg) {
 		 */
 		add: function(a, b) {
 			return {
-				x: a.x + b.x,
-				y: a.y + b.y
+				x: (a.x || 0) + (b.x || 0),
+				y: (a.y || 0) + (b.y || 0)
 			};
 			
 		},
@@ -35,8 +35,8 @@ STG.Math = (function(globals, system, stg) {
 		 */
 		subtract: function(a, b) {
 			return {
-				x: a.x - b.x,
-				y: a.y - b.y
+				x: (a.x || 0) - (b.x || 0),
+				y: (a.y || 0) - (b.y || 0)
 			};
 		},
 		
@@ -47,8 +47,8 @@ STG.Math = (function(globals, system, stg) {
 		 */
 		multiply: function(a, b) {
 			return {
-				x: a.x * b.x,
-				y: a.y * b.y
+				x: (a.x || 0) * (b.x || 0),
+				y: (a.y || 0) * (b.y || 0)
 			};
 		},
 		
@@ -62,8 +62,8 @@ STG.Math = (function(globals, system, stg) {
 				throw 'Division by zero';
 			
 			return {
-				x: a.x / b.x,
-				y: a.y / b.y
+				x: (a.x || 1) / (b.x || 1),
+				y: (a.y || 1) / (b.y || 1)
 			};
 		},
 		

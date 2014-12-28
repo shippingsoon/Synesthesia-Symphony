@@ -53,31 +53,31 @@ STG.Stage = (function(globals, system, stg) {
 			common.x = 551;
 			common.y = 105;
 			common.message = 'HiScore  ' + hiscore;
-			stg.Canvas.Text(common);
+			stg.Canvas.text(common);
 			
 			//Draw the current score.
 			common.x = 575;
 			common.y = 135;
 			common.message = 'Score  ' + score;
-			stg.Canvas.Text(common);
+			stg.Canvas.text(common);
 			
 			//Draw the player's lives.
 			common.x = 570;
 			common.y = 175;
 			common.message = 'Player  ' + lives_text;
-			stg.Canvas.Text(common);
+			stg.Canvas.text(common);
 			
 			//Draw the player's power.
 			common.x = 572;
 			common.y = 205;
 			common.message = 'Power  ' + player.getPower().power.toFixed(2) + ' / ' + config.MAX_POWER.toFixed(2);
-			stg.Canvas.Text(common);
+			stg.Canvas.text(common);
 			
 			//Draw the glaze.
 			common.x = 580;
 			common.y = 235;
 			common.message = 'Glaze  ' + config.glaze;
-			stg.Canvas.Text(common);
+			stg.Canvas.text(common);
 			
 			//Display the FPS.
 			if (system.Config.DEBUG === true) {
@@ -85,7 +85,7 @@ STG.Stage = (function(globals, system, stg) {
 				common.y = ctx.canvas.height - 20;
 				common.message = 'FPS: ' + Math.floor(system.Config.fps).toFixed(0);
 				common.font =  'bold 15px arial';
-				stg.Canvas.Text(common);
+				stg.Canvas.text(common);
 			}
 			
 			//Draw the difficulty.
@@ -94,7 +94,7 @@ STG.Stage = (function(globals, system, stg) {
 			common.message = difficulty;
 			common.font = 'bold 28px arial';
 			common.shadowColor = 'red';
-			stg.Canvas.Text(common);
+			stg.Canvas.text(common);
 		},
 		
 		//Keeps track of which canvas sprite should be pushed to the top of the conveyor belt.
