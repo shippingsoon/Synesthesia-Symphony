@@ -36,7 +36,10 @@ STG.Stage = (function(globals, system, stg) {
 			
 			//Use the player's lives to determine how much unicode stars we will draw.
 			for (var live = 0; live < lives; live++)
-				lives_text += ' *'; //lives += ' \u2B51'
+				lives_text += '\uf005 ';
+				//lives_text += '* ';
+				//lives_text += '\u2B51 ';
+				
 			
 			//Common settings.
 			var common = {
@@ -64,17 +67,17 @@ STG.Stage = (function(globals, system, stg) {
 			//Draw the player's lives.
 			common.x = 570;
 			common.y = 175;
-			common.message = 'Player  ' + lives_text;
+			common.message = 'Player  ';
 			stg.Canvas.text(common);
 			
 			//Draw the player's power.
-			common.x = 572;
+			common.x = 570;
 			common.y = 205;
 			common.message = 'Power  ' + player.getPower().power.toFixed(2) + ' / ' + config.MAX_POWER.toFixed(2);
 			stg.Canvas.text(common);
 			
 			//Draw the glaze.
-			common.x = 580;
+			common.x = 578;
 			common.y = 235;
 			common.message = 'Glaze  ' + config.glaze;
 			stg.Canvas.text(common);
@@ -87,6 +90,13 @@ STG.Stage = (function(globals, system, stg) {
 				common.font =  'bold 15px arial';
 				stg.Canvas.text(common);
 			}
+			
+			//Draw the player's lives.
+			common.x = 656;
+			common.y = 173;
+			common.font = 'normal 18px FontAwesome';
+			common.message = lives_text;
+			stg.Canvas.text(common);
 			
 			//Draw the difficulty.
 			common.x = 620;

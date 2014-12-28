@@ -77,8 +77,6 @@ FSM.Player = (function(fsm, stg, system, resource) {
 			movement();
 		};
 		
-		this.name = "A Player";
-		
 		//Draws the player.
 		this.state.render = function(game) {
 			if (ctx) {
@@ -134,19 +132,6 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		//Get the player's color.
 		this.getColor = function() {
 			return {color: color};
-		};
-		
-		this.state.start = function() {
-			var b = new stg.Bullet({
-				state: {
-					update: function() {
-						console.log("hi", this.getParent().name);
-					}
-				}
-			});
-			that.state.setSubstate(b.state);
-			//alert("here");
-			
 		};
 		
 		//Move the player.

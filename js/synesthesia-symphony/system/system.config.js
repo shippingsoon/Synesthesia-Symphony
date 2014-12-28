@@ -30,7 +30,7 @@ System.Config = System.Cfg = (function(globals) {
 		INITIAL_LIVES: 2,
 		
 		//The player's maximum power.
-		MAX_POWER: 5,
+		MAX_POWER: 4,
 		
 		//The player's initial power.
 		INITIAL_POWER: 0,

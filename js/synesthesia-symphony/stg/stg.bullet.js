@@ -11,7 +11,7 @@ var FSM = FSM || {};
 var STG = STG || {};
 
 //Bullet submodule.
-STG.Bullet = (function(fsm, stg) {
+STG.Bullet = STG.Bullet || (function(fsm, stg) {
 	"use strict";
 	
 	 /*
@@ -51,8 +51,6 @@ STG.Bullet = (function(fsm, stg) {
 		
 		//The 2D drawing context we will use to render the bullet.
 		var ctx = options.ctx || null;
-		
-		this.name = "A bullet";
 
 		this.state.setParent(that);
 		
