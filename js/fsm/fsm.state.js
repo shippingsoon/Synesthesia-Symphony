@@ -21,7 +21,7 @@ FSM.State = (function(globals) {
 		var that = this;
 
 		//Determines if we will clear the canvas during the rendering process.
-		this.clear = options.clear || true;
+		this.clear = options.clear || false;
 		
 		//An array of substates.
 		var substates = [];

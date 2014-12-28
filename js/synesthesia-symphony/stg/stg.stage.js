@@ -22,74 +22,79 @@ STG.Stage = (function(globals, system, stg) {
 		 */
 		drawStageInfo: function(ctx, player) {
 			var config = system.Config;
-			var mode = config.difficulty.mode;
+			var mode = config.difficulty.selection;
 			var difficulty = config.difficulty.titles[mode];
-			var pad = "000000000";
+			var pad = '000000000';
 			var hiscore = config.hiscore.toString();
 			var score = config.score.toString();
-			var lives = "";
+			var lives = player.getLives().lives;
+			var lives_text = '';
 			
 			//Left pad the scores with zeroes.
 			hiscore = pad.substring(0, pad.length - hiscore.length) + hiscore;
 			score = pad.substring(0, pad.length - score.length) + score;
 			
 			//Use the player's lives to determine how much unicode stars we will draw.
-			for (var live = 0; live < player.lives; live++)
-				lives += ' \u2B51'
+			for (var live = 0; live < lives; live++)
+				lives_text += ' *'; //lives += ' \u2B51'
 			
-			//Draw the difficulty.
-			stg.Canvas.Text({
-				x: 660, y: 65,
-				message: difficulty,
-				ctx: ctx, color: 'white',
-				font: 'bold 28px arial', align: 'center',
-				shadowColor: 'red', shadowBlur: 2,
+			//Common settings.
+			var common = {
+				x: 0, y: 0,
+				message: '',
+				ctx: ctx,
+				color: 'white',
+				font: 'bold 24px arial', align: 'left',
+				shadowColor: 'black', shadowBlur: 2,
 				shadowoffsetX: 3, shadowoffsetY: 3,
-			});
+			};
 			
 			//Draw the hiscore.
-			stg.Canvas.Text({
-				x: 660, y: 105,
-				message: 'HiScore ' + hiscore,
-				ctx: ctx,
-				color: 'white',
-				font: 'bold 24px arial', align: 'center',
-				shadowColor: 'black', shadowBlur: 2,
-				shadowoffsetX: 3, shadowoffsetY: 3,
-			});
+			common.x = 551;
+			common.y = 105;
+			common.message = 'HiScore  ' + hiscore;
+			stg.Canvas.Text(common);
 			
 			//Draw the current score.
-			stg.Canvas.Text({
-				x: 660, y: 135,
-				message: '    Score ' + score,
-				ctx: ctx,
-				color: 'white',
-				font: 'bold 24px arial', align: 'center',
-				shadowColor: 'black', shadowBlur: 2,
-				shadowoffsetX: 3, shadowoffsetY: 3,
-			});
-				
+			common.x = 575;
+			common.y = 135;
+			common.message = 'Score  ' + score;
+			stg.Canvas.Text(common);
+			
 			//Draw the player's lives.
-			stg.Canvas.Text({
-				x: 660 - 10, y: 175,
-				message: 'Player ' + lives,
-				ctx: ctx,
-				color: 'white',
-				font: 'bold 24px arial', align: 'center',
-				shadowColor: 'black', shadowBlur: 2,
-				shadowoffsetX: 3, shadowoffsetY: 3,
-			});
+			common.x = 570;
+			common.y = 175;
+			common.message = 'Player  ' + lives_text;
+			stg.Canvas.Text(common);
 			
 			//Draw the player's power.
-			stg.Canvas.Text({
-				x: 660 + 6, y: 205,
-				message: 'Power  ' + player.power.toFixed(2) + ' / 4.00',
-				ctx: ctx,
-				color: 'white',
-				font: 'bold 24px arial', align: 'center',
-				shadowColor: 'black', shadowBlur: 2,
-				shadowoffsetX: 3, shadowoffsetY: 3,
-			});
+			common.x = 572;
+			common.y = 205;
+			common.message = 'Power  ' + player.getPower().power.toFixed(2) + ' / ' + config.MAX_POWER.toFixed(2);
+			stg.Canvas.Text(common);
+			
+			//Draw the glaze.
+			common.x = 580;
+			common.y = 235;
+			common.message = 'Glaze  ' + config.glaze;
+			stg.Canvas.Text(common);
+			
+			//Display the FPS.
+			if (system.Config.DEBUG === true) {
+				common.x = ctx.canvas.width - 60;
+				common.y = ctx.canvas.height - 20;
+				common.message = 'FPS: ' + Math.floor(system.Config.fps).toFixed(0);
+				common.font =  'bold 15px arial';
+				stg.Canvas.Text(common);
+			}
+			
+			//Draw the difficulty.
+			common.x = 620;
+			common.y = 65;
+			common.message = difficulty;
+			common.font = 'bold 28px arial';
+			common.shadowColor = 'red';
+			stg.Canvas.Text(common);
 		},
 		
 		//Keeps track of which canvas sprite should be pushed to the top of the conveyor belt.

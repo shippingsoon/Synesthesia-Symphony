@@ -53,6 +53,7 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 			
 			//Used for debugging.
 			window.addEventListener('mousemove', function(e) {
+				/*
 				for (var i = 0; i < 8; i++) {
 					var rect = layers.screen.getBoundingClientRect();
 					var x = e.clientX - rect.left - 40;
@@ -63,6 +64,7 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 					
 					console.log({x: x, y: y, color: color});	
 				}
+				*/
 			}, false);
 		};
 

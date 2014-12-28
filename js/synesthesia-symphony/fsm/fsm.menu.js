@@ -14,7 +14,7 @@ FSM.Menu = (function(fsm) {
 	"use strict";
 	
 	function Menu(options) {
-		var state = new fsm.State({});
+		var state = new fsm.State(options);
 		var options = ['Start', 'Config', 'Quit'];
 		var menu_spacing = 50;
 		var menu_index = 0;

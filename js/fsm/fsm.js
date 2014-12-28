@@ -53,7 +53,7 @@ FSM.Init = (function(globals, stg, resource) {
 		this.render = function(fsm) {
 			if (states.length !== 0) {
 				//Clear the canvas.
-				if ( states[states.length - 1].clear === true)
+				if (states[states.length - 1] && states[states.length - 1].clear === true)
 					fsm.ctx.clearRect(0, 0, fsm.ctx.canvas.width, fsm.ctx.canvas.height);
 
 				//Render the current state.
@@ -127,19 +127,20 @@ FSM.Init = (function(globals, stg, resource) {
 		function _fsm(options) {
 			var callback = null;
 			
-			//Process the current state.
-			if (options.state.hasOwnProperty(options.method))
-				callback = options.state[options.method](options);
+			if (options.state) {
+				//Process the current state.
+				if (options.state.hasOwnProperty(options.method))
+					callback = options.state[options.method](options);
+					
+				//Retrieve the substates.
+				var substates = options.state.getSubstates();
 				
-			//Retrieve the substates.
-			var substates = options.state.getSubstates();
-			
-			//Process the current substate and recursively process its substates.
-			for (var substate = 0; substate < substates.length; substate++) {
-				options['state'] = substates[substate];
-				_fsm(options);
+				//Process the current substate and recursively process its substates.
+				for (var substate = 0; substate < substates.length; substate++) {
+					options['state'] = substates[substate];
+					_fsm(options);
+				}
 			}
-			
 			return callback;
 		}
 	}
