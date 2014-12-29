@@ -23,6 +23,9 @@ System.Config = System.Cfg = (function(globals) {
 		//Frames per second.
 		TARGET_FPS: 30,
 		
+		//Company name.
+		COMPANY: 'Shipping Soon',
+		
 		//Version.
 		VERSION: 'v0.01',
 		

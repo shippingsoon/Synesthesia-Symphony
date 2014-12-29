@@ -12,7 +12,7 @@ var Resource = Resource || {};
 var STG = STG || {};
 
 //Intro state.
-FSM.Intro = (function(fsm, resource, stg) {
+FSM.Intro = (function(fsm, resource, stg, system) {
 	"use strict";
 	
 	function Intro(options) {
@@ -63,17 +63,18 @@ FSM.Intro = (function(fsm, resource, stg) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.render = function(game) {
-			
 			//Create a fade out effect by incrementing the background color.
 			if (background_color <= 255)
 				game.ctx.fillStyle = "rgb("+background_color+"," +background_color+ "," +background_color+ ")";
+			
+			//Change the background color.
 			game.ctx.fillRect(0, 0, game.ctx.canvas.width, game.ctx.canvas.height);
 			
 			//Draw the company title.
-			stg.Canvas.Text({
+			stg.Canvas.text({
 				x: game.ctx.canvas.width / 2,
 				y: (game.ctx.canvas.height / 2) - 30,
-				message: 'Shipping Soon',
+				message: system.Config.COMPANY,
 				ctx: game.ctx,
 				color: 'black',
 				font: font_size + 'px arial', align: 'center',
@@ -84,4 +85,4 @@ FSM.Intro = (function(fsm, resource, stg) {
 	}
 	
 	return Intro;
-}(FSM, Resource, STG));
+}(FSM, Resource, STG, System));
