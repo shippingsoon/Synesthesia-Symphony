@@ -1,7 +1,7 @@
 /*
 	@description - Pattern submodule.
 	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Finite-State-Machine/
+	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/
 	@version - v0.03
 	@license - GPLv3
