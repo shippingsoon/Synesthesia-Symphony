@@ -41,6 +41,9 @@ FSM.Init = (function(globals, stg, resource) {
 		 * Handle logic in the current state.
 		 */
 		this.update = function(fsm) {
+			//Filter out inactive states.
+			cleanState();
+			
 			if (states.length !== 0) {
 				//Update the current state.
 				_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'update'});
@@ -116,6 +119,31 @@ FSM.Init = (function(globals, stg, resource) {
 			
 			//Initiate the state.
 			_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'start'});
+		};
+		
+		/*
+		 * Adds a substate to the current state.
+		 * @param {Object||FSM.state} options.substate - A state to be processed.
+		 * @param {Object||FSM.state} options.parent - The parent of this substate.
+		 */
+		this.setSubstate = function(options) {
+			if (states.length !== 0) {
+				//Set the current state's substate.
+				if (options.substate)
+					states[states.length - 1].setSubstate(options.substate, options.parent);
+			}
+		};
+		
+		/*
+		 * Filters out inactive states and substates.
+		 */
+		function cleanState() {
+			states = states.filter(function(state) {
+				//Filter out inactive substates.
+				state.cleanSubstate();
+
+				return state.isActive();
+			});
 		};
 		
 		/*

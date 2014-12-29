@@ -74,7 +74,7 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		
 		//The player's logic.
 		this.state.update = function(game) {
-			movement();
+			movement(game);
 		};
 		
 		//Draws the player.
@@ -83,7 +83,7 @@ FSM.Player = (function(fsm, stg, system, resource) {
 				var x = position.getPosition().x;
 				var y = position.getPosition().y;
 				
-				//Draw the player's hitbox.
+				//Draw the player.
 				stg.Canvas.circle({x: x, y: y, radius: radius, color: colors[color_idx], ctx: ctx, lineWidth: 1});
 				
 				//Draw the player's color boxes.
@@ -133,9 +133,24 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		this.getColor = function() {
 			return {color: color};
 		};
+		var once = true;
+		var counter = 0;
+		var inter = null;
+		var current_time = new Date;
+		var elapsed_time = new Date;
+		var bullets = new Array;
 		
+		for (var i = 0; i < 20; i++)
+			bullets.push(new stg.Bullet({
+				x: position.getPosition().x,
+				y: position.getPosition().y,
+				color: stg.Color(255, 255),
+				ctx: ctx,
+				radius: 50
+			}))
+		var _once = true;
 		//Move the player.
-		function movement() {
+		function movement(game) {
 			var s = speed;
 			//If the Shift key is pressed switch to focused movement.
 			if (Keydown.shift) {
@@ -160,6 +175,60 @@ FSM.Player = (function(fsm, stg, system, resource) {
 			//The Right key has been pressed.
 			if (Keydown.right /*&& (x + velocity) < layers.buffer.width*/)
 				position.add({x: s, y: 0});
+			current_time = new Date;
+			elapsed_time = current_time - elapsed_time;
+			
+			//console.log('bullets', bullets);
+			if (Keydown.x) {
+				for (var bullet = 0; bullet < bullets.length; bullet++) {
+					bullets[bullet].position.setPosition({
+						x: position.getPosition().x,
+						y: position.getPosition().y
+					});
+				}
+			}
+			if (Keydown.z) {
+				
+				if (once) {
+					var offset = 0;
+					var s = 10;
+					var angle = angle || 0;
+					var padding = 30;
+					var degrees = 90;
+					//var a = (degrees - (( bullets.length * padding) / 2) + (padding / 2));
+					//var a = degrees / (3 * padding);
+					var a = -90; padding = 45;
+					for (var bullet = 0; bullet < 3; bullet++) {
+						if (_once) {
+							game.fsm.setSubstate({substate: bullets[bullet].state});
+							bullets[bullet].speed = 10;
+							bullets[bullet].position.setPosition({
+								x: position.getPosition().x + 0,
+								y: position.getPosition().y - 10
+							});
+							
+						}
+						//bullets[bullet].speed += 0.2;
+						
+						//angle = stg.Math.degreeToRadian(a, true);
+						angle = stg.Math.degreeToRadian({degrees: 90, invert: true});
+						
+						bullets[bullet].setRadius(10);
+						
+
+						bullets[bullet].position.add({
+							x: bullets[bullet].speed * Math.cos(angle),
+							y: bullets[bullet].speed * Math.sin(angle)
+						});
+						
+						a += padding;
+						
+					}
+					_once = false;
+				}
+				once = true;
+			}
+			
 		};
 		
 	

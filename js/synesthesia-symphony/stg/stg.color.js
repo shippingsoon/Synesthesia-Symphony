@@ -29,7 +29,7 @@ STG.Color = (function(stg) {
 		var blue = (typeof arguments[2] === 'number') ? arguments[2] : (options.b || 0);
 		
 		//Set the alpha.
-		var alpha = (typeof arguments[3] === 'number') ? arguments[3] : (options.a || 0);
+		var alpha = (typeof arguments[3] === 'number') ? arguments[3] : (((options.a !== undefined) ? options.a : 1));
 		
 		/*
 		 * Returns the color.
@@ -50,7 +50,7 @@ STG.Color = (function(stg) {
 			red = (typeof arguments[0] === 'number') ? arguments[0] : (options.r || 0);
 			green = (typeof arguments[1] === 'number') ? arguments[1] : (options.g || 0);
 			blue = (typeof arguments[2] === 'number') ? arguments[2] : (options.b || 0);
-			alpha = (typeof arguments[3] === 'number') ? arguments[3] : (options.a || 0);
+			alpha = (typeof arguments[3] === 'number') ? arguments[3] : (((options.a !== undefined) ? options.a : 1));
 			
 			//Make sure the values are valid.
 			validateColor();

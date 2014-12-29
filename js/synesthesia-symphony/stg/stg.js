@@ -10,7 +10,8 @@
 //Misc game mechanics module.
 var STG = STG || (function(globals) {
 	"use strict";
-	
+	return {};
+	/*
 	return {
 		//Returns the distance between two points.
 		distance: function(a, b) {
@@ -37,4 +38,5 @@ var STG = STG || (function(globals) {
 			return (this.distance(a, b) < (aRadius + bRadius));
 		}
 	};
+	*/
 }(window)); 

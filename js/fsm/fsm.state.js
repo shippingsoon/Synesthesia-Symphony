@@ -18,10 +18,17 @@ FSM.State = (function(globals) {
 	 * @param {Object} options - Define the polymorphic methods of this state.
 	 */
 	function State(options) {
+		//A reference to the current object.
 		var that = this;
 
 		//Determines if we will clear the canvas during the rendering process.
 		this.clear = options.clear || false;
+		
+		//Determines if the state is visible.
+		var visible = true;
+		
+		//Determines if the state is active.
+		var active = true;
 		
 		//An array of substates.
 		var substates = [];
@@ -92,6 +99,28 @@ FSM.State = (function(globals) {
 			return parent;
 		}
 		
+		//Sets a state's active status.
+		this.setActive = function(make_active) {
+			if (make_active !== undefined)
+				active = (make_active === true);
+		};
+		
+		//Checks if this state is still active.
+		this.getActive = this.isActive =  function() {
+			return active;
+		};
+
+		//Filters out inactive substates.
+		this.cleanSubstate = function() {
+			if (substates.length !== 0) {
+				substates = substates.filter(function(state) {
+					//Recursively filter out inactive substates.
+					state.cleanSubstate();
+					
+					return state.isActive();
+				});
+			}
+		};
 	}
 	
 	return State;

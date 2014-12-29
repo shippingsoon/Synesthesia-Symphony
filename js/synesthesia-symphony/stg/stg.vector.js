@@ -21,12 +21,12 @@ STG.Vector = (function(stg) {
 	  * @param {Object} options.y - The y coordinate.
 	  */
 	function Vector(options) {
-		//The vector's x and y coordinates.
-		var x = options.x || 0;
-		var y = options.y || 0;
-		
 		//Reference to the current object.
 		var that = this;
+		
+		//The vector's x and y coordinates.
+		var x = options.x || arguments[0] || 0;
+		var y = options.y || arguments[1] || 0;
 		
 		/*
 		 * Returns the length of the vector.
@@ -98,6 +98,7 @@ STG.Vector = (function(stg) {
 		 */
 		this.follow = function(vector) {
 			//If our argument is a vector retrieve its position.
+			/*
 			if (vector.constructor === Vector)
 				vector = vector.getPosition();
 			
@@ -107,6 +108,7 @@ STG.Vector = (function(stg) {
 			});
 			
 			return this;
+			*/
 		};
 		
 		/*
@@ -115,6 +117,7 @@ STG.Vector = (function(stg) {
 		 */
 		this.normalized = function(vector) {
 			//If our argument is a vector retrieve its position.
+			/*
 			if (vector.constructor === Vector)
 				vector = vector.getPosition();
 			
@@ -122,6 +125,7 @@ STG.Vector = (function(stg) {
 			var target = new Vector(destination);
 			
 			return target.divide(target.length()).getPosition();
+			*/
 			
 		};
 		

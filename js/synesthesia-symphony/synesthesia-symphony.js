@@ -50,7 +50,7 @@ var STG = STG || {};
 		current_time = new Date;
 		
 		//Set the average frames per second.
-		system.Config.fps = (current_time.getTime() - previous_time.getTime());
+		system.Config.fps = 1000 / (current_time.getTime() - previous_time.getTime());
 		
 		//Set the previous time to the current time.
 		previous_time = current_time;
