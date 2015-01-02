@@ -29,7 +29,7 @@ var STG = STG || {};
 	var game = new fsm.Init({});
 	
 	//Transition into the intro state.
-	game.transition({state: new fsm.Intro({}), ctx: layers.screen.ctx});
+	game.transition({state: new fsm.Stage({}), ctx: layers.screen.ctx});
 	
 	//Keep track of the delta time.
 	var previous_time = new Date;

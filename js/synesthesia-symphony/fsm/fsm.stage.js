@@ -40,32 +40,6 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 			//Add the player substate.
 			state.setSubstate(player.state);
 			
-			//Add the enemy substates.
-			for (var enemy_count = 0; enemy_count < 20; enemy_count++) {
-				//Create several enemies at random locations.
-				enemies.push(new fsm.Enemy({
-					x: Math.floor((Math.random() * 460) + 40),
-					y: Math.floor((Math.random() * 300) + 20),
-					ctx: layers.buffer.ctx
-				}));
-				state.setSubstate(enemies[enemy_count].state);
-			}
-			
-			//Used for debugging.
-			window.addEventListener('mousemove', function(e) {
-				/*
-				for (var i = 0; i < 8; i++) {
-					var rect = layers.screen.getBoundingClientRect();
-					var x = e.clientX - rect.left - 40;
-					var y = e.clientY - rect.top - 20;
-					var image_data = layers.buffer.ctx.getImageData(x, y, 1, 1);
-					var data = image_data.data;
-					var color = (data[0] === 0 && data[1] === 0 && data[2] === 255) ? "blue" : "unknown";
-					
-					console.log({x: x, y: y, color: color});	
-				}
-				*/
-			}, false);
 		};
 
 		state.update = function(game) {

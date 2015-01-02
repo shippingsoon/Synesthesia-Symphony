@@ -21,47 +21,52 @@ FSM.State = (function(globals) {
 		//A reference to the current object.
 		var that = this;
 
-		//Determines if we will clear the canvas during the rendering process.
-		this.clear = options.clear || false;
-		
 		//Determines if the state is visible.
 		var visible = true;
 		
-		//Determines if the state is active.
+		//Determines if the state is active. If this is set to false references to this state will be removed for garbage collection.
 		var active = true;
+		
+		//Determines if we will clear the canvas during the rendering process.
+		this.clear = options.clear || false;
 		
 		//An array of substates.
 		var substates = [];
 		
 		//The state's constructor.
-		this.start = options.start || new Function;
+		this.start = options.start || null;
 		
 		//The state's deconstructor.
-		this.stop = options.stop || new Function;
+		this.stop = options.stop || null;
 		
 		//Resume the state.
-		this.play = options.play || new Function;
+		this.play = options.play || null;
 		
 		//Pause the state.
-		this.pause = options.pause || new Function;
+		this.pause = options.pause || null;
 		
 		//Handle the events of this state.
-		this.controller = options.controller || new Function;
+		this.controller = options.controller || null;
 		
 		//Handle events and logic of this state.
-		this.update = options.update || new Function;
+		this.update = options.update || null;
 		
 		//Handle the rendering routines of this state.
-		this.render = options.render || new Function;
+		this.render = options.render || null;
 		
 		//The parent of this state.
-		var parent = null;
+		var parent = options.parent || null;
 		
 		//The parent state.
-		var parentState = null;
+		var parentState = options.parentState || null;
 		
-		//Add a substate.
-		this.setSubstate = function(substate, parent) {
+		/*
+		 * Add a substate.
+		 * @param {FSM.State} substate - The substate.
+		 * @param {Object} parent - The object who created this substate.
+		 * @param {FSM.State} parentState - The parent's state.
+		 */
+		this.setSubstate = function(substate, parent, parentState) {
 			substates.push(substate);
 			
 			//Set the parent of this state.
@@ -69,48 +74,69 @@ FSM.State = (function(globals) {
 				substate.setParent(parent);
 			
 			//Set the parent state of the substate.
-			substate.setParentState(this);
+			substate.setParentState(parentState || this);
 		};
 		
-		//Retrieve a substate.
+		/*
+		 * Retrieve a substate.
+		 * @param {Number} index - The array index of the substate to retrieve.
+		 */
 		this.getSubstate = function(index) {
-			if (index === undefined)
-				return substates;
-			return substates[index];
-		};
-		
-		//Set the parent of this state.
-		this.setParent = function(creator) {
-			parent = creator;
+			//If we were given an index return the substate at the given index.
+			if (index !== undefined && index < substates.length)
+				return substates[index];
+			
+			return substates;
 		}
 		
-		//Get the parent of this state.
+		/*
+		 * Set the parent of this state.
+		 * @param {Object} _parent - The parent of this state.
+		 */
+		this.setParent = function(_parent) {
+			parent = _parent;
+		}
+		
+		/*
+		 * Get the parent of this state.
+		 */
 		this.getParent = function() {
 			return parent;
 		}
 		
-		//Set the parent state of a substate.
+		/*
+		 * Set the parent state of a substate.
+		 * @param {FSM.State} state - The state.
+		 */
 		this.setParentState = function(state) {
 			parentState = state;
 		}
 		
-		//Get the parent state of a substate.
+		/*
+		 * Get the parent state of a substate.
+		 */
 		this.getParentState = function() {
 			return parent;
 		}
 		
-		//Sets a state's active status.
-		this.setActive = function(make_active) {
-			if (make_active !== undefined)
-				active = (make_active === true);
+		/*
+		 * Sets a state's active status.
+		 * @param {Boolean} is_active - Determines if the active status will be true or false.
+		 */
+		this.setActive = function(is_active) {
+			active = is_active;
 		};
 		
-		//Checks if this state is still active.
+		/*
+		 * Checks if this state is still active.
+		 */
 		this.getActive = this.isActive =  function() {
 			return active;
 		};
 
-		//Filters out inactive substates.
+		/*
+		 * Recursively filters out inactive substates.
+		 */
 		this.cleanSubstate = function() {
 			if (substates.length !== 0) {
 				substates = substates.filter(function(state) {

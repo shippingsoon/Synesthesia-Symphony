@@ -72,6 +72,9 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		//The player's power.
 		var power = options.power || config.INITIAL_POWER;
 		
+		//The player's pattern.
+		var pattern = null;
+		
 		//The player's logic.
 		this.state.update = function(game) {
 			movement(game);
@@ -129,26 +132,14 @@ FSM.Player = (function(fsm, stg, system, resource) {
 			color = c;
 		};
 		
-		//Get the player's color.
-		this.getColor = function() {
-			return {color: color};
+		//Get the player's colors.
+		this.getColor = function(current_color) {
+			if (current_color !== undefined)
+				return {color:color[color_idx]};
+			
+			return {colors: color};
 		};
-		var once = true;
-		var counter = 0;
-		var inter = null;
-		var current_time = new Date;
-		var elapsed_time = new Date;
-		var bullets = new Array;
-		
-		for (var i = 0; i < 20; i++)
-			bullets.push(new stg.Bullet({
-				x: position.getPosition().x,
-				y: position.getPosition().y,
-				color: stg.Color(255, 255),
-				ctx: ctx,
-				radius: 50
-			}))
-		var _once = true;
+
 		//Move the player.
 		function movement(game) {
 			var s = speed;
@@ -175,63 +166,7 @@ FSM.Player = (function(fsm, stg, system, resource) {
 			//The Right key has been pressed.
 			if (Keydown.right /*&& (x + velocity) < layers.buffer.width*/)
 				position.add({x: s, y: 0});
-			current_time = new Date;
-			elapsed_time = current_time - elapsed_time;
-			
-			//console.log('bullets', bullets);
-			if (Keydown.x) {
-				for (var bullet = 0; bullet < bullets.length; bullet++) {
-					bullets[bullet].position.setPosition({
-						x: position.getPosition().x,
-						y: position.getPosition().y
-					});
-				}
-			}
-			if (Keydown.z) {
-				
-				if (once) {
-					var offset = 0;
-					var s = 10;
-					var angle = angle || 0;
-					var padding = 30;
-					var degrees = 90;
-					//var a = (degrees - (( bullets.length * padding) / 2) + (padding / 2));
-					//var a = degrees / (3 * padding);
-					var a = -90; padding = 45;
-					for (var bullet = 0; bullet < 3; bullet++) {
-						if (_once) {
-							game.fsm.setSubstate({substate: bullets[bullet].state});
-							bullets[bullet].speed = 10;
-							bullets[bullet].position.setPosition({
-								x: position.getPosition().x + 0,
-								y: position.getPosition().y - 10
-							});
-							
-						}
-						//bullets[bullet].speed += 0.2;
-						
-						//angle = stg.Math.degreeToRadian(a, true);
-						angle = stg.Math.degreeToRadian({degrees: 90, invert: true});
-						
-						bullets[bullet].setRadius(10);
-						
-
-						bullets[bullet].position.add({
-							x: bullets[bullet].speed * Math.cos(angle),
-							y: bullets[bullet].speed * Math.sin(angle)
-						});
-						
-						a += padding;
-						
-					}
-					_once = false;
-				}
-				once = true;
-			}
-			
 		};
-		
-	
 	};
 	
 	return Player;

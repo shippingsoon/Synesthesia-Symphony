@@ -41,9 +41,6 @@ FSM.Init = (function(globals, stg, resource) {
 		 * Handle logic in the current state.
 		 */
 		this.update = function(fsm) {
-			//Filter out inactive states.
-			cleanState();
-			
 			if (states.length !== 0) {
 				//Update the current state.
 				_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'update'});
@@ -62,7 +59,7 @@ FSM.Init = (function(globals, stg, resource) {
 				//Render the current state.
 				var callback = _fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'render'});
 				
-				if (typeof callback === 'function')
+				if (callback instanceof Function)
 					callback();
 			}
 		};
@@ -106,6 +103,9 @@ FSM.Init = (function(globals, stg, resource) {
 		 * @param {Object||FSM.state} state - A state to be processed.
 		 */
 		this.transition = function(fsm) {
+			//Filter out inactive states.
+			this.cleanState();
+			
 			if (states.length !== 0) {
 				//Stop the current state.
 				_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'stop'});
@@ -137,7 +137,7 @@ FSM.Init = (function(globals, stg, resource) {
 		/*
 		 * Filters out inactive states and substates.
 		 */
-		function cleanState() {
+		this.cleanState = function() {
 			states = states.filter(function(state) {
 				//Filter out inactive substates.
 				state.cleanSubstate();
@@ -157,18 +157,19 @@ FSM.Init = (function(globals, stg, resource) {
 			
 			if (options.state) {
 				//Process the current state.
-				if (options.state.hasOwnProperty(options.method))
+				if (options.state[options.method] instanceof Function)
 					callback = options.state[options.method](options);
 					
 				//Retrieve the substates.
 				var substates = options.state.getSubstate();
 				
 				//Process the current substate and recursively process its substates.
-				for (var substate = 0; substate < substates.length; substate++) {
+				for (var substate = 0, length = substates.length; substate < length; substate++) {
 					options['state'] = substates[substate];
 					_fsm(options);
 				}
 			}
+			
 			return callback;
 		}
 	}
