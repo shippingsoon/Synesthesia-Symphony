@@ -2,7 +2,7 @@
 	@description - Finite state machine.
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Finite-State-Machine/
-	@website - https://www.shippingsoon.com/
+	@website - https://www.shippingsoon.com/synesthesia-symphony/
 	@version - v0.04
 	@license - GPLv3
 */

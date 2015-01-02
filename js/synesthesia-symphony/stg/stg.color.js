@@ -2,7 +2,7 @@
 	@description - Color submodule.
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/
+	@website - https://www.shippingsoon.com/synesthesia-symphony/
 	@version - v0.03
 	@license - GPLv3
 */

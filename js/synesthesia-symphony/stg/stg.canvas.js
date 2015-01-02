@@ -2,7 +2,7 @@
 	@description - Synesthesia Symphony's HTML5 Canvas module
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/
+	@website - https://www.shippingsoon.com/synesthesia-symphony/
 	@version - v0.01
 	@license - GPLv3
 */
