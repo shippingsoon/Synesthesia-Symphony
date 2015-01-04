@@ -74,11 +74,14 @@ FSM.State = (function(globals) {
 		 */
 		this.setSubstate = function(options) {
 			if (options.substate) {
-				substates.push(options.substate);
+				if (!(options.substate instanceof State))
+					throw 'Not a state';
+					
+				substates.push(options.substate || options.state);
 			
 				//Set the parent of this substate.
 				if (options.parent !== undefined)
-					substate.setParent(options.parent);
+					options.substate.setParent(options.parent);
 				
 				//Optionally initiate the substate.
 				if (options.fsm && options.start_state)

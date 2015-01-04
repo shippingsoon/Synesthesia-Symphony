@@ -11,6 +11,8 @@ var System = System || {};
 var Resource = Resource || {};
 var FSM = FSM || {};
 
+
+
  /*
   * Main function.
   * @param {Object} globals - Explicit global namespace.

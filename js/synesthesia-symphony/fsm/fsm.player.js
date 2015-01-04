@@ -41,6 +41,11 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		else
 			_instance = this;
 		
+		//The player's radius.
+		options.radius = options.radius || config.HITBOX_RADIUS;
+		
+		stg.Circle.call(this, options);
+		
 		//The player's state.
 		this.state = new fsm.State(options);
 		var that = this;
@@ -48,24 +53,13 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		//The 2D drawing context we will use to render the player.
 		var ctx = options.ctx || null;
 		
-		//The player's coordinates.
-		var position = new stg.Vector({
-			x: options.x || 0,
-			y: options.y || 0
-		});
-		
 		//The velocity vector.
 		var velocity = new stg.Vector({});
-		
-		var x = options.x || 0;
-		var y = options.y || 0;
-		
-		//The player's radius.
-		var radius = options.radius || config.HITBOX_RADIUS;
 		
 		//The player's primary and secondary colors.
 		var colors = options.colors || weapons.colors[player_idx][weapon_idx];
 		
+		this.setColor(colors[0]);
 		//If this color index is 0 then the player is using their primary color, if it is set to 1 they are using a secondary color.
 		var color_idx = 0;
 		
@@ -84,6 +78,24 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		//The player's pattern.
 		var pattern = null;
 		
+		//The color boxes.
+		var color_boxes = [];
+		
+		/*
+		 * Start the state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
+		this.state.start = function(game) {
+			color_boxes.push(new stg.Square({x: 10 + 4, y: 540 + 4, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
+			color_boxes.push(new stg.Square({x: 10, y: 540, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
+			
+			that.state.setSubstate({
+				substate: new stg.Pattern({}), 
+				parent: that
+			});
+		};
+		
 		/*
 		 * The player's logic.
 		 * @param {FSM} game.fsm - Finite state machine.
@@ -100,28 +112,16 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		 */
 		this.state.render = function(game) {
 			if (ctx) {
-				var x = position.getPosition().x;
-				var y = position.getPosition().y;
-				
 				//Draw the player.
-				stg.Canvas.circle({x: x, y: y, radius: radius, color: colors[color_idx], ctx: ctx, lineWidth: 1});
+				that.draw({ctx: ctx, color: colors[color_idx]});
 				
 				//Draw the player's color boxes.
-				if (x > 60 || y < 530) {
-					stg.Canvas.square({x: 10 + 4, y: 540 + 4, w: 8, h: 8, color: colors[color_idx === 0 ? 1 : 0], ctx: ctx, lineWidth: 1});
-					stg.Canvas.square({x: 10, y: 540, w: 8, h: 8, color: colors[color_idx === 0 ? 0 : 1], ctx: ctx, lineWidth: 1});
-				}
+				if (!stg.Math.circleSquareCollision(that, color_boxes[0]))
+					color_boxes[0].draw({color: colors[color_idx === 0 ? 1 : 0]});
+				
+				if (!stg.Math.circleSquareCollision(that, color_boxes[1]))
+					color_boxes[1].draw({color: colors[color_idx === 0 ? 0 : 1]});
 			}
-		};
-		
-		//Set the player's radius.
-		this.setRadius = function(r) {
-			radius = r;
-		};
-		
-		//Get the player's radius.
-		this.getRadius = function() {
-			return {radius: radius};
 		};
 		
 		//Set the player's lives.
@@ -145,16 +145,16 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		};
 		
 		//Set the player's color.
-		this.setColor = function(c) {
+		this.setColors = function(c) {
 			color = c;
 		};
 		
 		//Get the player's colors.
-		this.getColor = function(current_color) {
-			if (current_color !== undefined)
-				return {color:color[color_idx]};
+		this.getColors = function(use_index) {
+			if (use_index !== undefined)
+				return {color: colors[color_idx]};
 			
-			return {colors: color};
+			return {colors: colors};
 		};
 
 		/*
@@ -174,21 +174,23 @@ FSM.Player = (function(fsm, stg, system, resource) {
 			
 			//The Up key has been pressed.
 			if (Keydown.up /*&& (y - velocity) > 0*/)
-				position.add({x: 0, y: -s});
+				that.add({x: 0, y: -s});
 				
 			//The Down key has been pressed.
 			if (Keydown.down /*&& (y + velocity) < layers.buffer.height*/)
-				position.add({x: 0, y: s});
+				that.add({x: 0, y: s});
 			
 			//The Left key is pressed.
 			if (Keydown.left /*&& (x - velocity) > 0*/)
-				position.add({x: -s, y: 0});
+				that.add({x: -s, y: 0});
 			
 			//The Right key has been pressed.
 			if (Keydown.right /*&& (x + velocity) < layers.buffer.width*/)
-				position.add({x: s, y: 0});
+				that.add({x: s, y: 0});
 		};
 	};
+	
+	Player.prototype = Object.create(stg.Circle.prototype);
 	
 	return Player;
 }(FSM, STG, System, Resource));

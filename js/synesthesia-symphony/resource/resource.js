@@ -10,7 +10,7 @@
 var System = System || {};
 
 //This module handles resources.
-var Resource = Resource || (function(globals, system, $) {
+var Resource = (function(globals, system, $) {
 	"use strict";
 	
 	return {

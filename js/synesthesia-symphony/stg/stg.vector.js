@@ -25,8 +25,8 @@ STG.Vector = (function(stg) {
 		var that = this;
 		
 		//The vector's x and y coordinates.
-		var x = options.x || arguments[0] || 0;
-		var y = options.y || arguments[1] || 0;
+		var x = options.x || 0;
+		var y = options.y || 0;
 		
 		/*
 		 * Returns the length of the vector.

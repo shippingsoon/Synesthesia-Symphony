@@ -8,30 +8,68 @@
 */
 
 var STG = STG || {};
+var Resource = Resource || {};
 
 //Circle submodule.
-STG.Circle = (function(stg) {
+STG.Circle = (function(stg, resource) {
 	"use strict";
+	
+	var layers = resource.layers;
 	
 	 /*
 	  * Circle constructor.
 	  * @param {Number} options.x - The x coordinate.
 	  * @param {Number} options.y - The y coordinate.
-	  * @param {STG.Vector} options.position - A vector position.
 	  * @param {Number} options.radius - The radius.
+	  * @param {String|STG.Color} options.color - The color.
+	  * @param {Number} options.lineWidth - The line width.
+	  * @param {String|STG.Color} options.strokeStyle - The outline color.
 	  */
 	function Circle(options) {
+		//Call our parent's constructor.
+		stg.Vector.call(this, options);
+		
 		//Reference to the current object.
 		var that = this;
 		
-		//The position vector.
-		var position = options.position || new stg.Vector({
-			x: options.x || arguments[0] || 0,
-			y: options.y || arguments[1] || 0
-		});
-		
 		//The circle's radius.
 		var radius = options.radius || options.r || arguments[2] || 10;
+		
+		//The circle's color.
+		var color = options.color || new stg.Color(0, 255, 0, 1);
+		
+		//The circle's line width.
+		var line_width = (options.lineWidth !== undefined) ? options.lineWidth : 1;
+		
+		//The circle's line color.
+		var line_color = options.strokeStyle || new stg.Color(0, 0, 0, 1);
+		
+		//2D drawing context.
+		var ctx = options.ctx || layers.buffer.ctx;
+		
+		/*
+		 * Draws the circle.
+		 * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
+		 * @param {Number} options.x - The x coordinate.
+		 * @param {Number} options.y - The y coordinate.
+		 * @param {Number} options.radius - The circle's radius.
+		 * @param {String|STG.Color} options.color - The color.
+		 * @param {Number} options.lineWidth - The line width.
+		 * @param {String|STG.Color} options.strokeStyle - The outline color.
+		 */
+		this.draw = function(options) {
+			var position = this.getPosition();
+			
+			//Draw the circle.
+			stg.Canvas.circle({
+				x: options.x || position.x,
+				y: options.y || position.y,
+				radius: options.radius || options.r || radius,
+				color: options.color || color,
+				ctx: options.ctx || ctx,
+				lineWidth: options.ctx || line_width
+			});
+		};
 		
 		/*
 		 * Sets the circle.
@@ -39,8 +77,8 @@ STG.Circle = (function(stg) {
 		 * @param {Number} options.y - The y coordinate.
 		 * @param {Number} options.radius - The radius.
 		 */
-		this.setCircle = this.setPosition = function(options) {
-			position.setPosition(options);
+		this.setCircle = function(options) {
+			this.setPosition(options);
 			
 			radius = options.radius || options.r || radius;
 		};
@@ -48,15 +86,16 @@ STG.Circle = (function(stg) {
 		/*
 		 * Returns the circle's position and radius.
 		 */
-		this.getCircle = this.getPosition = function() {
-			var _position = position.getPosition();
-			_position.radius = _position.r = radius;
+		this.getCircle = function() {
+			var position = this.getPosition();
 			
-			return _position;
+			position.radius = position.r = radius;
+			
+			return position;
 		};
 
 		/*
-		 * Set the player's radius.
+		 * Set the circle's radius.
 		 * @param {Number} _radius - The new radius.
 		 */
 		this.setRadius = function(_radius) {
@@ -64,12 +103,29 @@ STG.Circle = (function(stg) {
 		};
 		
 		/*
-		 * Get the player's radius.
+		 * Get the circle's radius.
 		 */
 		this.getRadius = function() {
-			return {radius: radius};
+			return {radius: radius, r: radius};
+		};
+		
+		/*
+		 * Set the circle's color.
+		 * @param {String|STG.Color} options.color - The new color.
+		 */
+		this.setColor = function(_color) {
+			color = _color;
+		};
+		
+		/*
+		 * Get the circle's color.
+		 */
+		this.getColor = function() {
+			return {colors: color};
 		};
 	};
 	
+	Circle.prototype = Object.create(stg.Vector.prototype);
+	
 	return Circle;
-}(STG));
+}(STG, Resource));

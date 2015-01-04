@@ -80,6 +80,8 @@ STG.Canvas = (function(globals) {
 		 * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
 		 * @param {Number} options.x - The x coordinate.
 		 * @param {Number} options.y - The y coordinate.
+		 * @param {Number} options.width - The square's width.
+		 * @param {Number} options.height - The square's height.
 		 * @param {String|STG.Color} options.color - The color.
 		 * @param {Number} options.lineWidth - The line width.
 		 * @param {String|STG.Color} options.strokeStyle - The outline color.

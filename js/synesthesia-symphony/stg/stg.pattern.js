@@ -9,10 +9,13 @@
 
 var FSM = FSM || {};
 var STG = STG || {};
+var Resource = Resource || {};
 
 //Pattern submodule.
-STG.Pattern = (function(fsm, stg) {
+STG.Pattern = (function(fsm, stg, resource) {
 	"use strict";
+	
+	var layers = resource.layers;
 	
 	 /*
 	  * Pattern constructor.
@@ -33,6 +36,9 @@ STG.Pattern = (function(fsm, stg) {
 		var elapsed_time = new Date;
 		var bullets = [];
 		var MAX_BULLETS = 20;
+		var parent = null;
+		var parent_position = null;
+		var ctx = options.ctx || layers.buffer.ctx;
 		
 		/*
 		 * Initiate this state.
@@ -40,17 +46,22 @@ STG.Pattern = (function(fsm, stg) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		this.state.start = function(game) {
-			var parent = this.state.getParent();
-			var parent_position = parent.getPosition();
-			
-			for (var bullet = 0; bullet < MAX_BULLETS; bullet++) {
-				bullets.push(new stg.Bullet({
-					x: parent_position.x,
-					y: parent_position.y,
-					color: stg.Color(255, 255),
-					ctx: ctx,
-					radius: 50
-				}));
+			//parent = that.state.getParent();
+			//console.log(parent);
+			if (parent) {
+				//parent_position = parent.circle.getPosition();
+				//console.log(parent_position);
+				/*
+				for (var bullet = 0; bullet < MAX_BULLETS; bullet++) {
+					bullets.push(new stg.Bullet({
+						x: parent_position.x,
+						y: parent_position.y,
+						color: stg.Color(255, 255),
+						ctx: layers.buffer.ctx,
+						radius: 50
+					}));
+				}
+				*/
 			}
 		};
 		
@@ -65,17 +76,24 @@ STG.Pattern = (function(fsm, stg) {
 			*/
 			
 			if (Keydown.x) {
+				//parent_position = parent.circle.getPosition();
+				/*
 				for (var bullet = 0; bullet < bullets.length; bullet++) {
 					bullets[bullet].position.setPosition({
-						x: position.getPosition().x,
-						y: position.getPosition().y
+						x: parent_position.x,
+						y: parent_position.y
 					});
 				}
+				*/
 			}
 			
 			if (Keydown.z) {
+				//parent = that.state.getParent();
+				//console.log('parent', parent.count);
 				
-				if (once) {
+				//parent_position = parent.position.getPosition();
+				
+				if (false) {
 					var offset = 0;
 					var s = 10;
 					var angle = angle || 0;
@@ -84,13 +102,14 @@ STG.Pattern = (function(fsm, stg) {
 					//var a = (degrees - (( bullets.length * padding) / 2) + (padding / 2));
 					//var a = degrees / (3 * padding);
 					var a = -90; padding = 45;
-					for (var bullet = 0, length = bullets.length; bullet < length && bullet < 3; bullet++) {
+					for (var bullet = 0, length = bullets.length; bullet < length; bullet++) {
 						if (_once) {
+							
 							game.fsm.setSubstate({substate: bullets[bullet].state});
 							bullets[bullet].speed = 10;
 							bullets[bullet].position.setPosition({
-								x: position.getPosition().x + 0,
-								y: position.getPosition().y - 10
+								x: parent_position.x + 0,
+								y: parent_position.y - 10
 							});
 							
 						}
@@ -112,12 +131,14 @@ STG.Pattern = (function(fsm, stg) {
 					}
 					_once = false;
 				}
+				//console.log(parent_position);
 				once = true;
 			}
 			
 		};
 		
+		return this.state;
 	};
 	
 	return Pattern;
-}(FSM, STG));
+}(FSM, STG, Resource));

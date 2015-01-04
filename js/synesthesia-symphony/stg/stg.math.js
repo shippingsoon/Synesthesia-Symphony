@@ -116,10 +116,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} a - The target vector.
 		 */
 		getTargetAngle: function(a, b) {
-			if (a instanceof stg.Vector)
+			if (a.hasOwnProperty('getPosition'))
 				a = a.getPosition();
 			
-			if (b instanceof stg.Vector)
+			if (b.hasOwnProperty('getPosition'))
 				b = b.getPosition();
 			
 			return Math.atan2(a.y - b.y, a.x - b.x);
@@ -131,10 +131,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} b - An STG vector or object.
 		 */
 		distance: function(a, b) {
-			if (a instanceof stg.Vector)
+			if (a.hasOwnProperty('getPosition'))
 				a = a.getPosition();
 			
-			if (b instanceof stg.Vector)
+			if (b.hasOwnProperty('getPosition'))
 				b = b.getPosition();
 			
 			//return Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
@@ -147,11 +147,11 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Circle} b - An STG circle or object.
 		 */
 		circleCollision: function(a, b) {
-			if (a instanceof stg.Circle)
-				a = a.getPosition();
+			if (a.hasOwnProperty('getCircle'))
+				a = a.getCircle();
 			
-			if (b instanceof stg.Circle)
-				b = b.getPosition();
+			if (b.hasOwnProperty('getCircle'))
+				b = b.getCircle();
 			
 			//If the distance between the colliding objects is smaller than the combined radius.
 			return (this.distance(a, b) < (a.radius + b.radius));
@@ -165,29 +165,29 @@ STG.Math = (function(globals, system, stg) {
 		circleSquareCollision: function(a, b) {
 			var c = new stg.Vector({x: 0, y: 0});
 			
-			if (a instanceof STG.Circle)
-				a = a.getPosition();
+			if (a.hasOwnProperty('getCircle'))
+				a = a.getCircle();
+
+			if (b.hasOwnProperty('getSquare'))
+				b = b.getSquare();
 			
-			if (b instanceof STG.Square)
-				a = a.getPosition();
-				
 			if (a.x < b.x)
-				c.x = b.x;
+				c.setPosition({x: b.x});
 			
 			else if (a.x > b.x + b.width)
-				c.x = b.x + b.width;
+				c.setPosition({x: b.x + b.width});
 			
 			else
-				c.x = a.x;
+				c.setPosition({x: a.x});
 			
-			 if (a.y < b.y)
-				c.y = b.y;
+			if (a.y < b.y)
+				c.setPosition({y: b.y});
 			
 			else if (a.y > b.y + b.height)
-				c.y = b.y + b.height;
+				c.setPosition({y: b.height});
 			
 			else
-				c.y = a.y;
+				c.setPosition({y: a.y});
 			
 			return (this.distanceSquared(a, c) < (a.radius * a.radius));
 		},
@@ -198,10 +198,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} b - An STG vector or object.
 		 */
 		distanceSquared: function(a, b) {
-			if (a instanceof stg.Vector)
+			if (a.hasOwnProperty('getPosition'))
 				a = a.getPosition();
-			
-			if (b instanceof stg.Vector)
+				
+			if (b.hasOwnProperty('getPosition'))
 				b = b.getPosition();
 			
 			var delta = new stg.Vector({
