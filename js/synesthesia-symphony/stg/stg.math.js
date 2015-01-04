@@ -1,26 +1,32 @@
 /*
-	@description - 
+	@description - Math submodule.
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.01
+	@version - v0.05
 	@license - GPLv3
 */
 
-var STG = STG || {};
 var System = System || {};
+var STG = STG || {};
 
-//
+//Math submodule.
 STG.Math = (function(globals, system, stg) {
 	"use strict";
 	
 	return {
 		/*
 		 * Adds two vectors.
-		 * @param {Object||STG.Vector} a - An STG vector.
-		 * @param {Object||STG.Vector} b - An STG vector.
+		 * @param {Object|STG.Vector} a - An STG vector.
+		 * @param {Object|STG.Vector} b - An STG vector.
 		 */
 		add: function(a, b) {
+			if (a instanceof stg.Vector)
+				a = a.getPosition();
+			
+			if (b instanceof stg.Vector)
+				b = b.getPosition();
+				
 			return {
 				x: (a.x || 0) + (b.x || 0),
 				y: (a.y || 0) + (b.y || 0)
@@ -30,10 +36,16 @@ STG.Math = (function(globals, system, stg) {
 		
 		/*
 		 * Subtracts two vectors.
-		 * @param {Object||STG.Vector} a - An STG vector.
-		 * @param {Object||STG.Vector} b - An STG vector.
+		 * @param {Object|STG.Vector} a - An STG vector.
+		 * @param {Object|STG.Vector} b - An STG vector.
 		 */
 		subtract: function(a, b) {
+			if (a instanceof stg.Vector)
+				a = a.getPosition();
+			
+			if (b instanceof stg.Vector)
+				b = b.getPosition();
+			
 			return {
 				x: (a.x || 0) - (b.x || 0),
 				y: (a.y || 0) - (b.y || 0)
@@ -42,10 +54,16 @@ STG.Math = (function(globals, system, stg) {
 		
 		/*
 		 * Multiplies two vectors.
-		 * @param {Object||STG.Vector} a - An STG vector.
-		 * @param {Object||STG.Vector} b - An STG vector.
+		 * @param {Object|STG.Vector} a - An STG vector.
+		 * @param {Object|STG.Vector} b - An STG vector.
 		 */
 		multiply: function(a, b) {
+			if (a instanceof stg.Vector)
+				a = a.getPosition();
+			
+			if (b instanceof stg.Vector)
+				b = b.getPosition();
+			
 			return {
 				x: (a.x || 0) * (b.x || 0),
 				y: (a.y || 0) * (b.y || 0)
@@ -54,12 +72,15 @@ STG.Math = (function(globals, system, stg) {
 		
 		/*
 		 * Divides two vectors.
-		 * @param {Object||STG.Vector} a - An STG vector.
-		 * @param {Object||STG.Vector} b - An STG vector.
+		 * @param {Object|STG.Vector} a - An STG vector.
+		 * @param {Object|STG.Vector} b - An STG vector.
 		 */
 		divide: function(a, b) {
-			if (b.x === 0 || b.y === 0)
-				throw 'Division by zero';
+			if (a instanceof stg.Vector)
+				a = a.getPosition();
+			
+			if (b instanceof stg.Vector)
+				b = b.getPosition();
 			
 			return {
 				x: (a.x || 1) / (b.x || 1),
@@ -91,43 +112,70 @@ STG.Math = (function(globals, system, stg) {
 		
 		/*
 		 * Gets a target angle.
-		 * @param {Number} ax - The target's x coordinate.
-		 * @param {Number} ay - The target's y coordinate.
-		 * @param {Number} bx - The x coordinate.
-		 * @param {Number} by - The y coordinate.
+		 * @param {Object|STG.Vector} a - The vector.
+		 * @param {Object|STG.Vector} a - The target vector.
 		 */
-		getTargetAngle: function(ax, ay, bx, by) {
-			return Math.atan2(ay - by, ax - bx);
+		getTargetAngle: function(a, b) {
+			if (a instanceof stg.Vector)
+				a = a.getPosition();
+			
+			if (b instanceof stg.Vector)
+				b = b.getPosition();
+			
+			return Math.atan2(a.y - b.y, a.x - b.x);
 		},
 		
 		/*
 		 * Gets the distance between two objects. Todo: optimize this function.
-		 * @param {Number} ax - The first object's x coordinate.
-		 * @param {Number} ay - The first object's y coordinate.
-		 * @param {Number} bx - The second object's x coordinate.
-		 * @param {Number} by - The second object's y coordinate.
+		 * @param {Object|STG.Vector} a - An STG vector or object.
+		 * @param {Object|STG.Vector} b - An STG vector or object.
 		 */
-		distance: function(ax, ay, bx, by) {
-			//return Math.sqrt(Math.pow(bx - ax, 2) + Math.pow(by - ay, 2));
-			return Math.sqrt(((bx - ax) * (bx - ax)) + ((by - ay) * (by - ay))); 
+		distance: function(a, b) {
+			if (a instanceof stg.Vector)
+				a = a.getPosition();
+			
+			if (b instanceof stg.Vector)
+				b = b.getPosition();
+			
+			//return Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
+			return Math.sqrt(((b.x - a.x) * (b.x - a.x)) + ((b.y - a.y) * (b.y - a.y))); 
 		},
 		
+		/*
+		 * Checks for collision between two circles.
+		 * @param {Object|STG.Circle} a - An STG circle or object.
+		 * @param {Object|STG.Circle} b - An STG circle or object.
+		 */
 		circleCollision: function(a, b) {
-			var aRadius = a.getRadius().radius;
-			var bRadius = b.getRadius().radius;
+			if (a instanceof stg.Circle)
+				a = a.getPosition();
+			
+			if (b instanceof stg.Circle)
+				b = b.getPosition();
 			
 			//If the distance between the colliding objects is smaller than the combined radius.
-			return (this.distance(a, b) < (aRadius + bRadius));
+			return (this.distance(a, b) < (a.radius + b.radius));
 		},
 		
+		/*
+		 * Checks for collision between a circle and square.
+		 * @param {Object|STG.Circle} a - An STG circle or object.
+		 * @param {Object|STG.Square} b - An STG square or object.
+		 */
 		circleSquareCollision: function(a, b) {
 			var c = new stg.Vector({x: 0, y: 0});
 			
+			if (a instanceof STG.Circle)
+				a = a.getPosition();
+			
+			if (b instanceof STG.Square)
+				a = a.getPosition();
+				
 			if (a.x < b.x)
 				c.x = b.x;
 			
-			else if (a.x > b.x + b.w)
-				c.x = b.x + b.w;
+			else if (a.x > b.x + b.width)
+				c.x = b.x + b.width;
 			
 			else
 				c.x = a.x;
@@ -135,27 +183,35 @@ STG.Math = (function(globals, system, stg) {
 			 if (a.y < b.y)
 				c.y = b.y;
 			
-			else if (a.y > b.y + b.h)
-				c.y = b.y + b.h;
+			else if (a.y > b.y + b.height)
+				c.y = b.y + b.height;
 			
 			else
 				c.y = a.y;
-			//console.log('a', this.distanceSquared(a.x, a.y, c.x, c.y));
-			//console.log('b', a.r * a.r)
-			return (this.distanceSquared(a.x, a.y, c.x, c.y) < a.r * a.r);
+			
+			return (this.distanceSquared(a, c) < (a.radius * a.radius));
 		},
 		
-		distanceSquared: function(ax, ay, bx, by) {
+		/*
+		 * Returns the squared distance between two vectors.
+		 * @param {Object|STG.Vector} a - An STG vector or object.
+		 * @param {Object|STG.Vector} b - An STG vector or object.
+		 */
+		distanceSquared: function(a, b) {
+			if (a instanceof stg.Vector)
+				a = a.getPosition();
+			
+			if (b instanceof stg.Vector)
+				b = b.getPosition();
+			
 			var delta = new stg.Vector({
-				x: bx - ax,
-				y: by - ay
+				x: b.x - a.x,
+				y: b.y - a.y
 			});
 			
 			var d = delta.getPosition();
 			
-			//console.log("delta", delta);
 			return (d.x * d.x) + (d.y * d.y);
 		},
-		
 	};
 }(window, System, STG)); 

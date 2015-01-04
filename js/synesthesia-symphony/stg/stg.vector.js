@@ -3,7 +3,7 @@
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.03
+	@version - v0.05
 	@license - GPLv3
 */
 
@@ -17,8 +17,8 @@ STG.Vector = (function(stg) {
 	
 	 /*
 	  * Vector constructor.
-	  * @param {Object} options.x - The x coordinate.
-	  * @param {Object} options.y - The y coordinate.
+	  * @param {Number} options.x - The x coordinate.
+	  * @param {Number} options.y - The y coordinate.
 	  */
 	function Vector(options) {
 		//Reference to the current object.
@@ -44,7 +44,7 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Adds a value to the vector.
-		 * @param {STG.Vector||Number} vector - The vector or number we will add to our vector.
+		 * @param {STG.Vector|Number} vector - The vector or number we will add to our vector.
 		 */
 		this.add = function(vector) {
 			return _operation(math.add, vector);
@@ -52,7 +52,7 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Subtracts a value from the vector.
-		 * @param {STG.Vector||Number} vector - The vector or number we will subtract from our vector.
+		 * @param {STG.Vector|Number} vector - The vector or number we will subtract from our vector.
 		 */
 		this.subtract = function(vector) {
 			return _operation(math.subtract, vector);
@@ -60,7 +60,7 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Multiplies the vector by a value.
-		 * @param {STG.Vector||Number} vector - The vector or number we will multiply our vector by.
+		 * @param {STG.Vector|Number} vector - The vector or number we will multiply our vector by.
 		 */
 		this.multiply = function(vector) {
 			return _operation(math.multiply, vector);
@@ -68,7 +68,7 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Divides the vector by a value.
-		 * @param {STG.Vector||Number} vector - The vector or number we will divide our vector by.
+		 * @param {STG.Vector|Number} vector - The vector or number we will divide our vector by.
 		 */
 		this.divide = function(vector) {
 			return _operation(math.divide, vector);
@@ -76,11 +76,20 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Sets the vector's position.
-		 * @param {STG.Vector} vector - The new position.
+		 * @param {STG.Vector|Object} vector - The new position.
 		 */
 		this.setPosition = function(vector) {
-			x = (vector.x !== undefined) ? vector.x : x;
-			y = (vector.y !== undefined) ? vector.y : y;
+			//If this is a Vector.
+			if (vector instanceof Vector) {
+				x = vector.getPosition().x;
+				y = vector.getPosition().y;
+			}
+			
+			//Otherwise if this is an object
+			else {
+				x = (vector.x !== undefined) ? vector.x : x;
+				y = (vector.y !== undefined) ? vector.y : y;
+			}
 			
 			return this;
 		};
@@ -94,26 +103,15 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Follow.
-		 * @param {STG.Vector} vector - The vector.
+		 * @param {STG.Vector} vector - TBA
 		 */
 		this.follow = function(vector) {
-			//If our argument is a vector retrieve its position.
-			/*
-			if (vector.constructor === Vector)
-				vector = vector.getPosition();
 			
-			this.add({
-				x: vector.x - x,
-				y: vector.y - y
-			});
-			
-			return this;
-			*/
 		};
 		
 		/*
 		 * Normalized.
-		 * @param {STG.Vector} vector - The vector.
+		 * @param {STG.Vector} vector - TBA
 		 */
 		this.normalized = function(vector) {
 			//If our argument is a vector retrieve its position.
@@ -132,16 +130,26 @@ STG.Vector = (function(stg) {
 		/*
 		 * Performs arithmetic operations on vectors.
 		 * @param {Function} method - The arithmetic function to be invoked.
-		 * @param {STG.Vector} vector - The vector.
+		 * @param {STG.Vector|Number} vector - The vector or number we will be applying to our vector.
 		 */
 		function _operation(method, vector) {
 			// Get the current position.
 			var position = that.getPosition();
 			
-			//Get the destination vector.
-			var destination = (typeof vector !== 'number')
-				? method(position, vector)
-				: method(position, {x: vector, y: vector});
+			//The destination vector.
+			var destination = null;
+			
+			//If we received a vector.
+			if (vector instanceof Vector)
+				destination = method(position, vector.getPosition());
+			
+			//If we received a number.
+			else if (typeof vector === 'number')
+				destination = method(position, {x: vector, y: vector});
+			
+			//If we received an object.
+			else
+				destination = method(position, vector);
 			
 			//Set the new position.
 			that.setPosition(destination);

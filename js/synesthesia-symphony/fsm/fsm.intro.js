@@ -3,13 +3,14 @@
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Finite-State-Machine/
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.03
+	@version - v0.05
 	@license - GPLv3
 */
 
 var FSM = FSM || {};
 var Resource = Resource || {};
 var STG = STG || {};
+var System = System || {};
 
 //Intro state.
 FSM.Intro = (function(fsm, resource, stg, system) {
@@ -23,7 +24,7 @@ FSM.Intro = (function(fsm, resource, stg, system) {
 		
 		/*
 		 * Start the state.
-		 * @param {Object||FSM} game.fsm - Pesky super object.
+		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {
@@ -50,7 +51,7 @@ FSM.Intro = (function(fsm, resource, stg, system) {
 								player.stop();
 							
 							//Transition into the Menu state.
-							game.fsm.transition({state: new fsm.Stage({}), ctx: resource.layers.screen.ctx});
+							game.fsm.transition({state: new fsm.Stage({}).getInstance(), ctx: resource.layers.screen.ctx});
 						}
 					});
 				}
@@ -59,7 +60,7 @@ FSM.Intro = (function(fsm, resource, stg, system) {
 		
 		/*
 		 * Render this state.
-		 * @param {Object||FSM} game.fsm - Pesky super object.
+		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.render = function(game) {
@@ -81,7 +82,14 @@ FSM.Intro = (function(fsm, resource, stg, system) {
 			});
 		};
 		
-		return state;
+		/*
+		 * Return the state.
+		 */
+		this.getInstance = function() {
+			return state;
+		};
+		
+		return this.getInstance();
 	}
 	
 	return Intro;

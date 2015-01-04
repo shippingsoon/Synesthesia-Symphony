@@ -3,12 +3,11 @@
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.01
+	@version - v0.05
 	@license - GPLv3
 */
 
 var System = System || {};
-var FSM = FSM || {};
 
 //This module handles resources.
 var Resource = Resource || (function(globals, system, $) {
@@ -34,7 +33,7 @@ var Resource = Resource || (function(globals, system, $) {
 			
 			//Load the layer canvases.
 			for (var layer in this.layers) {
-				this.layers[layer] = document.getElementById(layer+'-layer');
+				this.layers[layer] = document.getElementById(layer + '-layer');
 				this.layers[layer].ctx = this.layers[layer].getContext('2d');
 			}
 			
@@ -44,7 +43,7 @@ var Resource = Resource || (function(globals, system, $) {
 
 			//Load the stage background images.
 			for (var stage = 0; stage < 6; stage++) {
-				if (this.sprites.stages_bg[stage] = document.getElementById('stage-'+stage+'-r'+mode)) {
+				if (this.sprites.stages_bg[stage] = document.getElementById('stage-' + stage + '-r' + mode)) {
 					//Set the coordinates of the stage background images. Lowercase x and y are apparently reserved on Firefox.
 					this.sprites.stages_bg[stage].X = 0;
 					this.sprites.stages_bg[stage].Y = 0;
@@ -52,7 +51,7 @@ var Resource = Resource || (function(globals, system, $) {
 			}
 			
 			//Load the canvas texture image.
-			this.sprites.canvas_bg = document.getElementById('canvas-bg-r'+mode);
+			this.sprites.canvas_bg = document.getElementById('canvas-bg-r' + mode);
 			this.sprites.canvas_bg.X = this.layers.buffer.X = 0;
 			this.sprites.canvas_bg.Y = this.layers.buffer.Y = 0;
 			

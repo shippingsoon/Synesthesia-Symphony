@@ -3,7 +3,7 @@
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.01
+	@version - v0.05
 	@license - GPLv3
 */
 
@@ -30,17 +30,17 @@ var Session = Session || (function(globals, system, resource, $) {
 					resource.load();
 					
 					//Call our main function every n frames per second.
-					globals.interval = setInterval(callback, (1000 / system.Config.FPS));
+					globals.interval = setInterval(callback, (1000 / system.Config.TARGET_FPS));
 				},
 				error: function(data) {
-					if (system.Config.debug)
+					if (system.Config.DEBUG)
 						console.log(data);
 					
 					//Since we failed to make a connection to the server we will assume we are offline.
-					system.Config.online = false;
+					system.Config.ONLINE = false;
 					
 					//Call our main function every n frames per second.
-					globals.interval = setInterval(callback, (1000 / system.Config.FPS));
+					globals.interval = setInterval(callback, (1000 / system.Config.TARGET_FPS));
 				}
 			});
 		},
@@ -60,7 +60,7 @@ var Session = Session || (function(globals, system, resource, $) {
 					
 				},
 				error: function(data) {
-					if (system.Config.debug)
+					if (system.Config.DEBUG)
 						console.log(data);
 				}
 			});

@@ -1,15 +1,15 @@
 /*
-	@description - Synesthesia Symphony's configuration module.
+	@description - Synesthesia Symphony's configuration submodule.
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.01
+	@version - v0.05
 	@license - GPLv3
 */
 
 var System = System || {};
 
-//Synesthesia Symphony's configuration module. 
+//Configuration submodule.
 System.Config = System.Cfg = (function(globals) {
 	"use strict";
 	

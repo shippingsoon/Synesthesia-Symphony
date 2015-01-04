@@ -2,8 +2,8 @@
 	@description - Player submodule.
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/synesthesia-symphony/
-	@version - v0.03
+	@website - https://www.shippingsoon.com/synesthesia-symphony/
+	@version - v0.05
 	@license - GPLv3
 */
 
@@ -25,7 +25,16 @@ FSM.Player = (function(fsm, stg, system, resource) {
 	var weapons = protagonist.weapons;
 	var layers = resource.layers;
 	
-	//Player constructor.
+	/*
+	 * Player constructor.
+	 * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
+	 * @param {Number} options.x - The x coordinate.
+	 * @param {Number} options.y - The y coordinate.
+	 * @param {Number} options.radius - The player's radius.
+	 * @param {STG.Color[]} options.colors - An array of colors for the player's primary and secondary colors.
+	 * @param {Number} options.lives - The player's initial lives.
+	 * @param {Number} options.power - The player's initial power.
+	 */
 	function Player(options) {
 		if (_instance)
 			return _instance;
@@ -55,7 +64,7 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		var radius = options.radius || config.HITBOX_RADIUS;
 		
 		//The player's primary and secondary colors.
-		var colors = options.color || weapons.colors[player_idx][weapon_idx];
+		var colors = options.colors || weapons.colors[player_idx][weapon_idx];
 		
 		//If this color index is 0 then the player is using their primary color, if it is set to 1 they are using a secondary color.
 		var color_idx = 0;
@@ -75,12 +84,20 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		//The player's pattern.
 		var pattern = null;
 		
-		//The player's logic.
+		/*
+		 * The player's logic.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
 		this.state.update = function(game) {
 			movement(game);
 		};
 		
-		//Draws the player.
+		/*
+		 * Draws the player.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
 		this.state.render = function(game) {
 			if (ctx) {
 				var x = position.getPosition().x;
@@ -140,7 +157,11 @@ FSM.Player = (function(fsm, stg, system, resource) {
 			return {colors: color};
 		};
 
-		//Move the player.
+		/*
+		 * Move the player.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
 		function movement(game) {
 			var s = speed;
 			//If the Shift key is pressed switch to focused movement.

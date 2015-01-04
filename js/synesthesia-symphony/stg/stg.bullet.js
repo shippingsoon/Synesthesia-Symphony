@@ -3,7 +3,7 @@
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.03
+	@version - v0.05
 	@license - GPLv3
 */
 
@@ -11,7 +11,7 @@ var FSM = FSM || {};
 var STG = STG || {};
 
 //Bullet submodule.
-STG.Bullet = STG.Bullet || (function(fsm, stg) {
+STG.Bullet = (function(fsm, stg) {
 	"use strict";
 	
 	 /*
@@ -19,9 +19,9 @@ STG.Bullet = STG.Bullet || (function(fsm, stg) {
 	  * @param {Object} options.x - The x coordinate.
 	  * @param {Object} options.y - The y coordinate.
 	  * @param {Object} options.radius - The bullet's radius.
-	  * @param {Object||Boolean} options.open - Determines if the bullet will leave a paint trail.
-	  * @param {STG.Color||String} options.color - The bullet's color.
-	  * @param {STG.Color||String} options.strokeStyle - The bullet's outline color.
+	  * @param {Boolean} options.open - Determines if the bullet will leave a paint trail.
+	  * @param {STG.Color|String} options.color - The bullet's color.
+	  * @param {STG.Color|String} options.strokeStyle - The bullet's outline color.
 	  * @param {Number} options.lineWidth - The bullet's outline width.
 	  */
 	function Bullet(options) {
@@ -43,8 +43,6 @@ STG.Bullet = STG.Bullet || (function(fsm, stg) {
 			y: options.vy || 10
 		});
 		
-		this.speed = 0;
-		
 		//The bullet's radius.
 		var radius = options.radius || 10;
 		var r = options.radius || 10;
@@ -61,15 +59,24 @@ STG.Bullet = STG.Bullet || (function(fsm, stg) {
 		//The 2D drawing context we will use to render the bullet.
 		var ctx = options.ctx || null;
 
+		//Set this state's parent.
 		this.state.setParent(that);
 		
-		//Draw the bullet.
+		/*
+		 * Draw the bullet.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
 		this.state.render = function(game) {
 			var location = that.position.getPosition();
 			stg.Canvas.circle({x: location.x, y: location.y, radius: radius, color: color, ctx: ctx, lineWidth: 1});
 		};
 		
-		//Update the bullet's state.
+		/*
+		 * Update the bullet's location.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
 		this.state.update = function(game) {
 			var circle = {
 				x: that.position.getPosition().x,
@@ -85,16 +92,14 @@ STG.Bullet = STG.Bullet || (function(fsm, stg) {
 			};
 
 			that.state.setActive(stg.Math.circleSquareCollision(circle, box));
-			
-			//console.log("collision", stg.Math.circleSquareCollision(circle, box));
 		};
 		
 		/*
 		 * Set the bullet's radius.
-		 * @param {Number} new_radius - The new radius.
+		 * @param {Number} _radius - The new radius.
 		 */
-		this.setRadius = function(new_radius) {
-			radius = new_radius;
+		this.setRadius = function(_radius) {
+			radius = _radius;
 		};
 		
 		/*
@@ -106,10 +111,10 @@ STG.Bullet = STG.Bullet || (function(fsm, stg) {
 		
 		/*
 		 * Set the bullet's color.
-		 * @param {Number} _color - The new color.
+		 * @param {STG.Color|String} _color - The bullet's new color.
 		 */
-		this.setColor = function(new_color) {
-			color = new_color;
+		this.setColor = function(_color) {
+			color = _color;
 		};
 		
 		/*

@@ -3,12 +3,12 @@
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.01
+	@version - v0.05
 	@license - GPLv3
 */
 
-var STG = STG || {};
 var System = System || {};
+var STG = STG || {};
 
 //This sub module contains character related data structures.
 STG.Character = (function(globals, system, stg) {
@@ -55,15 +55,3 @@ STG.Character = (function(globals, system, stg) {
 		}
 	};
 }(window, System, STG));
-
-/*
-var protagonist = stg.Character.protagonist;
-var player_idx = stg.Character.player_idx;
-var weapon_idx = stg.Character.weapon_idx;
-var weapons = protagonist.weapons[weapon_idx];
-
-*/
-
-
-
-

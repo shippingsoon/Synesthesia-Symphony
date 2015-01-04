@@ -3,7 +3,7 @@
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Finite-State-Machine/
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.03
+	@version - v0.05
 	@license - GPLv3
 */
 
@@ -21,7 +21,8 @@ FSM.Menu = (function(fsm) {
 		
 		/*
 		 * Initiate this state.
-		 * @param {Object||FSM} game - Pesky super object.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {
 			//Set the font style of the menu options.
@@ -34,8 +35,8 @@ FSM.Menu = (function(fsm) {
 		
 		/*
 		 * Stop this state.
-		 * @param {Object||FSM} game - Pesky super object.
-		 * @param {CanvasRenderingContext2D} ctx - Provides the 2D rendering context.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.stop = function(game) {
 			//Remove the event.
@@ -44,9 +45,9 @@ FSM.Menu = (function(fsm) {
 		
 		/*
 		 * Handle events for this state.
-		 * @param {Object||FSM} game - Pesky super object.
-		 * @param {CanvasRenderingContext2D} ctx - Provides the 2D rendering context.
-		 * @param {Number} event - Numeric event code.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @param {Number} game.event - Numeric event code.
 		 */
 		state.controller = function(game) {
 			switch (game.event.keyCode) {
@@ -68,19 +69,19 @@ FSM.Menu = (function(fsm) {
 				case 90:
 					//Transition to the stage state.
 					if (menu_index === 0) 
-						game.fsm.transition(new FSM.Stage({}));
+						game.fsm.transition(new FSM.Stage({}).getInstance());
 					break;
 			}
 		};
 		
 		/*
 		 * Render this state.
-		 * @param {Object||FSM} game
-		 * @param {CanvasRenderingContext2D} ctx - Provides the 2D rendering context.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.render = function(game) {
 			//Draw the menu options.
-			for (var option = 0; option < options.length; option++) {
+			for (var option = 0, length = options.length; option < length; option++) {
 				game.ctx.fillStyle = (menu_index == options.indexOf(options[option]))
 					? '#f00'
 					: '#444';
@@ -88,10 +89,15 @@ FSM.Menu = (function(fsm) {
 			}
 		};
 		
+		/*
+		 * Return the state.
+		 */
+		this.getInstance = function() {
+			return state;
+		};
 		
-		//Return an instance of this state.
-		return state;
+		return this.getInstance();
 	}
 	
 	return Menu;
-}(FSM || {}));
+}(FSM));

@@ -3,7 +3,7 @@
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.03
+	@version - v0.05
 	@license - GPLv3
 */
 
@@ -21,6 +21,7 @@ STG.Color = (function(stg) {
 	  * @param {Object} options.a - Alpha.
 	  */
 	function Color(options) {
+		//A reference to the current object.
 		var that = this;
 		
 		//Set the hues.

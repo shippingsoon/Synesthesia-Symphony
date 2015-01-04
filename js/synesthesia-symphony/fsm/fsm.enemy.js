@@ -1,15 +1,15 @@
 /*
-	@description - Finite state machine.
+	@description - Enemy module.
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Finite-State-Machine/
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.03
+	@version - v0.05
 	@license - GPLv3
 */
 
 var FSM = FSM || {};
 
-//Enemy.
+//Enemy module.
 FSM.Enemy = (function(fsm, stg) {
 	"use strict";
 	
@@ -25,7 +25,11 @@ FSM.Enemy = (function(fsm, stg) {
 		var that = this;
 		var ctx = options.ctx || null;
 		
-		//Draws the enemy.
+		/*
+		 * Draws the enemy.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
 		this.state.render = function(game) {
 			if (ctx) {
 				ctx.beginPath();
@@ -66,19 +70,6 @@ FSM.Enemy = (function(fsm, stg) {
 		this.move = function(positions) {
 			x += positions.x || 0;
 			y += positions.y || 0;
-		};
-		
-		this.state.update = function() {
-			var player = fsm.Player({});
-			
-			/*
-			if (stg.circleCollision(that, player)) {
-				if (color == player.getColor().color)
-					console.log("foo");
-				else
-					console.log("bar");
-			}
-			*/
 		};
 	};
 	

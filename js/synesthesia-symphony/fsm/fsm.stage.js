@@ -3,7 +3,7 @@
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.03
+	@version - v0.05
 	@license - GPLv3
 */
 	
@@ -16,62 +16,95 @@ var System = System || {};
 FSM.Stage = (function(fsm, stg, resource, system) {
 	"use strict";
 	
+	/*
+	 * Stage state.
+	 * @param {FSM} options - TBA
+	 */
 	function Stage(options) {
+		//The HTML5 canvases.
 		var layers = resource.layers;
+		
+		//The sprites.
 		var sprites = resource.sprites;
+		
+		//Miscellaneous config information.
 		var config = system.Config;
+		
+		//The stage's state.
 		var state = new fsm.State({});
+		
+		//Our player.
 		var player = new fsm.Player({x: 250, y: 480, ctx: layers.buffer.ctx});
+		
+		//An array to hold the enemies.
 		var enemies = [];
-		var canvas_position = [
-			{x: 0, y: 0},
-			{x: 0, y: -sprites.canvas_bg.height}
+		
+		//The position vector for the two revolving canvas sprites.
+		var canvas_vectors = [
+			new stg.Vector({x: 0, y: 0}),
+			new stg.Vector({x: 0, y: -sprites.canvas_bg.height})
 		];
 		
 		/*
 		 * Initiate this state.
-		 * @param {Object||FSM} game - Pesky super object.
-		 * @param {CanvasRenderingContext2D} ctx - Provides the 2D rendering context.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {
 			//Handle events for this state.
 			window.addEventListener('keydown', game.fsm.controller, false);
 			
 			//Add the player substate.
-			state.setSubstate(player.state);
+			state.setSubstate({substate: player.state});
 			
 		};
 
+		/*
+		 * Handle game logic for this state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
 		state.update = function(game) {
-			stg.Stage.conveyorBelt(canvas_position, sprites.canvas_bg.height, 5);
-		};
-		
-		state.render = function(game) {
-
-			game.ctx.drawImage(sprites.stages_bg[0], 0, 0);
-			layers.buffer.ctx.drawImage(sprites.canvas_bg, 0, canvas_position[0].y);
-			layers.buffer.ctx.drawImage(sprites.canvas_bg, 0, canvas_position[1].y);
-			
-			stg.Stage.drawStageInfo(game.ctx, player);
-			
-			return function () {
-				game.ctx.drawImage(layers.buffer, 40, 20);
-			};
-				
-			
+			//The conveyorBelt() function moves the canvas sprite's position.
+			stg.Stage.conveyorBelt(canvas_vectors, sprites.canvas_bg.height, 5);
 		};
 		
 		/*
-		 * Stop this state.
-		 * @param {Object||FSM} game - Pesky super object.
-		 * @param {CanvasRenderingContext2D} ctx - Provides the 2D rendering context.
+		 * Render this state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
+		state.render = function(game) {
+			//Draw the background image on the screen layer.
+			game.ctx.drawImage(sprites.stages_bg[0], 0, 0);
+			
+			//Draw the two revolving canvas sprites on to the buffer layer.
+			layers.buffer.ctx.drawImage(sprites.canvas_bg, 0, canvas_vectors[0].getPosition().y);
+			layers.buffer.ctx.drawImage(sprites.canvas_bg, 0, canvas_vectors[1].getPosition().y);
+			
+			//The drawStageInfo() function draws various game related text on the screen.
+			stg.Stage.drawStageInfo(game.ctx, player);
+			
+			//Return a callback.
+			return function () {
+				//Render the buffer layer on the screen layer.
+				game.ctx.drawImage(layers.buffer, 40, 20);
+			};
+		};
+		
+		/*
+		 * Stop this state and remove references to data for garbage collection.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.stop = function(game) {
 			//Remove the event.
 			window.removeEventListener('keydown', game.fsm.controller, false);
 		};
 		
-		
+		/*
+		 * Returns an instance of this state.
+		 */
 		this.getState = function() {
 			return state;
 		}

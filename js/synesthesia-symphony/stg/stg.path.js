@@ -3,20 +3,20 @@
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Finite-State-Machine/
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.03
+	@version - v0.05
 	@license - GPLv3
 */
 
 var FSM = FSM || {};
 var STG = STG || {};
 
-//Path submodule.
-STG.Path = STG.Path || (function(fsm, stg) {
+//The path submodule defines different paths enemies can take.
+STG.Path = (function(fsm, stg) {
 	"use strict";
 	
 	 /*
-	  * Pattern constructor.
-	  * @param {Object} options
+	  * Path constructor.
+	  * @param {Object} options - TBA
 	  */
 	function Path(options) {
 		//A reference to the current object.

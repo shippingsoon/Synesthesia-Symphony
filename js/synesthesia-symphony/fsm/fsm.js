@@ -3,7 +3,7 @@
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Finite-State-Machine/
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.04
+	@version - v0.05
 	@license - GPLv3
 */
 
@@ -39,34 +39,37 @@ FSM.Init = (function(globals, stg, resource) {
 		
 		/*
 		 * Handle logic in the current state.
+		 * @param {CanvasRenderingContext2D} fsm.ctx - Provides the 2D rendering context.
 		 */
 		this.update = function(fsm) {
 			if (states.length !== 0) {
 				//Update the current state.
 				_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'update'});
 			}
+			
+			//Filter out dead states.
+			this.cleanState();
 		};
 		
 		/*
 		 * Render the current state.
+		 * @param {CanvasRenderingContext2D} fsm.ctx - Provides the 2D rendering context.
 		 */
 		this.render = function(fsm) {
 			if (states.length !== 0) {
-				//Clear the canvas.
-				if (states[states.length - 1] && states[states.length - 1].clear === true)
-					fsm.ctx.clearRect(0, 0, fsm.ctx.canvas.width, fsm.ctx.canvas.height);
-
-				//Render the current state.
-				var callback = _fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'render'});
+				var callback = null;
+				var current_state = currentState();
 				
-				if (callback instanceof Function)
-					callback();
+				if (current_state && current_state.isVisible())
+					//Render the current state.
+					_fsm({fsm: that, ctx: fsm.ctx, state: current_state, method: 'render'});
 			}
 		};
 		
 		/*
 		 * Pushes a new state on to the stack.
-		 * @param {Object||FSM.state} state - A state to be processed.
+		 * @param {FSM.State} fsm.state - A state to be processed.
+		 * @param {CanvasRenderingContext2D} fsm.ctx - Provides the 2D rendering context.
 		 */
 		this.forward = function(fsm) {
 			//Pause the current state.
@@ -82,7 +85,8 @@ FSM.Init = (function(globals, stg, resource) {
 		
 		/*
 		 * Pops a state from the stack.
-		 * @param {Boolean} pause - Determines if we will pause the state before switching to a previous state.
+		 * @param {Boolean} fsm.pause - Determines if we will pause the state before switching to a previous state.
+		 * @param {CanvasRenderingContext2D} fsm.ctx - Provides the 2D rendering context.
 		 */
 		this.rewind = function(fsm) {
 			if (states.length !== 0) {
@@ -100,7 +104,8 @@ FSM.Init = (function(globals, stg, resource) {
 		
 		/*
 		 * Transitions from one state to the next.
-		 * @param {Object||FSM.state} state - A state to be processed.
+		 * @param {FSM.State} fsm.state - A state to be processed.
+		 * @param {CanvasRenderingContext2D} fsm.ctx - Provides the 2D rendering context.
 		 */
 		this.transition = function(fsm) {
 			//Filter out inactive states.
@@ -123,8 +128,8 @@ FSM.Init = (function(globals, stg, resource) {
 		
 		/*
 		 * Adds a substate to the current state.
-		 * @param {Object||FSM.state} options.substate - A state to be processed.
-		 * @param {Object||FSM.state} options.parent - The parent of this substate.
+		 * @param {FSM.State} options.substate - A state to be processed.
+		 * @param {Object} options.parent - The parent of this substate.
 		 */
 		this.setSubstate = function(options) {
 			if (states.length !== 0) {
@@ -135,20 +140,27 @@ FSM.Init = (function(globals, stg, resource) {
 		};
 		
 		/*
-		 * Filters out inactive states and substates.
+		 * Retrieves the current state.
+		 */
+		 function currentState() {
+			return states[states.length - 1];
+		 }
+		 
+		/*
+		 * Filters out dead states and substates.
 		 */
 		this.cleanState = function() {
 			states = states.filter(function(state) {
-				//Filter out inactive substates.
+				//Filter out dead substates.
 				state.cleanSubstate();
 
-				return state.isActive();
+				return state.isAlive();
 			});
 		};
 		
 		/*
-		 * Recursively processes a states.
-		 * @param {Object||FSM.state} options.state - A state to be processed.
+		 * Recursively processes a state and its substates.
+		 * @param {FSM.State} options.state - A state to be processed.
 		 * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
 		 * @param {String} options.method - The name of the method to call.
 		 */
@@ -156,21 +168,32 @@ FSM.Init = (function(globals, stg, resource) {
 			var callback = null;
 			
 			if (options.state) {
-				//Process the current state.
-				if (options.state[options.method] instanceof Function)
-					callback = options.state[options.method](options);
+				if (options.state.isActive()) {
+					//Process the current state.
+					if (options.state[options.method] instanceof Function)
+						callback = options.state[options.method](options);
+						
+					//Retrieve the substates.
+					var substates = options.state.getSubstate();
 					
-				//Retrieve the substates.
-				var substates = options.state.getSubstate();
-				
-				//Process the current substate and recursively process its substates.
-				for (var substate = 0, length = substates.length; substate < length; substate++) {
-					options['state'] = substates[substate];
-					_fsm(options);
+					//Process the current substate and recursively process its substates.
+					for (var substate = 0, length = substates.length; substate < length; substate++) {
+						options['state'] = substates[substate];
+						_fsm(options);
+					}
 				}
+	
+				//Invoke the callback.
+				if (callback && callback instanceof Function)
+					callback();
 			}
-			
-			return callback;
+		}
+		
+		/*
+		 * Manually initiate a state.
+		 */
+		this.run = function(options) {
+			_fsm({state: options.state, ctx: options.ctx, method: 'start'});
 		}
 	}
 	

@@ -10,15 +10,15 @@
 var System = System || {};
 var Resource = Resource || {};
 var FSM = FSM || {};
-var STG = STG || {};
 
  /*
   * Main function.
   * @param {Object} globals - Explicit global namespace.
   * @param {Object} system - Synesthesia Symphony's primary module.
-  * @param {Object} $ -jQuery library.
+  * @param {Object} resource - Resource submodule.
+  * @param {Object} fsm - Finite state machine.
   */
-(function(globals, system, resource, fsm, $, stg) {
+(function(globals, system, resource, fsm) {
 	//Load the game resources.
 	resource.load(null);
 	
@@ -62,4 +62,4 @@ var STG = STG || {};
 	else
 		//Call our main function every n frames per second.
 		globals.interval = setInterval(main, 1000 / system.Config.TARGET_FPS);
-}(window, System, Resource, FSM, jQuery, STG));
+}(window, System, Resource, FSM));

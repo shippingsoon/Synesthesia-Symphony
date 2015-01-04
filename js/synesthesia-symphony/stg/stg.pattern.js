@@ -2,8 +2,8 @@
 	@description - Pattern submodule.
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/synesthesia-symphony/
-	@version - v0.03
+	@website - https://www.shippingsoon.com/synesthesia-symphony/
+	@version - v0.05
 	@license - GPLv3
 */
 
@@ -11,12 +11,12 @@ var FSM = FSM || {};
 var STG = STG || {};
 
 //Pattern submodule.
-STG.Pattern = STG.Pattern || (function(fsm, stg) {
+STG.Pattern = (function(fsm, stg) {
 	"use strict";
 	
 	 /*
 	  * Pattern constructor.
-	  * @param {Object} options
+	  * @param {Object} options - TBA
 	  */
 	function Pattern(options) {
 		//A reference to the current object.
@@ -34,6 +34,11 @@ STG.Pattern = STG.Pattern || (function(fsm, stg) {
 		var bullets = [];
 		var MAX_BULLETS = 20;
 		
+		/*
+		 * Initiate this state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
 		this.state.start = function(game) {
 			var parent = this.state.getParent();
 			var parent_position = parent.getPosition();
@@ -49,8 +54,15 @@ STG.Pattern = STG.Pattern || (function(fsm, stg) {
 			}
 		};
 		
-		//Update the pattern.
+		/*
+		 * Handle game logic for this state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
 		this.state.update = function(game) {
+			/*
+				Sloppy experiment area.
+			*/
 			
 			if (Keydown.x) {
 				for (var bullet = 0; bullet < bullets.length; bullet++) {
