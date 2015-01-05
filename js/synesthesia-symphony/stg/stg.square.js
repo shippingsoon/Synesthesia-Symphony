@@ -8,13 +8,10 @@
 */
 
 var STG = STG || {};
-var Resource = Resource || {};
 
 //Square submodule.
 STG.Square = (function(stg, resource) {
 	"use strict";
-	
-	var layers = resource.layers;
 	
 	/*
 	 * Square constructor.
@@ -49,9 +46,6 @@ STG.Square = (function(stg, resource) {
 		//The square's line color.
 		var line_color = options.strokeStyle || new stg.Color(0, 0, 0, 1);
 		
-		//2D drawing context.
-		var ctx = options.ctx || layers.buffer.ctx;
-		
 		/*
 		 * Draws the square.
 		 * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
@@ -65,17 +59,20 @@ STG.Square = (function(stg, resource) {
 		 */
 		this.draw = function(options) {
 			var position = this.getPosition();
+			var ctx = options.ctx || this.getContext().ctx;
 			
 			//Draw the square.
-			stg.Canvas.square({
-				x: options.x || position.x,
-				y: options.y || position.y,
-				width: options.width || options.w || width,
-				height: options.height || options.h || height,
-				color: options.color || color,
-				ctx: options.ctx || ctx,
-				lineWidth: options.ctx || line_width
-			});
+			if (ctx) {
+				stg.Canvas.square({
+					x: options.x || position.x,
+					y: options.y || position.y,
+					width: options.width || options.w || width,
+					height: options.height || options.h || height,
+					color: options.color || color,
+					ctx: ctx,
+					lineWidth: options.ctx || line_width
+				});
+			}
 		};
 		
 		/*
@@ -107,4 +104,4 @@ STG.Square = (function(stg, resource) {
 	Square.prototype = Object.create(stg.Vector.prototype);
 	
 	return Square;
-}(STG, Resource));
+}(STG));

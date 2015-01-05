@@ -8,13 +8,10 @@
 */
 
 var STG = STG || {};
-var Resource = Resource || {};
 
 //Circle submodule.
-STG.Circle = (function(stg, resource) {
+STG.Circle = (function(stg) {
 	"use strict";
-	
-	var layers = resource.layers;
 	
 	 /*
 	  * Circle constructor.
@@ -44,9 +41,6 @@ STG.Circle = (function(stg, resource) {
 		//The circle's line color.
 		var line_color = options.strokeStyle || new stg.Color(0, 0, 0, 1);
 		
-		//2D drawing context.
-		var ctx = options.ctx || layers.buffer.ctx;
-		
 		/*
 		 * Draws the circle.
 		 * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
@@ -59,16 +53,19 @@ STG.Circle = (function(stg, resource) {
 		 */
 		this.draw = function(options) {
 			var position = this.getPosition();
+			var ctx = options.ctx || this.getContext().ctx;
 			
 			//Draw the circle.
-			stg.Canvas.circle({
-				x: options.x || position.x,
-				y: options.y || position.y,
-				radius: options.radius || options.r || radius,
-				color: options.color || color,
-				ctx: options.ctx || ctx,
-				lineWidth: options.ctx || line_width
-			});
+			if (ctx) {
+				stg.Canvas.circle({
+					x: options.x || position.x,
+					y: options.y || position.y,
+					radius: options.radius || options.r || radius,
+					color: options.color || color,
+					ctx: ctx,
+					lineWidth: options.ctx || line_width
+				});
+			}
 		};
 		
 		/*
@@ -99,7 +96,8 @@ STG.Circle = (function(stg, resource) {
 		 * @param {Number} _radius - The new radius.
 		 */
 		this.setRadius = function(_radius) {
-			radius = _radius;
+			if (_radius > 0)
+				radius = _radius;
 		};
 		
 		/*
@@ -128,4 +126,4 @@ STG.Circle = (function(stg, resource) {
 	Circle.prototype = Object.create(stg.Vector.prototype);
 	
 	return Circle;
-}(STG, Resource));
+}(STG));

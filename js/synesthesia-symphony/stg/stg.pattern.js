@@ -38,7 +38,7 @@ STG.Pattern = (function(fsm, stg, resource) {
 		var MAX_BULLETS = 20;
 		var parent = null;
 		var parent_position = null;
-		var ctx = options.ctx || layers.buffer.ctx;
+		var ctx = options.ctx;
 		
 		/*
 		 * Initiate this state.
@@ -46,22 +46,23 @@ STG.Pattern = (function(fsm, stg, resource) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		this.state.start = function(game) {
-			//parent = that.state.getParent();
+			parent = that.state.getParent();
 			//console.log(parent);
 			if (parent) {
-				//parent_position = parent.circle.getPosition();
+				parent_position = parent.getPosition();
 				//console.log(parent_position);
-				/*
+				
 				for (var bullet = 0; bullet < MAX_BULLETS; bullet++) {
 					bullets.push(new stg.Bullet({
 						x: parent_position.x,
 						y: parent_position.y,
-						color: stg.Color(255, 255),
-						ctx: layers.buffer.ctx,
+						color: stg.Color({r: 255, b: 255, g: 0}),
+						ctx: ctx,
 						radius: 50
 					}));
+					//game.fsm.setSubstate({substate: bullets[bullet].state});
 				}
-				*/
+				
 			}
 		};
 		
@@ -76,38 +77,41 @@ STG.Pattern = (function(fsm, stg, resource) {
 			*/
 			
 			if (Keydown.x) {
-				//parent_position = parent.circle.getPosition();
-				/*
+				parent_position = parent.getPosition();
+				
 				for (var bullet = 0; bullet < bullets.length; bullet++) {
-					bullets[bullet].position.setPosition({
+					bullets[bullet].setPosition({
 						x: parent_position.x,
 						y: parent_position.y
 					});
 				}
-				*/
 			}
 			
 			if (Keydown.z) {
 				//parent = that.state.getParent();
 				//console.log('parent', parent.count);
 				
-				//parent_position = parent.position.getPosition();
 				
-				if (false) {
+				
+				if (once) {
 					var offset = 0;
 					var s = 10;
-					var angle = angle || 0;
-					var padding = 30;
+					//var angle = angle || 0;
+					var padding = 10;
 					var degrees = 90;
 					//var a = (degrees - (( bullets.length * padding) / 2) + (padding / 2));
 					//var a = degrees / (3 * padding);
-					var a = -90; padding = 45;
-					for (var bullet = 0, length = bullets.length; bullet < length; bullet++) {
+					var angle = 90; padding = 10;
+					var radian = 0;
+					
+					for (var bullet = 0; bullet < bullets.length; bullet++) {
 						if (_once) {
-							
+							parent_position = parent.getPosition();
 							game.fsm.setSubstate({substate: bullets[bullet].state});
-							bullets[bullet].speed = 10;
-							bullets[bullet].position.setPosition({
+							bullets[bullet].velocity.setPosition({x: 10, y: 10});
+							bullets[bullet].angle = 0;
+							bullets[bullet].setRadius(10);
+							bullets[bullet].setPosition({
 								x: parent_position.x + 0,
 								y: parent_position.y - 10
 							});
@@ -116,18 +120,21 @@ STG.Pattern = (function(fsm, stg, resource) {
 						//bullets[bullet].speed += 0.2;
 						
 						//angle = stg.Math.degreeToRadian(a, true);
-						angle = stg.Math.degreeToRadian({degrees: 90, invert: true});
+						radian = stg.Math.degreeToRadian({degrees: angle, invert: true});
 						
-						bullets[bullet].setRadius(10);
+						bullets[bullet].velocity.add(2)
 						
 
-						bullets[bullet].position.add({
-							x: bullets[bullet].speed * Math.cos(angle),
-							y: bullets[bullet].speed * Math.sin(angle)
+						bullets[bullet].add({
+							x: bullets[bullet].velocity.getPosition().x * Math.cos(bullets[bullet].angle),
+							y: bullets[bullet].velocity.getPosition().y * Math.sin(bullets[bullet].angle)
 						});
 						
-						a += padding;
+						bullets[bullet].angle += stg.Math.degreeToRadian({degrees: angle, invert: true});
+						angle += padding;
 						
+						
+						console.log(angle);
 					}
 					_once = false;
 				}

@@ -31,7 +31,7 @@ var FSM = FSM || {};
 	var game = new fsm.Init({});
 	
 	//Transition into the intro state.
-	game.transition({state: new fsm.Stage({}), ctx: layers.screen.ctx});
+	game.transition({state: new fsm.Stage({}), ctx: layers.screen.getContext().ctx});
 	
 	//Keep track of the delta time.
 	var previous_time = new Date;
@@ -40,13 +40,13 @@ var FSM = FSM || {};
 	//Main function. Todo: Use fixed times steps and requestAnimationFrame().
 	function main() {
 		//Handle events of the current state.
-		game.controller({ctx: layers.screen.ctx});
+		game.controller({ctx: layers.screen.getContext().ctx});
 		
 		//Handle logic of the current state.
-		game.update({ctx: layers.screen.ctx});
+		game.update({ctx: layers.screen.getContext().ctx});
 
 		//Render the current state.
-		game.render({ctx: layers.screen.ctx});
+		game.render({ctx: layers.screen.getContext().ctx});
 		
 		//Get the current time.
 		current_time = new Date;

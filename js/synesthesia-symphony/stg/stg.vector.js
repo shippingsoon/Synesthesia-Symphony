@@ -19,6 +19,7 @@ STG.Vector = (function(stg) {
 	  * Vector constructor.
 	  * @param {Number} options.x - The x coordinate.
 	  * @param {Number} options.y - The y coordinate.
+	  * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
 	  */
 	function Vector(options) {
 		//Reference to the current object.
@@ -27,6 +28,9 @@ STG.Vector = (function(stg) {
 		//The vector's x and y coordinates.
 		var x = options.x || 0;
 		var y = options.y || 0;
+		
+		//2D drawing context.
+		var ctx = options.ctx || null;
 		
 		/*
 		 * Returns the length of the vector.
@@ -102,29 +106,18 @@ STG.Vector = (function(stg) {
 		};
 		
 		/*
-		 * Follow.
-		 * @param {STG.Vector} vector - TBA
+		 * Set the 2d drawing context.
+		 * @param {CanvasRenderingContext2D} _ctx - Provides the 2D rendering context.
 		 */
-		this.follow = function(vector) {
-			
+		this.setContext = function(_ctx) {
+			ctx = _ctx;
 		};
 		
 		/*
-		 * Normalized.
-		 * @param {STG.Vector} vector - TBA
+		 * Get the vector's 2d drawing context.
 		 */
-		this.normalized = function(vector) {
-			//If our argument is a vector retrieve its position.
-			/*
-			if (vector.constructor === Vector)
-				vector = vector.getPosition();
-			
-			var destination = math.sub(vector, this.getPosition());
-			var target = new Vector(destination);
-			
-			return target.divide(target.length()).getPosition();
-			*/
-			
+		this.getContext = function() {
+			return {ctx: ctx};
 		};
 		
 		/*

@@ -16,25 +16,25 @@ var System = System || {};
 FSM.Stage = (function(fsm, stg, resource, system) {
 	"use strict";
 	
+	//The HTML5 canvases.
+	var layers = resource.layers;
+	
+	//The sprites.
+	var sprites = resource.sprites;
+	
+	//Miscellaneous config information.
+	var config = system.Config;
+		
 	/*
 	 * Stage state.
 	 * @param {FSM} options - TBA
 	 */
 	function Stage(options) {
-		//The HTML5 canvases.
-		var layers = resource.layers;
-		
-		//The sprites.
-		var sprites = resource.sprites;
-		
-		//Miscellaneous config information.
-		var config = system.Config;
-		
 		//The stage's state.
 		var state = new fsm.State({});
 		
 		//Our player.
-		var player = new fsm.Player({x: 250, y: 480, ctx: layers.buffer.ctx});
+		var player = new fsm.Player({x: 250, y: 480, ctx: layers.buffer.getContext().ctx});
 		
 		//An array to hold the enemies.
 		var enemies = [];
@@ -42,7 +42,7 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 		//The position vector for the two revolving canvas sprites.
 		var canvas_vectors = [
 			new stg.Vector({x: 0, y: 0}),
-			new stg.Vector({x: 0, y: -sprites.canvas_bg.height})
+			new stg.Vector({x: 0, y: -sprites.canvas_bg.img.height})
 		];
 		
 		/*
@@ -51,9 +51,6 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {
-			//Handle events for this state.
-			window.addEventListener('keydown', game.fsm.controller, false);
-			
 			//Add the player substate.
 			state.setSubstate({substate: player.state});
 			
@@ -66,7 +63,7 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 		 */
 		state.update = function(game) {
 			//The conveyorBelt() function moves the canvas sprite's position.
-			stg.Stage.conveyorBelt(canvas_vectors, sprites.canvas_bg.height, 5);
+			stg.Stage.conveyorBelt(canvas_vectors, sprites.canvas_bg.img.height, 5);
 		};
 		
 		/*
@@ -76,11 +73,13 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 		 */
 		state.render = function(game) {
 			//Draw the background image on the screen layer.
-			game.ctx.drawImage(sprites.stages_bg[0], 0, 0);
+			//console.log(game.ctx)
+			game.ctx.drawImage(sprites.stages_bg[0].img, 0, 0);
 			
 			//Draw the two revolving canvas sprites on to the buffer layer.
-			layers.buffer.ctx.drawImage(sprites.canvas_bg, 0, canvas_vectors[0].getPosition().y);
-			layers.buffer.ctx.drawImage(sprites.canvas_bg, 0, canvas_vectors[1].getPosition().y);
+			//var buffer_ctx = layers.buffer.getContext().xt
+			layers.buffer.ctx.drawImage(sprites.canvas_bg.img, 0, canvas_vectors[0].getPosition().y);
+			layers.buffer.ctx.drawImage(sprites.canvas_bg.img, 0, canvas_vectors[1].getPosition().y);
 			
 			//The drawStageInfo() function draws various game related text on the screen.
 			stg.Stage.drawStageInfo(game.ctx, player);
@@ -88,7 +87,7 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 			//Return a callback.
 			return function () {
 				//Render the buffer layer on the screen layer.
-				game.ctx.drawImage(layers.buffer, 40, 20);
+				game.ctx.drawImage(layers.buffer.canvas, 40, 20);
 			};
 		};
 		
@@ -98,8 +97,7 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.stop = function(game) {
-			//Remove the event.
-			window.removeEventListener('keydown', game.fsm.controller, false);
+			
 		};
 		
 		/*

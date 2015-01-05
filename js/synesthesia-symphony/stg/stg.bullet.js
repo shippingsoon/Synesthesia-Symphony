@@ -9,11 +9,13 @@
 
 var FSM = FSM || {};
 var STG = STG || {};
+var Resource = Resource || {};
 
 //Bullet submodule.
-STG.Bullet = (function(fsm, stg) {
+STG.Bullet = (function(fsm, stg, resource) {
 	"use strict";
 	
+	var layers = resource.layers;
 	 /*
 	  * Bullet constructor.
 	  * @param {Object} options.x - The x coordinate.
@@ -25,39 +27,26 @@ STG.Bullet = (function(fsm, stg) {
 	  * @param {Number} options.lineWidth - The bullet's outline width.
 	  */
 	function Bullet(options) {
+		//Call our parent's constructor.
+		stg.Circle.call(this, options);
+		
 		//A reference to the current object.
 		var that = this;
 		
 		//The bullet's state.
 		this.state = new fsm.State(options.state || {});
-
-		//The bullet's position vector.
-		this.position = new stg.Vector({
-			x: options.x || 0,
-			y: options.y || 0
-		});
 		
 		//The bullet's velocity vector.
 		this.velocity = new stg.Vector({
-			x: options.vx || 10,
-			y: options.vy || 10
+			x: options.vx || 0,
+			y: options.vy || 0
 		});
 		
-		//The bullet's radius.
-		var radius = options.radius || 10;
-		var r = options.radius || 10;
-		
-		//The bullet's color.
-		var color = options.color || new stg.Color(0, 255, 0, 1);
-		
-		//The bullet's outline color.
-		var strokeStyle = options.strokeStyle || new stg.Color(0, 0, 0, 1);
-		
-		//The bullet's outline width.
-		var lineWidth = (options.lineWidth !== undefined) ? options.lineWidth : 1;
+		//The bullet's angle in degrees.
+		this.angle = options.angle || 0;
 		
 		//The 2D drawing context we will use to render the bullet.
-		var ctx = options.ctx || null;
+		var ctx = options.ctx || this.getContext();
 
 		//Set this state's parent.
 		this.state.setParent(that);
@@ -65,11 +54,11 @@ STG.Bullet = (function(fsm, stg) {
 		/*
 		 * Draw the bullet.
 		 * @param {FSM} game.fsm - Finite state machine.
-		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
-		 */
+		 * @param {z*/
 		this.state.render = function(game) {
-			var location = that.position.getPosition();
-			stg.Canvas.circle({x: location.x, y: location.y, radius: radius, color: color, ctx: ctx, lineWidth: 1});
+			
+			if (ctx)
+				that.draw({ctx:ctx});
 		};
 		
 		/*
@@ -78,52 +67,13 @@ STG.Bullet = (function(fsm, stg) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		this.state.update = function(game) {
-			var circle = {
-				x: that.position.getPosition().x,
-				y: that.position.getPosition().y,
-				r: 10
-			};
 			
-			var box = {
-				x: 0,
-				y: 0,
-				w: game.ctx.canvas.width,
-				h: game.ctx.canvas.height
-			};
-
-			that.state.setActive(stg.Math.circleSquareCollision(circle, box));
-		};
-		
-		/*
-		 * Set the bullet's radius.
-		 * @param {Number} _radius - The new radius.
-		 */
-		this.setRadius = function(_radius) {
-			radius = _radius;
-		};
-		
-		/*
-		 * Get the bullet's radius.
-		 */
-		this.getRadius = function() {
-			return {radius: radius};
-		};
-		
-		/*
-		 * Set the bullet's color.
-		 * @param {STG.Color|String} _color - The bullet's new color.
-		 */
-		this.setColor = function(_color) {
-			color = _color;
-		};
-		
-		/*
-		 * Get the bullet's color.
-		 */
-		this.getColor = function() {
-			return {color: color};
+			var has_collided = stg.Math.circleSquareCollision(that, layers.buffer);
+			that.state.setActive(has_collided);
 		};
 	};
 	
+	Bullet.prototype = Object.create(stg.Circle.prototype);
+	
 	return Bullet;
-}(FSM, STG));
+}(FSM, STG, Resource));

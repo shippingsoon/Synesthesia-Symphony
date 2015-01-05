@@ -33,7 +33,7 @@ FSM.Init = (function(globals, stg, resource) {
 		this.controller = function(event) {
 			if (states.length !== 0 && event) {
 				//Handle events in the current state.
-				_fsm({fsm: that, ctx: resource.layers.screen.ctx, state: states[states.length - 1], method: 'controller', event: event});
+				_fsm({fsm: that, ctx: resource.layers.screen.getContext().ctx, state: states[states.length - 1], method: 'controller', event: event});
 			}
 		};
 		
@@ -135,7 +135,7 @@ FSM.Init = (function(globals, stg, resource) {
 			if (states.length !== 0) {
 				//Set the current state's substate.
 				if (options.substate)
-					states[states.length - 1].setSubstate(options.substate, options.parent);
+					states[states.length - 1].setSubstate({substate: options.substate, parent: options.parent});
 			}
 		};
 		
@@ -175,7 +175,7 @@ FSM.Init = (function(globals, stg, resource) {
 						
 					//Retrieve the substates.
 					var substates = options.state.getSubstate();
-					
+
 					//Process the current substate and recursively process its substates.
 					for (var substate = 0, length = substates.length; substate < length; substate++) {
 						options['state'] = substates[substate];

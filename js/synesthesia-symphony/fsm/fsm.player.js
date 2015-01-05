@@ -50,9 +50,6 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		this.state = new fsm.State(options);
 		var that = this;
 		
-		//The 2D drawing context we will use to render the player.
-		var ctx = options.ctx || null;
-		
 		//The velocity vector.
 		var velocity = new stg.Vector({});
 		
@@ -60,6 +57,7 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		var colors = options.colors || weapons.colors[player_idx][weapon_idx];
 		
 		this.setColor(colors[0]);
+		
 		//If this color index is 0 then the player is using their primary color, if it is set to 1 they are using a secondary color.
 		var color_idx = 0;
 		
@@ -87,11 +85,13 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		this.state.start = function(game) {
+			var ctx = that.getContext().ctx;
+			
 			color_boxes.push(new stg.Square({x: 10 + 4, y: 540 + 4, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
 			color_boxes.push(new stg.Square({x: 10, y: 540, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
 			
 			that.state.setSubstate({
-				substate: new stg.Pattern({}), 
+				substate: new stg.Pattern({ctx: ctx}), 
 				parent: that
 			});
 		};
@@ -103,6 +103,7 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		 */
 		this.state.update = function(game) {
 			movement(game);
+			//console.log("player", stg.Math.circleSquareCollision(that, layers.buffer));
 		};
 		
 		/*
@@ -111,6 +112,8 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		this.state.render = function(game) {
+			var ctx = that.getContext().ctx;
+			
 			if (ctx) {
 				//Draw the player.
 				that.draw({ctx: ctx, color: colors[color_idx]});

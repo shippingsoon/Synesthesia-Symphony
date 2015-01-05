@@ -8,22 +8,23 @@
 */
 
 var System = System || {};
+var STG = STG || {};
 
 //This module handles resources.
-var Resource = (function(globals, system, $) {
+var Resource = (function(globals, system, stg, $) {
 	"use strict";
 	
 	return {
 		//Canvas layers.
 		layers: {
-			screen: null,
-			buffer: null
+			screen: new stg.Square({}),
+			buffer: new stg.Square({})
 		},
 		
 		//Stage backgrounds.
 		sprites: {
 			stages_bg: [],
-			canvas_bg: null,
+			canvas_bg: new stg.Square({}),
 		},
 		
 		//Load resources.
@@ -33,31 +34,43 @@ var Resource = (function(globals, system, $) {
 			
 			//Load the layer canvases.
 			for (var layer in this.layers) {
-				this.layers[layer] = document.getElementById(layer + '-layer');
-				this.layers[layer].ctx = this.layers[layer].getContext('2d');
+				var canvas = document.getElementById(layer + '-layer');
+				var ctx = canvas.getContext('2d');
+				
+				this.layers[layer].canvas = canvas;
+				this.layers[layer].ctx = ctx
+				this.layers[layer].setContext(ctx);
 			}
 			
 			//Set the width and height of our screen layer canvas.
-			this.layers.screen.width = system.Config.resolution.width[mode];
-			this.layers.screen.height = system.Config.resolution.height[mode];
+			this.layers.screen.canvas.width = system.Config.resolution.width[mode];
+			this.layers.screen.canvas.height = system.Config.resolution.height[mode];
+			this.layers.screen.setSquare({
+				width: system.Config.resolution.width[mode],
+				height: system.Config.resolution.height[mode]
+			});
 
 			//Load the stage background images.
 			for (var stage = 0; stage < 6; stage++) {
-				if (this.sprites.stages_bg[stage] = document.getElementById('stage-' + stage + '-r' + mode)) {
-					//Set the coordinates of the stage background images. Lowercase x and y are apparently reserved on Firefox.
-					this.sprites.stages_bg[stage].X = 0;
-					this.sprites.stages_bg[stage].Y = 0;
+				this.sprites.stages_bg.push(new stg.Square({}));
+				if (this.sprites.stages_bg[stage].img = document.getElementById('stage-' + stage + '-r' + mode)) {
+					this.sprites.stages_bg[stage].setSquare({
+						width: this.sprites.stages_bg[stage].img.width,
+						height: this.sprites.stages_bg[stage].img.height
+					});
 				}
 			}
 			
 			//Load the canvas texture image.
-			this.sprites.canvas_bg = document.getElementById('canvas-bg-r' + mode);
-			this.sprites.canvas_bg.X = this.layers.buffer.X = 0;
-			this.sprites.canvas_bg.Y = this.layers.buffer.Y = 0;
+			this.sprites.canvas_bg.img = document.getElementById('canvas-bg-r' + mode);
 			
 			//Use the canvas sprite's dimensions to set our buffer layer's dimensions.
-			this.layers.buffer.width = this.sprites.canvas_bg.width;
-			this.layers.buffer.height = this.sprites.canvas_bg.height;
+			this.layers.buffer.canvas.width = this.sprites.canvas_bg.img.width;
+			this.layers.buffer.canvas.height = this.sprites.canvas_bg.img.height;
+			this.layers.buffer.setSquare({
+				width: this.sprites.canvas_bg.img.width,
+				height: this.sprites.canvas_bg.img.height
+			});
 		}
 	};
-}(window, System, jQuery)); 
+}(window, System, STG, jQuery)); 
