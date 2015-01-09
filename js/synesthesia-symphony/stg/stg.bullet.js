@@ -42,9 +42,6 @@ STG.Bullet = (function(fsm, stg, resource) {
 			y: options.vy || 0
 		});
 		
-		//The bullet's angle in degrees.
-		this.angle = options.angle || 0;
-		
 		//The 2D drawing context we will use to render the bullet.
 		var ctx = options.ctx || this.getContext();
 
@@ -54,7 +51,8 @@ STG.Bullet = (function(fsm, stg, resource) {
 		/*
 		 * Draw the bullet.
 		 * @param {FSM} game.fsm - Finite state machine.
-		 * @param {z*/
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
 		this.state.render = function(game) {
 			
 			if (ctx)
@@ -67,9 +65,11 @@ STG.Bullet = (function(fsm, stg, resource) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		this.state.update = function(game) {
+			//Add the velocity vector to the bullet's position.
+			that.add(that.velocity);
 			
-			var has_collided = stg.Math.circleSquareCollision(that, layers.buffer);
-			that.state.setActive(has_collided);
+			//var has_collided = stg.Math.circleSquareCollision(that, layers.buffer);
+			//that.state.setActive(has_collided);
 		};
 	};
 	

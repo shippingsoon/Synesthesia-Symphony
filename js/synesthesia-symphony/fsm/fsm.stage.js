@@ -34,7 +34,7 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 		var state = new fsm.State({});
 		
 		//Our player.
-		var player = new fsm.Player({x: 250, y: 480, ctx: layers.buffer.getContext().ctx});
+		var player = new fsm.Player({x: 250, y: 380, ctx: layers.buffer.getContext().ctx});
 		
 		//An array to hold the enemies.
 		var enemies = [];

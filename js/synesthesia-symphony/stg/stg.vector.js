@@ -82,7 +82,7 @@ STG.Vector = (function(stg) {
 		 * Sets the vector's position.
 		 * @param {STG.Vector|Object} vector - The new position.
 		 */
-		this.setPosition = function(vector) {
+		this.setPosition = this.setVector = function(vector) {
 			//If this is a Vector.
 			if (vector instanceof Vector) {
 				x = vector.getPosition().x;
@@ -101,7 +101,7 @@ STG.Vector = (function(stg) {
 		/*
 		 * Returns the vector's position.
 		 */
-		this.getPosition = function() {
+		this.getPosition = this.getVector = function() {
 			return {x: x, y: y};
 		};
 		

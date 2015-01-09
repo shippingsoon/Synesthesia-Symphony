@@ -71,10 +71,87 @@ STG.Pattern = (function(fsm, stg, resource) {
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
+		 
+		var degreesx = 180;
+		var anglex = 0;
+		var speedx = 10;
+		
+		var degrees = 0;
+		var angle = 0;
+		var speed = 15;
+		var padding = 10;
+		
 		this.state.update = function(game) {
-			/*
-				Sloppy experiment area.
-			*/
+			if (Keydown.w) {
+				speedx += 1;
+			}
+			
+			if (Keydown.s) {
+				speedx -= 1;
+			}
+			
+			if (Keydown.a) {
+				degreesx -= 10;
+				anglex = stg.Math.degreeToRadian({degrees: degreesx, invert: true})
+				
+				parent.subtract({
+					x: speedx * Math.cos(anglex),
+					y: speedx * Math.sin(anglex)
+				});
+			}
+			
+			if (Keydown.d) {
+				degreesx += 10;
+				anglex = stg.Math.degreeToRadian({degrees: degreesx, invert: true})
+				
+				parent.add({
+					x: speedx * Math.cos(anglex),
+					y: speedx * Math.sin(anglex)
+				});
+			}
+			
+			if (Keydown.q) {
+				degreesx = 180;
+			}
+			
+			if (Keydown.l) {
+				anglex = stg.Math.degreeToRadian({degrees: 0.1, invert: true});
+				console.log(angle);
+				parent.add({
+					x: speedx * Math.cos(anglex),
+					y: speedx * Math.sin(anglex)
+				});
+			}
+			
+			if (Keydown.i) {
+				anglex = stg.Math.degreeToRadian({degrees: 90, invert: true});
+				
+				parent.add({
+					x: speedx * Math.cos(anglex),
+					y: speedx * Math.sin(anglex)
+				});
+			}
+			
+			if (Keydown.j) {
+				anglex = stg.Math.degreeToRadian({degrees: 180, invert: true});
+				
+				parent.add({
+					x: speedx * Math.cos(anglex),
+					y: speedx * Math.sin(anglex)
+				});
+			}
+			
+			if (Keydown.k) {
+				anglex = stg.Math.degreeToRadian({degrees: 270, invert: true});
+				
+				parent.add({
+					x: speedx * Math.cos(anglex),
+					y: speedx * Math.sin(anglex)
+				});
+			}
+
+			parent_position = parent.getPosition();
+			//console.log('degreesx', degreesx, 'speedx', speedx, 'parent_position', parent_position);
 			
 			if (Keydown.x) {
 				parent_position = parent.getPosition();
@@ -85,61 +162,60 @@ STG.Pattern = (function(fsm, stg, resource) {
 						y: parent_position.y
 					});
 				}
+				degrees = 90;
+				angle = 0;
+				
+				padding = 10;
 			}
 			
 			if (Keydown.z) {
-				//parent = that.state.getParent();
-				//console.log('parent', parent.count);
-				
-				
-				
 				if (once) {
-					var offset = 0;
-					var s = 10;
-					//var angle = angle || 0;
-					var padding = 10;
-					var degrees = 90;
-					//var a = (degrees - (( bullets.length * padding) / 2) + (padding / 2));
-					//var a = degrees / (3 * padding);
-					var angle = 90; padding = 10;
-					var radian = 0;
+					var spacer = 0;
 					
-					for (var bullet = 0; bullet < bullets.length; bullet++) {
-						if (_once) {
-							parent_position = parent.getPosition();
-							game.fsm.setSubstate({substate: bullets[bullet].state});
-							bullets[bullet].velocity.setPosition({x: 10, y: 10});
-							bullets[bullet].angle = 0;
-							bullets[bullet].setRadius(10);
-							bullets[bullet].setPosition({
-								x: parent_position.x + 0,
-								y: parent_position.y - 10
-							});
-							
-						}
-						//bullets[bullet].speed += 0.2;
-						
-						//angle = stg.Math.degreeToRadian(a, true);
-						radian = stg.Math.degreeToRadian({degrees: angle, invert: true});
-						
-						bullets[bullet].velocity.add(2)
-						
-
-						bullets[bullet].add({
-							x: bullets[bullet].velocity.getPosition().x * Math.cos(bullets[bullet].angle),
-							y: bullets[bullet].velocity.getPosition().y * Math.sin(bullets[bullet].angle)
-						});
-						
-						bullets[bullet].angle += stg.Math.degreeToRadian({degrees: angle, invert: true});
-						angle += padding;
-						
-						
-						console.log(angle);
-					}
+					
+					
 					_once = false;
 				}
-				//console.log(parent_position);
 				once = true;
+			}
+			
+			/*
+			 * Circular pattern.
+			 * @param {STG.Bullet[]} - An array of STG bullets.
+			 */
+			function circular(options) {
+				var bullets = options.bullets || [new stg.Bullet({})];
+				var padding = options.padding || 10;
+				var speed = options.speed || 4;
+				var parent = options.parent || null;
+				var invert = (options.invert === undefined);
+				var degrees  = options.degrees || 180;
+				var radians = 0;
+				
+				
+				for (var bullet = 0, length = bullets.length; bullet < length; bullet++) {
+						
+					if (_once) {
+						parent_position = parent.getPosition();
+						game.fsm.setSubstate({substate: bullets[bullet].state});
+						
+						bullets[bullet].setPosition({
+							x: parent_position.x,
+							y: parent_position.y
+						});
+	
+						
+					}
+					
+					radians = stg.Math.degreeToRadian({degrees: degrees, invert: invert});
+
+					bullets[bullet].velocity.add({
+						x: speed * Math.cos(radians),
+						y: speed * Math.sin(radians)
+					});
+					
+					degrees += padding;
+				}
 			}
 			
 		};
