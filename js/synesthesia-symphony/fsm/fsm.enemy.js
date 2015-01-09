@@ -1,5 +1,5 @@
 /*
-	@description - Enemy module.
+	@description - Enemy submodule.
 	@copyright - 2014 Shipping Soon
 	@source - https://github.com/shippingsoon/Finite-State-Machine/
 	@website - https://www.shippingsoon.com/synesthesia-symphony/
@@ -9,21 +9,34 @@
 
 var FSM = FSM || {};
 
-//Enemy module.
+/*
+ * Enemy submodule.
+ * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
+ * @param {Number} options.x - The x coordinate.
+ * @param {Number} options.y - The y coordinate.
+ * @param {Number} options.radius - The enemy's radius.
+ * @param {String|STG.Color} options.color - The color.
+ * @param {Number} options.lineWidth - The line width.
+ * @param {String|STG.Color} options.strokeStyle - The outline color.
+ */
 FSM.Enemy = (function(fsm, stg) {
 	"use strict";
 	
-	//Enemy constructor.
+	/*
+	 * Enemy constructor.
+	 */
 	function Enemy(options) {
-		this.state = new fsm.State({});
+		//Call our parent's constructor.
+		stg.Circle.call(this, options);
 		
-		//The enemy's coordinates.
-		var x = options.x || 140;
-		var y = options.y || 40;
-		var radius = options.radius || 4;
-		var color = options.color || 'green';
+		//A reference to the current object.
 		var that = this;
-		var ctx = options.ctx || null;
+		
+		//The enemy's state.
+		this.state = new fsm.State(options);
+		
+		//The 2D drawing context we will use to render the bullet.
+		var ctx = options.ctx || this.getContext().ctx;
 		
 		/*
 		 * Draws the enemy.
@@ -31,47 +44,12 @@ FSM.Enemy = (function(fsm, stg) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		this.state.render = function(game) {
-			if (ctx) {
-				ctx.beginPath();
-				ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
-				ctx.fillStyle = color;
-				ctx.fill();
-				ctx.lineWidth = 2;
-				ctx.strokeStyle = 'black';
-				ctx.stroke();
-			}
-		};
-		
-		//Set the player's position.
-		this.setPosition = function(positions) {
-			if (positions.x)
-				x = positions.x;
-			
-			if (positions.y)
-				y = positions.y;	
-		};
-		
-		//Get the player's position.
-		this.getPosition = function() {
-			return {x: x, y: y};
-		};
-		
-		//Set the player's radius.
-		this.setRadius = function(r) {
-			radius = r;
-		};
-		
-		//Get the player's radius.
-		this.getRadius = function() {
-			return {radius: radius};
-		};
-		
-		//Move the player relative to its current position.
-		this.move = function(positions) {
-			x += positions.x || 0;
-			y += positions.y || 0;
+			if (ctx)
+				that.draw({ctx:ctx});
 		};
 	};
 	
+	Enemy.prototype = Object.create(stg.Circle.prototype);
+	
 	return Enemy;
-}(FSM, STG || {}));
+}(FSM, STG));

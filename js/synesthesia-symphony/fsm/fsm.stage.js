@@ -54,6 +54,18 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 			//Add the player substate.
 			state.setSubstate({substate: player.state});
 			
+			for (var enemy = 0; enemy < 1; enemy++) {
+				enemies.push(new fsm.Enemy({
+					color: stg.Color({r: 0, g: 255, b: 0}),
+					x: 200,
+					y: 200,
+					ctx: layers.buffer.getContext().ctx,
+				}));
+				
+				//state.setSubstate({substate: enemies[enemy].state});
+			}
+			
+			
 		};
 
 		/*

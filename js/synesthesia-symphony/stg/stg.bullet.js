@@ -25,6 +25,7 @@ STG.Bullet = (function(fsm, stg, resource) {
 	  * @param {STG.Color|String} options.color - The bullet's color.
 	  * @param {STG.Color|String} options.strokeStyle - The bullet's outline color.
 	  * @param {Number} options.lineWidth - The bullet's outline width.
+	  * @param {Boolean} options.is_open - Determines if the bullet will leave a paint trail.
 	  */
 	function Bullet(options) {
 		//Call our parent's constructor.
@@ -43,8 +44,11 @@ STG.Bullet = (function(fsm, stg, resource) {
 		});
 		
 		//The 2D drawing context we will use to render the bullet.
-		var ctx = options.ctx || this.getContext();
+		var ctx = options.ctx || this.getContext().ctx;
 
+		//Determines if the bullet will leave a paint trail.
+		var is_open = (options.is_open !== undefined) ? options.is_open : false;
+		
 		//Set this state's parent.
 		this.state.setParent(that);
 		
@@ -65,11 +69,12 @@ STG.Bullet = (function(fsm, stg, resource) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		this.state.update = function(game) {
+			//console.log("Hey");
 			//Add the velocity vector to the bullet's position.
 			that.add(that.velocity);
 			
-			//var has_collided = stg.Math.circleSquareCollision(that, layers.buffer);
-			//that.state.setActive(has_collided);
+			var has_collided = stg.Math.circleSquareCollision(that, layers.buffer);
+			that.state.setActive(has_collided);
 		};
 	};
 	

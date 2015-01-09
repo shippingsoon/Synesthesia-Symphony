@@ -46,24 +46,7 @@ STG.Pattern = (function(fsm, stg, resource) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		this.state.start = function(game) {
-			parent = that.state.getParent();
-			//console.log(parent);
-			if (parent) {
-				parent_position = parent.getPosition();
-				//console.log(parent_position);
-				
-				for (var bullet = 0; bullet < MAX_BULLETS; bullet++) {
-					bullets.push(new stg.Bullet({
-						x: parent_position.x,
-						y: parent_position.y,
-						color: stg.Color({r: 255, b: 255, g: 0}),
-						ctx: ctx,
-						radius: 50
-					}));
-					//game.fsm.setSubstate({substate: bullets[bullet].state});
-				}
-				
-			}
+		
 		};
 		
 		/*
@@ -71,112 +54,27 @@ STG.Pattern = (function(fsm, stg, resource) {
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
-		 
-		var degreesx = 180;
-		var anglex = 0;
-		var speedx = 10;
-		
-		var degrees = 0;
-		var angle = 0;
-		var speed = 15;
-		var padding = 10;
-		
+		 var degrees = 0;
 		this.state.update = function(game) {
-			if (Keydown.w) {
-				speedx += 1;
-			}
-			
-			if (Keydown.s) {
-				speedx -= 1;
-			}
-			
-			if (Keydown.a) {
-				degreesx -= 10;
-				anglex = stg.Math.degreeToRadian({degrees: degreesx, invert: true})
-				
-				parent.subtract({
-					x: speedx * Math.cos(anglex),
-					y: speedx * Math.sin(anglex)
-				});
-			}
-			
-			if (Keydown.d) {
-				degreesx += 10;
-				anglex = stg.Math.degreeToRadian({degrees: degreesx, invert: true})
-				
-				parent.add({
-					x: speedx * Math.cos(anglex),
-					y: speedx * Math.sin(anglex)
-				});
-			}
-			
-			if (Keydown.q) {
-				degreesx = 180;
-			}
-			
-			if (Keydown.l) {
-				anglex = stg.Math.degreeToRadian({degrees: 0.1, invert: true});
-				console.log(angle);
-				parent.add({
-					x: speedx * Math.cos(anglex),
-					y: speedx * Math.sin(anglex)
-				});
-			}
-			
-			if (Keydown.i) {
-				anglex = stg.Math.degreeToRadian({degrees: 90, invert: true});
-				
-				parent.add({
-					x: speedx * Math.cos(anglex),
-					y: speedx * Math.sin(anglex)
-				});
-			}
-			
-			if (Keydown.j) {
-				anglex = stg.Math.degreeToRadian({degrees: 180, invert: true});
-				
-				parent.add({
-					x: speedx * Math.cos(anglex),
-					y: speedx * Math.sin(anglex)
-				});
-			}
-			
-			if (Keydown.k) {
-				anglex = stg.Math.degreeToRadian({degrees: 270, invert: true});
-				
-				parent.add({
-					x: speedx * Math.cos(anglex),
-					y: speedx * Math.sin(anglex)
-				});
-			}
-
-			parent_position = parent.getPosition();
-			//console.log('degreesx', degreesx, 'speedx', speedx, 'parent_position', parent_position);
-			
-			if (Keydown.x) {
-				parent_position = parent.getPosition();
-				
-				for (var bullet = 0; bullet < bullets.length; bullet++) {
-					bullets[bullet].setPosition({
-						x: parent_position.x,
-						y: parent_position.y
-					});
-				}
-				degrees = 90;
-				angle = 0;
-				
-				padding = 10;
-			}
 			
 			if (Keydown.z) {
 				if (once) {
-					var spacer = 0;
+					parent = that.state.getParent();
+					
+					circular({
+						fsm: game.fsm,
+						ctx: ctx,
+						position: parent.getPosition(),
+						max_bullets: 3,
+						padding: 20,
+						degrees: degrees += 10,
+						radii: [20, 24]
+					}); 
 					
 					
 					
-					_once = false;
 				}
-				once = true;
+				//once = false;
 			}
 			
 			/*
@@ -184,28 +82,32 @@ STG.Pattern = (function(fsm, stg, resource) {
 			 * @param {STG.Bullet[]} - An array of STG bullets.
 			 */
 			function circular(options) {
-				var bullets = options.bullets || [new stg.Bullet({})];
+				var bullets = [];
+				var position = options.position || {x: 0, y:0};
 				var padding = options.padding || 10;
 				var speed = options.speed || 4;
-				var parent = options.parent || null;
-				var invert = (options.invert === undefined);
+				var invert = (options.invert || options.invert === undefined);
 				var degrees  = options.degrees || 180;
 				var radians = 0;
+				var fsm = options.fsm;
+				var max_bullets = options.max_bullets || 10;
+				var ctx = options.ctx;
+				var colors = ['red', 'green', 'blue'];
+				var radii = options.radii || [10, 10]
+				var color_idx = 0;
+				var radius_idx = 0;
 				
-				
-				for (var bullet = 0, length = bullets.length; bullet < length; bullet++) {
-						
-					if (_once) {
-						parent_position = parent.getPosition();
-						game.fsm.setSubstate({substate: bullets[bullet].state});
-						
-						bullets[bullet].setPosition({
-							x: parent_position.x,
-							y: parent_position.y
-						});
+				compositior({
+					bullets: bullets,
+					position: position,
+					max_bullets: max_bullets,
+					ctx: ctx,
+					colors: colors,
+					radii: radii
+				});
 	
-						
-					}
+				for (var bullet = 0; bullet < max_bullets; bullet++) {
+					fsm.setSubstate({substate: bullets[bullet].state});
 					
 					radians = stg.Math.degreeToRadian({degrees: degrees, invert: invert});
 
@@ -215,7 +117,47 @@ STG.Pattern = (function(fsm, stg, resource) {
 					});
 					
 					degrees += padding;
+					
+					
 				}
+			}
+			
+			/*
+			 * Initializes bullets with given properties.
+			 * @param {STG.Bullet[]} - An array of STG bullets.
+			 * @param {Object} - An object containing the x and y coordinate.
+			 * @
+			 */
+			function compositior(options) {
+				var bullets = options.bullets;
+				var position = options.position;
+				var max_bullets = options.max_bullets;
+				var ctx = options.ctx;
+				var colors = options.colors || ['green'];
+				var radii = options.radii || [10];
+				var is_opens = options.is_opens || [false];
+				
+				var indices = {
+					color: {value: 0, length: colors.length},
+					radius: {value: 0, length: radii.length},
+					is_open: {value: 0, length: is_opens.length},
+				};
+				
+				for (var bullet = 0; bullet < max_bullets; bullet++) {
+					bullets.push(new stg.Bullet({
+						x: position.x,
+						y: position.y,
+						color: colors[indices.color.value],
+						ctx: ctx,
+						radius: radii[indices.radius.value],
+						is_open: is_opens[indices.is_open.value]
+					}));
+					
+					for (var index in indices)
+						if (++indices[index].value === indices[index].length)
+							indices[index].value = 0;
+				}
+
 			}
 			
 		};
