@@ -162,14 +162,12 @@ FSM.State = (function(globals) {
 		};
 		
 		/*
-		 * Recursively filters out dead substates.
+		 * Filters out dead substates.
 		 */
 		this.cleanSubstate = function() {
 			if (substates.length !== 0) {
 				substates = substates.filter(function(state) {
-					//Recursively filter out dead substates.
-					state.cleanSubstate();
-					
+					//Filter out dead substates.
 					return state.isAlive();
 				});
 			}

@@ -193,6 +193,33 @@ STG.Math = (function(globals, system, stg) {
 		},
 		
 		/*
+		 * Checks to see if a circle is out of bounds
+		 * {STG.Circle|Object} a - An STG circle or object.
+		 * {STG.Square|Object} b - An STG square or object.
+		 */
+		outOfBounds: function(a, b) {
+			if (a.hasOwnProperty('getCircle'))
+				a = a.getCircle();
+
+			if (b.hasOwnProperty('getSquare'))
+				b = b.getSquare();
+			
+			if (a.x < b.x - a.radius)
+				return true;
+			
+			if (a.x > b.w + a.radius)
+				return true;
+			
+			if (a.y > b.h + a.radius)
+				return true;
+			
+			if (a.y < b.y - a.radius)
+				return true;
+			
+			return false;
+		},
+		
+		/*
 		 * Returns the squared distance between two vectors.
 		 * @param {Object|STG.Vector} a - An STG vector or object.
 		 * @param {Object|STG.Vector} b - An STG vector or object.

@@ -65,10 +65,10 @@ STG.Pattern = (function(fsm, stg, resource) {
 						fsm: game.fsm,
 						ctx: ctx,
 						position: parent.getPosition(),
-						max_bullets: 3,
+						max_bullets: 20,
 						padding: 20,
 						degrees: degrees += 10,
-						radii: [20, 24]
+						radii: [10, 4]
 					}); 
 					
 					
@@ -92,8 +92,8 @@ STG.Pattern = (function(fsm, stg, resource) {
 				var fsm = options.fsm;
 				var max_bullets = options.max_bullets || 10;
 				var ctx = options.ctx;
-				var colors = ['red', 'green', 'blue'];
-				var radii = options.radii || [10, 10]
+				var colors = ['red', 'green'];
+				var radii = options.radii || [10, 4]
 				var color_idx = 0;
 				var radius_idx = 0;
 				

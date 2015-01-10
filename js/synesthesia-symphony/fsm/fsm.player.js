@@ -103,7 +103,6 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		 */
 		this.state.update = function(game) {
 			movement(game);
-			//console.log("player", stg.Math.circleSquareCollision(that, layers.buffer));
 		};
 		
 		/*

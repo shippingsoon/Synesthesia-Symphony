@@ -69,12 +69,11 @@ STG.Bullet = (function(fsm, stg, resource) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		this.state.update = function(game) {
-			//console.log("Hey");
 			//Add the velocity vector to the bullet's position.
 			that.add(that.velocity);
 			
-			var has_collided = stg.Math.circleSquareCollision(that, layers.buffer);
-			that.state.setActive(has_collided);
+			var out_of_bounds = stg.Math.outOfBounds(that, layers.buffer);
+			that.state.setAlive(!out_of_bounds);
 		};
 	};
 	
