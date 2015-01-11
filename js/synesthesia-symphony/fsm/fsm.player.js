@@ -50,6 +50,8 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 		
 		//The player's state.
 		this.state = new fsm.State(options);
+		
+		//A reference to the current object.
 		var that = this;
 		
 		//The velocity vector.
@@ -75,8 +77,11 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 		//The player's power.
 		var power = options.power || config.INITIAL_POWER;
 		
-		//The player's bullet patterns.
+		//Options for bullet patterns.
 		var patterns = options.patterns || [];
+		
+		//Stores the player's bullet patterns.
+		var danmakus = [];
 		
 		//The color boxes.
 		var color_boxes = [];
@@ -91,28 +96,15 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 			
 			color_boxes.push(new stg.Square({x: 10 + 4, y: 540 + 4, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
 			color_boxes.push(new stg.Square({x: 10, y: 540, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
-			//console.log(patterns);
-			//debugger;
-			//*
+			
 			for (var index = 0, length = patterns.length; index < length; index++) {
+				danmakus.push(new pattern.Create(patterns[index]));
+				
 				that.state.setSubstate({
-					substate: new pattern.Create(patterns[index]), 
+					substate: danmakus[index].getState(), 
 					parent: that
 				});
 			}
-			//*/
-			
-			/*
-			that.state.setSubstate({
-				substate: new pattern.Create({
-					ctx: ctx,
-					//delay: 0,
-					rate: 700,
-					duration: 10
-				}), 
-				parent: that
-			});
-			//*/
 		};
 		
 		/*
@@ -208,6 +200,11 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 			//The Right key has been pressed.
 			if (Keydown.right /*&& (x + velocity) < layers.buffer.width*/)
 				that.add({x: s, y: 0});
+			
+			for (var danmaku = 0, length = danmakus.length; danmaku < length; danmaku++) {
+				danmakus[danmaku].setAutoFire(Keydown.z);
+				danmakus[danmaku].setColors([colors[color_idx]]);
+			}
 		};
 	};
 	

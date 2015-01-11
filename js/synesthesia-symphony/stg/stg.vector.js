@@ -48,7 +48,7 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Adds a value to the vector.
-		 * @param {STG.Vector|Number} vector - The vector or number we will add to our vector.
+		 * @param {STG.Vector|Number|Object} vector - The vector or number we will add to our vector.
 		 */
 		this.add = function(vector) {
 			return _operation(math.add, vector);
@@ -56,7 +56,7 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Subtracts a value from the vector.
-		 * @param {STG.Vector|Number} vector - The vector or number we will subtract from our vector.
+		 * @param {STG.Vector|Number|Object} vector - The vector or number we will subtract from our vector.
 		 */
 		this.subtract = function(vector) {
 			return _operation(math.subtract, vector);
@@ -64,7 +64,7 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Multiplies the vector by a value.
-		 * @param {STG.Vector|Number} vector - The vector or number we will multiply our vector by.
+		 * @param {STG.Vector|Number|Object} vector - The vector or number we will multiply our vector by.
 		 */
 		this.multiply = function(vector) {
 			return _operation(math.multiply, vector);
@@ -72,7 +72,7 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Divides the vector by a value.
-		 * @param {STG.Vector|Number} vector - The vector or number we will divide our vector by.
+		 * @param {STG.Vector|Number|Object} vector - The vector or number we will divide our vector by.
 		 */
 		this.divide = function(vector) {
 			return _operation(math.divide, vector);
@@ -80,13 +80,19 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Sets the vector's position.
-		 * @param {STG.Vector|Object} vector - The new position.
+		 * @param {STG.Vector|Number|Object} vector - The new position.
 		 */
 		this.setPosition = this.setVector = function(vector) {
 			//If this is a Vector.
-			if (vector instanceof Vector) {
+			if (vector.hasOwnProperty('getPosition')) {
 				x = vector.getPosition().x;
 				y = vector.getPosition().y;
+			}
+			
+			//If we received a number.
+			else if (typeof vector === 'number') {
+				x = vector;
+				y = vector;
 			}
 			
 			//Otherwise if this is an object
@@ -133,7 +139,7 @@ STG.Vector = (function(stg) {
 			var destination = null;
 			
 			//If we received a vector.
-			if (vector instanceof Vector)
+			if (vector.hasOwnProperty('getPosition'))
 				destination = method(position, vector.getPosition());
 			
 			//If we received a number.

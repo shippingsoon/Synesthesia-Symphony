@@ -21,10 +21,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} b - An STG vector.
 		 */
 		add: function(a, b) {
-			if (a instanceof stg.Vector)
+			if (a.hasOwnProperty('getPosition'))
 				a = a.getPosition();
 			
-			if (b instanceof stg.Vector)
+			if (b.hasOwnProperty('getPosition'))
 				b = b.getPosition();
 				
 			return {
@@ -40,10 +40,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} b - An STG vector.
 		 */
 		subtract: function(a, b) {
-			if (a instanceof stg.Vector)
+			if (a.hasOwnProperty('getPosition'))
 				a = a.getPosition();
 			
-			if (b instanceof stg.Vector)
+			if (b.hasOwnProperty('getPosition'))
 				b = b.getPosition();
 			
 			return {
@@ -58,10 +58,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} b - An STG vector.
 		 */
 		multiply: function(a, b) {
-			if (a instanceof stg.Vector)
+			if (a.hasOwnProperty('getPosition'))
 				a = a.getPosition();
 			
-			if (b instanceof stg.Vector)
+			if (b.hasOwnProperty('getPosition'))
 				b = b.getPosition();
 			
 			return {
@@ -76,10 +76,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} b - An STG vector.
 		 */
 		divide: function(a, b) {
-			if (a instanceof stg.Vector)
+			if (a.hasOwnProperty('getPosition'))
 				a = a.getPosition();
 			
-			if (b instanceof stg.Vector)
+			if (b.hasOwnProperty('getPosition'))
 				b = b.getPosition();
 			
 			return {

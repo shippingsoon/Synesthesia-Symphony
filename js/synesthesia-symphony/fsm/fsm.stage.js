@@ -41,29 +41,29 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 			patterns: [{
 					method: 'Circular',
 					ctx: layers.buffer.getContext().ctx,
-					max_bullets: 20,
-					padding: 10,
-					degrees: 180,
-					radii: [10, 5, 10],
-					speeds: [2, 8, 4],
-					colors: ['red', 'yellow', 'black'],
+					max_bullets: 1,
+					offsets: {x: 10, y: -10},
+					padding: 0,
+					degrees: 90,
+					radii: [4],
+					speeds: [18],
+					colors: ['pink'],
 					delay: 0,
-					//rate: 1000,
-					duration: 30,
-					rotation: 10
+					rate: 100,
+					rotation: 0
 				}, {
 					method: 'Circular',
 					ctx: layers.buffer.getContext().ctx,
-					max_bullets: 20,
-					padding: 20,
+					max_bullets: 1,
+					offsets: {x: -10, y: -10},
+					padding: 0,
 					degrees: 90,
-					radii: [4, 4],
-					speeds: [4, 4, 7],
-					colors: ['blue', 'yellow', 'pink'],
+					radii: [4],
+					speeds: [18],
+					colors: ['pink'],
 					delay: 0,
 					rate: 100,
-					duration: 30,
-					rotation: 10,
+					rotation: 0
 				}
 			],
 		});
@@ -92,12 +92,30 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 					x: 200,
 					y: 200,
 					ctx: layers.buffer.getContext().ctx,
+					patterns: [{
+						method: 'Circular',
+						ctx: layers.buffer.getContext().ctx,
+						max_bullets: 18,
+						offsets: {x: 0, y: 0},
+						padding: 20,
+						degrees: 180,
+						radii: [8, 10],
+						speeds: [6, 8],
+						colors: ['red', 'green'],
+						delay: 200,
+						rate: 300,
+						rotation: 10,
+						duration: 3
+					}],
+					paths: [
+						new stg.Point({x: 0, y: 0, delay: 0}),
+						new stg.Point({x: 200, y: 200, delay: 0}),
+						new stg.Point({x: 200, y: 800, delay: 0})
+					]
 				}));
 				
-				//state.setSubstate({substate: enemies[enemy].state});
+				state.setSubstate({substate: enemies[enemy].getState()});
 			}
-			
-			
 		};
 
 		/*
@@ -134,16 +152,7 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 				game.ctx.drawImage(layers.buffer.canvas, 40, 20);
 			};
 		};
-		
-		/*
-		 * Stop this state and remove references to data for garbage collection.
-		 * @param {FSM} game.fsm - Finite state machine.
-		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
-		 */
-		state.stop = function(game) {
-			
-		};
-		
+
 		/*
 		 * Returns an instance of this state.
 		 */

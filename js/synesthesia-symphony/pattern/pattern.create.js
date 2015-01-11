@@ -44,7 +44,7 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 		var ctx = options.ctx || null;
 		
 		//The pattern's state.
-		this.state = new fsm.State(options);
+		var state = new fsm.State(options);
 		
 		//The initial delay in fire in milliseconds.
 		var delay = options.delay || 0;
@@ -56,13 +56,13 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 		var can_fire = (!delay);
 		
 		//The amount of times we can fire.
-		var duration = options.duration || 10000;
+		var duration = options.duration || 10000000;
 		
 		//The pattern method we will be invoking.
 		var method = options.method || 'Circular';
 		
 		//The parent of this state.
-		var parent = this.state.getParent();
+		var parent = state.getParent();
 		
 		//The angle of the bullets.
 		var degrees  = options.degrees || 0;
@@ -70,16 +70,22 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 		//The rate in degrees we will rotate the bullets.
 		var rotation  = options.rotation || 0;
 		
+		//Determines if bullets will be fired automatically.
+		var auto_fire = (options.auto_fire || options.auto_fire === undefined);
+		
+		//An event to halt firing.
+		var colors = options.colors || ['green'];
+		
 		/*
 		 * Initiate this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
-		this.state.start = function(game) {
+		state.start = function(game) {
 			if (!can_fire)
 				globals.setTimeout(setFire, delay, true);
 			
-			parent = that.state.getParent();
+			parent = state.getParent();
 		};
 		
 		/*
@@ -87,15 +93,16 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
-		this.state.update = function(game) {
+		state.update = function(game) {
 			options.fsm = game.fsm;
 			options.degrees = degrees;
 			options.ctx = ctx || game.ctx;
+			options.colors = colors;
 			
 			if (parent)
 				options.position = parent.getPosition();
 			
-			if (can_fire && duration--) {
+			if (can_fire && auto_fire && duration--) {
 				pattern[method](options);
 				
 				if (rate) {
@@ -107,7 +114,7 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 			}
 			
 			if (!duration)
-				that.state.setAlive(false);
+				state.setAlive(false);
 		};
 		
 		/*
@@ -118,7 +125,28 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 			can_fire = _can_fire;
 		}
 		
-		return this.state;
+		/*
+		 * Changes the auto fire state.
+		 * @param {Boolean} _auto_fire - Determines if shots are fired automatically.
+		 */
+		this.setAutoFire = function(_auto_fire) {
+			auto_fire = _auto_fire;
+		};
+		
+		/*
+		 * Changes the pattern's colors.
+		 * @param {STG.Color[]|String[]} _colors - An array of colors.
+		 */
+		this.setColors = function(_colors) {
+			colors = _colors;
+		};
+		
+		/*
+		 * Get the state.
+		 */
+		this.getState = function() {
+			return state;
+		};
 	};
 	
 	return Create;
