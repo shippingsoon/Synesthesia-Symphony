@@ -56,13 +56,18 @@ STG.Path = (function(fsm, stg) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.update = function(game) {
-			if (parent && point_idx < points.length) {
+			if (parent) {
+				//If there are points to follow.
+				if (point_idx < points.length) {
+					//Make the enemy approach the point.
+					if (parent.approach({target: points[point_idx], speed: 5}))
+						point_idx++;
+				}
 				
+				//There are no more points to follow.
+				else
+					parent.getState().setAlive(false);
 			}
-			
-			//There are no more points to follow.
-			else
-				state.setAlive(false);
 		};
 		
 		/*

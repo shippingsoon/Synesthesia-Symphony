@@ -90,6 +90,47 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 		};
 		
 		/*
+		 * Move the enemy towards a target. Returns true or false depending on if the target is reached.
+		 * @param {STG.Point|Object} options.target - The STG point or object we will approach.
+		 * @param {Number} options.speed - The rate in which the enemy will move towards the target.
+		 */
+		this.approach = function(options) {
+			//The enemy's position.
+			var position = that.getPosition();
+			
+			//The target we will try to approach.
+			var target = options.target || {x: 0, y: 0};
+			
+			if (target.hasOwnProperty('getPosition'))
+				target = target.getPoint();
+			
+			//The rate in which the enemy will move towards the target.
+			var speed = options.speed || 0;
+			
+			//The distance between the vector and the target.
+			var distance = stg.Math.distance(this, target);
+			
+			//Get the angle that the enemy needs to travel in to reach the target.
+			var angle = stg.Math.getTargetAngle(target, this);
+			
+			//If the distance between the enemy and the target is smaller than the target's radius, advance our position.
+			if (distance < target.radius)
+				return true;
+			
+			//Adjust the enemy's speed if it is moving at a rate that would skip over the target.
+			if ((distance + target.radius) < (speed * 2))
+				speed = distance;
+			
+			//Move the enemy towards the target.
+			this.add({
+				x: speed * Math.cos(angle),
+				y: speed * Math.sin(angle)
+			});
+			
+			return false;
+		};
+		
+		/*
 		 * Get the state.
 		 */
 		this.getState = function() {

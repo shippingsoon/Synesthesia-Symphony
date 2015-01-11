@@ -22,7 +22,7 @@ STG.Point = (function(stg) {
 	  */
 	function Point(options) {
 		//Call our parent's constructor.
-		stg.Vector.call(this, options);
+		stg.Circle.call(this, options);
 		
 		//Reference to the current object.
 		var that = this;
@@ -49,7 +49,7 @@ STG.Point = (function(stg) {
 		 * Returns the point's position.
 		 */
 		this.getPoint = function() {
-			var position = this.getPosition();
+			var position = this.getCircle();
 			
 			position.delay = delay;
 			
@@ -73,7 +73,7 @@ STG.Point = (function(stg) {
 		};
 	};
 	
-	Point.prototype = Object.create(stg.Vector.prototype);
+	Point.prototype = Object.create(stg.Circle.prototype);
 	
 	return Point;
 }(STG));

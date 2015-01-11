@@ -129,7 +129,7 @@ STG.Vector = (function(stg) {
 		/*
 		 * Performs arithmetic operations on vectors.
 		 * @param {Function} method - The arithmetic function to be invoked.
-		 * @param {STG.Vector|Number} vector - The vector or number we will be applying to our vector.
+		 * @param {STG.Vector|Number|Object} vector - The vector or number we will be applying to our vector.
 		 */
 		function _operation(method, vector) {
 			// Get the current position.
