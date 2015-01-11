@@ -34,7 +34,39 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 		var state = new fsm.State({});
 		
 		//Our player.
-		var player = new fsm.Player({x: 250, y: 380, ctx: layers.buffer.getContext().ctx});
+		var player = new fsm.Player({
+			x: 250,
+			y: 380,
+			ctx: layers.buffer.getContext().ctx,
+			patterns: [{
+					method: 'Circular',
+					ctx: layers.buffer.getContext().ctx,
+					max_bullets: 20,
+					padding: 10,
+					degrees: 180,
+					radii: [10, 5, 10],
+					speeds: [2, 8, 4],
+					colors: ['red', 'yellow', 'black'],
+					delay: 0,
+					//rate: 1000,
+					duration: 30,
+					rotation: 10
+				}, {
+					method: 'Circular',
+					ctx: layers.buffer.getContext().ctx,
+					max_bullets: 20,
+					padding: 20,
+					degrees: 90,
+					radii: [4, 4],
+					speeds: [4, 4, 7],
+					colors: ['blue', 'yellow', 'pink'],
+					delay: 0,
+					rate: 100,
+					duration: 30,
+					rotation: 10,
+				}
+			],
+		});
 		
 		//An array to hold the enemies.
 		var enemies = [];

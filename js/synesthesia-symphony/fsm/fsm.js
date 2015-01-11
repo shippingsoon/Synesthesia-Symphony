@@ -32,8 +32,11 @@ FSM.Init = (function(globals, stg, resource) {
 		 */
 		this.controller = function(event) {
 			if (states.length !== 0 && event) {
+				var current_state = currentState();
+				
 				//Handle events in the current state.
-				_fsm({fsm: that, ctx: resource.layers.screen.getContext().ctx, state: states[states.length - 1], method: 'controller', event: event});
+				if (current_state && current_state.isActive())
+					_fsm({fsm: that, ctx: resource.layers.screen.getContext().ctx, state: current_state, method: 'controller', event: event});
 			}
 		};
 		
@@ -43,8 +46,11 @@ FSM.Init = (function(globals, stg, resource) {
 		 */
 		this.update = function(fsm) {
 			if (states.length !== 0) {
+				var current_state = currentState();
+				
 				//Update the current state.
-				_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'update'});
+				if (current_state && current_state.isActive())
+					_fsm({fsm: that, ctx: fsm.ctx, state: current_state, method: 'update'});
 			}
 			
 			//Filter out dead states.
@@ -57,11 +63,10 @@ FSM.Init = (function(globals, stg, resource) {
 		 */
 		this.render = function(fsm) {
 			if (states.length !== 0) {
-				var callback = null;
 				var current_state = currentState();
 				
+				//Render the current state.
 				if (current_state && current_state.isVisible())
-					//Render the current state.
 					_fsm({fsm: that, ctx: fsm.ctx, state: current_state, method: 'render'});
 			}
 		};
@@ -152,7 +157,8 @@ FSM.Init = (function(globals, stg, resource) {
 		this.cleanState = function() {
 			states = states.filter(function(state) {
 				//Filter out dead substates.
-				state.cleanSubstate();
+				if (state.isAlive())
+					state.cleanSubstate();
 
 				return state.isAlive();
 			});
@@ -168,24 +174,24 @@ FSM.Init = (function(globals, stg, resource) {
 			var callback = null;
 			
 			if (options.state) {
-				if (options.state.isActive()) {
+				if (options.state.isAlive()) {
 					//Process the current state.
 					if (options.state[options.method] instanceof Function)
 						callback = options.state[options.method](options);
-						
+					
 					//Retrieve the substates.
 					var substates = options.state.getSubstate();
-
+					
 					//Process the current substate and recursively process its substates.
 					for (var substate = 0, length = substates.length; substate < length; substate++) {
 						options['state'] = substates[substate];
 						_fsm(options);
 					}
+					
+					//Invoke the callback.
+					if (callback && callback instanceof Function)
+						callback();
 				}
-	
-				//Invoke the callback.
-				if (callback && callback instanceof Function)
-					callback();
 			}
 		}
 		

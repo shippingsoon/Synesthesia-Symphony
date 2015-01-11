@@ -21,6 +21,7 @@ STG.Bullet = (function(fsm, stg, resource) {
 	  * @param {Object} options.x - The x coordinate.
 	  * @param {Object} options.y - The y coordinate.
 	  * @param {Object} options.radius - The bullet's radius.
+	  * @param {Object} options.magnitude - The bullet's magnitude.
 	  * @param {Boolean} options.open - Determines if the bullet will leave a paint trail.
 	  * @param {STG.Color|String} options.color - The bullet's color.
 	  * @param {STG.Color|String} options.strokeStyle - The bullet's outline color.
@@ -43,6 +44,9 @@ STG.Bullet = (function(fsm, stg, resource) {
 			y: options.vy || 0
 		});
 		
+		//The bullet's magnitude.
+		this.magnitude = options.magnitude || 1;
+		
 		//The 2D drawing context we will use to render the bullet.
 		var ctx = options.ctx || this.getContext().ctx;
 
@@ -58,7 +62,6 @@ STG.Bullet = (function(fsm, stg, resource) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		this.state.render = function(game) {
-			
 			if (ctx)
 				that.draw({ctx:ctx});
 		};

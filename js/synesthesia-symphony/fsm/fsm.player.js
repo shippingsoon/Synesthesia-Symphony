@@ -11,9 +11,10 @@ var FSM = FSM || {};
 var STG = STG || {};
 var System = System || {};
 var Resource = Resource || {};
+var Pattern = Pattern || {};
 
 //Player singleton.
-FSM.Player = (function(fsm, stg, system, resource) {
+FSM.Player = (function(fsm, stg, system, resource, pattern) {
 	"use strict";
 	
 	//An instance of our player.
@@ -34,6 +35,7 @@ FSM.Player = (function(fsm, stg, system, resource) {
 	 * @param {STG.Color[]} options.colors - An array of colors for the player's primary and secondary colors.
 	 * @param {Number} options.lives - The player's initial lives.
 	 * @param {Number} options.power - The player's initial power.
+	 * @param {Object[]} options.patterns - An array of bullet patterns.
 	 */
 	function Player(options) {
 		if (_instance)
@@ -73,8 +75,8 @@ FSM.Player = (function(fsm, stg, system, resource) {
 		//The player's power.
 		var power = options.power || config.INITIAL_POWER;
 		
-		//The player's pattern.
-		var pattern = null;
+		//The player's bullet patterns.
+		var patterns = options.patterns || [];
 		
 		//The color boxes.
 		var color_boxes = [];
@@ -89,11 +91,28 @@ FSM.Player = (function(fsm, stg, system, resource) {
 			
 			color_boxes.push(new stg.Square({x: 10 + 4, y: 540 + 4, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
 			color_boxes.push(new stg.Square({x: 10, y: 540, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
+			//console.log(patterns);
+			//debugger;
+			//*
+			for (var index = 0, length = patterns.length; index < length; index++) {
+				that.state.setSubstate({
+					substate: new pattern.Create(patterns[index]), 
+					parent: that
+				});
+			}
+			//*/
 			
+			/*
 			that.state.setSubstate({
-				substate: new stg.Pattern({ctx: ctx}), 
+				substate: new pattern.Create({
+					ctx: ctx,
+					//delay: 0,
+					rate: 700,
+					duration: 10
+				}), 
 				parent: that
 			});
+			//*/
 		};
 		
 		/*
@@ -195,4 +214,4 @@ FSM.Player = (function(fsm, stg, system, resource) {
 	Player.prototype = Object.create(stg.Circle.prototype);
 	
 	return Player;
-}(FSM, STG, System, Resource));
+}(FSM, STG, System, Resource, Pattern));
