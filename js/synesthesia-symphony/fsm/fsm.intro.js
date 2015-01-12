@@ -51,7 +51,7 @@ FSM.Intro = (function(fsm, resource, stg, system) {
 								player.stop();
 							
 							//Transition into the Menu state.
-							game.fsm.transition({state: new fsm.Stage({}).getInstance(), ctx: resource.layers.screen.ctx});
+							game.fsm.transition({state: new fsm.Stage({}), ctx: resource.layers.screen.ctx});
 						}
 					});
 				}

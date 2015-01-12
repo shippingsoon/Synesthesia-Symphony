@@ -30,14 +30,25 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 	 * @param {FSM} options - TBA
 	 */
 	function Stage(options) {
+		//A reference to the current object.
+		var that = this;
+		
 		//The stage's state.
-		var state = new fsm.State({});
+		var state = new fsm.State({parent: that});
+		
+		//An array to hold the enemies.
+		var enemies = [];
+		
+		//Enum targets.
+		var targets = {player: 0, enemies: 1};
 		
 		//Our player.
 		var player = new fsm.Player({
 			x: 250,
 			y: 380,
 			ctx: layers.buffer.getContext().ctx,
+			target: targets.enemies,
+			lives: 5,
 			patterns: [{
 					method: 'Circular',
 					ctx: layers.buffer.getContext().ctx,
@@ -68,68 +79,187 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 			],
 		});
 		
-		//An array to hold the enemies.
-		var enemies = [];
-		
 		//The position vector for the two revolving canvas sprites.
 		var canvas_vectors = [
 			new stg.Vector({x: 0, y: 0}),
 			new stg.Vector({x: 0, y: -sprites.canvas_bg.img.height})
 		];
 		
+		//Music player.
+		var mplayer = MIDI.Player;
 		/*
 		 * Initiate this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {
-			//Add the player substate.
-			state.setSubstate({substate: player.state});
+			//Load the stage music.
+			MIDI.loadPlugin({
+				soundfontUrl: './soundfont/',
+				instrument: 'acoustic_grand_piano',
+				callback: function() {
+					//The speed the song is played back.
+					mplayer.timeWarp = 1;
+					
+					//Load and play the stage music.
+					mplayer.loadFile('/synesthesia-symphony/midi/final-boss.mid', mplayer.start);
+					
+					//MIDI event listener.
+					mplayer.addListener(function (data) {
+						//
+					});
+				}
+			});
 			
-			for (var enemy = 0; enemy < 1; enemy++) {
-				enemies.push(new fsm.Enemy({
-					color: stg.Color({r: 0, g: 255, b: 0}),
-					x: 200,
-					y: 200,
-					ctx: layers.buffer.getContext().ctx,
-					patterns: [{
-							method: 'Circular',
-							ctx: layers.buffer.getContext().ctx,
-							max_bullets: 5,
-							padding: 10,
-							degrees: 270,
-							radii: [8, 4],
-							speeds: [5],
-							colors: ['pink', 'red'],
-							delay: 2000,
-							rate: 100,
-							duration: 30,
-							rotation: 10
-						}, {
-							method: 'Circular',
-							ctx: layers.buffer.getContext().ctx,
-							max_bullets: 5,
-							padding: 10,
-							degrees: 270,
-							radii: [8, 4],
-							speeds: [5],
-							colors: ['red', 'pink'],
-							delay: 2000,
-							rate: 100,
-							duration: 30,
-							rotation: -10
-						}
-					],
-					paths: [
-						new stg.Point({x: 0, y: 0, delay: 0, speed: 10}),
-						new stg.Point({x: 200, y: 200, delay: 8000, speed: 12}),
-						new stg.Point({x: 700, y: 700, delay: 0, speed: 14})
-					],
-					loop_points: false
-				}));
-				
-				state.setSubstate({substate: enemies[enemy].getState()});
-			}
+			//Add the player substate.
+			state.setSubstate({substate: player.getState()});
+			
+		
+			enemies.push(new fsm.Enemy({
+				color: stg.Color({r: 0, g: 255, b: 0}),
+				x: 200,
+				y: 200,
+				ctx: layers.buffer.getContext().ctx,
+				lives: 10,
+				target: targets.player,
+				patterns: [{
+						method: 'Circular',
+						ctx: layers.buffer.getContext().ctx,
+						max_bullets: 5,
+						padding: 10,
+						degrees: 270,
+						radii: [8, 4],
+						speeds: [5],
+						colors: ['pink', 'red'],
+						delay: 2000,
+						rate: 100,
+						duration: 30,
+						rotation: 10,
+					}, {
+						method: 'Circular',
+						ctx: layers.buffer.getContext().ctx,
+						max_bullets: 5,
+						padding: 10,
+						degrees: 270,
+						radii: [8, 4],
+						speeds: [5],
+						colors: ['red', 'pink'],
+						delay: 2000,
+						rate: 100,
+						duration: 30,
+						rotation: -10
+					}
+				],
+				paths: [
+					new stg.Point({x: 0, y: 0, delay: 0, speed: 10}),
+					new stg.Point({x: 200, y: 200, delay: 8000, speed: 12}),
+					new stg.Point({x: 700, y: 700, delay: 0, speed: 14})
+				],
+				loop_points: false
+			}));
+			
+			state.setSubstate({substate: enemies[0].getState()});
+			
+			
+			
+			enemies.push(new fsm.Enemy({
+				color: stg.Color({r: 0, g: 255, b: 0}),
+				x: 200,
+				y: 200,
+				ctx: layers.buffer.getContext().ctx,
+				lives: 20,
+				target: targets.player,
+				patterns: [{
+						ctx: layers.buffer.getContext().ctx,
+						max_bullets: 30,
+						padding: 10,
+						degrees: 10,
+						radii: [10, 5],
+						speeds: [12, 24, 2],
+						rotation: 10,
+						colors: ['red', 'yellow', 'black'],
+						rate: 100,
+						delay: 15000
+					}
+				],
+				paths: [
+					new stg.Point({x: 0, y: -200, delay: 12000, speed: 10}),
+					new stg.Point({x: 300, y: 200, delay: 3000, speed: 12}),
+					new stg.Point({x: 300, y: 100, delay: 3000, speed: 12}),
+					new stg.Point({x: 700, y: 0, delay: 0, speed: 14})
+				],
+				loop_points: false
+			}));
+			
+			state.setSubstate({substate: enemies[1].getState()});
+			
+			
+			enemies.push(new fsm.Enemy({
+				color: stg.Color({r: 0, g: 255, b: 0}),
+				x: 200,
+				y: 200,
+				ctx: layers.buffer.getContext().ctx,
+				target: targets.player,
+				lives: 12,
+				patterns: [{
+						ctx: layers.buffer.getContext().ctx,
+						max_bullets: 4,
+						padding: 40,
+						degrees: 0,
+						radii: [12, 16, 12, 8],
+						speeds: [10, 8, 6, 4],
+						rotation: 20,
+						colors: ['green', 'red'],
+						rate: 1060,
+						is_opens: [true, false, false, false],
+						duration: 20,
+						delay: 24000
+					}
+				],
+				paths: [
+					new stg.Point({x: -100, y: 200, delay: 24000, speed: 10}),
+					new stg.Point({x: 400, y: 200, delay: 2000, speed: 12}),
+					new stg.Point({x: 300, y: 100, delay: 3000, speed: 12}),
+					new stg.Point({x: 700, y: 0, delay: 0, speed: 14})
+				],
+				loop_points: false
+			}));
+			
+			state.setSubstate({substate: enemies[2].getState()});
+			
+			enemies.push(new fsm.Enemy({
+				color: stg.Color({r: 0, g: 255, b: 0}),
+				x: 200,
+				y: 200,
+				ctx: layers.buffer.getContext().ctx,
+				target: targets.player,
+				lives: 100,
+				patterns: [{
+						ctx: layers.buffer.getContext().ctx,
+						max_bullets: 27,
+						padding: 18,
+						degrees: 180,
+						radii: [10, 5],
+						speeds: [8, 4],
+						rotation: 30,
+						colors: ['green', 'red'],
+						rate: 200,
+						is_opens: [false],
+						duration: 2000,
+						delay: 32000
+					}
+				],
+				paths: [
+					new stg.Point({x: -20, y: -20, delay: 32000, speed: 10}),
+					new stg.Point({x: 400, y: 200, delay: 5000, speed: 12}),
+					new stg.Point({x: 20, y: 100, delay: 6000, speed: 12}),
+					new stg.Point({x: 460, y: 290, delay: 3000, speed: 14})
+				],
+				loop_points: true
+			}));
+			
+			state.setSubstate({substate: enemies[3].getState()});
+			
 		};
 
 		/*
@@ -165,6 +295,23 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 				//Render the buffer layer on the screen layer.
 				game.ctx.drawImage(layers.buffer.canvas, 40, 20);
 			};
+		};
+		
+		/*
+		 * Retrieves target objects.
+		 * @param {Number} _target - Set to 0 to retrieve the player and 1 to retrieve enemies.
+		 */
+		this.getTargets = function(_target) {
+			var target = _target || 0;
+			
+			if (target === targets.player)
+				return {player: player};
+				
+			else if (target === targets.enemies)
+				return {enemies: enemies};
+			
+			else
+				return {player: player, enemies: enemies};
 		};
 
 		/*

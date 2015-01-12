@@ -23,8 +23,11 @@ FSM.Init = (function(globals, stg, resource) {
 		//An array of states.
 		var states = [];
 		
-		//Canvas.
+		//Reference to the current object.
 		var that = this;
+		
+		//The parent of the current state.
+		var parent = null;
 		
 		/*
 		 * Handle events in the current state.
@@ -127,6 +130,9 @@ FSM.Init = (function(globals, stg, resource) {
 			//Transition into a new state by pushing a new state onto the stack.
 			states.push(fsm.state);
 			
+			if (fsm.parent || fsm.state.getParent())
+				that.setParent(fsm.parent || fsm.state.getParent());
+			
 			//Initiate the state.
 			_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'start'});
 		};
@@ -163,6 +169,21 @@ FSM.Init = (function(globals, stg, resource) {
 				return state.isAlive();
 			});
 		};
+		
+		/*
+		 * Set the parent of the current state.
+		 * @param {Object} _parent - The parent of the current state.
+		 */
+		this.setParent = function(_parent) {
+			parent = _parent;
+		}
+		
+		/*
+		 * Get the parent of the current state.
+		 */
+		this.getParent = function() {
+			return {parent: parent};
+		}
 		
 		/*
 		 * Recursively processes a state and its substates.

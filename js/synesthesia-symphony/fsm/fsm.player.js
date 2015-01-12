@@ -14,7 +14,7 @@ var Resource = Resource || {};
 var Pattern = Pattern || {};
 
 //Player singleton.
-FSM.Player = (function(fsm, stg, system, resource, pattern) {
+FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 	"use strict";
 	
 	//An instance of our player.
@@ -36,6 +36,7 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 	 * @param {Number} options.lives - The player's initial lives.
 	 * @param {Number} options.power - The player's initial power.
 	 * @param {Object[]} options.patterns - An array of bullet patterns.
+	 * @param {Number} options.target - Set to 0 to retrieve the player and 1 to retrieve enemies.
 	 */
 	function Player(options) {
 		if (_instance)
@@ -49,7 +50,7 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 		stg.Circle.call(this, options);
 		
 		//The player's state.
-		this.state = new fsm.State(options);
+		var state = new fsm.State(options);
 		
 		//A reference to the current object.
 		var that = this;
@@ -86,21 +87,25 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 		//The color boxes.
 		var color_boxes = [];
 		
+		//Determines if the player is invulnerable.
+		var is_invulnerable = false;
+		
 		/*
 		 * Start the state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
-		this.state.start = function(game) {
+		state.start = function(game) {
 			var ctx = that.getContext().ctx;
 			
 			color_boxes.push(new stg.Square({x: 10 + 4, y: 540 + 4, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
 			color_boxes.push(new stg.Square({x: 10, y: 540, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
 			
 			for (var index = 0, length = patterns.length; index < length; index++) {
+				patterns[index].target = options.target || 1;
 				danmakus.push(new pattern.Create(patterns[index]));
 				
-				that.state.setSubstate({
+				state.setSubstate({
 					substate: danmakus[index].getState(), 
 					parent: that
 				});
@@ -112,8 +117,11 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
-		this.state.update = function(game) {
+		state.update = function(game) {
 			movement(game);
+			
+			if (lives < 1)
+				that.setLives(5);
 		};
 		
 		/*
@@ -121,7 +129,7 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
-		this.state.render = function(game) {
+		state.render = function(game) {
 			var ctx = that.getContext().ctx;
 			
 			if (ctx) {
@@ -137,12 +145,27 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 			}
 		};
 		
-		//Set the player's lives.
-		this.setLives = function(live) {
-			lives = live;
+		/*
+		 * Set the player's lives.
+		 * @param {Number} _live - The lives to set.
+		 */
+		this.setLives = function(_live) {
+			if (_live < 0) {
+				if (!is_invulnerable) {
+					lives += _live;
+				
+					//Make the player temporarily invulnerable.
+					that.setInvulnerable(true);
+					globals.setTimeout(that.setInvulnerable, 1000, false);
+				}
+			}
+			else
+				lives += _live;
 		};
 		
-		//Get the player's lives.
+		/*
+		 * Get the player's lives.
+		 */
 		this.getLives = function() {
 			return {lives: lives};
 		};
@@ -168,6 +191,14 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 				return {color: colors[color_idx]};
 			
 			return {colors: colors};
+		};
+		
+		/*
+		 * Set the player's invulnerability.
+		 * @param {Boolean} _is_invulnerable - Detemines if the player is invulnerable.
+		 */
+		this.setInvulnerable = function(_is_invulnerable) {
+			is_invulnerable = _is_invulnerable;
 		};
 
 		/*
@@ -209,9 +240,16 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 				danmakus[danmaku].setColors([colors[color_idx]]);
 			}
 		};
+		
+		/*
+		 * Get the state.
+		 */
+		this.getState = function() {
+			return state;
+		};
 	};
 	
 	Player.prototype = Object.create(stg.Circle.prototype);
 	
 	return Player;
-}(FSM, STG, System, Resource, Pattern));
+}(window, FSM, STG, System, Resource, Pattern));

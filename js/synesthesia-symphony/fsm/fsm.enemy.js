@@ -34,6 +34,7 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 	 * @param {Object[]} options.patterns - An array of bullet patterns.
 	 * @param {STG.Point[]|Object[]} options.paths - An array of STG points or objects.
 	 * @param {Boolean} options.loop_points - Determines if we will loop through the points.
+	 * @param {Number} options.target - Set to 0 to retrieve the player and 1 to retrieve enemies.
 	 */
 	function Enemy(options) {
 		//Call our parent's constructor.
@@ -63,6 +64,9 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 		//The path the enemy will follow.
 		var path = null;
 		
+		//The enemy's lives.
+		var lives = options.lives || 10;
+		
 		/*
 		 * Start the state.
 		 * @param {FSM} game.fsm - Finite state machine.
@@ -73,6 +77,9 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 			
 			//Set the bullet patterns.
 			for (var index = 0, length = patterns.length; index < length; index++) {
+				patterns[index].target = options.target || 0;
+				//console.log(patterns[index]);
+				//debugger;
 				danmakus.push(new pattern.Create(patterns[index]));
 				
 				state.setSubstate({
@@ -87,6 +94,16 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 		};
 		
 		/*
+		 * The enemy's logic.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
+		state.update = function(game) {
+			if (lives < 1)
+				state.setAlive(false);
+		};
+		
+		/*
 		 * Draws the enemy.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
@@ -94,6 +111,21 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 		state.render = function(game) {
 			if (ctx)
 				that.draw({ctx:ctx});
+		};
+		
+		/*
+		 * Set the enemy's lives.
+		 * @param {Number} _live - The lives to set.
+		 */
+		this.setLives = function(_live) {
+			lives += _live;
+		};
+		
+		/*
+		 * Get the enemy's lives.
+		 */
+		this.getLives = function() {
+			return {lives: lives};
 		};
 		
 		/*
