@@ -176,30 +176,33 @@ FSM.Player = (function(fsm, stg, system, resource, pattern) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		function movement(game) {
-			var s = speed;
+			var _speed = speed;
+			var position = that.getPosition();
+			var canvas = layers.buffer.getSquare();
+			
 			//If the Shift key is pressed switch to focused movement.
 			if (Keydown.shift) {
-				s = focused_speed;
+				_speed = focused_speed;
 				color_idx = 1;
 			}
 			else
 				color_idx = 0;
 			
 			//The Up key has been pressed.
-			if (Keydown.up /*&& (y - velocity) > 0*/)
-				that.add({x: 0, y: -s});
+			if ((Keydown.up || Keydown.w) && (position.y - _speed) > 0)
+				that.add({x: 0, y: -_speed});
 				
 			//The Down key has been pressed.
-			if (Keydown.down /*&& (y + velocity) < layers.buffer.height*/)
-				that.add({x: 0, y: s});
+			if ((Keydown.down || Keydown.s) && (position.y + _speed) < canvas.height)
+				that.add({x: 0, y: _speed});
 			
 			//The Left key is pressed.
-			if (Keydown.left /*&& (x - velocity) > 0*/)
-				that.add({x: -s, y: 0});
+			if ((Keydown.left || Keydown.a) && (position.x - _speed) > 0)
+				that.add({x: -_speed, y: 0});
 			
 			//The Right key has been pressed.
-			if (Keydown.right /*&& (x + velocity) < layers.buffer.width*/)
-				that.add({x: s, y: 0});
+			if ((Keydown.right || Keydown.d) && (position.x + _speed) < canvas.width)
+				that.add({x: _speed, y: 0});
 			
 			for (var danmaku = 0, length = danmakus.length; danmaku < length; danmaku++) {
 				danmakus[danmaku].setAutoFire(Keydown.z);
