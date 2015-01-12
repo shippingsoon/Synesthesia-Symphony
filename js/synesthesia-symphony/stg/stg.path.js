@@ -76,10 +76,8 @@ STG.Path = (function(globals, fsm, stg) {
 		 */
 		state.update = function(game) {//console.log("hi", can_move, "point_idx", point_idx, "points.length", points.length);
 			if (parent && can_move) {
-				console.log("point_idx", point_idx);
 				//If there are points to follow.
 				if (point_idx < points.length && point_idx > -1) {
-					
 					var target = points[point_idx];
 					var speed = target.getSpeed().speed;
 					

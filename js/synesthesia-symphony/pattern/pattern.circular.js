@@ -46,6 +46,7 @@ Pattern.Circular = (function(globals, fsm, stg, resource, pattern) {
 		var radii = options.radii || [10, 4]
 		var is_opens = options.is_opens || [false];
 		var radians = 0;
+		var speed = 0;
 		
 		bullets = pattern.createBullets({
 			ctx: ctx,
@@ -65,10 +66,11 @@ Pattern.Circular = (function(globals, fsm, stg, resource, pattern) {
 				throw 'FSM is undefined';
 			
 			radians = stg.Math.degreeToRadian({degrees: degrees, invert: invert});
+			speed = bullets[bullet].magnitude;
 
 			bullets[bullet].velocity.add({
-				x: bullets[bullet].magnitude * Math.cos(radians),
-				y: bullets[bullet].magnitude * Math.sin(radians)
+				x: (speed * Math.cos(radians)) || -1000,
+				y: (speed * Math.sin(radians)) || -1000
 			});
 			
 			degrees += padding;

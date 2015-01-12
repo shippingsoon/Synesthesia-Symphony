@@ -93,26 +93,39 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 					y: 200,
 					ctx: layers.buffer.getContext().ctx,
 					patterns: [{
-						method: 'Circular',
-						ctx: layers.buffer.getContext().ctx,
-						max_bullets: 18,
-						offsets: {x: 0, y: 0},
-						padding: 20,
-						degrees: 180,
-						radii: [8, 10],
-						speeds: [6, 8],
-						colors: ['red', 'green'],
-						delay: 200,
-						rate: 300,
-						rotation: 10,
-						duration: 3
-					}],
+		method: 'Circular',
+		ctx: layers.buffer.getContext().ctx,
+		max_bullets: 5,
+		padding: 10,
+		degrees: 270,
+		radii: [8, 4],
+		speeds: [5],
+		colors: ['pink', 'red'],
+		delay: 1000,
+		rate: 100,
+		duration: 30,
+		rotation: 10
+	}, {
+		method: 'Circular',
+		ctx: layers.buffer.getContext().ctx,
+		max_bullets: 5,
+		padding: 10,
+		degrees: 270,
+		radii: [8, 4],
+		speeds: [5],
+		colors: ['red', 'pink'],
+		delay: 1000,
+		rate: 100,
+		duration: 30,
+		rotation: -10
+	}
+],
 					paths: [
 						new stg.Point({x: 0, y: 0, delay: 0, speed: 10}),
-						new stg.Point({x: 200, y: 200, delay: 0, speed: 12}),
-						new stg.Point({x: 200, y: 400, delay: 0, speed: 14})
+						new stg.Point({x: 200, y: 200, delay: 8000, speed: 12}),
+						new stg.Point({x: 700, y: 700, delay: 0, speed: 14})
 					],
-					loop_points: true
+					loop_points: false
 				}));
 				
 				state.setSubstate({substate: enemies[enemy].getState()});
