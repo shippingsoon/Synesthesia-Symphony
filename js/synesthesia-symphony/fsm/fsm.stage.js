@@ -108,10 +108,11 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 						duration: 3
 					}],
 					paths: [
-						new stg.Point({x: 0, y: 0, delay: 0}),
-						new stg.Point({x: 200, y: 200, delay: 0}),
-						new stg.Point({x: 200, y: 800, delay: 0})
-					]
+						new stg.Point({x: 0, y: 0, delay: 0, speed: 10}),
+						new stg.Point({x: 200, y: 200, delay: 0, speed: 12}),
+						new stg.Point({x: 200, y: 400, delay: 0, speed: 14})
+					],
+					loop_points: true
 				}));
 				
 				state.setSubstate({substate: enemies[enemy].getState()});

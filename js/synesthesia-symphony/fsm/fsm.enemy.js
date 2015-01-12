@@ -33,6 +33,7 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 	 * @param {STG.Color|String} options.color - The enemy's color.
 	 * @param {Object[]} options.patterns - An array of bullet patterns.
 	 * @param {STG.Point[]|Object[]} options.paths - An array of STG points or objects.
+	 * @param {Boolean} options.loop_points - Determines if we will loop through the points.
 	 */
 	function Enemy(options) {
 		//Call our parent's constructor.
@@ -49,6 +50,12 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 		
 		//Options for bullet patterns.
 		var patterns = options.patterns || [];
+		
+		//An array of STG points.
+		var points = options.paths || [];
+		
+		//Determines if we will loop through the points.
+		var loop_points = options.loop_points || false;
 		
 		//Stores the bullet patterns.
 		var danmakus = [];
@@ -75,7 +82,7 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 			}
 			
 			//Set the paths.
-			path = new stg.Path({points: options.paths, parent: that});
+			path = new stg.Path({points: points, loop_points: loop_points, parent: that});
 			state.setSubstate({substate: path.getState(), parent: that});
 		};
 		

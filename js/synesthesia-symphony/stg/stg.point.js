@@ -71,6 +71,13 @@ STG.Point = (function(stg) {
 		this.getDelay = function() {
 			return {delay: delay};
 		};
+		
+		/*
+		 * Get the point's speed.
+		 */
+		this.getSpeed = function() {
+			return {speed: speed};
+		};
 	};
 	
 	Point.prototype = Object.create(stg.Circle.prototype);
