@@ -50,7 +50,7 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 		var delay = options.delay || 0;
 		
 		//The rate of fire in milliseconds.
-		var rate = options.rate || 1000;
+		var rate = (options.rate === undefined) ? 1000 : options.rate;
 		
 		//Determines if we can fire.
 		var can_fire = (!delay);

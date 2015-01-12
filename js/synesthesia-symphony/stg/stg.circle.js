@@ -63,7 +63,8 @@ STG.Circle = (function(stg) {
 					radius: options.radius || options.r || radius,
 					color: options.color || color,
 					ctx: ctx,
-					lineWidth: options.ctx || line_width
+					lineWidth: line_width,
+					strokeStyle: line_color
 				});
 			}
 		};
@@ -119,7 +120,7 @@ STG.Circle = (function(stg) {
 		 * Get the circle's color.
 		 */
 		this.getColor = function() {
-			return {colors: color};
+			return {color: color};
 		};
 	};
 	

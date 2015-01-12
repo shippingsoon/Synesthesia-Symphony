@@ -36,7 +36,7 @@ STG.Bullet = (function(fsm, stg, resource) {
 		var that = this;
 		
 		//The bullet's state.
-		this.state = new fsm.State(options.state || {});
+		var state = new fsm.State(options.state || {});
 		
 		//The bullet's velocity vector.
 		this.velocity = new stg.Vector({
@@ -54,14 +54,14 @@ STG.Bullet = (function(fsm, stg, resource) {
 		var is_open = (options.is_open !== undefined) ? options.is_open : false;
 		
 		//Set this state's parent.
-		this.state.setParent(that);
+		state.setParent(that);
 		
 		/*
 		 * Draw the bullet.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
-		this.state.render = function(game) {
+		state.render = function(game) {
 			if (ctx)
 				that.draw({ctx:ctx});
 		};
@@ -71,12 +71,35 @@ STG.Bullet = (function(fsm, stg, resource) {
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
-		this.state.update = function(game) {
+		state.update = function(game) {
+			//If this bullet is open create a paint trail.
+			if (is_open) {
+				var circle = that.getCircle();
+				
+				var paint_bullet = new stg.Bullet({
+					ctx: ctx || game.ctx,
+					x: circle.x,
+					y: circle.y,
+					radius: circle.radius,
+					color: that.getColor().color,
+					strokeStyle: that.getColor().color,
+					vy: 5
+				});
+				
+				game.fsm.setSubstate({substate: paint_bullet.getState()});
+			}
 			//Add the velocity vector to the bullet's position.
 			that.add(that.velocity);
 			
 			var out_of_bounds = stg.Math.outOfBounds(that, layers.buffer);
-			that.state.setAlive(!out_of_bounds);
+			state.setAlive(!out_of_bounds);
+		};
+		
+		/*
+		 * Get the state.
+		 */
+		this.getState = function() {
+			return state;
 		};
 	};
 	

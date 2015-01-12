@@ -61,7 +61,7 @@ Pattern.Circular = (function(globals, fsm, stg, resource, pattern) {
 
 		for (var bullet = 0; bullet < max_bullets; bullet++) {
 			if (fsm)
-				fsm.setSubstate({substate: bullets[bullet].state});
+				fsm.setSubstate({substate: bullets[bullet].getState()});
 			else
 				throw 'FSM is undefined';
 			
