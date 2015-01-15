@@ -608,6 +608,9 @@ MIDI.pianoKeyOffset = 21;
 // note conversions
 MIDI.keyToNote = {}; // C8  == 108
 MIDI.noteToKey = {}; // 108 ==  C8
+MIDI.keyToOctave = {}; //
+MIDI.noteToOctave = {}; // 
+
 (function () {
 	var A0 = 0x15; // first note
 	var C8 = 0x6C; // last note
@@ -617,6 +620,8 @@ MIDI.noteToKey = {}; // 108 ==  C8
 		var name = number2key[n % 12] + octave;
 		MIDI.keyToNote[name] = n;
 		MIDI.noteToKey[n] = name;
+		MIDI.keyToOctave[name] = octave;
+		MIDI.noteToOctave[n] = octave;
 	}
 })();
 

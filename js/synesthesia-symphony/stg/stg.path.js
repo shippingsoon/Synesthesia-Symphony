@@ -74,7 +74,7 @@ STG.Path = (function(globals, fsm, stg) {
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
-		state.update = function(game) {//console.log("hi", can_move, "point_idx", point_idx, "points.length", points.length);
+		state.update = function(game) {
 			if (parent && can_move) {
 				//If there are points to follow.
 				if (point_idx < points.length && point_idx > -1) {

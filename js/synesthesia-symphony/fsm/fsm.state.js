@@ -127,7 +127,7 @@ FSM.State = (function(globals) {
 		/*
 		 * Checks if this state is still active.
 		 */
-		this.getActive = this.isActive =  function() {
+		this.getActive = this.isActive = function() {
 			return active;
 		};
 		
@@ -142,7 +142,7 @@ FSM.State = (function(globals) {
 		/*
 		 * Checks if this state is still alive.
 		 */
-		this.getAlive = this.isAlive =  function() {
+		this.getAlive = this.isAlive = function() {
 			return alive;
 		};
 		
@@ -151,13 +151,13 @@ FSM.State = (function(globals) {
 		 * @param {Boolean} is_visible - Determines if the visible status will be true or false.
 		 */
 		this.setVisible = function(is_visible) {
-			active = is_visible;
+			visible = is_visible;
 		};
 		
 		/*
 		 * Checks if this state is visible.
 		 */
-		this.getVisible = this.isVisible =  function() {
+		this.getVisible = this.isVisible = function() {
 			return visible;
 		};
 		

@@ -273,7 +273,8 @@ if (typeof(MusicTheory.Synesthesia) === "undefined") MusicTheory.Synesthesia = {
 		};
 		var syn = root.data;
 		var colors = syn[type] || syn["D. D. Jameson (1844)"];
-		for (var note = 0; note <= 88; note ++) { // creates mapping for 88 notes
+		//for (var note = 0; note <= 88; note ++) { // creates mapping for 88 notes
+		for (var note = 0; note <= 96; note ++) {
 			if (colors.data) {
 				data[note] = {
 					hsl: colors.data[note],
@@ -291,6 +292,7 @@ if (typeof(MusicTheory.Synesthesia) === "undefined") MusicTheory.Synesthesia = {
 				var octave = note / 12 >> 0;
 				var octaveLum = L + amount * octave - 3 * amount; // map luminance to octave		
 				data[note] = {
+					octave: octave,
 ///					hsl: 'hsla(' + H + ',' + S + '%,' + octaveLum + '%, 1)',
 //					hex: Color.Space({H:H, S:S, L:octaveLum}, "HSL>RGB>HEX>W3")
 					hsl: 'hsla(' + H + ',' + S + '%,' + L + '%, 1)',

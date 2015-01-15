@@ -13,7 +13,7 @@ var Resource = Resource || {};
 var System = System || {};
 
 //Stage state.
-FSM.Stage = (function(fsm, stg, resource, system) {
+FSM.Stage = (function(globals, fsm, stg, resource, system) {
 	"use strict";
 	
 	//The HTML5 canvases.
@@ -93,28 +93,94 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {
+		
+			var synesthesia = MusicTheory.Synesthesia;
+			var map = synesthesia.map('D. D. Jameson (1844)');
+			var offset = 0;
+			var notes = [];
+			var white_margin = 480 / 51;
+			var is_sharp = false;
+			var sharp_count = [];
+			
+			//Zero is for white keys and one is for black keys.
+			var colors = [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0];
+			
+			for (var note = 0x15; note < 0x6C; note++) {
+				is_sharp = colors[note % 12] === 1;
+				
+				notes.push(
+					new stg.Note({
+						ctx: layers.buffer.getContext().ctx,
+						x: ((is_sharp) ? offset - 3 : offset),
+						y: 0,
+						w: ((is_sharp) ? white_margin / 1.5 : white_margin),
+						h: (is_sharp) ? 10 : 20,
+						color: map[note % 12].hex,
+						note: note,
+						key: MIDI.noteToKey[note],
+						octave: (note - 12) / 12 >> 0,
+						is_sharp: is_sharp
+					}
+				));
+				
+				sharp_count.push(is_sharp);
+				
+				if (!is_sharp)
+					offset += white_margin;
+			}
+			
+			//Load the white keys.
+			for (var note = 0; note < notes.length; note++) {
+				if (!sharp_count[note])
+					state.setSubstate({substate: notes[note].getState()});
+			}
+			
+			//Load the black keys.
+			for (var note = 0; note < notes.length; note++) {
+				if (sharp_count[note])
+					state.setSubstate({substate: notes[note].getState()});
+			}
+			
+			//*
 			//Load the stage music.
 			MIDI.loadPlugin({
 				soundfontUrl: './soundfont/',
-				instrument: 'acoustic_grand_piano',
-				callback: function() {
+				instruments: ['bright_acoustic_piano', 'synth_bass_1', 'lead_1_square', 'synth_bass_2', 'lead_2_sawtooth', 'synth_strings_1', 'electric_guitar_jazz'],
+				callback: function(data) {
+					
+					//Change the program and patch.
+					MIDI.programChange(0, 1);
+					MIDI.programChange(1, 38);
+					MIDI.programChange(3, 80);
+					MIDI.programChange(2, 39);
+					MIDI.programChange(4, 81);
+					MIDI.programChange(5, 50);
+					MIDI.programChange(6, 26);
+
 					//The speed the song is played back.
 					mplayer.timeWarp = 1;
 					
 					//Load and play the stage music.
-					mplayer.loadFile('/synesthesia-symphony/midi/final-boss.mid', mplayer.start);
+					mplayer.loadFile('/synesthesia-symphony/midi/green-hill.mid', mplayer.start);
 					
 					//MIDI event listener.
 					mplayer.addListener(function (data) {
-						//
+						//console.log(data);
+						
+						for (var note = 0; note < notes.length; note++) {
+							notes[note].listen(data);
+						}
+						
+						
 					});
 				}
 			});
+			//*/
 			
 			//Add the player substate.
 			state.setSubstate({substate: player.getState()});
 			
-		
+			
 			enemies.push(new fsm.Enemy({
 				color: stg.Color({r: 0, g: 255, b: 0}),
 				x: 200,
@@ -268,6 +334,10 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.update = function(game) {
+			//Filter out inactive enemies.
+			enemies = enemies.filter(function(enemy){
+				return enemy.getState().isAlive();
+			});
 			//The conveyorBelt() function moves the canvas sprite's position.
 			stg.Stage.conveyorBelt(canvas_vectors, sprites.canvas_bg.img.height, 5);
 		};
@@ -326,4 +396,4 @@ FSM.Stage = (function(fsm, stg, resource, system) {
 	}
 	
 	return Stage;
-}(FSM, STG, Resource, System));
+}(window, FSM, STG, Resource, System));

@@ -39,7 +39,7 @@ FSM.Init = (function(globals, stg, resource) {
 				
 				//Handle events in the current state.
 				if (current_state && current_state.isActive())
-					_fsm({fsm: that, ctx: resource.layers.screen.getContext().ctx, state: current_state, method: 'controller', event: event});
+					_fsm({fsm: that, ctx: resource.layers.screen.getContext().ctx, state: current_state, method: 'controller', event: event, condition: 'isActive'});
 			}
 		};
 		
@@ -53,7 +53,7 @@ FSM.Init = (function(globals, stg, resource) {
 				
 				//Update the current state.
 				if (current_state && current_state.isActive())
-					_fsm({fsm: that, ctx: fsm.ctx, state: current_state, method: 'update'});
+					_fsm({fsm: that, ctx: fsm.ctx, state: current_state, method: 'update', condition: 'isActive'});
 			}
 			
 			//Filter out dead states.
@@ -70,7 +70,7 @@ FSM.Init = (function(globals, stg, resource) {
 				
 				//Render the current state.
 				if (current_state && current_state.isVisible())
-					_fsm({fsm: that, ctx: fsm.ctx, state: current_state, method: 'render'});
+					_fsm({fsm: that, ctx: fsm.ctx, state: current_state, method: 'render', condition: 'isVisible'});
 			}
 		};
 		
@@ -197,8 +197,8 @@ FSM.Init = (function(globals, stg, resource) {
 			if (options.state) {
 				if (options.state.isAlive()) {
 					//Process the current state.
-					if (options.state[options.method] instanceof Function)
-						callback = options.state[options.method](options);
+					if (options.state[options.method] && (!options.condition || options.state[options.condition]()))
+							callback = options.state[options.method](options);
 					
 					//Retrieve the substates.
 					var substates = options.state.getSubstate();
