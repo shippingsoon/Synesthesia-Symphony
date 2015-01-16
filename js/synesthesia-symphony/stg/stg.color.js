@@ -32,11 +32,20 @@ STG.Color = (function(stg) {
 		//Set the alpha.
 		var alpha = (typeof arguments[3] === 'number') ? arguments[3] : (((options.a !== undefined) ? options.a : 1));
 		
+		//The color in hexadecimal format.
+		var hex = buildHex();
+		
 		/*
-		 * Returns the color.
+		 * Returns the colors.
 		 */
 		this.getColor = function() {
-			return 'rgba(' + red + ', ' + green + ', ' + blue + ', ' + alpha +')';
+			return {
+				red: red, r: red,
+				green: green, g: green,
+				blue: blue, b: blue,
+				alpha: alpha, a: alpha,
+				hex: hex, h: hex
+			};
 		};
 		
 		/*
@@ -55,13 +64,66 @@ STG.Color = (function(stg) {
 			
 			//Make sure the values are valid.
 			validateColor();
+			
+			//The color in hexadecimal format.
+			hex = buildHex();
 		};
 		
 		/*
-		 * Returns the hexadecimal color.
+		 * Returns the color in RGBA format.
+		 */
+		this.getRGBA = function() {
+			return 'rgba(' + red + ', ' + green + ', ' + blue + ', ' + alpha +')';
+		};
+		
+		/*
+		 * Sets the hex color.
+		 * @param {Sting} _hex - The hex color.
+		 */
+		this.setHex = function(_hex) {
+			hex = _hex;
+		};
+		
+		/*
+		 * Returns the color in hexadecimal format.
 		 */
 		this.getHex = function() {
-			return '#' + red.toString(16) + green.toString(16) + blue.toString(16);
+			return {hex: hex};
+		};
+		
+		/*
+		 * Compares two colors. Returns true or false depending on if the colors match.
+		 * @param {STG.Color|String|Object} _color - The color to compare.
+		 */
+		this.compare = function(_color) {
+			if (typeof _color === 'string') {
+				//If we got a color in hexidecimal format.
+				if (_color[0] === '#')
+					_color = stg.hexToColor(_color);
+				
+				//If we got a color string.
+				else
+					_color = stg.stringToColor(_color);
+			}
+			
+			//If this is an STG color.
+			if (_color.hasOwnProperty('getColor'))
+				_color = _color.getColor();
+			
+			return (red === _color.r && blue === _color.b && green === _color.g);
+		};
+		
+		/*
+		 * Returns a hexadecimal color.
+		 * @param {Sting} _hex - The hexadecimal color.
+		 */
+		function buildHex() {
+			var _hex = '#';
+			_hex += (red > 9) ? red.toString(16) : '0' + red.toString(16);
+			_hex += (green > 9) ? green.toString(16) : '0' + green.toString(16);
+			_hex += (blue > 9) ? blue.toString(16) : '0' + blue.toString(16);
+			
+			return _hex;
 		};
 		
 		/*
@@ -92,7 +154,7 @@ STG.Color = (function(stg) {
 		//Make sure the color values are valid.
 		validateColor();
 		
-		return this.getColor();
+		hex = buildHex();
 	};
 	
 	return Color;

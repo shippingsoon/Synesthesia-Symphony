@@ -145,10 +145,13 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 			//Load the stage music.
 			MIDI.loadPlugin({
 				soundfontUrl: './soundfont/',
-				instruments: ['bright_acoustic_piano', 'synth_bass_1', 'lead_1_square', 'synth_bass_2', 'lead_2_sawtooth', 'synth_strings_1', 'electric_guitar_jazz'],
+				//instruments: ['bright_acoustic_piano', 'synth_bass_1', 'lead_1_square', 'synth_bass_2', 'lead_2_sawtooth', 'synth_strings_1', 'electric_guitar_jazz'],
+				instruments: ['acoustic_grand_piano', 'bright_acoustic_piano', 'synth_bass_1', 'violin', 'viola', 'cello'],
 				callback: function(data) {
 					
 					//Change the program and patch.
+					//http://en.wikipedia.org/wiki/General_MIDI#Program_change_events
+					/*
 					MIDI.programChange(0, 1);
 					MIDI.programChange(1, 38);
 					MIDI.programChange(3, 80);
@@ -156,22 +159,31 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 					MIDI.programChange(4, 81);
 					MIDI.programChange(5, 50);
 					MIDI.programChange(6, 26);
-
+					*/
+					MIDI.programChange(0, 0);
+					MIDI.programChange(1, 1);
+					/*
+					MIDI.programChange(0, 40);
+					MIDI.programChange(1, 42);
+					*/
+					
 					//The speed the song is played back.
 					mplayer.timeWarp = 1;
 					
 					//Load and play the stage music.
-					mplayer.loadFile('/synesthesia-symphony/midi/green-hill.mid', mplayer.start);
-					
+					//mplayer.loadFile('/synesthesia-symphony/midi/green-hill.mid', mplayer.start);
+					mplayer.loadFile('/synesthesia-symphony/midi/still-alive.mid', mplayer.start);
 					//MIDI event listener.
 					mplayer.addListener(function (data) {
-						//console.log(data);
+						console.log(data);
 						
-						for (var note = 0; note < notes.length; note++) {
-							notes[note].listen(data);
-						}
+						//for (var note = 0; note < notes.length; note++) {
+						//	if (notes[note].listen(data))
+						//		break;
+						//}
 						
-						
+						var event = new CustomEvent('onNote-' + data.note, {'detail': data});
+						globals.dispatchEvent(event);
 					});
 				}
 			});
@@ -179,7 +191,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 			
 			//Add the player substate.
 			state.setSubstate({substate: player.getState()});
-			
+			return;
 			
 			enemies.push(new fsm.Enemy({
 				color: stg.Color({r: 0, g: 255, b: 0}),

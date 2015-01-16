@@ -11,9 +11,10 @@ var FSM = FSM || {};
 var STG = STG || {};
 var Resource = Resource || {};
 var System = System || {};
+var Pattern = Pattern || {};
 
 //Note submodule.
-STG.Note = (function(globals, fsm, stg, resource, system) {
+STG.Note = (function(globals, fsm, stg, resource, system, pattern) {
 	"use strict";
 	
 	var layers = resource.layers;
@@ -54,16 +55,23 @@ STG.Note = (function(globals, fsm, stg, resource, system) {
 		
 		var colors = [options.color || 'white', ((is_sharp) ? 'black' : 'white')];
 		
-		var color_idx = 0;
-	
+		var color_idx = 1;
 		
-		this.listen = function(data) {
-			if (note === data.note) {
-				color_idx = 0;
-			}
-			else
-				color_idx = 1;
-
+		var danmaku = null;
+	
+		/*
+		 * MIDI event listener.
+		 * @param {Number} e.detail.note - MIDI note.
+		 * @param {Number} e.detail.channel - MIDI channel.
+		 * @param {Number} e.detail.velocity - MIDI velocity.
+		 */
+		function listen(e) {
+			color_idx = 0;
+			
+			danmaku.setAutoFire(true);
+			
+			//Change the color index back to one.
+			setTimeout(that.setColorIndex, 300, 1);
 		}
 
 		/*
@@ -72,7 +80,78 @@ STG.Note = (function(globals, fsm, stg, resource, system) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {
+			//Listen for MIDI events.
+			globals.addEventListener('onNote-' + note, listen, false);
 			
+			
+			/*
+			danmaku = new pattern.Create({
+				method: 'Circular',
+				ctx: ctx,
+				max_bullets: 1,
+				offsets: {x: 0, y: 20},
+				padding: 30,
+				degrees: 270,
+				radii: [4],
+				speeds: [4],
+				colors: [colors[0]],
+				delay: 0,
+				rate: 100,
+				rotation: 0
+			});
+			//*/
+			
+			//*
+			danmaku = new pattern.Create({
+				method: 'Circular',
+				ctx: ctx,
+				max_bullets: 3,
+				offsets: {x: 0, y: 0},
+				padding: 10,
+				degrees: 270,
+				radii: [4],
+				speeds: [4],
+				colors: [colors[0]],
+				delay: 0,
+				rate: 100,
+				rotation: 10
+			});
+			//*/
+			
+			/*
+			danmaku = new pattern.Create({
+				method: 'Circular',
+				ctx: ctx,
+				max_bullets: 20,
+				offsets: {x: 0, y: 20},
+				padding: 30,
+				degrees: 270,
+				radii: [4],
+				speeds: [4],
+				colors: [colors[0]],
+				delay: 0,
+				rate: 100,
+				rotation: 0
+			});
+			//*/
+
+			
+			state.setSubstate({
+				substate: danmaku.getState(), 
+				parent: that
+			});
+			
+			danmaku.setAutoFire(false);
+		};
+		
+		/*
+		 * Stop the state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
+		state.stop = function(game) {
+			//Remove the event listener.
+			globals.removeEventListener('onNote-' + note, listen, false);
 		};
 		
 		/*
@@ -83,6 +162,7 @@ STG.Note = (function(globals, fsm, stg, resource, system) {
 		state.render = function(game) {
 			if (ctx)
 				that.draw({ctx: ctx, color: colors[color_idx]});
+			//color_idx = 1;
 		};
 		
 		/*
@@ -95,6 +175,14 @@ STG.Note = (function(globals, fsm, stg, resource, system) {
 		};
 		
 		/*
+		 * Sets the color index.
+		 * @param {Number} _color_idx - Set the index of the colors array.
+		 */
+		this.setColorIndex = function(_color_idx) {
+			color_idx = _color_idx;
+			danmaku.setAutoFire(false);
+		}
+		/*
 		 * Get the state.
 		 */
 		this.getState = function() {
@@ -105,4 +193,4 @@ STG.Note = (function(globals, fsm, stg, resource, system) {
 	Note.prototype = Object.create(stg.Square.prototype);
 	
 	return Note;
-}(window, FSM, STG, Resource, System));
+}(window, FSM, STG, Resource, System, Pattern));

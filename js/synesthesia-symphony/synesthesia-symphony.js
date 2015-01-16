@@ -20,10 +20,13 @@ var FSM = FSM || {};
   * @param {Object} resource - Resource submodule.
   * @param {Object} fsm - Finite state machine.
   */
-(function(globals, system, resource, fsm) {
+(function(globals, system, resource, fsm, stg) {
 	//Load the game resources.
 	resource.load(null);
+	//var color = new stg.Color(20, 255, 2);
 	
+	//console.log(color.getColor());
+	//return;
 	//Retrieve our canvas elements.
 	var layers = resource.layers;
 	
@@ -64,4 +67,4 @@ var FSM = FSM || {};
 	else
 		//Call our main function every n frames per second.
 		globals.interval = setInterval(main, 1000 / system.Config.TARGET_FPS);
-}(window, System, Resource, FSM));
+}(window, System, Resource, FSM, STG));

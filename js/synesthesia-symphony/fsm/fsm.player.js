@@ -131,10 +131,11 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		 */
 		state.render = function(game) {
 			var ctx = that.getContext().ctx;
+			var random = Math.floor((Math.random() * 2) + 0);
 			
 			if (ctx) {
 				//Draw the player.
-				that.draw({ctx: ctx, color: colors[color_idx]});
+				that.draw({ctx: ctx, color: colors[((is_invulnerable) ? random : color_idx)]});
 				
 				//Draw the player's color boxes.
 				if (!stg.Math.circleSquareCollision(that, color_boxes[0]))
