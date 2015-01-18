@@ -63,6 +63,10 @@ STG.Canvas = (function(globals) {
 				
 				ctx.beginPath();
 				ctx.arc(options.x || 0, options.y || 0, options.radius || 10, 0, 2 * Math.PI, false);
+				
+				if (options.color.hasOwnProperty('getRGBA'))
+					options.color = options.color.getRGBA().rgba;
+					
 				ctx.fillStyle = options.color || 'black';
 				ctx.fill();
 				if (options.lineWidth) {
@@ -98,6 +102,10 @@ STG.Canvas = (function(globals) {
 				
 				ctx.beginPath();
 				ctx.rect(options.x || 0, options.y || 0, options.width || options.w || 10, options.height || options.h || 10);
+				
+				if (options.color.hasOwnProperty('getRGBA'))
+					options.color = options.color.getRGBA().rgba;
+					
 				ctx.fillStyle = options.color || options.fillStyle || 'black';
 				ctx.fill();
 				if (options.lineWidth) {
@@ -132,6 +140,10 @@ STG.Canvas = (function(globals) {
 				
 				//Set the font type and color.
 				ctx.font = options.font || 'bold 16px arial';
+				
+				if (options.color.hasOwnProperty('getRGBA'))
+					options.color = options.color.getRGBA().rgba;
+					
 				ctx.fillStyle = options.color || '#444';
 				ctx.textAlign = options.align || 'left';
 				if (options.shadowColor) {

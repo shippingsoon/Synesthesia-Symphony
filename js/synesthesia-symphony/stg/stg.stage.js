@@ -35,7 +35,7 @@ STG.Stage = (function(globals, system, stg) {
 			var score = config.score.toString();
 			
 			//The player's lives.
-			var lives = player.getLives().lives;
+			var lives = player.getLives();
 			var lives_text = '';
 			
 			//The zeroes we will use to pad the scores.
@@ -81,7 +81,7 @@ STG.Stage = (function(globals, system, stg) {
 			//Draw the player's power.
 			common.x = 570;
 			common.y = 205;
-			common.message = 'Power  ' + player.getPower().power.toFixed(2) + ' / ' + config.MAX_POWER.toFixed(2);
+			common.message = 'Power  ' + player.getPower().toFixed(2) + ' / ' + config.MAX_POWER.toFixed(2);
 			stg.Canvas.text(common);
 			
 			//Draw the glaze.
@@ -124,14 +124,14 @@ STG.Stage = (function(globals, system, stg) {
 		 * When one canvas has moved off the screen we will move it back to the top.
 		 * @param {STG.Vector[]} canvas_vectors - An array of two position vectors which will determine where we will draw the canvas sprites. 
 		 * @param {Number} height - The height of the canvas sprite.
-		 * @param {Number} speed - The speed in which we will be moving the canvas sprite on the conveyor belt.
+		 * @param {Number} speed - The rate in which we will be moving the canvas sprite on the conveyor belt.
 		 */
 		conveyorBelt: function(canvas_vectors, height, speed) {
 			//Determine which canvas sprite should be moved to the top of the conveyor belt.
 			var index = (this.is_odd_belt) ? 0 : 1;
 			
 			//If this canvas' position is off the stage, then we will move it back to the top of the stage.
-			if (canvas_vectors[index].getPosition().y === height) {
+			if (canvas_vectors[index].getPosition().y >= height) {
 				//Move the canvas sprite above the stage.
 				canvas_vectors[index].setPosition({y: -height});
 				
@@ -143,6 +143,5 @@ STG.Stage = (function(globals, system, stg) {
 			canvas_vectors[0].add(speed);
 			canvas_vectors[1].add(speed);
 		},
-		
 	};
 }(window, System, STG)); 

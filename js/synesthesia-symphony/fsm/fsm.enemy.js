@@ -34,7 +34,7 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 	 * @param {Object[]} options.patterns - An array of bullet patterns.
 	 * @param {STG.Point[]|Object[]} options.paths - An array of STG points or objects.
 	 * @param {Boolean} options.loop_points - Determines if we will loop through the points.
-	 * @param {Number} options.target - Set to 0 to retrieve the player and 1 to retrieve enemies.
+	 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
 	 */
 	function Enemy(options) {
 		//Call our parent's constructor.
@@ -47,7 +47,7 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 		var state = new fsm.State(options);
 		
 		//The 2D drawing context we will use to render the bullet.
-		var ctx = options.ctx || this.getContext().ctx;
+		var ctx = options.ctx || this.getContext();
 		
 		//Options for bullet patterns.
 		var patterns = options.patterns || [];
@@ -73,11 +73,11 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {
-			var ctx = that.getContext().ctx;
+			var ctx = that.getContext();
 			
 			//Set the bullet patterns.
 			for (var index = 0, length = patterns.length; index < length; index++) {
-				patterns[index].target = options.target || 0;
+				patterns[index].target_type = options.target_type || 0;
 				//console.log(patterns[index]);
 				//debugger;
 				danmakus.push(new pattern.Create(patterns[index]));
@@ -115,17 +115,17 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 		
 		/*
 		 * Set the enemy's lives.
-		 * @param {Number} _live - The lives to set.
+		 * @param {Number} _lives - The lives to set.
 		 */
-		this.setLives = function(_live) {
-			lives += _live;
+		this.setLives = function(_lives) {
+			lives = _lives;
 		};
 		
 		/*
 		 * Get the enemy's lives.
 		 */
 		this.getLives = function() {
-			return {lives: lives};
+			return lives;
 		};
 		
 		/*
@@ -168,6 +168,20 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 			
 			return false;
 		};
+		
+		/*
+		 * Handles collision.
+		 */
+		this.handleCollision = function() {
+			var lives = that.getLives();
+			
+			//Decrease the enemy's lives.
+			that.setLives(lives - 1);
+			
+			//Increase the score.
+			system.Config.score += 100;
+			system.Config.hiscore += 100;
+		}
 		
 		/*
 		 * Get the state.

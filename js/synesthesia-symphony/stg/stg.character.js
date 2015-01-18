@@ -9,9 +9,10 @@
 
 var System = System || {};
 var STG = STG || {};
+var Resource = Resource || {};
 
 //This sub module contains character related data structures.
-STG.Character = (function(globals, system, stg) {
+STG.Character = (function(globals, system, stg, resource) {
 	"use strict";
 	
 	return {
@@ -38,8 +39,16 @@ STG.Character = (function(globals, system, stg) {
 				
 				//The color of the weapons.
 				colors: [
-					[['blue', 'pink'], ['red', 'yellow', ''], ['red', 'blue']],
-					[['blue', 'pink'], ['red', 'yellow', ''], ['red', 'blue']],
+					[
+						[new stg.Color(0, 0, 255), new stg.Color(153, 50, 204)],
+						[new stg.Color(0, 0, 255), new stg.Color(153, 50, 204)],
+						[new stg.Color(0, 0, 255), new stg.Color(153, 50, 204)]
+					],
+					[
+						[new stg.Color(0, 0, 255), new stg.Color(153, 50, 204)],
+						[new stg.Color(0, 0, 255), new stg.Color(153, 50, 204)],
+						[new stg.Color(0, 0, 255), new stg.Color(153, 50, 204)]
+					],
 				],
 				
 				//Description of the weapons.
@@ -54,4 +63,4 @@ STG.Character = (function(globals, system, stg) {
 			weapon_idx: 0
 		}
 	};
-}(window, System, STG));
+}(window, System, STG, Resource));

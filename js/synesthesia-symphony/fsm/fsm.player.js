@@ -36,7 +36,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 	 * @param {Number} options.lives - The player's initial lives.
 	 * @param {Number} options.power - The player's initial power.
 	 * @param {Object[]} options.patterns - An array of bullet patterns.
-	 * @param {Number} options.target - Set to 0 to retrieve the player and 1 to retrieve enemies.
+	 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
 	 */
 	function Player(options) {
 		if (_instance)
@@ -47,6 +47,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		//The player's radius.
 		options.radius = options.radius || config.HITBOX_RADIUS;
 		
+		//Invoke the inherited constructor.
 		stg.Circle.call(this, options);
 		
 		//The player's state.
@@ -61,9 +62,10 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		//The player's primary and secondary colors.
 		var colors = options.colors || weapons.colors[player_idx][weapon_idx];
 		
+		//Set the player's primary color.
 		this.setColor(colors[0]);
 		
-		//If this color index is 0 then the player is using their primary color, if it is set to 1 they are using a secondary color.
+		//If the color index is 0 then the player is using their primary color, if it is set to 1 they are using a secondary color.
 		var color_idx = 0;
 		
 		//The player's speed.
@@ -75,7 +77,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		//The player's lives.
 		var lives = options.lives || config.INITIAL_LIVES;
 		
-		//The player's power.
+		//The player's power. This will determine the player's rate of fire.
 		var power = options.power || config.INITIAL_POWER;
 		
 		//Options for bullet patterns.
@@ -96,13 +98,13 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {
-			var ctx = that.getContext().ctx;
+			var ctx = that.getContext();
 			
 			color_boxes.push(new stg.Square({x: 10 + 4, y: 540 + 4, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
 			color_boxes.push(new stg.Square({x: 10, y: 540, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
 			
 			for (var index = 0, length = patterns.length; index < length; index++) {
-				patterns[index].target = options.target || 1;
+				patterns[index].target_type = options.target_type || stg.targets.enemy;
 				danmakus.push(new pattern.Create(patterns[index]));
 				
 				state.setSubstate({
@@ -130,12 +132,16 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.render = function(game) {
-			var ctx = that.getContext().ctx;
-			var random = Math.floor((Math.random() * 2) + 0);
+			var ctx = that.getContext();
+			var random = 0.1 + (Math.random() * (0.4 - 0.1));
+			
+			//colors[color_idx].setAlpha(((is_invulnerable) ? random : 1));
+			for (var color in colors)
+				colors[color].setAlpha(((is_invulnerable) ? random : 1));
 			
 			if (ctx) {
 				//Draw the player.
-				that.draw({ctx: ctx, color: colors[((is_invulnerable) ? random : color_idx)]});
+				that.draw({ctx: ctx, color: colors[is_invulnerable ? random : color_idx]});
 				
 				//Draw the player's color boxes.
 				if (!stg.Math.circleSquareCollision(that, color_boxes[0]))
@@ -148,59 +154,105 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		
 		/*
 		 * Set the player's lives.
-		 * @param {Number} _live - The lives to set.
+		 * @param {Number} _lives - The lives to set.
 		 */
-		this.setLives = function(_live) {
-			if (_live < 0) {
-				if (!is_invulnerable) {
-					lives += _live;
-				
-					//Make the player temporarily invulnerable.
-					that.setInvulnerable(true);
-					globals.setTimeout(that.setInvulnerable, 1000, false);
-				}
-			}
-			else
-				lives += _live;
+		this.setLives = function(_lives) {
+			lives = _lives;
 		};
 		
 		/*
 		 * Get the player's lives.
 		 */
 		this.getLives = function() {
-			return {lives: lives};
-		};
-		
-		//Set the player's power.
-		this.setPower = function(p) {
-			power = p;
-		};
-		
-		//Get the player's power.
-		this.getPower = function() {
-			return {power: power};
-		};
-		
-		//Set the player's color.
-		this.setColors = function(c) {
-			color = c;
-		};
-		
-		//Get the player's colors.
-		this.getColors = function(use_index) {
-			if (use_index !== undefined)
-				return {color: colors[color_idx]};
-			
-			return {colors: colors};
+			return lives;
 		};
 		
 		/*
-		 * Set the player's invulnerability.
+		 * Set the player's power.
+		 * @param {Number} _power - The player's power.
+		 */
+		this.setPower = function(_power) {
+			power = _power;
+		};
+		
+		/*
+		 * Get the player's power.
+		 */
+		this.getPower = function() {
+			return power;
+		};
+		
+		/*
+		 * Set the player's colors or optionally sets the player's color at a given index.
+		 * @param {STG.Color|String} _color - The new color.
+		 * @param {Number} _color_idx - The array index.
+		 */
+		this.setColors = function(_color, _color_idx) {
+			if (_color_idx && _color_idx < colors.length)
+				colors[_color_idx] = _color;
+			else
+				colors = _color;
+		};
+		
+		/*
+		 * Get the player's primary and secondary colors or get the player's color at a given index.
+		 * @param {Number} _color_idx - The color index.
+		 */
+		this.getColors = function(_color_idx) {
+			if (_color_idx && _color_idx < colors.length)
+				return colors[_color_idx];
+			
+			return colors;
+		};
+		
+		/*
+		 * Set the player's invulnerability status.
 		 * @param {Boolean} _is_invulnerable - Detemines if the player is invulnerable.
 		 */
 		this.setInvulnerable = function(_is_invulnerable) {
 			is_invulnerable = _is_invulnerable;
 		};
+		
+		/*
+		 * Get the player's invulnerability status.
+		 */
+		this.getInvulnerable = this.isInvulnerable = function() {
+			return is_invulnerable;
+		};
+		
+		/*
+		 * Handles collision.
+		 * @param {Number} options.target_type - The type of collision. 0 is for players, 1 is for enemies, 2 is for bullets.
+		 * @param {Number} options.target - The object we have collided with.
+		 */
+		this.handleCollision = function(options) {
+			var type = options.target_type || stg.targets.bullet;
+			var lives = that.getLives();
+			var has_collided = false;
+			
+			//If we have collided with an enemy.
+			if (type === stg.targets.enemy) {
+				has_collided = true;
+			}
+			
+			//If we have collided with a bullet.
+			else if (type === stg.targets.bullet) {
+				//Check for color collision.
+				//has_collided = colorCollision(that, options.target);
+				has_collided = true;
+			}
+			
+			if (has_collided) {
+				//Decrease the player's lives.
+				that.setLives(lives - 1);
+				
+				//Make the player temporarily invulnerable.
+				that.setInvulnerable(true);
+				globals.setTimeout(that.setInvulnerable, system.Config.INVULNERABILITY_TIMEOUT, false);
+			}
+			
+			return has_collided;
+		}
 
 		/*
 		 * Move the player.

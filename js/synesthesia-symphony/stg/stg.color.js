@@ -33,7 +33,28 @@ STG.Color = (function(stg) {
 		var alpha = (typeof arguments[3] === 'number') ? arguments[3] : (((options.a !== undefined) ? options.a : 1));
 		
 		//The color in hexadecimal format.
-		var hex = buildHex();
+		var hex = null;
+		
+		//The color in RGBA format.
+		var rgba = null;
+		
+		/*
+		 * Sets the color.
+		 * @param {Number} options.r - Red.
+		 * @param {Number} options.g - Green.
+		 * @param {Number} options.b - Blue.
+		 * @param {Number} options.a - Alpha.
+		 */
+		this.setColor = function(options) {
+			//Set the hues.
+			red = (typeof arguments[0] === 'number') ? arguments[0] : (options.r || 0);
+			green = (typeof arguments[1] === 'number') ? arguments[1] : (options.g || 0);
+			blue = (typeof arguments[2] === 'number') ? arguments[2] : (options.b || 0);
+			alpha = (typeof arguments[3] === 'number') ? arguments[3] : (((options.a !== undefined) ? options.a : 1));
+			
+			//Make sure the values are valid.
+			validateColor();	
+		};
 		
 		/*
 		 * Returns the colors.
@@ -44,44 +65,34 @@ STG.Color = (function(stg) {
 				green: green, g: green,
 				blue: blue, b: blue,
 				alpha: alpha, a: alpha,
-				hex: hex, h: hex
+				hex: hex,
+				rgba: rgba
 			};
+		};	
+		
+		/*
+		 * Sets the color's alpha (transparency).
+		 * @param {Number} _alpha - The alpha (transparency).
+		 */
+		this.setAlpha = function(_alpha) {
+			alpha = _alpha;
+			
+			//Make sure the value is valid.
+			validateColor();	
 		};
 		
 		/*
-		 * Sets the color.
-		 * @param {Object} options.r - Red.
-		 * @param {Object} options.g - Green.
-		 * @param {Object} options.b - Blue.
-		 * @param {Object} options.a - Alpha.
+		 * Returns the color's alpha (transparency).
 		 */
-		this.setColor = function(options) {
-			//Set the hues.
-			red = (typeof arguments[0] === 'number') ? arguments[0] : (options.r || 0);
-			green = (typeof arguments[1] === 'number') ? arguments[1] : (options.g || 0);
-			blue = (typeof arguments[2] === 'number') ? arguments[2] : (options.b || 0);
-			alpha = (typeof arguments[3] === 'number') ? arguments[3] : (((options.a !== undefined) ? options.a : 1));
-			
-			//Make sure the values are valid.
-			validateColor();
-			
-			//The color in hexadecimal format.
-			hex = buildHex();
+		this.getAlpha = function() {
+			return {alpha: alpha, a: alpha};
 		};
 		
 		/*
 		 * Returns the color in RGBA format.
 		 */
 		this.getRGBA = function() {
-			return 'rgba(' + red + ', ' + green + ', ' + blue + ', ' + alpha +')';
-		};
-		
-		/*
-		 * Sets the hex color.
-		 * @param {Sting} _hex - The hex color.
-		 */
-		this.setHex = function(_hex) {
-			hex = _hex;
+			return {rgba: rgba};
 		};
 		
 		/*
@@ -92,42 +103,28 @@ STG.Color = (function(stg) {
 		};
 		
 		/*
-		 * Compares two colors. Returns true or false depending on if the colors match.
-		 * @param {STG.Color|String|Object} _color - The color to compare.
-		 */
-		this.compare = function(_color) {
-			if (typeof _color === 'string') {
-				//If we got a color in hexidecimal format.
-				if (_color[0] === '#')
-					_color = stg.hexToColor(_color);
-				
-				//If we got a color string.
-				else
-					_color = stg.stringToColor(_color);
-			}
-			
-			//If this is an STG color.
-			if (_color.hasOwnProperty('getColor'))
-				_color = _color.getColor();
-			
-			return (red === _color.r && blue === _color.b && green === _color.g);
-		};
-		
-		/*
 		 * Returns a hexadecimal color.
 		 * @param {Sting} _hex - The hexadecimal color.
 		 */
 		function buildHex() {
 			var _hex = '#';
-			_hex += (red > 9) ? red.toString(16) : '0' + red.toString(16);
-			_hex += (green > 9) ? green.toString(16) : '0' + green.toString(16);
-			_hex += (blue > 9) ? blue.toString(16) : '0' + blue.toString(16);
+			
+			_hex += (red > 15) ? red.toString(16) : '0' + red.toString(16);
+			_hex += (green > 15) ? green.toString(16) : '0' + green.toString(16);
+			_hex += (blue > 15) ? blue.toString(16) : '0' + blue.toString(16);
 			
 			return _hex;
 		};
 		
 		/*
-		 * Makes sure we have a valid color range.
+		 * Returns the color in RGBA format.
+		 */
+		function buildRGBA() {
+			return 'rgba(' + red + ', ' + green + ', ' + blue + ', ' + alpha +')';
+		};
+		
+		/*
+		 * Makes sure we have a valid color range. The min and max range is 0 and 255.
 		 */
 		function validateColor() {
 			if (red < 0)
@@ -149,12 +146,14 @@ STG.Color = (function(stg) {
 				alpha = 0;
 			if (alpha > 1)
 				alpha = 1;
+			
+			hex = buildHex();
+			
+			rgba = buildRGBA();
 		};
 		
 		//Make sure the color values are valid.
 		validateColor();
-		
-		hex = buildHex();
 	};
 	
 	return Color;

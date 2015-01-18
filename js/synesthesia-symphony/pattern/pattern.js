@@ -27,11 +27,11 @@ Pattern = (function(globals, fsm, stg, resource) {
 		 * @param {STG.Colors[]|String[]} options.colors - An array of STG colors or strings.
 		 * @param {Number[]} options.radii - An array circle radii.
 		 * @param {Boolean[]} options.is_opens - Determines if a bullet will leave paint trails.
-		 * @param {Number} options.target - Set to 0 to retrieve the player and 1 to retrieve enemies.
+		 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
  		 */
 		createBullets: function(options) {
 			var bullets = [];
-			var ctx = options.ctx || layers.buffer.getContext().ctx;
+			var ctx = options.ctx || layers.buffer.getContext();
 			var position = options.position || {x: 0, y: 0};
 			var offsets = options.offsets || {x: 0, y: 0};
 			var max_bullets = options.max_bullets || 10;
@@ -39,7 +39,7 @@ Pattern = (function(globals, fsm, stg, resource) {
 			var colors = options.colors || ['green'];
 			var radii = options.radii || [10];
 			var is_opens = options.is_opens || [false];
-			var target = options.target || 0;
+			var target_type = options.target_type || stg.targets.player;
 			var indices = {
 				color: {value: 0, length: colors.length},
 				radius: {value: 0, length: radii.length},
@@ -56,7 +56,7 @@ Pattern = (function(globals, fsm, stg, resource) {
 					radius: radii[indices.radius.value],
 					is_open: is_opens[indices.is_open.value],
 					magnitude: speeds[indices.speed.value],
-					target: target
+					target_type: target_type
 				}));
 				
 				for (var index in indices)

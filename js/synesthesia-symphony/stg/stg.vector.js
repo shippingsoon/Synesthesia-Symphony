@@ -123,7 +123,7 @@ STG.Vector = (function(stg) {
 		 * Get the vector's 2d drawing context.
 		 */
 		this.getContext = function() {
-			return {ctx: ctx};
+			return ctx;
 		};
 		
 		/*

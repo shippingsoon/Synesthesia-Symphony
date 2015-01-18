@@ -39,7 +39,7 @@ FSM.Init = (function(globals, stg, resource) {
 				
 				//Handle events in the current state.
 				if (current_state && current_state.isActive())
-					_fsm({fsm: that, ctx: resource.layers.screen.getContext().ctx, state: current_state, method: 'controller', event: event, condition: 'isActive'});
+					_fsm({fsm: that, ctx: resource.layers.screen.getContext(), state: current_state, method: 'controller', event: event, condition: 'isActive'});
 			}
 		};
 		

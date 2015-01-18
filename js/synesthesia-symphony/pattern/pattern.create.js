@@ -35,7 +35,7 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 	 * @param {Number[]} options.radii - An array circle radii.
 	 * @param {Boolean[]} options.is_opens - Determines if a bullet will leave paint trails.
 	 * @param {Boolean} options.invert - Flips about the y-axis.
-	 * @param {Number} options.target - Set to 0 to retrieve the player and 1 to retrieve enemies.
+	 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
 	 */
 	function Create(options) {
 		//A reference to the current object.

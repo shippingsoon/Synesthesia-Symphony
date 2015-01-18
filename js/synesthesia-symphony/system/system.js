@@ -11,5 +11,8 @@
 var System = System || (function(globals) {
 	"use strict";
 	
-	return {};
+	return {
+		//Finite state machine.
+		fsm: null
+	};
 }(window)); 

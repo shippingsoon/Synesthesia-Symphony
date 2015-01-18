@@ -40,7 +40,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern) {
 		var state = new fsm.State(options.state || {});
 		
 		//The 2D drawing context we will use to render the note.
-		var ctx = options.ctx || this.getContext().ctx;
+		var ctx = options.ctx || this.getContext();
 		
 		//Set this state's parent.
 		state.setParent(that);
@@ -53,7 +53,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern) {
 		
 		var is_sharp = options.is_sharp || false;
 		
-		var colors = [options.color || 'white', ((is_sharp) ? 'black' : 'white')];
+		var colors = [options.color || new stg.Color(255, 255, 255), ((is_sharp) ? 'black' : 'white')];
 		
 		var color_idx = 1;
 		
@@ -82,26 +82,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern) {
 		state.start = function(game) {
 			//Listen for MIDI events.
 			globals.addEventListener('onNote-' + note, listen, false);
-			
-			
-			/*
-			danmaku = new pattern.Create({
-				method: 'Circular',
-				ctx: ctx,
-				max_bullets: 1,
-				offsets: {x: 0, y: 20},
-				padding: 30,
-				degrees: 270,
-				radii: [4],
-				speeds: [4],
-				colors: [colors[0]],
-				delay: 0,
-				rate: 100,
-				rotation: 0
-			});
-			//*/
-			
-			//*
+
 			danmaku = new pattern.Create({
 				method: 'Circular',
 				ctx: ctx,
@@ -116,26 +97,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern) {
 				rate: 100,
 				rotation: 10
 			});
-			//*/
-			
-			/*
-			danmaku = new pattern.Create({
-				method: 'Circular',
-				ctx: ctx,
-				max_bullets: 20,
-				offsets: {x: 0, y: 20},
-				padding: 30,
-				degrees: 270,
-				radii: [4],
-				speeds: [4],
-				colors: [colors[0]],
-				delay: 0,
-				rate: 100,
-				rotation: 0
-			});
-			//*/
-
-			
+		
 			state.setSubstate({
 				substate: danmaku.getState(), 
 				parent: that
@@ -160,6 +122,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.render = function(game) {
+			//console.log('colors', colors);
 			if (ctx)
 				that.draw({ctx: ctx, color: colors[color_idx]});
 			//color_idx = 1;

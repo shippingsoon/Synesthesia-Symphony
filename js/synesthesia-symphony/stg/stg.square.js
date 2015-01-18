@@ -59,7 +59,7 @@ STG.Square = (function(stg, resource) {
 		 */
 		this.draw = function(options) {
 			var position = this.getPosition();
-			var ctx = options.ctx || this.getContext().ctx;
+			var ctx = options.ctx || this.getContext();
 			
 			//Draw the square.
 			if (ctx) {
@@ -98,6 +98,21 @@ STG.Square = (function(stg, resource) {
 			position.height = position.h = height;
 			
 			return position;
+		};
+		
+		/*
+		 * Set the square's color.
+		 * @param {String|STG.Color} options.color - The new color.
+		 */
+		this.setColor = function(_color) {
+			color = _color;
+		};
+		
+		/*
+		 * Get the square's color.
+		 */
+		this.getColor = function() {
+			return color;
 		};
 	};
 	

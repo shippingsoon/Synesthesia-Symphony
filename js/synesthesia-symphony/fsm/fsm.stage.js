@@ -39,19 +39,16 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 		//An array to hold the enemies.
 		var enemies = [];
 		
-		//Enum targets.
-		var targets = {player: 0, enemies: 1};
-		
 		//Our player.
 		var player = new fsm.Player({
 			x: 250,
 			y: 380,
-			ctx: layers.buffer.getContext().ctx,
-			target: targets.enemies,
+			ctx: layers.buffer.getContext(),
+			target: stg.targets.enemies,
 			lives: 5,
 			patterns: [{
 					method: 'Circular',
-					ctx: layers.buffer.getContext().ctx,
+					ctx: layers.buffer.getContext(),
 					max_bullets: 1,
 					offsets: {x: 10, y: -10},
 					padding: 0,
@@ -64,7 +61,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 					rotation: 0
 				}, {
 					method: 'Circular',
-					ctx: layers.buffer.getContext().ctx,
+					ctx: layers.buffer.getContext(),
 					max_bullets: 1,
 					offsets: {x: -10, y: -10},
 					padding: 0,
@@ -110,12 +107,13 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 				
 				notes.push(
 					new stg.Note({
-						ctx: layers.buffer.getContext().ctx,
+						ctx: layers.buffer.getContext(),
 						x: ((is_sharp) ? offset - 3 : offset),
 						y: 0,
 						w: ((is_sharp) ? white_margin / 1.5 : white_margin),
 						h: (is_sharp) ? 10 : 20,
-						color: map[note % 12].hex,
+						//color: stg.Cmath.hexToColor(map[note % 12].hex),
+						color: resource.color_map[note % 12],
 						note: note,
 						key: MIDI.noteToKey[note],
 						octave: (note - 12) / 12 >> 0,
@@ -145,13 +143,11 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 			//Load the stage music.
 			MIDI.loadPlugin({
 				soundfontUrl: './soundfont/',
-				//instruments: ['bright_acoustic_piano', 'synth_bass_1', 'lead_1_square', 'synth_bass_2', 'lead_2_sawtooth', 'synth_strings_1', 'electric_guitar_jazz'],
-				instruments: ['acoustic_grand_piano', 'bright_acoustic_piano', 'synth_bass_1', 'violin', 'viola', 'cello'],
+				instruments: ['bright_acoustic_piano', 'synth_bass_1', 'lead_1_square', 'synth_bass_2', 'lead_2_sawtooth', 'synth_strings_1', 'electric_guitar_jazz'],
 				callback: function(data) {
 					
 					//Change the program and patch.
 					//http://en.wikipedia.org/wiki/General_MIDI#Program_change_events
-					/*
 					MIDI.programChange(0, 1);
 					MIDI.programChange(1, 38);
 					MIDI.programChange(3, 80);
@@ -159,29 +155,18 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 					MIDI.programChange(4, 81);
 					MIDI.programChange(5, 50);
 					MIDI.programChange(6, 26);
-					*/
-					MIDI.programChange(0, 0);
-					MIDI.programChange(1, 1);
-					/*
-					MIDI.programChange(0, 40);
-					MIDI.programChange(1, 42);
-					*/
+					
+					//Set the volume.
+					MIDI.setVolume(0, 0);
 					
 					//The speed the song is played back.
 					mplayer.timeWarp = 1;
 					
 					//Load and play the stage music.
-					//mplayer.loadFile('/synesthesia-symphony/midi/green-hill.mid', mplayer.start);
-					mplayer.loadFile('/synesthesia-symphony/midi/still-alive.mid', mplayer.start);
+					mplayer.loadFile('/synesthesia-symphony/midi/green-hill.mid', mplayer.start);
+					
 					//MIDI event listener.
 					mplayer.addListener(function (data) {
-						console.log(data);
-						
-						//for (var note = 0; note < notes.length; note++) {
-						//	if (notes[note].listen(data))
-						//		break;
-						//}
-						
 						var event = new CustomEvent('onNote-' + data.note, {'detail': data});
 						globals.dispatchEvent(event);
 					});
@@ -197,12 +182,12 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 				color: stg.Color({r: 0, g: 255, b: 0}),
 				x: 200,
 				y: 200,
-				ctx: layers.buffer.getContext().ctx,
+				ctx: layers.buffer.getContext(),
 				lives: 10,
-				target: targets.player,
+				target: stg.targets.player,
 				patterns: [{
 						method: 'Circular',
-						ctx: layers.buffer.getContext().ctx,
+						ctx: layers.buffer.getContext(),
 						max_bullets: 5,
 						padding: 10,
 						degrees: 270,
@@ -215,7 +200,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 						rotation: 10,
 					}, {
 						method: 'Circular',
-						ctx: layers.buffer.getContext().ctx,
+						ctx: layers.buffer.getContext(),
 						max_bullets: 5,
 						padding: 10,
 						degrees: 270,
@@ -244,11 +229,11 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 				color: stg.Color({r: 0, g: 255, b: 0}),
 				x: 200,
 				y: 200,
-				ctx: layers.buffer.getContext().ctx,
+				ctx: layers.buffer.getContext(),
 				lives: 20,
-				target: targets.player,
+				target: stg.targets.player,
 				patterns: [{
-						ctx: layers.buffer.getContext().ctx,
+						ctx: layers.buffer.getContext(),
 						max_bullets: 30,
 						padding: 10,
 						degrees: 10,
@@ -276,11 +261,11 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 				color: stg.Color({r: 0, g: 255, b: 0}),
 				x: 200,
 				y: 200,
-				ctx: layers.buffer.getContext().ctx,
-				target: targets.player,
+				ctx: layers.buffer.getContext(),
+				target: stg.targets.player,
 				lives: 12,
 				patterns: [{
-						ctx: layers.buffer.getContext().ctx,
+						ctx: layers.buffer.getContext(),
 						max_bullets: 4,
 						padding: 40,
 						degrees: 0,
@@ -309,11 +294,11 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 				color: stg.Color({r: 0, g: 255, b: 0}),
 				x: 200,
 				y: 200,
-				ctx: layers.buffer.getContext().ctx,
-				target: targets.player,
+				ctx: layers.buffer.getContext(),
+				target: stg.targets.player,
 				lives: 100,
 				patterns: [{
-						ctx: layers.buffer.getContext().ctx,
+						ctx: layers.buffer.getContext(),
 						max_bullets: 27,
 						padding: 18,
 						degrees: 180,
@@ -350,8 +335,9 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 			enemies = enemies.filter(function(enemy){
 				return enemy.getState().isAlive();
 			});
+			
 			//The conveyorBelt() function moves the canvas sprite's position.
-			stg.Stage.conveyorBelt(canvas_vectors, sprites.canvas_bg.img.height, 5);
+			stg.Stage.conveyorBelt(canvas_vectors, sprites.canvas_bg.img.height, system.Config.canvas_scroll_rate);
 		};
 		
 		/*
@@ -386,10 +372,10 @@ FSM.Stage = (function(globals, fsm, stg, resource, system) {
 		this.getTargets = function(_target) {
 			var target = _target || 0;
 			
-			if (target === targets.player)
+			if (target === stg.targets.player)
 				return {player: player};
 				
-			else if (target === targets.enemies)
+			else if (target === stg.targets.enemies)
 				return {enemies: enemies};
 			
 			else

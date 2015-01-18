@@ -20,7 +20,7 @@ System.Config = System.Cfg = (function(globals) {
 		//Debug mode.
 		DEBUG: true,
 		
-		//Frames per second.
+		//The targeted frames per second.
 		TARGET_FPS: 30,
 		
 		//Company name.
@@ -45,7 +45,10 @@ System.Config = System.Cfg = (function(globals) {
 		PLAYER_FOCUS_SPEED: 10 / 2,
 		
 		//The player's hitbox radius.
-		HITBOX_RADIUS: 6,
+		HITBOX_RADIUS: 5,
+		
+		//The player's invulnerability time out in milliseconds.
+		INVULNERABILITY_TIMEOUT: 2000,
 		
 		//The average frames per second.
 		fps: 0,
@@ -75,5 +78,8 @@ System.Config = System.Cfg = (function(globals) {
 		//In this game we will keep track of how many times a player has come into contact with a safe colored bullet.
 		//tl;dr Glaze is NOT a typo of graze.
 		glaze: 0,
+		
+		//The rate in which the canvas scrolls down.
+		canvas_scroll_rate: 5,
 	};
 }(window)); 

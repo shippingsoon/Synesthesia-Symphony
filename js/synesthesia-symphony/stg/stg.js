@@ -8,40 +8,17 @@
 */
 
 //Misc game mechanics module.
-var STG = STG || (function(globals) {
+var STG = (function(globals) {
 	"use strict";
 	
 	return {
-		/*
-		 * Converts a hexidecimal string to an STG color.
-		 * @param {String} _hex - The hexidecimal color.
-		 */
-		hexToColor: function(_hex) {
-			var _red = parseInt(_hex.slice(1, 2), 16);
-			var _green = parseInt(_hex.slice(3, 2), 16);
-			var _blue = parseInt(_hex.slice(5, 2), 16);
-			
-			return new Color(_red, _green, _blue);
-		},
-		
-		/*
-		 * Converts a string to an STG color.
-		 * @param {String} _color - The color string.
-		 */
-		stringToColor: function(_color) {
-			switch (_color) {
-				case 'red':
-					return new Color(255, 0, 0, 1);
-					break;
-				case 'green':
-					return new Color(0, 255, 0, 1);
-					break;
-				case 'blue':
-					return new Color(0, 0, 255, 1);
-					break;
-				default:
-					return new Color(0, 0, 0, 1);
-			}
+		//An enumerated list of targets.
+		targets: {
+			player: 0,
+			enemy: 1,
+			bullet: 2,
+			item: 3,
+			note: 4
 		},
 	};
 }(window)); 

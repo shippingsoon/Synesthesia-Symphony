@@ -53,7 +53,7 @@ STG.Circle = (function(stg) {
 		 */
 		this.draw = function(options) {
 			var position = this.getPosition();
-			var ctx = options.ctx || this.getContext().ctx;
+			var ctx = options.ctx || this.getContext();
 			
 			//Draw the circle.
 			if (ctx) {
@@ -120,7 +120,7 @@ STG.Circle = (function(stg) {
 		 * Get the circle's color.
 		 */
 		this.getColor = function() {
-			return {color: color};
+			return color;
 		};
 	};
 	
