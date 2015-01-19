@@ -31,6 +31,11 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi) {
 		state.start = function(game) {
 			//Handle events for this state.
 			globals.addEventListener('keyup', game.fsm.controller, false);
+			
+			setTimeout(function() {
+				if (midi.Player.playing)
+					midi.Player.pause();
+			}, 4000);
 		};
 		
 		/*
@@ -62,7 +67,7 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi) {
 				//Up key is pressed select a new menu item.
 				case 38:
 					//Play a SFX.
-					midi.noteOn(0, 90, 127, 0);
+					midi.noteOn(0, 74, 127, 0);
 					
 					menu_index = (menu_index <= 0)
 						? (options.length - 1)
@@ -72,7 +77,7 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi) {
 				//Down key is pressed select a new menu item.
 				case 40:
 					//Play a SFX.
-					midi.noteOn(0, 90, 127, 0);
+					midi.noteOn(0, 74, 127, 0);
 					
 					menu_index = (menu_index === options.length - 1)
 						? 0
@@ -139,6 +144,15 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi) {
 			
 			game.ctx.drawImage(ctx.canvas, 40, 20);
 		};
+		
+		/*
+		 * Handle game logic for this state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
+		state.update = function(game) {
+			
+		}
 		
 		/*
 		 * Return the state.

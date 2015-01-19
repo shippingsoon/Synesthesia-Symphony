@@ -98,10 +98,15 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 			//Load the stage music.
 			midi.loadPlugin({
 				soundfontUrl: './soundfont/',
-				instruments: ['bright_acoustic_piano', 'synth_bass_1', 'lead_1_square', 'synth_bass_2', 'lead_2_sawtooth', 'synth_strings_1', 'electric_guitar_jazz'],
+				//instruments: ['bright_acoustic_piano', 'synth_bass_1', 'lead_1_square', 'synth_bass_2', 'lead_2_sawtooth', 'synth_strings_1', 'electric_guitar_jazz'],
+				instruments: [
+					'electric_bass_finger', 'rock_organ', 'rock_organ', 'pad_7_halo', 'tuba', 'french_horn',
+					'string_ensemble_2', 'dulcimer', 'pad_8_sweep', 'tuba', 'electric_piano_2', 'whistle', 'dulcimer'
+				],
 				callback: function(data) {
 					//Change the program and patch.
 					//http://en.wikipedia.org/wiki/General_MIDI#Program_change_events
+					/*
 					midi.programChange(0, 1);
 					midi.programChange(1, 38);
 					midi.programChange(3, 80);
@@ -109,6 +114,21 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 					midi.programChange(4, 81);
 					midi.programChange(5, 50);
 					midi.programChange(6, 26);
+					*/
+					
+					midi.programChange(0, 33); //Program (patch) change ::  Channel 0.  Patch 33 (Electric Bass(finger))
+					midi.programChange(1, 18); //Program (patch) change ::  Channel 1.  Patch 18 (Rock Organ)
+					midi.programChange(2, 18); //Program (patch) change ::  Channel 2.  Patch 18 (Rock Organ)
+					midi.programChange(3, 94); //Program (patch) change ::  Channel 3.  Patch 94 (Pad 7 (halo))
+					midi.programChange(4, 58); //Program (patch) change ::  Channel 4.  Patch 58 (Tuba)
+					midi.programChange(5, 60); //Program (patch) change ::  Channel 5.  Patch 60 (French Horn)
+					midi.programChange(6, 49); //Program (patch) change ::  Channel 6.  Patch 49 (String Ensemble 2)
+					midi.programChange(7, 15); //Program (patch) change ::  Channel 7.  Patch 15 (Dulcimer)
+					midi.programChange(8, 95); //Program (patch) change ::  Channel 8.  Patch 95 (Pad 8 (sweep))
+					midi.programChange(10, 58); //Program (patch) change ::  Channel 10.  Patch 58 (Tuba)
+					midi.programChange(11, 5); //Program (patch) change ::  Channel 11.  Patch 5 (Electric Piano 2)
+					midi.programChange(12, 78); //Program (patch) change ::  Channel 12.  Patch 78 (Whistle)
+					midi.programChange(13, 15); //Program (patch) change ::  Channel 13.  Patch 15 (Dulcimer)
 					
 					//Set the volume.
 					midi.setVolume(0, config.volume);
@@ -117,7 +137,8 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 					mplayer.timeWarp = 1;
 					
 					//Load and play the stage music.
-					mplayer.loadFile('/synesthesia-symphony/midi/green-hill.mid', mplayer.start);
+					//mplayer.loadFile('/synesthesia-symphony/midi/green-hill.mid', mplayer.start);
+					mplayer.loadFile('/synesthesia-symphony/midi/sky-chase-zone.mid', mplayer.start);
 					
 					//MIDI event listener.
 					mplayer.addListener(function (data) {
@@ -234,7 +255,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.play = function(game) {
-			if (!mplayer.playing)
+			if (!mplayer.playing && mplayer.currentTime < mplayer.endTime)
 				mplayer.resume();
 			
 			//Add the event listeners.
@@ -253,7 +274,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 				mplayer.pause();
 			
 			//Play a SFX.
-			midi.noteOn(0, 100, 227, 0);
+			midi.noteOn(0, 60, 127, 0);
 			
 			//Remove the event listeners.
 			globals.removeEventListener('keyup', game.fsm.controller, false);
