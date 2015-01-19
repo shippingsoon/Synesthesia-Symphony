@@ -34,12 +34,12 @@ FSM.Init = (function(globals, stg, resource) {
 		 * @param {Number} event - Numeric event code.
 		 */
 		this.controller = function(event) {
-			if (states.length !== 0 && event) {
+			if (states.length !== 0 && event) {//console.log(ctx);
 				var current_state = currentState();
 				
 				//Handle events in the current state.
 				if (current_state && current_state.isActive())
-					_fsm({fsm: that, ctx: resource.layers.screen.getContext(), state: current_state, method: 'controller', event: event, condition: 'isActive'});
+					_fsm({fsm: that, ctx: resource.layers.screen.getContext(), state: current_state, method: 'controller', event: event});
 			}
 		};
 		
@@ -53,11 +53,10 @@ FSM.Init = (function(globals, stg, resource) {
 				
 				//Update the current state.
 				if (current_state && current_state.isActive())
-					_fsm({fsm: that, ctx: fsm.ctx, state: current_state, method: 'update', condition: 'isActive'});
+					_fsm({fsm: that, ctx: fsm.ctx, state: current_state, method: 'update'});
 			}
 			
-			//Filter out dead states.
-			this.cleanState();
+			return that;
 		};
 		
 		/*
@@ -70,8 +69,10 @@ FSM.Init = (function(globals, stg, resource) {
 				
 				//Render the current state.
 				if (current_state && current_state.isVisible())
-					_fsm({fsm: that, ctx: fsm.ctx, state: current_state, method: 'render', condition: 'isVisible'});
+					_fsm({fsm: that, ctx: fsm.ctx, state: current_state, method: 'render'});
 			}
+			
+			return that;
 		};
 		
 		/*
@@ -87,8 +88,10 @@ FSM.Init = (function(globals, stg, resource) {
 			//Push a new state and invoke its constructor.
 			states.push(fsm.state);
 			
-			//Initiate the current state.
+			//Initiate the new state.
 			_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'start'});
+			
+			return that;
 		};
 		
 		/*
@@ -108,6 +111,8 @@ FSM.Init = (function(globals, stg, resource) {
 				//Resume the previous state.
 				_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'play'});
 			}
+			
+			return that;
 		};
 		
 		/*
@@ -135,6 +140,8 @@ FSM.Init = (function(globals, stg, resource) {
 			
 			//Initiate the state.
 			_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'start'});
+		
+			return that;
 		};
 		
 		/*
@@ -148,6 +155,8 @@ FSM.Init = (function(globals, stg, resource) {
 				if (options.substate)
 					states[states.length - 1].setSubstate({substate: options.substate, parent: options.parent});
 			}
+		
+			return that;
 		};
 		
 		/*
@@ -168,6 +177,8 @@ FSM.Init = (function(globals, stg, resource) {
 
 				return state.isAlive();
 			});
+			
+			return that;
 		};
 		
 		/*
@@ -176,6 +187,8 @@ FSM.Init = (function(globals, stg, resource) {
 		 */
 		this.setParent = function(_parent) {
 			parent = _parent;
+			
+			return that;
 		}
 		
 		/*
@@ -197,8 +210,8 @@ FSM.Init = (function(globals, stg, resource) {
 			if (options.state) {
 				if (options.state.isAlive()) {
 					//Process the current state.
-					if (options.state[options.method] && (!options.condition || options.state[options.condition]()))
-							callback = options.state[options.method](options);
+					if (options.state[options.method])
+						callback = options.state[options.method](options);
 					
 					//Retrieve the substates.
 					var substates = options.state.getSubstate();
@@ -221,7 +234,14 @@ FSM.Init = (function(globals, stg, resource) {
 		 */
 		this.run = function(options) {
 			_fsm({state: options.state, ctx: options.ctx, method: 'start'});
+			
+			return that;
 		}
+		
+		//Filter out dead states.
+		setInterval(function(){
+			that.cleanState();
+		}, 300);
 	}
 	
 	return Init;

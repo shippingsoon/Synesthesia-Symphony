@@ -20,7 +20,7 @@ FSM.Intro = (function(fsm, resource, stg, system) {
 		var state = new fsm.State(options);
 		var background_color = 0;
 		var font_size = 1;
-		var player = MIDI.Player;
+		var mplayer = MIDI.Player;
 		
 		/*
 		 * Start the state.
@@ -34,21 +34,21 @@ FSM.Intro = (function(fsm, resource, stg, system) {
 				instrument: 'acoustic_grand_piano',
 				callback: function() {
 					//The speed the song is played back.
-					player.timeWarp = 1;
+					mplayer.timeWarp = 1;
 					
 					//Load and play the intro music.
-					player.loadFile('/synesthesia-symphony/midi/intro.mid', player.start);
+					mplayer.loadFile('/synesthesia-symphony/midi/intro.mid', player.start);
 					
 					//MIDI event listener.
-					player.addListener(function (data) {
+					mplayer.addListener(function (data) {
 						//Increase the font's size.
 						font_size += 0.2;
 						
 						//Once the fade out is complete transition to the Menu state.
 						if ((background_color += 0.5) === 255 || Keydown.z || Keydown.space) {
 							//Stop the intro music.
-							if (player.playing)
-								player.stop();
+							if (mplayer.playing)
+								mplayer.stop();
 							
 							//Transition into the Menu state.
 							game.fsm.transition({state: new fsm.Stage({}), ctx: resource.layers.screen.ctx});

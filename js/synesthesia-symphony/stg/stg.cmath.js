@@ -25,7 +25,7 @@ STG.Cmath = (function(globals, stg) {
 			var green = parseInt(hex.slice(offset + 2, offset + 4), 16);
 			var blue = parseInt(hex.slice(offset + 4, offset + 6), 16);
 			
-			return new stg.Color(red, green, blue);
+			return new stg.Color(red, green, blue, 1);
 		},
 		
 		/*

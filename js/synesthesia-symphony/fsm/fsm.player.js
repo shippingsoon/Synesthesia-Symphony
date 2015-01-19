@@ -92,6 +92,9 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		//Determines if the player is invulnerable.
 		var is_invulnerable = false;
 		
+		//If the player has glazed a bullet.
+		var has_glazed = false;
+		
 		/*
 		 * Start the state.
 		 * @param {FSM} game.fsm - Finite state machine.
@@ -186,8 +189,12 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		 * Set the player's colors or optionally sets the player's color at a given index.
 		 * @param {STG.Color|String} _color - The new color.
 		 * @param {Number} _color_idx - The array index.
+		 * @param {Boolean} use_current - Determines if we will set the player's current color.
 		 */
-		this.setColors = function(_color, _color_idx) {
+		this.setColors = function(_color, _color_idx, use_current) {
+			if (use_current)
+				_color_idx = color_idx;
+			
 			if (_color_idx && _color_idx < colors.length)
 				colors[_color_idx] = _color;
 			else
@@ -197,8 +204,12 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		/*
 		 * Get the player's primary and secondary colors or get the player's color at a given index.
 		 * @param {Number} _color_idx - The color index.
+		 * @param {Boolean} use_current - Determines if we will set the player's current color.
 		 */
-		this.getColors = function(_color_idx) {
+		this.getColors = function(_color_idx, use_current) {
+			if (use_current)
+				_color_idx = color_idx;
+				
 			if (_color_idx && _color_idx < colors.length)
 				return colors[_color_idx];
 			
@@ -238,8 +249,23 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 			//If we have collided with a bullet.
 			else if (type === stg.targets.bullet) {
 				//Check for color collision.
-				//has_collided = colorCollision(that, options.target);
-				has_collided = true;
+				has_collided = !stg.Cmath.compareColor(colors[color_idx].getColor(), options.target.getColor());
+				
+				//If the player has glazed a friendly colored bullet.
+				if (!has_collided && !has_glazed) {
+					has_glazed = true;
+					
+					//Set a timeout to prevent the player from being able to gain too much glaze points.
+					setTimeout(function() {
+						system.Config.glaze++;
+						system.Config.score += 10;
+						has_glazed = false;
+					}, 200);
+				}
+			}
+			
+			else if (type === stg.targets.item) {
+				
 			}
 			
 			if (has_collided) {

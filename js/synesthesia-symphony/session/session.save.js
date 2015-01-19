@@ -9,28 +9,34 @@
 
 var System = System || {};
 
-//Saves a session.
+//Saves the current session.
 Session.save = (function(globals, system, $) {
 	"use strict";
 	
+	/*
+	 * Saves the current session.
+	 */
 	function save() {
 		var session = {
 			hiscore: system.Config.hiscore,
-			resolution: system.Config.resolution
+			resolution: system.Config.resolution.selection
 		};
 		
-		$.ajax({
-			type: 'POST',
-			url: '/synesthesia-symphony/session/save',
-			data: session,
-			success: function(data) {
-				
-			},
-			error: function(data) {
-				if (system.Config.DEBUG)
-					console.log(data);
-			}
-		});
+		if (system.Config.ONLINE) {
+			$.ajax({
+				type: 'POST',
+				url: '/synesthesia-symphony/session/save',
+				data: session,
+				dataType: 'json',
+				success: function(data) {
+					
+				},
+				error: function(data) {
+					if (system.Config.DEBUG)
+						console.log(data);
+				}
+			});
+		}
 	}
 
 	return save;

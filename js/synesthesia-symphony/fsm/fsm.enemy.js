@@ -10,6 +10,7 @@
 var FSM = FSM || {};
 var STG = STG || {};
 var Pattern = Pattern || {};
+var System = System || {};
 
 /*
  * Enemy submodule.
@@ -21,7 +22,7 @@ var Pattern = Pattern || {};
  * @param {Number} options.lineWidth - The line width.
  * @param {String|STG.Color} options.strokeStyle - The outline color.
  */
-FSM.Enemy = (function(fsm, stg, pattern) {
+FSM.Enemy = (function(fsm, stg, pattern, system) {
 	"use strict";
 	
 	/*
@@ -180,7 +181,6 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 			
 			//Increase the score.
 			system.Config.score += 100;
-			system.Config.hiscore += 100;
 		}
 		
 		/*
@@ -194,4 +194,4 @@ FSM.Enemy = (function(fsm, stg, pattern) {
 	Enemy.prototype = Object.create(stg.Circle.prototype);
 	
 	return Enemy;
-}(FSM, STG, Pattern));
+}(FSM, STG, Pattern, System));

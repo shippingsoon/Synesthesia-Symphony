@@ -33,7 +33,7 @@ Pattern.Circular = (function(globals, fsm, stg, resource, pattern) {
 	 * @param {Number} options.target_type - Set to 0 to retrieve the player and 1 to retrieve enemies.
 	 */
 	function Circular(options) {
-		var bullets = [];
+		//var bullets = [];
 		var position = options.position || {x: 0, y:0};
 		var offsets = options.offsets || {x: 0, y:0};
 		var padding = options.padding || 10;
@@ -49,8 +49,9 @@ Pattern.Circular = (function(globals, fsm, stg, resource, pattern) {
 		var target_type = options.target_type || 0;
 		var radians = 0;
 		var speed = 0;
+		var length = resource.bullets.length;
 		
-		bullets = pattern.createBullets({
+		pattern.createBullets({
 			ctx: ctx,
 			position: position,
 			offsets: offsets,
@@ -62,16 +63,16 @@ Pattern.Circular = (function(globals, fsm, stg, resource, pattern) {
 			target_type: target_type
 		});
 
-		for (var bullet = 0; bullet < max_bullets; bullet++) {
+		for (var bullet = length; bullet < max_bullets + length; bullet++) {
 			if (fsm)
-				fsm.setSubstate({substate: bullets[bullet].getState()});
+				fsm.setSubstate({substate: resource.bullets[bullet].getState()});
 			else
 				throw 'FSM is undefined';
 			
 			radians = stg.Math.degreeToRadian({degrees: degrees, invert: invert});
-			speed = bullets[bullet].magnitude;
+			speed = resource.bullets[bullet].magnitude;
 
-			bullets[bullet].velocity.add({
+			resource.bullets[bullet].velocity.add({
 				x: (speed * Math.cos(radians)) || -1000,
 				y: (speed * Math.sin(radians)) || -1000
 			});

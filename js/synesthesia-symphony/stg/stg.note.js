@@ -14,7 +14,7 @@ var System = System || {};
 var Pattern = Pattern || {};
 
 //Note submodule.
-STG.Note = (function(globals, fsm, stg, resource, system, pattern) {
+STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi) {
 	"use strict";
 	
 	var layers = resource.layers;
@@ -122,10 +122,8 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.render = function(game) {
-			//console.log('colors', colors);
 			if (ctx)
 				that.draw({ctx: ctx, color: colors[color_idx]});
-			//color_idx = 1;
 		};
 		
 		/*
@@ -134,7 +132,11 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.update = function(game) {
-			
+			if (stg.Math.circleSquareCollision(resource.player, that)) {
+				listen(null);
+				midi.noteOn(0, note, 127, 0);
+				system.Config.score += 1;
+			}
 		};
 		
 		/*
@@ -156,4 +158,4 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern) {
 	Note.prototype = Object.create(stg.Square.prototype);
 	
 	return Note;
-}(window, FSM, STG, Resource, System, Pattern));
+}(window, FSM, STG, Resource, System, Pattern, MIDI));

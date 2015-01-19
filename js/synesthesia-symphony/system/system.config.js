@@ -27,7 +27,7 @@ System.Config = System.Cfg = (function(globals) {
 		COMPANY: 'Shipping Soon',
 		
 		//Version.
-		VERSION: 'v0.01',
+		VERSION: 'v0.05',
 		
 		//The player's initial lives.
 		INITIAL_LIVES: 2,
@@ -68,6 +68,9 @@ System.Config = System.Cfg = (function(globals) {
 			selection: 0
 		},
 		
+		//The master volume.
+		volume: 127,
+		
 		//Current score.
 		score: 0,
 		
@@ -80,6 +83,9 @@ System.Config = System.Cfg = (function(globals) {
 		glaze: 0,
 		
 		//The rate in which the canvas scrolls down.
-		canvas_scroll_rate: 5,
+		canvas_scroll_rate: 2,
+		
+		//Determines if we show the average frames per second.
+		show_fps: false,
 	};
 }(window)); 

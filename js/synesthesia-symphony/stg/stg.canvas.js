@@ -52,7 +52,7 @@ STG.Canvas = (function(globals) {
 		 * @param {String|STG.Color} options.strokeStyle - The outline color.
 		 * @param {String} options.globalCompositeOperation - The composite operation.
 		 */
-		circle : function(options) {
+		circle: function(options) {
 			var ctx = options.ctx || null;
 			
 			if (ctx) {
@@ -64,7 +64,7 @@ STG.Canvas = (function(globals) {
 				ctx.beginPath();
 				ctx.arc(options.x || 0, options.y || 0, options.radius || 10, 0, 2 * Math.PI, false);
 				
-				if (options.color.hasOwnProperty('getRGBA'))
+				if (options.color && options.color.hasOwnProperty('getRGBA'))
 					options.color = options.color.getRGBA().rgba;
 					
 				ctx.fillStyle = options.color || 'black';
@@ -91,7 +91,7 @@ STG.Canvas = (function(globals) {
 		 * @param {String|STG.Color} options.strokeStyle - The outline color.
 		 * @param {String} options.globalCompositeOperation - The composite operation.
 		 */
-		square : function(options) {
+		square: function(options) {
 			var ctx = options.ctx || null;
 			
 			if (ctx) {
@@ -103,7 +103,7 @@ STG.Canvas = (function(globals) {
 				ctx.beginPath();
 				ctx.rect(options.x || 0, options.y || 0, options.width || options.w || 10, options.height || options.h || 10);
 				
-				if (options.color.hasOwnProperty('getRGBA'))
+				if (options.color && options.color.hasOwnProperty('getRGBA'))
 					options.color = options.color.getRGBA().rgba;
 					
 				ctx.fillStyle = options.color || options.fillStyle || 'black';
@@ -132,7 +132,7 @@ STG.Canvas = (function(globals) {
 		 * @param {Number} options.shadowoffsetY - The text shadow's y offset.
 		 * @param {Number} options.shadowBlur - The text shadow blur.
 		 */
-		text : function(options) {
+		text: function(options) {
 			var ctx = options.ctx || null;
 			
 			if (ctx) {
@@ -141,7 +141,7 @@ STG.Canvas = (function(globals) {
 				//Set the font type and color.
 				ctx.font = options.font || 'bold 16px arial';
 				
-				if (options.color.hasOwnProperty('getRGBA'))
+				if (options.color && options.color.hasOwnProperty('getRGBA'))
 					options.color = options.color.getRGBA().rgba;
 					
 				ctx.fillStyle = options.color || '#444';

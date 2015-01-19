@@ -40,6 +40,8 @@ Resource.init = (function(globals, system, stg, fsm, resource) {
 			width: system.Config.resolution.width[mode],
 			height: system.Config.resolution.height[mode]
 		});
+		
+		
 
 		//Load the stage background images.
 		for (var stage = 0; stage < 6; stage++) {
@@ -53,7 +55,7 @@ Resource.init = (function(globals, system, stg, fsm, resource) {
 		}
 		
 		//Load the canvas texture image.
-		this.sprites.canvas_bg.img = document.getElementById('canvas-bg-r' + mode);
+		resource.sprites.canvas_bg.img = document.getElementById('canvas-bg-r' + mode);
 		
 		//Use the canvas sprite's dimensions to set our buffer layer's dimensions.
 		resource.layers.buffer.canvas.width = resource.sprites.canvas_bg.img.width;
@@ -63,6 +65,13 @@ Resource.init = (function(globals, system, stg, fsm, resource) {
 			height: resource.sprites.canvas_bg.img.height
 		});
 		
+		//Initiate the pause layer.
+		resource.layers.pause.canvas.width = resource.sprites.canvas_bg.img.width;
+		resource.layers.pause.canvas.height = resource.sprites.canvas_bg.img.height;
+		resource.layers.pause.setSquare({
+			width: resource.sprites.canvas_bg.img.width,
+			height: resource.sprites.canvas_bg.img.height
+		});
 		
 		var synesthesia_map = MusicTheory.Synesthesia.map('D. D. Jameson (1844)');
 		

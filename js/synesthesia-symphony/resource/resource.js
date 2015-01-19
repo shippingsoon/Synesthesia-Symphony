@@ -18,7 +18,8 @@ var Resource = (function(globals, system, stg, $) {
 		//Canvas layers.
 		layers: {
 			screen: new stg.Square({}),
-			buffer: new stg.Square({})
+			buffer: new stg.Square({}),
+			pause: new stg.Square({}),
 		},
 		
 		//Stage backgrounds.
@@ -29,5 +30,20 @@ var Resource = (function(globals, system, stg, $) {
 		
 		//Color map.
 		color_map: [],
+		
+		//The player.
+		player: null,
+		
+		//The enemies.
+		enemies: [],
+		
+		//The bullets.
+		bullets: [],
+		
+		//The items.
+		items: [],
+		
+		//The piano notes.
+		notes: [],
 	};
 }(window, System, STG, jQuery)); 

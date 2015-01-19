@@ -90,13 +90,15 @@ STG.Bullet = (function(fsm, stg, resource, system) {
 			
 			//Check for collision between the bullet and objects.
 			if (!out_of_bounds)
-				has_collided = handleCollision({fsm: game.fsm});
+				has_collided = handleCollision();
 			
 			//Add the velocity vector to the bullet's position.
 			that.add(that.velocity);
 			
 			//If the bullet has collided or went out of bounds mark it as collided.
-			state.setAlive(!out_of_bounds && !has_collided);
+			if (out_of_bounds || has_collided) {
+				state.setAlive(false);
+			}
 		};
 		
 		/*
@@ -124,38 +126,30 @@ STG.Bullet = (function(fsm, stg, resource, system) {
 		
 		/*
 		 * Handles collision between bullets and objects.
-		 * @param {FSM} options.fsm - Finite state machine.
 		 */
-		function handleCollision(options) {
-			var stage = options.fsm.getParent().parent;
+		function handleCollision() {
 			var has_collided = false;
+			var player = resource.player;
+			var enemies = resource.enemies;
 			
-			if (stage) {
-				var targets = stage.getTargets(target_type);
-				var player = targets.player;
-				var enemies = targets.enemies;
-				
-				//If our target is a player.
-				if (target_type === stg.targets.player && !player.isInvulnerable()) {
-					if (stg.Math.circleCollision(that, player))
-						has_collided = player.handleCollision({target_type: stg.targets.bullet, target: that});
-				}
-				
-				//If our target is an enemy.
-				else if (target_type === stg.targets.enemy) {
-					for (var enemy = 0, length = enemies.length; enemy < length; enemy++) {
-						
-						if (has_collided = stg.Math.circleCollision(that, enemies[enemy])) {
-							enemies[enemy].handleCollision();
-							break;
-						}
-					}
-				}
-				
-				return has_collided;
+			//If our target is a player.
+			if (target_type === stg.targets.player && !player.isInvulnerable()) {
+				if (stg.Math.circleCollision(that, player))
+					has_collided = player.handleCollision({target_type: stg.targets.bullet, target: that});
 			}
 			
-			throw 'Stage is undefined';
+			//If our target is an enemy.
+			else if (target_type === stg.targets.enemy) {
+				for (var enemy = 0, length = enemies.length; enemy < length; enemy++) {
+					
+					if (has_collided = stg.Math.circleCollision(that, enemies[enemy])) {
+						enemies[enemy].handleCollision();
+						break;
+					}
+				}
+			}
+			
+			return has_collided;
 		}
 		
 		/*

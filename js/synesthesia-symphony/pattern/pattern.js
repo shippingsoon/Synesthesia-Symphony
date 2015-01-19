@@ -14,6 +14,7 @@ var Resource = Resource || {};
 //Pattern module.
 Pattern = (function(globals, fsm, stg, resource) {
 	"use strict";
+	
 	var layers = resource.layers;
 	
 	return {
@@ -30,7 +31,7 @@ Pattern = (function(globals, fsm, stg, resource) {
 		 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
  		 */
 		createBullets: function(options) {
-			var bullets = [];
+			var length = resource.bullets.length;
 			var ctx = options.ctx || layers.buffer.getContext();
 			var position = options.position || {x: 0, y: 0};
 			var offsets = options.offsets || {x: 0, y: 0};
@@ -47,8 +48,8 @@ Pattern = (function(globals, fsm, stg, resource) {
 				speed: {value: 0, length: speeds.length}
 			};
 			
-			for (var bullet = 0; bullet < max_bullets; bullet++) {
-				bullets.push(new stg.Bullet({
+			for (var bullet = length; bullet < max_bullets + length; bullet++) {
+				resource.bullets.push(new stg.Bullet({
 					ctx: ctx,
 					x: position.x + offsets.x,
 					y: position.y + offsets.y,
@@ -63,8 +64,6 @@ Pattern = (function(globals, fsm, stg, resource) {
 					if (++indices[index].value === indices[index].length)
 						indices[index].value = 0;
 			}
-			
-			return bullets;
 		}
 	};
 	

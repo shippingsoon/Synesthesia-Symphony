@@ -29,9 +29,6 @@ Session.load = (function(globals, system, resource, fsm, session, $) {
 		//The previous time.
 		this.previous_time = this.previous_time || current_time;
 		
-		//Handle events of the current state.
-		system.fsm.controller({ctx: ctx});
-		
 		//Handle logic of the current state.
 		system.fsm.update({ctx: ctx});
 
@@ -53,6 +50,8 @@ Session.load = (function(globals, system, resource, fsm, session, $) {
 		//Load the session.
 		system.Config.hiscore = data.hiscore;
 		system.Config.resolution.selection = data.resolution;
+		system.Config.volume = data.volume;
+		system.Config.show_fps = data.show_fps;
 		
 		//Initiate the resource submodule.
 		resource.init();

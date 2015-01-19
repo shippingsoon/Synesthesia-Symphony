@@ -9,9 +9,10 @@
 
 var System = System || {};
 var STG = STG || {};
+var Resource = Resource || {};
 
 //This submodule handles common functions related to the stage states.
-STG.Stage = (function(globals, system, stg) {
+STG.Stage = (function(globals, system, stg, resource) {
 	"use strict";
 	
 	return {
@@ -90,8 +91,20 @@ STG.Stage = (function(globals, system, stg) {
 			common.message = 'Glaze  ' + config.glaze;
 			stg.Canvas.text(common);
 			
+			//Display the total number of active bullets.
+			if (system.Config.DEBUG) {
+				pad = '0000';
+				var bullet_string = String(resource.bullets.length);
+				var bullet_count = pad.substring(0, pad.length - bullet_string.length) + resource.bullets.length;
+				common.x = ctx.canvas.width - 98;
+				common.y = ctx.canvas.height - 40;
+				common.message = 'Bullets: ' + bullet_count;
+				common.font =  'bold 15px arial';
+				stg.Canvas.text(common);
+			}
+			
 			//Display the FPS.
-			if (system.Config.DEBUG === true) {
+			if (system.Config.show_fps || system.Config.DEBUG) {
 				common.x = ctx.canvas.width - 60;
 				common.y = ctx.canvas.height - 20;
 				common.message = 'FPS: ' + Math.floor(system.Config.fps).toFixed(0);
@@ -143,5 +156,54 @@ STG.Stage = (function(globals, system, stg) {
 			canvas_vectors[0].add(speed);
 			canvas_vectors[1].add(speed);
 		},
+		
+		/*
+		 * 
+		 */
+		buildPiano: function(state) {
+			var offset = 0;
+			var white_margin = 480 / 51;
+			var is_sharp = false;
+			var sharp_count = [];
+			
+			//Zero is for white keys and one is for black keys.
+			var colors = [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0];
+			
+			for (var note = 0x15; note < 0x6C; note++) {
+				is_sharp = colors[note % 12] === 1;
+				
+				resource.notes.push(
+					new stg.Note({
+						ctx: resource.layers.buffer.getContext(),
+						x: ((is_sharp) ? offset - 3 : offset),
+						y: 0,
+						w: ((is_sharp) ? white_margin / 1.5 : white_margin),
+						h: (is_sharp) ? 10 : 20,
+						color: new stg.Color(resource.color_map[note % 12].getColor()),
+						note: note,
+						key: MIDI.noteToKey[note],
+						octave: (note - 12) / 12 >> 0,
+						is_sharp: is_sharp
+					}
+				));
+				
+				sharp_count.push(is_sharp);
+				
+				if (!is_sharp)
+					offset += white_margin;
+			}
+			
+			//Load the white keys.
+			for (var note = 0; note < resource.notes.length; note++) {
+				if (!sharp_count[note])
+					state.setSubstate({substate: resource.notes[note].getState()});
+			}
+			
+			//Load the black keys.
+			for (var note = 0; note < resource.notes.length; note++) {
+				if (sharp_count[note])
+					state.setSubstate({substate: resource.notes[note].getState()});
+			}
+		},
 	};
-}(window, System, STG)); 
+}(window, System, STG, Resource)); 
