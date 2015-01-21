@@ -60,7 +60,7 @@ Session.load = (function(globals, system, resource, fsm, session, $) {
 		system.fsm = new fsm.Init({});
 		
 		//Transition into the intro state.
-		system.fsm.transition({state: new fsm.Stage({}), ctx: resource.layers.screen.getContext()});
+		system.fsm.transition({state: new fsm.Intro({}), ctx: resource.layers.screen.getContext()});
 
 		//Call our main function every n frames per second.
 		globals.interval = setInterval(main, (1000 / system.Config.TARGET_FPS));

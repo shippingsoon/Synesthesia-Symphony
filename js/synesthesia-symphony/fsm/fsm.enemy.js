@@ -1,11 +1,11 @@
 /*
-	@description - Enemy submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Finite-State-Machine/
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ *	@description - Enemy submodule.
+ *	@copyright - 2014 Shipping Soon
+ *	@source - https://github.com/shippingsoon/Finite-State-Machine/
+ *	@website - https://www.shippingsoon.com/synesthesia-symphony/
+ *	@version - v0.05
+ *	@license - GPLv3
+ */
 
 var FSM = FSM || {};
 var STG = STG || {};
@@ -14,13 +14,11 @@ var System = System || {};
 
 /*
  * Enemy submodule.
- * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
- * @param {Number} options.x - The x coordinate.
- * @param {Number} options.y - The y coordinate.
- * @param {Number} options.radius - The enemy's radius.
- * @param {String|STG.Color} options.color - The color.
- * @param {Number} options.lineWidth - The line width.
- * @param {String|STG.Color} options.strokeStyle - The outline color.
+ * @param {FSM} fsm - Finite state machine.
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {Pattern} pattern - Pattern submodule for generating bullet patterns.
+ * @param {System} system - System submodule.
+ * @return {FSM.Enemy}
  */
 FSM.Enemy = (function(fsm, stg, pattern, system) {
 	"use strict";
@@ -36,6 +34,7 @@ FSM.Enemy = (function(fsm, stg, pattern, system) {
 	 * @param {STG.Point[]|Object[]} options.paths - An array of STG points or objects.
 	 * @param {Boolean} options.loop_points - Determines if we will loop through the points.
 	 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
+	 * @return {FSM.Enemy}
 	 */
 	function Enemy(options) {
 		//Call our parent's constructor.
@@ -72,6 +71,7 @@ FSM.Enemy = (function(fsm, stg, pattern, system) {
 		 * Start the state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.start = function(game) {
 			var ctx = that.getContext();
@@ -79,8 +79,7 @@ FSM.Enemy = (function(fsm, stg, pattern, system) {
 			//Set the bullet patterns.
 			for (var index = 0, length = patterns.length; index < length; index++) {
 				patterns[index].target_type = options.target_type || 0;
-				//console.log(patterns[index]);
-				//debugger;
+				
 				danmakus.push(new pattern.Create(patterns[index]));
 				
 				state.setSubstate({
@@ -98,6 +97,7 @@ FSM.Enemy = (function(fsm, stg, pattern, system) {
 		 * The enemy's logic.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.update = function(game) {
 			if (lives < 1)
@@ -108,6 +108,7 @@ FSM.Enemy = (function(fsm, stg, pattern, system) {
 		 * Draws the enemy.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.render = function(game) {
 			if (ctx)
@@ -117,13 +118,17 @@ FSM.Enemy = (function(fsm, stg, pattern, system) {
 		/*
 		 * Set the enemy's lives.
 		 * @param {Number} _lives - The lives to set.
+		 * @return {FSM.Enemy}
 		 */
 		this.setLives = function(_lives) {
 			lives = _lives;
+			
+			return that;
 		};
 		
 		/*
 		 * Get the enemy's lives.
+		 * @return {Number}
 		 */
 		this.getLives = function() {
 			return lives;
@@ -133,6 +138,7 @@ FSM.Enemy = (function(fsm, stg, pattern, system) {
 		 * Move the enemy towards a target. Returns true or false depending on if the target is reached.
 		 * @param {STG.Point|Object} options.target - The STG point or object we will approach.
 		 * @param {Number} options.speed - The rate in which the enemy will move towards the target.
+		 * @return {Boolean}
 		 */
 		this.approach = function(options) {
 			//The enemy's position.
@@ -172,6 +178,7 @@ FSM.Enemy = (function(fsm, stg, pattern, system) {
 		
 		/*
 		 * Handles collision.
+		 * @return {Undefined}
 		 */
 		this.handleCollision = function() {
 			var lives = that.getLives();
@@ -185,6 +192,7 @@ FSM.Enemy = (function(fsm, stg, pattern, system) {
 		
 		/*
 		 * Get the state.
+		 * @return {FSM.State}
 		 */
 		this.getState = function() {
 			return state;
