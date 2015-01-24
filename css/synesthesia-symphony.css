@@ -80,6 +80,16 @@ body {
 	top:20px;
 }
 
+.loading {
+	position:absolute;
+	z-index:4;
+	left:0px;
+	right:0px;
+	top:0px;
+	bottom:0px;
+	margin:auto;
+}
+
 .how-to {
 	text-align:left;
 	margin:auto;

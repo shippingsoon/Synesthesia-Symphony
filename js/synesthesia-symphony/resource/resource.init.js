@@ -79,6 +79,9 @@ Resource.init = (function(globals, system, stg, fsm, resource) {
 			if (synesthesia_map[map])
 				resource.color_map.push(stg.Cmath.hexToColor(synesthesia_map[map].hex));
 		}
+		
+		//The loading gif.
+		resource.loading_gif = document.getElementById('loading-gif');
 	}
 	
 	return init;

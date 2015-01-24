@@ -59,6 +59,8 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi) {
 		
 		var danmaku = null;
 	
+		var has_collided = false;
+		
 		/*
 		 * MIDI event listener.
 		 * @param {Number} e.detail.note - MIDI note.
@@ -132,10 +134,13 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.update = function(game) {
-			if (stg.Math.circleSquareCollision(resource.player, that)) {
+			if (!has_collided && stg.Math.circleSquareCollision(resource.player, that)) {
 				listen(null);
-				midi.noteOn(0, note, 127, 0);
+				if (midi)
+					midi.noteOn(0, note, 127, 0);
 				system.Config.score += 1;
+				has_collided = true; 
+				setTimeout(function(){has_collided = false;}, 1000);
 			}
 		};
 		

@@ -45,5 +45,7 @@ var Resource = (function(globals, system, stg, $) {
 		
 		//The piano notes.
 		notes: [],
+		
+		loading_gif: null,
 	};
 }(window, System, STG, jQuery)); 

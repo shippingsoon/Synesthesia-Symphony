@@ -47,10 +47,12 @@ STG.Color = (function(stg) {
 		 */
 		this.setColor = function(options) {
 			//Set the hues.
-			red = (typeof arguments[0] === 'number') ? arguments[0] : (options.r || 0);
-			green = (typeof arguments[1] === 'number') ? arguments[1] : (options.g || 0);
-			blue = (typeof arguments[2] === 'number') ? arguments[2] : (options.b || 0);
-			alpha = (typeof arguments[3] === 'number') ? arguments[3] : (((options.a !== undefined) ? options.a : 1));
+			red = (typeof arguments[0] === 'number') ? arguments[0] : (options.r || options.red || 0);
+			green = (typeof arguments[1] === 'number') ? arguments[1] : (options.g || options.green || 0);
+			blue = (typeof arguments[2] === 'number') ? arguments[2] : (options.b || options.blue || 0);
+			alpha = (typeof arguments[3] === 'number')
+				? arguments[3]
+				: (((options.a !== undefined || options.alpha !== undefined) ? options.a || options.alpha: 1));
 			
 			//Make sure the values are valid.
 			validateColor();	
