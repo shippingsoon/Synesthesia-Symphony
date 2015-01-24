@@ -12,7 +12,15 @@ var STG = STG || {};
 var Resource = Resource || {};
 var System = System || {};
 
-//Stage state.
+
+/*
+ * Stage state.
+ * @param {FSM} fsm - Finite state machine.
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {System} system - System submodule.
+ * @param {MIDI} midi - MIDI.js library.
+ * @return {FSM.Intro}
+ */
 FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 	"use strict";
 	
@@ -24,8 +32,6 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 	
 	//Miscellaneous config information.
 	var config = system.Config;
-	
-	var byId = midi.GeneralMIDI.byId;
 	
 	/*
 	 * Stage state.
@@ -94,6 +100,21 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {
+			//Map the MIDI channels to a numerical MIDI instrument ID.
+			//http://en.wikipedia.org/wiki/General_MIDI#Program_change_events
+			var channels = {
+				0: 33, 1: 18,
+				2: 18, 3: 94,
+				4: 58, 5: 60,
+				6: 49, 7: 15,
+				8: 95, 9: 116,
+				10: 58, 11: 5,
+				12: 78, 13: 15
+			};
+			
+			//An array of MIDI instrument IDs.
+			var instruments = stg.Audio.loadInstruments(channels);
+			
 			//Show the loading gif.
 			resource.loading_gif.style.display = 'block';
 			
@@ -106,36 +127,14 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 			//Load the stage music.
 			midi.loadPlugin({
 				soundfontUrl: './soundfont/',
-				instruments: [
-					byId[33].id, byId[18].id,
-					byId[94].id, byId[58].id,
-					byId[60].id, byId[49].id,
-					byId[15].id, byId[95].id,
-					byId[116].id, byId[5].id,
-					byId[78].id, byId[15].id
-				],
+				instruments: instruments,
 				callback: function(data) {
 					//Hide the loading gif.
 					resource.loading_gif.style.display = 'none';
 					
-					
-			
-					//Change the program and patch.
-					//http://en.wikipedia.org/wiki/General_MIDI#Program_change_events
-					midi.programChange(0, 33); //Program (patch) change ::  Channel 0.  Patch 33 (Electric Bass(finger))
-					midi.programChange(1, 18); //Program (patch) change ::  Channel 1.  Patch 18 (Rock Organ)
-					midi.programChange(2, 18); //Program (patch) change ::  Channel 2.  Patch 18 (Rock Organ)
-					midi.programChange(3, 94); //Program (patch) change ::  Channel 3.  Patch 94 (Pad 7 (halo))
-					midi.programChange(4, 58); //Program (patch) change ::  Channel 4.  Patch 58 (Tuba)
-					midi.programChange(5, 60); //Program (patch) change ::  Channel 5.  Patch 60 (French Horn)
-					midi.programChange(6, 49); //Program (patch) change ::  Channel 6.  Patch 49 (String Ensemble 2)
-					midi.programChange(7, 15); //Program (patch) change ::  Channel 7.  Patch 15 (Dulcimer)
-					midi.programChange(8, 95); //Program (patch) change ::  Channel 8.  Patch 95 (Pad 8 (sweep))
-					midi.programChange(9, 116);
-					midi.programChange(10, 58); //Program (patch) change ::  Channel 10.  Patch 58 (Tuba)
-					midi.programChange(11, 5); //Program (patch) change ::  Channel 11.  Patch 5 (Electric Piano 2)
-					midi.programChange(12, 78); //Program (patch) change ::  Channel 12.  Patch 78 (Whistle)
-					midi.programChange(13, 15); //Program (patch) change ::  Channel 13.  Patch 15 (Dulcimer)
+					//Map the MIDI channel to an instrument.
+					for (var channel in channels)
+						midi.programChange(channel, channels[channel]);
 					
 					//Set the volume.
 					midi.setVolume(0, config.volume);
@@ -285,14 +284,12 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 		}
 		
 		/*
-		 * Returns an instance of this state.
+		 * Return the state.
+		 * @return {FSM.State} - An FSM state.
 		 */
 		this.getState = function() {
 			return state;
-		}
-
-		//Return an instance of this state.
-		return this.getState();
+		};
 	}
 	
 	return Stage;
