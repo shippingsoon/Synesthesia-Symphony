@@ -23,6 +23,9 @@ System.Config = System.Cfg = (function(globals) {
 		//The targeted frames per second.
 		TARGET_FPS: 30,
 		
+		//Project title.
+		TITLE: 'Synesthesia Symphony',
+		
 		//Company name.
 		COMPANY: 'Shipping Soon',
 		
@@ -49,6 +52,9 @@ System.Config = System.Cfg = (function(globals) {
 		
 		//The player's invulnerability time out in milliseconds.
 		INVULNERABILITY_TIMEOUT: 2000,
+		
+		//Path to MIDI files.
+		MIDI_FILE_PATH: '/synesthesia-symphony/midi/',
 		
 		//The average frames per second.
 		fps: 0,

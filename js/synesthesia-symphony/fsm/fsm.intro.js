@@ -10,6 +10,8 @@
 var FSM = FSM || {};
 var STG = STG || {};
 var System = System || {};
+var MIDI = MIDI || {};
+var Resource = Resource || {};
 
 /*
  * Intro state.
@@ -34,6 +36,7 @@ FSM.Intro = (function(fsm, stg, system, midi, resource) {
 		var font_size = 1;
 		var mplayer = midi.Player;
 		var interval = null;
+		var songs = resource.songs;
 		
 		/*
 		 * Start the state.
@@ -42,19 +45,8 @@ FSM.Intro = (function(fsm, stg, system, midi, resource) {
 		 * @return {Undefined} 
 		 */
 		state.start = function(game) {
-			//Map the MIDI channels to a numerical MIDI instrument ID.
-			//http://en.wikipedia.org/wiki/General_MIDI#Program_change_events
-			var channels = {
-				0: 114, 1: 37,
-				2: 39, 3: 76,
-				4: 62, 5: 63,
-				6: 80, 7: 88,
-				8: 79, 9: 0,
-				10: 81
-			};
-			
 			//An array of MIDI instrument IDs.
-			var instruments = stg.Audio.loadInstruments(channels);
+			var instruments = stg.Audio.loadInstruments(songs['intro'].channels);
 				
 			//Show the loading gif.
 			resource.loading_gif.style.display = 'block';
@@ -67,6 +59,10 @@ FSM.Intro = (function(fsm, stg, system, midi, resource) {
 					//Hide the loading gif.
 					resource.loading_gif.style.display = 'none';
 					
+					//Map the MIDI channel to an instrument.
+					for (var channel in songs['intro'].channels)
+						midi.programChange(channel, songs['intro'].channels[channel]);
+						
 					//Set the volume.
 					midi.setVolume(0, system.Config.volume);
 					
@@ -74,7 +70,7 @@ FSM.Intro = (function(fsm, stg, system, midi, resource) {
 					mplayer.timeWarp = 1;
 					
 					//Load and play the intro music.
-					mplayer.loadFile('/synesthesia-symphony/midi/intro.mid', mplayer.start);
+					mplayer.loadFile(songs['intro'].file, mplayer.start);
 					
 					//Create a fade out effect by incrementing the background color.
 					interval = setInterval(function() {
@@ -86,13 +82,9 @@ FSM.Intro = (function(fsm, stg, system, midi, resource) {
 							font_size += 0.3;
 						}
 					}, 60);
-			
+					
 					//MIDI event listener.
 					mplayer.addListener(function (data) {
-						//Map the MIDI channel to an instrument.
-						for (var channel in channels)
-							midi.programChange(channel, channels[channel]);
-						
 						//Once the fade out is complete transition to the Menu state.
 						if (hue >= 255 || Keydown.z || Keydown.space) {
 							//Stop the intro music.
@@ -101,7 +93,7 @@ FSM.Intro = (function(fsm, stg, system, midi, resource) {
 
 								//Transition into the Menu state.
 								game.fsm.transition({
-									state: new fsm.Stage({}).getState(),
+									state: new fsm.Menu({}).getState(),
 									ctx: game.ctx
 								});
 							}

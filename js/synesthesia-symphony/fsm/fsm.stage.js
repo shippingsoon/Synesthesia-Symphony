@@ -30,6 +30,9 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 	//The sprites.
 	var sprites = resource.sprites;
 	
+	//The MIDI songs.
+	var songs = resource.songs;
+	
 	//Miscellaneous config information.
 	var config = system.Config;
 	
@@ -94,26 +97,15 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 		
 		//Music player.
 		var mplayer = midi.Player;
+		
 		/*
 		 * Initiate this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
-		state.start = function(game) {
-			//Map the MIDI channels to a numerical MIDI instrument ID.
-			//http://en.wikipedia.org/wiki/General_MIDI#Program_change_events
-			var channels = {
-				0: 33, 1: 18,
-				2: 18, 3: 94,
-				4: 58, 5: 60,
-				6: 49, 7: 15,
-				8: 95, 9: 116,
-				10: 58, 11: 5,
-				12: 78, 13: 15
-			};
-			
+		state.start = function(game) {			
 			//An array of MIDI instrument IDs.
-			var instruments = stg.Audio.loadInstruments(channels);
+			var instruments = stg.Audio.loadInstruments(songs['sky_chase_zone'].channels);
 			
 			//Show the loading gif.
 			resource.loading_gif.style.display = 'block';
@@ -133,8 +125,8 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 					resource.loading_gif.style.display = 'none';
 					
 					//Map the MIDI channel to an instrument.
-					for (var channel in channels)
-						midi.programChange(channel, channels[channel]);
+					for (var channel in songs['sky_chase_zone'].channels)
+						midi.programChange(channel, songs['sky_chase_zone'].channels[channel]);
 					
 					//Set the volume.
 					midi.setVolume(0, config.volume);
@@ -143,7 +135,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 					mplayer.timeWarp = 1;
 					
 					//Load and play the stage music.
-					mplayer.loadFile('/synesthesia-symphony/midi/sky-chase-zone.mid', mplayer.start);
+					mplayer.loadFile(songs['sky_chase_zone'].file, mplayer.start);
 					
 					//MIDI event listener.
 					mplayer.addListener(function (data) {

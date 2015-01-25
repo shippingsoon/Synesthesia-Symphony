@@ -26,6 +26,7 @@ var Resource = (function(globals, system, stg, $) {
 		sprites: {
 			stages_bg: [],
 			canvas_bg: new stg.Square({}),
+			menu: new stg.Square({})
 		},
 		
 		//Color map.

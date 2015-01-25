@@ -65,6 +65,9 @@ Resource.init = (function(globals, system, stg, fsm, resource) {
 			height: resource.sprites.canvas_bg.img.height
 		});
 		
+		//Load the title menu image.
+		resource.sprites.menu.img = document.getElementById('menu-r' + mode);
+		
 		//Initiate the pause layer.
 		resource.layers.pause.canvas.width = resource.sprites.canvas_bg.img.width;
 		resource.layers.pause.canvas.height = resource.sprites.canvas_bg.img.height;
@@ -73,6 +76,7 @@ Resource.init = (function(globals, system, stg, fsm, resource) {
 			height: resource.sprites.canvas_bg.img.height
 		});
 		
+		//Set the color map.
 		var synesthesia_map = MusicTheory.Synesthesia.map('D. D. Jameson (1844)');
 		
 		for (var map = 0; map < 12; map++) {
