@@ -56,6 +56,9 @@ System.Config = System.Cfg = (function(globals) {
 		//Path to MIDI files.
 		MIDI_FILE_PATH: '/synesthesia-symphony/midi/',
 		
+		//Determines if we only use the grand piano.
+		PIANO_ONLY: false,
+		
 		//The average frames per second.
 		fps: 0,
 		
@@ -74,8 +77,14 @@ System.Config = System.Cfg = (function(globals) {
 			selection: 0
 		},
 		
-		//The master volume.
+		//The master volume. This will determine the min and max volume of the background music and sound effects.
 		volume: 127,
+		
+		//The background music volume.
+		bgm_volume: 127,
+		
+		//The sound effects volume.
+		sfx_volue: 127,
 		
 		//Current score.
 		score: 0,

@@ -47,37 +47,25 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {
-			//An array of MIDI instrument IDs.
-			var instruments = stg.Audio.loadInstruments(songs['fairy_mountain'].channels);
-			
 			//Show the loading gif.
 			resource.loading_gif.style.display = 'block';
+
+			
+			//Map the MIDI channel to an instrument.
+			stg.Audio.programChange(songs['fairy_mountain']);
+						
+			//Load and play the menu music.
+			mplayer.loadFile(songs['fairy_mountain'].file, function(data) {
+				//Hide the loading gif.
+				resource.loading_gif.style.display = 'none';
+				
+				mplayer.start();
+				
+			});
 			
 			//Handle events for this state.
 			globals.addEventListener('keydown', game.fsm.controller, false);
-			
-			//Load the intro music.
-			midi.loadPlugin({
-				soundfontUrl: './soundfont/',
-				instruments: instruments,
-				callback: function() {
-					//Hide the loading gif.
-					resource.loading_gif.style.display = 'none';
-					
-					//Map the MIDI channel to an instrument.
-					for (var channel in songs['fairy_mountain'].channels)
-						midi.programChange(channel, songs['fairy_mountain'].channels[channel]);
-					
-					//Set the volume.
-					midi.setVolume(0, system.Config.volume);
-					
-					//The speed the song is played back.
-					mplayer.timeWarp = 1;
-					
-					//Load and play the intro music.
-					mplayer.loadFile(songs['fairy_mountain'].file, mplayer.start);
-				}
-			});
+
 		};
 		
 		/*
@@ -86,6 +74,10 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.stop = function(game) {
+			//Stop the music.
+			if (mplayer.playing)
+				mplayer.stop();
+			
 			//Remove the event.
 			globals.removeEventListener('keydown', game.fsm.controller, false);
 		};
@@ -111,8 +103,10 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 			switch (game.event.keyCode) {
 				//Up key is pressed.
 				case 38:
-					midi.noteOn(0, 74, 127, 0);
+					//Play a SFX.
+					midi.noteOn(0, 74, system.Config.sfx_volume, 0);
 					
+					//Move the menu index down.
 					menu_index = (menu_index <= 0)
 						? (options.length - 1)
 						: (menu_index - 1);
@@ -120,17 +114,24 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 				
 				//Down key is pressed.
 				case 40:
-					midi.noteOn(0, 74, 127, 0);
+					//Play a SFX
+					midi.noteOn(0, 74, system.Config.sfx_volume, 0);
+					
+					//Move the menu index up.
 					menu_index = (menu_index == options.length - 1)
 						? 0
 						: (menu_index + 1); 
 					break;
 				
-				//Z key is pressed.
+				//Z, Enter or Space key is pressed.
 				case 90:
+				case 32:
+				case 13:
 					//Transition to the stage state.
-					if (menu_index === 0) 
-						game.fsm.transition(new FSM.Stage({}).getState());
+					if (menu_index === 0)
+						game.fsm.transition({state: new fsm.Stage({}).getState()});
+					else if (menu_index === options.length - 1)
+						game.fsm.rewind({stop: true, ctx: game.ctx});
 					break;
 			}
 		};

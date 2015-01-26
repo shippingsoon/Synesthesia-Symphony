@@ -51,6 +51,8 @@ Session.load = (function(globals, system, resource, fsm, session, $) {
 		system.Config.hiscore = data.hiscore;
 		system.Config.resolution.selection = data.resolution;
 		system.Config.volume = data.volume;
+		system.Config.bgm_volume = data.bgm_volume;
+		system.Config.sfx_volume = data.sfx_volume;
 		system.Config.show_fps = data.show_fps;
 		
 		//Initiate the resource submodule.
@@ -59,8 +61,8 @@ Session.load = (function(globals, system, resource, fsm, session, $) {
 		//Initiate our state machine.
 		system.fsm = new fsm.Init({});
 		
-		//Transition into the intro state.
-		system.fsm.transition({state: new fsm.Intro({}).getState(), ctx: resource.layers.screen.getContext()});
+		//Transition into the load state.
+		system.fsm.transition({state: new fsm.Load({}).getState(), ctx: resource.layers.screen.getContext()});
 
 		//Call our main function every n frames per second.
 		globals.interval = setInterval(main, (1000 / system.Config.TARGET_FPS));

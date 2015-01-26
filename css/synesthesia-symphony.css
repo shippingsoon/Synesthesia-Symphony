@@ -43,6 +43,7 @@ body {
 	border-radius:4px;
 	/*outline:solid 1px #CCC;*/
 	overflow:visible;
+	cursor:none;
 }
 
 	.synesthesia-symphony canvas {

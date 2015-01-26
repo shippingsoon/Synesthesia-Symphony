@@ -82,7 +82,7 @@ FSM.Init = (function(globals, stg, resource) {
 		 */
 		this.forward = function(fsm) {
 			//Pause the current state.
-			if (states.length !== 0)
+			if (states.length !== 0 && fsm.pause !== false)
 				_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'pause'});
 			
 			//Push a new state and invoke its constructor.
@@ -102,7 +102,7 @@ FSM.Init = (function(globals, stg, resource) {
 		this.rewind = function(fsm) {
 			if (states.length !== 0) {
 				//Determine if we will pause the current state.
-				if (fsm.pause)
+				if (fsm.stop)
 					_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'stop'});
 				
 				//Pop the current state.

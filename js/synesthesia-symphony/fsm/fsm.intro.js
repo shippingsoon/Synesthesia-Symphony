@@ -21,7 +21,7 @@ var Resource = Resource || {};
  * @param {MIDI} midi - MIDI.js library.
  * @return {FSM.Intro}
  */
-FSM.Intro = (function(fsm, stg, system, midi, resource) {
+FSM.Intro = (function(globals, fsm, stg, system, midi, resource) {
 	"use strict";
 	
 	/*
@@ -37,6 +37,7 @@ FSM.Intro = (function(fsm, stg, system, midi, resource) {
 		var mplayer = midi.Player;
 		var interval = null;
 		var songs = resource.songs;
+		var can_keypress = true;
 		
 		/*
 		 * Start the state.
@@ -45,62 +46,14 @@ FSM.Intro = (function(fsm, stg, system, midi, resource) {
 		 * @return {Undefined} 
 		 */
 		state.start = function(game) {
-			//An array of MIDI instrument IDs.
-			var instruments = stg.Audio.loadInstruments(songs['intro'].channels);
-				
 			//Show the loading gif.
 			resource.loading_gif.style.display = 'block';
 			
-			//Load the intro music.
-			midi.loadPlugin({
-				soundfontUrl: './soundfont/',
-				instruments: instruments,
-				callback: function() {
-					//Hide the loading gif.
-					resource.loading_gif.style.display = 'none';
-					
-					//Map the MIDI channel to an instrument.
-					for (var channel in songs['intro'].channels)
-						midi.programChange(channel, songs['intro'].channels[channel]);
-						
-					//Set the volume.
-					midi.setVolume(0, system.Config.volume);
-					
-					//The speed the song is played back.
-					mplayer.timeWarp = 1;
-					
-					//Load and play the intro music.
-					mplayer.loadFile(songs['intro'].file, mplayer.start);
-					
-					//Create a fade out effect by incrementing the background color.
-					interval = setInterval(function() {
-						if (hue <= 255) {
-							//Increment the color from black to white.
-							hue += 1;
-							
-							//Increase the font's size.
-							font_size += 0.3;
-						}
-					}, 60);
-					
-					//MIDI event listener.
-					mplayer.addListener(function (data) {
-						//Once the fade out is complete transition to the Menu state.
-						if (hue >= 255 || Keydown.z || Keydown.space) {
-							//Stop the intro music.
-							if (mplayer.playing) {
-								mplayer.stop();
-
-								//Transition into the Menu state.
-								game.fsm.transition({
-									state: new fsm.Menu({}).getState(),
-									ctx: game.ctx
-								});
-							}
-						}
-					});
-				}
+			//Load and play the intro music.
+			mplayer.loadFile(songs['intro'].file, function(data) {
+				startMusic(game);
 			});
+			
 		};
 		
 		/*
@@ -109,13 +62,45 @@ FSM.Intro = (function(fsm, stg, system, midi, resource) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 * @return {Undefined}
 		 */
-		state.stop = function(game) {
-			//Stop the MIDI event listener.
-			mplayer.removeListener();
+		state.stop = state.pause = function(game) {
+			//Stop the music.
+			if (mplayer.playing)
+				mplayer.stop();
+			
+			//Remove the event.
+			globals.removeEventListener('keyup', game.fsm.controller, false);
 			
 			//Clear the interval.
-			if (interval !== null)
+			if (interval !== null) {
 				clearInterval(interval);
+				interval = null;
+			}
+		};
+		
+		/*
+		 * Handle events for this state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @param {Number} game.event - Numeric event code.
+		 */
+		state.controller = function(game) {
+			if (can_keypress) {
+				switch (game.event.keyCode) {
+					//Z, Enter or Space key is pressed.
+					case 90:
+					case 32:
+					case 13:
+						//Transition into the Menu state.
+						game.fsm.forward({
+							state: new fsm.Menu({}).getState(),
+							ctx: game.ctx
+						});
+						
+						break;
+				}
+				
+				can_keypress = false;
+			}
 		};
 		
 		/*
@@ -128,6 +113,39 @@ FSM.Intro = (function(fsm, stg, system, midi, resource) {
 			//Change the background color.
 			if (hue <= 255)
 				background_color.setColor({red: hue, green: hue, blue: hue});
+			else
+				//Transition into the Menu state.
+				game.fsm.forward({
+					state: new fsm.Menu({}).getState(),
+					ctx: game.ctx
+				});
+			
+			if (!can_keypress) {
+				setTimeout(function() {
+					can_keypress = true;
+				}, 400);
+			}
+		};
+		
+		/*
+		 * If the state is resumed.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
+		 */
+		state.play = function(game) {
+			can_keypress = false;
+			hue = 0;
+			font_size = 1;
+			
+			//Show the loading gif.
+			resource.loading_gif.style.display = 'block';
+			
+			//Load and play the intro music.
+			mplayer.loadFile(songs['intro'].file, function(data) {
+				startMusic(game);
+			});
+			
 		};
 		
 		/*
@@ -160,6 +178,37 @@ FSM.Intro = (function(fsm, stg, system, midi, resource) {
 		};
 		
 		/*
+		 * Starts the MIDI player and initializes MIDI.js resources.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
+		 */
+		function startMusic(game) {
+			//Hide the loading gif.
+			resource.loading_gif.style.display = 'none';
+						
+			//Map the MIDI channel to an instrument.
+			stg.Audio.programChange(songs['intro']);
+			
+			//Handle events for this state.
+			globals.addEventListener('keyup', game.fsm.controller, false);
+					
+			//Create a fade out effect by incrementing the background color.
+			interval = setInterval(function() {
+				if (hue <= 255) {
+					//Increment the color from black to white.
+					hue += 1;
+					
+					//Increase the font's size.
+					font_size += 0.3;
+				}
+			}, 60);
+			
+			//Play the music.
+			mplayer.start();
+		}
+		
+		/*
 		 * Return the state.
 		 * @return {FSM.State} - An FSM state.
 		 */
@@ -169,4 +218,4 @@ FSM.Intro = (function(fsm, stg, system, midi, resource) {
 	}
 	
 	return Intro;
-}(FSM, STG, System, MIDI, Resource));
+}(window, FSM, STG, System, MIDI, Resource));

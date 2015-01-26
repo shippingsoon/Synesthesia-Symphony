@@ -41,16 +41,11 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 	 * @param {FSM} options - TBA
 	 */
 	function Stage(options) {
-		//A reference to the current object.
 		var that = this;
-		
-		//The stage's state.
 		var state = new fsm.State({parent: that});
-		
-		//The paused state.
 		var pauseState = new fsm.Pause({});
-		
 		var color_map = resource.color_map;
+		var songs = resource.songs;
 		
 		//Our player.
 		resource.player = new fsm.Player({
@@ -104,19 +99,35 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {			
-			//An array of MIDI instrument IDs.
-			var instruments = stg.Audio.loadInstruments(songs['sky_chase_zone'].channels);
-			
 			//Show the loading gif.
 			resource.loading_gif.style.display = 'block';
+			
+			//Map the MIDI channel to an instrument.
+			stg.Audio.programChange(songs['sky_chase_zone']);
+			
+			//Load and play the stage music.
+			mplayer.loadFile(songs['sky_chase_zone'].file, function(data) {
+				//hide the loading gif.
+				resource.loading_gif.style.display = 'none';
+				
+				//MIDI event listener.
+				mplayer.addListener(function (data) {
+					var event = new CustomEvent('onNote-' + data.note, {'detail': data});
+					globals.dispatchEvent(event);
+				});
+					
+				//Start the music.
+				mplayer.start();
+			});
 			
 			//Builds the piano.
 			stg.Stage.buildPiano(state);
 	
 			//Add the player substate.
 			state.setSubstate({substate: resource.player.getState()});
-					
+			
 			//Load the stage music.
+			/*
 			midi.loadPlugin({
 				soundfontUrl: './soundfont/',
 				instruments: instruments,
@@ -144,6 +155,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 					});
 				}
 			});
+			*/
 			
 			//Handle events for this state.
 			globals.addEventListener('keyup', game.fsm.controller, false);
