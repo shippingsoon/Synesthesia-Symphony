@@ -18,20 +18,23 @@ STG.Audio = (function(globals, stg, system, midi) {
 		//The current time of the MIDI.js file that is playing.
 		current_time: '00:00',
 		
+		//The end time of the MIDI.js file that is playing.
+		end_time: '00:00',
+		
 		/*
 		 * Formats the MIDI.js time of the currently played file.
-		 * @param {Number} now - The current MIDI.js time.
-		 * @return {String} - The current time.
+		 * @param {Number} time - The raw MIDI.js time.
+		 * @return {String} - The formatted time.
 		 */
-		formatTime: function(now) {
-			var minutes = (now / 60) >> 0;
-			var seconds = (now - (minutes * 60)) >> 0;
+		formatTime: function(time) {
+			var minutes = (time / 60) >> 0;
+			var seconds = (time - (minutes * 60)) >> 0;
 			var pad = {
-				second: (minutes < 10) ? '0' : '',
-				minute: (seconds < 10) ? '0' : ''
+				second: ((seconds < 10) ? '0' : ''),
+				minute: ((minutes < 10) ? '0' : '')
 			};
 			
-			return (STG.Audio.current_time = pad.minute + minutes + ':' + pad.second + seconds);
+			return pad.minute + minutes + ':' + pad.second + seconds;
 		},
 		
 		/*
@@ -105,6 +108,44 @@ STG.Audio = (function(globals, stg, system, midi) {
 				//Map the MIDI channel to an instrument.
 				midi.programChange(channel, system.Config.PIANO_ONLY ? 0 : id);
 			}
+		},
+		
+		/*
+		 * Maps the MIDI channel to a MIDI instrument for a song.
+		 * @param {Number} channel - The MIDI channel to play the note on.
+		 * @param {Number} note - The MIDI note to be played.
+		 * @param {Number} velocity - The velocity the note was played.
+		 * @param {Number} delay - The delay to play the SFX.
+		 * @param {Boolean} use_bgm_volume - Determines if we'll use the background music's volume level.
+		 * @return {Undefined}
+		 */
+		playSfx: function(channel, note, velocity, delay, use_bgm_volume) {
+			if (!use_bgm_volume)
+				midi.setVolume(0, system.Config.sfx_volume);
+			
+			midi.noteOn(channel || 0, note || 0, velocity || system.Config.sfx_volume, delay || 0);
+			midi.setVolume(0, system.Config.bgm_volume)
+		},
+		
+		/*
+		 * MIDI.js setAnimation callback.
+		 * @param {Number} data.now - Where the MIDI file is currently at.
+		 * @param {Number} data.end - The end of the MIDI file.
+		 * @param {Object} data.events - MIDI events.
+		 * @return {Undefined}
+		 */
+		replayer: function(data) {
+			var percent = data.now / data.end;
+			var now = data.now >> 0;
+			var end = data.end >> 0;
+			
+			if (now >= end) {
+				MIDI.Player.currentTime = 0;
+				MIDI.Player.resume();
+			}
+			
+			stg.Audio.current_time = stg.Audio.formatTime(now);
+			stg.Audio.end_time = stg.Audio.formatTime(end)
 		},
 	};
 }(window, STG, System, MIDI)); 

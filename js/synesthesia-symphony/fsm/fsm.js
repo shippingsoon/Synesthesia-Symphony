@@ -1,11 +1,11 @@
 /*
-	@description - Finite state machine.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Finite-State-Machine/
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ *	@description - Finite state machine.
+ *	@copyright - 2014 Shipping Soon
+ *	@source - https://github.com/shippingsoon/Finite-State-Machine/
+ *	@website - https://www.shippingsoon.com/synesthesia-symphony/
+ *	@version - v0.05
+ *	@license - GPLv3
+ */
 
 var FSM = FSM || {};
 var STG = STG || {};
@@ -34,7 +34,7 @@ FSM.Init = (function(globals, stg, resource) {
 		 * @param {Number} event - Numeric event code.
 		 */
 		this.controller = function(event) {
-			if (states.length !== 0 && event) {//console.log(ctx);
+			if (states.length !== 0 && event) {
 				var current_state = currentState();
 				
 				//Handle events in the current state.
@@ -89,7 +89,8 @@ FSM.Init = (function(globals, stg, resource) {
 			states.push(fsm.state);
 			
 			//Initiate the new state.
-			_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'start'});
+			if (!fsm.skip)
+				_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'start'});
 			
 			return that;
 		};
@@ -104,12 +105,14 @@ FSM.Init = (function(globals, stg, resource) {
 				//Determine if we will pause the current state.
 				if (fsm.stop)
 					_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'stop'});
-				
+					
 				//Pop the current state.
 				states.pop();
+				that.cleanState();
 				
 				//Resume the previous state.
-				_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'play'});
+				if (!fsm.skip)
+					_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'play'});
 			}
 			
 			return that;
@@ -122,7 +125,7 @@ FSM.Init = (function(globals, stg, resource) {
 		 */
 		this.transition = function(fsm) {
 			//Filter out inactive states.
-			this.cleanState();
+			that.cleanState();
 			
 			if (states.length !== 0) {
 				//Stop the current state.
@@ -140,7 +143,7 @@ FSM.Init = (function(globals, stg, resource) {
 			
 			//Initiate the state.
 			_fsm({fsm: that, ctx: fsm.ctx, state: states[states.length - 1], method: 'start'});
-		
+			
 			return that;
 		};
 		
@@ -155,7 +158,7 @@ FSM.Init = (function(globals, stg, resource) {
 				if (options.substate)
 					states[states.length - 1].setSubstate({substate: options.substate, parent: options.parent});
 			}
-		
+			
 			return that;
 		};
 		
@@ -195,7 +198,7 @@ FSM.Init = (function(globals, stg, resource) {
 		 * Get the parent of the current state.
 		 */
 		this.getParent = function() {
-			return {parent: parent};
+			return parent;
 		}
 		
 		/*
@@ -234,7 +237,6 @@ FSM.Init = (function(globals, stg, resource) {
 		 */
 		this.run = function(options) {
 			_fsm({state: options.state, ctx: options.ctx, method: 'start'});
-			
 			return that;
 		}
 		

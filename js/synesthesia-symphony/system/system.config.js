@@ -98,7 +98,7 @@ System.Config = System.Cfg = (function(globals) {
 		glaze: 0,
 		
 		//The rate in which the canvas scrolls down.
-		canvas_scroll_rate: 2,
+		canvas_scroll_rate: 3,
 		
 		//Determines if we show the average frames per second.
 		show_fps: false,

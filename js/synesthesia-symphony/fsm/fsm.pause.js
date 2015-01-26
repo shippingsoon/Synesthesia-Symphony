@@ -22,6 +22,7 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi) {
 		var bg_color = new stg.Color(0, 0, 0, 0.8)
 		var layers = resource.layers;
 		var ctx = layers.pause.getContext();
+		var has_clicked = true;
 		
 		/*
 		 * Initiate this state.
@@ -29,13 +30,9 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.start = function(game) {
-			//Handle events for this state.
-			globals.addEventListener('keyup', game.fsm.controller, false);
 			
-			setTimeout(function() {
-				if (midi.Player.playing)
-					midi.Player.pause();
-			}, 4000);
+			//Handle events for this state.
+			globals.addEventListener('keydown', game.fsm.controller, false);
 		};
 		
 		/*
@@ -45,7 +42,7 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi) {
 		 */
 		state.stop = function(game) {
 			//Remove the event.
-			globals.removeEventListener('keyup', game.fsm.controller, false);
+			globals.removeEventListener('keydown', game.fsm.controller, false);
 			
 			//Clear the 2D rendering context.
 			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -58,55 +55,82 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi) {
 		 * @param {Number} game.event - Numeric event code.
 		 */
 		state.controller = function(game) {
-			switch (game.event.keyCode) {
-				//Escape key is pressed return to the stage state.
-				case 27:
-					game.fsm.rewind({pause: true});
-					break;
+			if (!has_clicked) {
+				switch (game.event.keyCode) {
+					//Escape key is pressed return to the stage state.
+					case 27:
+						game.fsm.rewind({stop: true});
+						break;
+					
+					//Up key is pressed select a new menu item.
+					case 38:
+						//Play a SFX.
+						stg.Audio.playSfx(0, 74, 127, 0);
+						
+						menu_index = (menu_index <= 0)
+							? (options.length - 1)
+							: (menu_index - 1);
+						break;
+					
+					//Down key is pressed select a new menu item.
+					case 40:
+						//Play a SFX.
+						stg.Audio.playSfx(0, 74, 127, 0);
+						
+						menu_index = (menu_index === options.length - 1)
+							? 0
+							: (menu_index + 1); 
+						break;
+					
+					//If Z, Enter or Space keys are pressed.
+					case 90:
+					case 13:
+					case 32:
+						//Play a SFX.
+						stg.Audio.playSfx(0, 70, 127, 0);
+						
+						//Return to the stage state.
+						if (menu_index === 0)
+							game.fsm.rewind({stop: true});
+						
+						//Return to the menu state.
+						else if (menu_index === 1) {
+							//
+						}
+						
+						//Return to the intro state.
+						else if (menu_index === options.length - 1) {
+							//Intro -> Menu -> Stage -> Pause
+							//Intro -> Stage -> Pause
+							
+							//Go to stage state.
+							game.fsm.rewind({stop: true, skip: true});
+							
+							//Go to intro state.
+							game.fsm.rewind({stop: true, skip: false});
+						}
+						break;
+				}
 				
-				//Up key is pressed select a new menu item.
-				case 38:
-					//Play a SFX.
-					midi.noteOn(0, 74, 127, 0);
-					
-					menu_index = (menu_index <= 0)
-						? (options.length - 1)
-						: (menu_index - 1);
-					break;
-				
-				//Down key is pressed select a new menu item.
-				case 40:
-					//Play a SFX.
-					midi.noteOn(0, 74, 127, 0);
-					
-					menu_index = (menu_index === options.length - 1)
-						? 0
-						: (menu_index + 1); 
-					break;
-				
-				//If Z, Enter or Space keys are pressed.
-				case 90:
-				case 13:
-				case 32:
-					//Play a SFX.
-					midi.noteOn(0, 70, 127, 0);
-					
-					//Return to the stage state.
-					if (menu_index === 0)
-						game.fsm.rewind({pause: true});
-					
-					//Return to the menu state.
-					else if (menu_index === 1) {
-						//
-					}
-					
-					//Return to the intro state.
-					else if (menu_index === 2) {
-						//
-					}
-					break;
+				has_clicked = true;
 			}
 		};
+		
+		/*
+		 * Handle game logic for this state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
+		state.update = function(game) {
+			if (has_clicked) {
+				setTimeout(function() {
+					has_clicked = false;
+				}, 100);
+			}
+			
+			if (midi.Player.playing)
+				midi.Player.pause();
+		}
 		
 		/*
 		 * Render this state.
@@ -144,15 +168,6 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi) {
 			
 			game.ctx.drawImage(ctx.canvas, 40, 20);
 		};
-		
-		/*
-		 * Handle game logic for this state.
-		 * @param {FSM} game.fsm - Finite state machine.
-		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
-		 */
-		state.update = function(game) {
-			
-		}
 		
 		/*
 		 * Return the state.

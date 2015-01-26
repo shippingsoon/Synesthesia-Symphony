@@ -17,7 +17,7 @@ var Resource = Resource || {};
  * Intro state.
  * @param {FSM} fsm - Finite state machine.
  * @param {STG} stg - Miscellaneous game module.
- * @param {System} system - System submodule.
+ * @param {System} system - System module.
  * @param {MIDI} midi - MIDI.js library.
  * @return {FSM.Intro}
  */
@@ -82,14 +82,16 @@ FSM.Intro = (function(globals, fsm, stg, system, midi, resource) {
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 * @param {Number} game.event - Numeric event code.
+		 * @return {Undefined}
 		 */
 		state.controller = function(game) {
 			if (can_keypress) {
 				switch (game.event.keyCode) {
-					//Z, Enter or Space key is pressed.
+					//Z, Enter, Space or Escape key is pressed.
 					case 90:
 					case 32:
 					case 13:
+					case 27:
 						//Transition into the Menu state.
 						game.fsm.forward({
 							state: new fsm.Menu({}).getState(),
@@ -137,8 +139,6 @@ FSM.Intro = (function(globals, fsm, stg, system, midi, resource) {
 			can_keypress = false;
 			hue = 0;
 			font_size = 1;
-			
-			//Show the loading gif.
 			resource.loading_gif.style.display = 'block';
 			
 			//Load and play the intro music.
@@ -205,6 +205,7 @@ FSM.Intro = (function(globals, fsm, stg, system, midi, resource) {
 			}, 60);
 			
 			//Play the music.
+			mplayer.pause();
 			mplayer.start();
 		}
 		

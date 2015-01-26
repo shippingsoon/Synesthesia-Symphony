@@ -269,6 +269,14 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 			}
 			
 			if (has_collided) {
+				//Clear the bullets.
+				for (var bullet in resource.bullets)
+					resource.bullets[bullet].getState().setAlive(false);
+				resource.bullets = [];
+				
+				//Play a SFX.
+				stg.Audio.playSfx(0, 89, 127, 0);
+				
 				//Decrease the player's lives.
 				that.setLives(lives - 1);
 				

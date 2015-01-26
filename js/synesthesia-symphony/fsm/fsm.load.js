@@ -17,8 +17,9 @@ var Resource = Resource || {};
  * Loads resources.
  * @param {FSM} fsm - Finite state machine.
  * @param {STG} stg - Miscellaneous game module.
- * @param {System} system - System submodule.
+ * @param {System} system - System module.
  * @param {MIDI} midi - MIDI.js library.
+ * @param {Resource} resource - Resource module.
  * @return {FSM.Intro}
  */
 FSM.Load = (function(globals, fsm, stg, system, midi, resource) {
@@ -45,7 +46,7 @@ FSM.Load = (function(globals, fsm, stg, system, midi, resource) {
 			
 			//The MIDI.js loader widget shows the progress of the MIDI loader plugin.
 			midi.loader = new widgets.Loader;
-				
+			
 			//Load the intro music.
 			midi.loadPlugin({
 				targetFormat: 'mp3',

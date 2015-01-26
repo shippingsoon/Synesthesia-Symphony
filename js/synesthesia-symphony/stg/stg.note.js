@@ -114,6 +114,9 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.stop = function(game) {
+			//Mark this state as dead.
+			state.setAlive(false);
+			
 			//Remove the event listener.
 			globals.removeEventListener('onNote-' + note, listen, false);
 		};

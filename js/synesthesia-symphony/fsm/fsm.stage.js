@@ -23,29 +23,30 @@ var System = System || {};
  */
 FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 	"use strict";
-	
-	//The HTML5 canvases.
-	var layers = resource.layers;
-	
-	//The sprites.
-	var sprites = resource.sprites;
-	
-	//The MIDI songs.
-	var songs = resource.songs;
-	
-	//Miscellaneous config information.
-	var config = system.Config;
-	
+
 	/*
 	 * Stage state.
 	 * @param {FSM} options - TBA
 	 */
 	function Stage(options) {
+		//The HTML5 canvases.
+		var layers = resource.layers;
+		
+		//The sprites.
+		var sprites = resource.sprites;
+		
+		//The MIDI songs.
+		var songs = resource.songs;
+		
+		//Miscellaneous config information.
+		var config = system.Config;
 		var that = this;
 		var state = new fsm.State({parent: that});
 		var pauseState = new fsm.Pause({});
 		var color_map = resource.color_map;
 		var songs = resource.songs;
+		var interval = null;
+		var has_clicked = false;
 		
 		//Our player.
 		resource.player = new fsm.Player({
@@ -98,7 +99,9 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
-		state.start = function(game) {			
+		state.start = function(game) {
+			resource.bullets = [];
+			
 			//Show the loading gif.
 			resource.loading_gif.style.display = 'block';
 			
@@ -112,6 +115,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 				
 				//MIDI event listener.
 				mplayer.addListener(function (data) {
+					//console.log("hi");
 					var event = new CustomEvent('onNote-' + data.note, {'detail': data});
 					globals.dispatchEvent(event);
 				});
@@ -120,51 +124,20 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 				mplayer.start();
 			});
 			
+			//Loop the music.
+			mplayer.setAnimation(stg.Audio.replayer);
+			
 			//Builds the piano.
 			stg.Stage.buildPiano(state);
 	
 			//Add the player substate.
 			state.setSubstate({substate: resource.player.getState()});
 			
-			//Load the stage music.
-			/*
-			midi.loadPlugin({
-				soundfontUrl: './soundfont/',
-				instruments: instruments,
-				callback: function(data) {
-					//Hide the loading gif.
-					resource.loading_gif.style.display = 'none';
-					
-					//Map the MIDI channel to an instrument.
-					for (var channel in songs['sky_chase_zone'].channels)
-						midi.programChange(channel, songs['sky_chase_zone'].channels[channel]);
-					
-					//Set the volume.
-					midi.setVolume(0, config.volume);
-					
-					//The speed the song is played back.
-					mplayer.timeWarp = 1;
-					
-					//Load and play the stage music.
-					mplayer.loadFile(songs['sky_chase_zone'].file, mplayer.start);
-					
-					//MIDI event listener.
-					mplayer.addListener(function (data) {
-						var event = new CustomEvent('onNote-' + data.note, {'detail': data});
-						globals.dispatchEvent(event);
-					});
-				}
-			});
-			*/
-			
 			//Handle events for this state.
-			globals.addEventListener('keyup', game.fsm.controller, false);
-			
-			//If the mouse leaves the window transition into the pause state.
-			globals.addEventListener('mouseout', game.fsm.controller, false);
+			globals.addEventListener('keydown', game.fsm.controller, false);
 			
 			//Filter out inactive bullets.
-			setInterval(function() {
+			interval = setInterval(function() {
 				resource.bullets = resource.bullets.filter(function(bullet){
 					return bullet.getState().isAlive();
 				});
@@ -177,12 +150,47 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.stop = function(game) {
-			if (mplayer.playing)
-				mplayer.stop();
+			//Stop the music.
+			mplayer.stop();
 				
-			//Remove the event.
-			globals.removeEventListener('keyup', game.fsm.controller, false);
-			globals.removeEventListener('mouseout', game.fsm.controller, false);
+			//Remove the events.
+			mplayer.removeListener();
+			mplayer.clearAnimation();
+			globals.removeEventListener('keydown', game.fsm.controller, false);
+			
+			//Clear the interval.
+			if (interval !== null) {
+				clearInterval(interval);
+				interval = null;
+			}
+			
+			//Empty the resources.
+			resource.bullets = [];
+			resource.notes = [];
+			
+			//Clear the 2D rendering context.
+			var ctx = layers.buffer.getContext()
+			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		};
+		
+		/*
+		 * Handle events for this state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @param {Number} game.event - Numeric event code.
+		 */
+		state.controller = function(game) {
+			//Handle keyup events.
+			if (game.event.keyCode && !has_clicked) {
+				switch (game.event.keyCode) {
+					//Escape key is pressed transition to the pause state.
+					case 27:
+						game.fsm.forward({state: pauseState, ctx: game.ctx});
+						break;
+				}
+				
+				has_clicked = true;
+			}
 		};
 		
 		/*
@@ -191,6 +199,12 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.update = function(game) {
+			if (has_clicked) {
+				setTimeout(function() {
+					has_clicked = false;
+				}, 100);
+			}
+			
 			//Filter out inactive enemies.
 			resource.enemies = resource.enemies.filter(function(enemy){
 				return enemy.getState().isAlive();
@@ -228,45 +242,18 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 		};
 		
 		/*
-		 * Handle events for this state.
-		 * @param {FSM} game.fsm - Finite state machine.
-		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
-		 * @param {Number} game.event - Numeric event code.
-		 */
-		state.controller = function(game) {
-			//Handle keyup events.
-			if (game.event.keyCode) {
-				switch (game.event.keyCode) {
-					//Escape key is pressed transition to the pause state.
-					case 27:
-						game.fsm.forward({state: pauseState, ctx: game.ctx});
-						break;
-				}
-			}
-			
-			//If the mouse moves off the screen go to the pause state.
-			else {
-				var e = (game.event) ? game.event : globals.event;
-				var target = e.relatedTarget || e.toElement;
-				
-				//If the mouse it off the screen.
-				if (!target || target.nodeName === 'HTML')
-					game.fsm.forward({state: pauseState, ctx: game.ctx});
-			}
-		};
-		
-		/*
 		 * When the state is resumed.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.play = function(game) {
-			if (!mplayer.playing && mplayer.currentTime < mplayer.endTime)
+			if (!mplayer.playing)
 				mplayer.resume();
 			
+			has_clicked = true;
+			
 			//Add the event listeners.
-			globals.addEventListener('keyup', game.fsm.controller, false);
-			globals.addEventListener('mouseout', game.fsm.controller, false);
+			globals.addEventListener('keydown', game.fsm.controller, false);
 		}
 		
 		/*
@@ -280,11 +267,10 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 				mplayer.pause();
 			
 			//Play a SFX.
-			midi.noteOn(0, 60, 127, 0);
+			stg.Audio.playSfx(0, 60, 127, 0);
 			
 			//Remove the event listeners.
-			globals.removeEventListener('keyup', game.fsm.controller, false);
-			globals.removeEventListener('mouseout', game.fsm.controller, false);
+			globals.removeEventListener('keydown', game.fsm.controller, false);
 		}
 		
 		/*

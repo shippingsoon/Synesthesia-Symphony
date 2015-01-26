@@ -91,12 +91,29 @@ STG.Stage = (function(globals, system, stg, resource) {
 			common.message = 'Glaze  ' + config.glaze;
 			stg.Canvas.text(common);
 			
-			//Display the total number of active bullets.
+			
 			if (system.Config.DEBUG) {
+				//The current time.
+				common.x = ctx.canvas.width - 10;
+				common.y = ctx.canvas.height - 80;
+				common.message = 'Current Time: ' + stg.Audio.current_time;
+				common.font =  'bold 15px arial';
+				common.align = 'right';
+				stg.Canvas.text(common);
+				
+				//The end time.
+				common.x = ctx.canvas.width - 10;
+				common.y = ctx.canvas.height - 60;
+				common.message = 'End Time: ' + stg.Audio.end_time;
+				common.font =  'bold 15px arial';
+				common.align = 'right';
+				stg.Canvas.text(common);
+				
+				//Display the total number of active bullets.
 				pad = '0000';
 				var bullet_string = String(resource.bullets.length);
 				var bullet_count = pad.substring(0, pad.length - bullet_string.length) + resource.bullets.length;
-				common.x = ctx.canvas.width - 98;
+				common.x = ctx.canvas.width - 10;
 				common.y = ctx.canvas.height - 40;
 				common.message = 'Bullets: ' + bullet_count;
 				common.font =  'bold 15px arial';
@@ -105,7 +122,7 @@ STG.Stage = (function(globals, system, stg, resource) {
 			
 			//Display the FPS.
 			if (system.Config.show_fps || system.Config.DEBUG) {
-				common.x = ctx.canvas.width - 60;
+				common.x = ctx.canvas.width - 10;
 				common.y = ctx.canvas.height - 20;
 				common.message = 'FPS: ' + Math.floor(system.Config.fps).toFixed(0);
 				common.font =  'bold 15px arial';
@@ -113,6 +130,7 @@ STG.Stage = (function(globals, system, stg, resource) {
 			}
 			
 			//Draw the player's lives.
+			common.align = 'left';
 			common.x = 656;
 			common.y = 173;
 			common.font = 'normal 18px FontAwesome';
@@ -168,6 +186,8 @@ STG.Stage = (function(globals, system, stg, resource) {
 			
 			//Zero is for white keys and one is for black keys.
 			var colors = [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0];
+			
+			resource.notes = [];
 			
 			for (var note = 0x15; note < 0x6C; note++) {
 				is_sharp = colors[note % 12] === 1;

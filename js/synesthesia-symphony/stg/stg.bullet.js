@@ -62,13 +62,13 @@ STG.Bullet = (function(fsm, stg, resource, system) {
 		state.setParent(that);
 		
 		/*
-		 * Draw the bullet.
+		 * Stop the state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
-		state.render = function(game) {
-			if (ctx)
-				that.draw({ctx:ctx});
+		state.stop = function(game) {
+			//Mark this state as dead.
+			state.setAlive(false);
 		};
 		
 		/*
@@ -77,7 +77,7 @@ STG.Bullet = (function(fsm, stg, resource, system) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 */
 		state.update = function(game) {
-			var stage = game.fsm.getParent().parent;
+			var stage = game.fsm.getParent();
 			var out_of_bounds = false;
 			var has_collided = false;
 			
@@ -99,6 +99,16 @@ STG.Bullet = (function(fsm, stg, resource, system) {
 			if (out_of_bounds || has_collided) {
 				state.setAlive(false);
 			}
+		};
+		
+		/*
+		 * Draw the bullet.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
+		state.render = function(game) {
+			if (ctx)
+				that.draw({ctx:ctx});
 		};
 		
 		/*

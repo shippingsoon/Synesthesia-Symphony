@@ -45,11 +45,11 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 		 * Initiate this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.start = function(game) {
 			//Show the loading gif.
 			resource.loading_gif.style.display = 'block';
-
 			
 			//Map the MIDI channel to an instrument.
 			stg.Audio.programChange(songs['fairy_mountain']);
@@ -59,9 +59,12 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 				//Hide the loading gif.
 				resource.loading_gif.style.display = 'none';
 				
+				//Start the music.
 				mplayer.start();
-				
 			});
+			
+			//Loop the music.
+			mplayer.setAnimation(stg.Audio.replayer);
 			
 			//Handle events for this state.
 			globals.addEventListener('keydown', game.fsm.controller, false);
@@ -72,25 +75,26 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 		 * Stop this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.stop = function(game) {
 			//Stop the music.
-			if (mplayer.playing)
-				mplayer.stop();
+			mplayer.stop();
 			
-			//Remove the event.
+			//Remove the events.
 			globals.removeEventListener('keydown', game.fsm.controller, false);
+			mplayer.clearAnimation();
 		};
 		
 		/*
 		 * Update this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.update = function(game) {
 			//This function moves the canvas sprite's position.
 			stg.Stage.conveyorBelt(bg_vectors, sprites.menu.img.height, 1);
-			
 		};
 		
 		/*
@@ -98,14 +102,14 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 * @param {Number} game.event - Numeric event code.
+		 * @return {Undefined}
 		 */
 		state.controller = function(game) {
 			switch (game.event.keyCode) {
 				//Up key is pressed.
 				case 38:
 					//Play a SFX.
-					midi.noteOn(0, 74, system.Config.sfx_volume, 0);
-					
+					stg.Audio.playSfx(0, 74, 127, 0);
 					//Move the menu index down.
 					menu_index = (menu_index <= 0)
 						? (options.length - 1)
@@ -114,8 +118,8 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 				
 				//Down key is pressed.
 				case 40:
-					//Play a SFX
-					midi.noteOn(0, 74, system.Config.sfx_volume, 0);
+					//Play a SFX.
+					stg.Audio.playSfx(0, 74, 127, 0);
 					
 					//Move the menu index up.
 					menu_index = (menu_index == options.length - 1)
@@ -123,10 +127,25 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 						: (menu_index + 1); 
 					break;
 				
+				//X or Escape key is pressed.
+				case 88:
+				case 27:
+					//Play a SFX.
+					stg.Audio.playSfx(0, 77, 127, 0);
+					
+					if (menu_index === options.length - 1)
+						game.fsm.rewind({stop: true, ctx: game.ctx});
+					else
+						menu_index = options.length - 1;
+					break;
+				
 				//Z, Enter or Space key is pressed.
 				case 90:
 				case 32:
 				case 13:
+					//Play a SFX.
+					stg.Audio.playSfx(0, 70, 127, 0);
+					
 					//Transition to the stage state.
 					if (menu_index === 0)
 						game.fsm.transition({state: new fsm.Stage({}).getState()});
@@ -140,6 +159,7 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 		 * Render this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.render = function(game) {
 			//Draw the background image on the screen layer.
@@ -176,8 +196,10 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 					message: options[option],
 					color: font_color,
 					font: 'bold 36px open sans',
-					shadowColor: 'black', shadowBlur: 2,
-					shadowoffsetX: 3, shadowoffsetY: 3,
+					shadowColor: 'black',
+					shadowBlur: 2,
+					shadowoffsetX: 3,
+					shadowoffsetY: 3,
 					align: 'center'
 				});
 			}
@@ -185,6 +207,7 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 		
 		/*
 		 * Return the state.
+		 * @return {FSM.State} - An FSM state.
 		 */
 		this.getState = function() {
 			return state;
