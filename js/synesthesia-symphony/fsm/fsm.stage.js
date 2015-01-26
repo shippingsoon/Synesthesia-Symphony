@@ -142,6 +142,9 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 					return bullet.getState().isAlive();
 				});
 			}, 300);
+			
+			
+			stg.Stage.is_odd_belt = true;
 		};
 		
 		/*
