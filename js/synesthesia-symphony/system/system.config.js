@@ -57,7 +57,7 @@ System.Config = System.Cfg = (function(globals) {
 		MIDI_FILE_PATH: '/synesthesia-symphony/midi/',
 		
 		//Determines if we only use the grand piano.
-		PIANO_ONLY: true,
+		PIANO_ONLY: false,
 		
 		//The average frames per second.
 		fps: 0,
