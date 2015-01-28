@@ -25,15 +25,27 @@ var System = System || {};
 FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 	"use strict";
 	
+	/*
+	 * The title menu state.
+	 * @param {Object} options.state - FSM state.
+	 * @return {Undefined}
+	 */
 	function Menu(options) {
 		var state = new fsm.State(options.state || {});
-		var options = ['Game Start', 'Extra Start', 'Music Room', 'Config', 'Quit'];
+		var options = [
+			{title: 'Game Start', disabled: false, visible: true},
+			{title: 'Extra Start', disabled: true, visible: true},
+			{title: 'Music Room', disabled: false, visible: true},
+			{title: 'Config', disabled: false, visible: true},
+			{title: 'Quit', disabled: false, visible: true}
+		];
 		var menu_spacing = 50;
 		var menu_index = 0;
 		var font_color = new stg.Color(0, 0, 0, 1);
 		var sprites = resource.sprites;
 		var mplayer = midi.Player;
 		var songs = resource.songs;
+		var year = new Date().getFullYear();
 		
 		//The position vector for the two revolving background sprites.
 		var bg_vectors = [
@@ -47,7 +59,7 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 * @return {Undefined}
 		 */
-		state.start = function(game) {
+		state.start = state.play = function(game) {
 			//Show the loading gif.
 			resource.loading_gif.style.display = 'block';
 			
@@ -68,7 +80,15 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 			
 			//Handle events for this state.
 			globals.addEventListener('keydown', game.fsm.controller, false);
-
+			
+			//Find the first selectable menu option.
+			for (menu_index = 0; menu_index < options.length; menu_index++) {
+				if (!options[menu_index].disabled)
+					break;
+			}
+			
+			//Initialize the conveyor belt.
+			stg.Stage.is_odd_belt = true;
 		};
 		
 		/*
@@ -77,24 +97,13 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 * @return {Undefined}
 		 */
-		state.stop = function(game) {
+		state.stop = state.pause = function(game) {
 			//Stop the music.
 			mplayer.stop();
 			
 			//Remove the events.
 			globals.removeEventListener('keydown', game.fsm.controller, false);
 			mplayer.clearAnimation();
-		};
-		
-		/*
-		 * Update this state.
-		 * @param {FSM} game.fsm - Finite state machine.
-		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
-		 * @return {Undefined}
-		 */
-		state.update = function(game) {
-			//This function moves the canvas sprite's position.
-			stg.Stage.conveyorBelt(bg_vectors, sprites.menu.img.height, 1);
 		};
 		
 		/*
@@ -110,10 +119,20 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 				case 38:
 					//Play a SFX.
 					stg.Audio.playSfx(0, 74, 127, 0);
+					
 					//Move the menu index down.
 					menu_index = (menu_index <= 0)
 						? (options.length - 1)
 						: (menu_index - 1);
+					
+					//Skip disabled options.
+					for (var skip = 0; options[menu_index].disabled && skip < options.length; skip++) {
+						menu_index--;
+						
+						if (menu_index < 0)
+							menu_index = options.length -1;
+					}
+						
 					break;
 				
 				//Down key is pressed.
@@ -122,9 +141,18 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 					stg.Audio.playSfx(0, 74, 127, 0);
 					
 					//Move the menu index up.
-					menu_index = (menu_index == options.length - 1)
+					menu_index = (menu_index === options.length - 1)
 						? 0
-						: (menu_index + 1); 
+						: (menu_index + 1);
+					
+					//Skip disabled options.
+					for (var skip = 0; options[menu_index].disabled && skip < options.length; skip++) {
+						if (menu_index === options.length - 1)
+							menu_index = 0;
+						
+						menu_index++;
+					}
+					
 					break;
 				
 				//X or Escape key is pressed.
@@ -133,8 +161,11 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 					//Play a SFX.
 					stg.Audio.playSfx(0, 77, 127, 0);
 					
+					//Quit the game.
 					if (menu_index === options.length - 1)
 						game.fsm.rewind({stop: true, ctx: game.ctx});
+					
+					//Bring the menu cursor to the Quit option.
 					else
 						menu_index = options.length - 1;
 					break;
@@ -146,13 +177,31 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 					//Play a SFX.
 					stg.Audio.playSfx(0, 70, 127, 0);
 					
-					//Transition to the stage state.
+					//If the Game Start option is selected.
 					if (menu_index === 0)
 						game.fsm.transition({state: new fsm.Stage({}).getState()});
+					
+					//If Music Room is selected.
+					else if (menu_index === 2)
+						game.fsm.forward({state: new fsm.Music({}).getState(), ctx: game.ctx});
+					
+					//If Quit is selected.
 					else if (menu_index === options.length - 1)
 						game.fsm.rewind({stop: true, ctx: game.ctx});
+					
 					break;
 			}
+		};
+		
+		/*
+		 * Update this state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
+		 */
+		state.update = function(game) {
+			//This function moves the canvas sprite's position.
+			stg.Stage.conveyorBelt(bg_vectors, sprites.menu.img.height, 1);
 		};
 		
 		/*
@@ -184,16 +233,22 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 			//Loop through the title menu options.
 			for (var option = 0, length = options.length; option < length; option++) {
 				//Change the font's color.
-				(menu_index === options.indexOf(options[option]))
-					? font_color.setColor(255, 215, 0, 1)
-					: font_color.setColor(255, 255, 255, 1);
+				if (!options[option].disabled) {
+					(menu_index === options.indexOf(options[option]))
+						? font_color.setColor(255, 215, 0, 1)
+						: font_color.setColor(255, 255, 255, 1);
+				}
+				
+				//Change the color of disabled options.
+				else
+					font_color.setColor(160, 160, 160, 1);
 				
 				//Draw the menu options.
 				stg.Canvas.text({
 					ctx: game.ctx,
 					x: game.ctx.canvas.width / 2,
 					y: (game.ctx.canvas.height / 2) + option * menu_spacing,
-					message: options[option],
+					message: options[option].title,
 					color: font_color,
 					font: 'bold 36px open sans',
 					shadowColor: 'black',
@@ -201,6 +256,21 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 					shadowoffsetX: 3,
 					shadowoffsetY: 3,
 					align: 'center'
+				});
+				
+				//Draw the company title.
+				stg.Canvas.text({
+					ctx: game.ctx,
+					x: game.ctx.canvas.width - 10,
+					y: game.ctx.canvas.height - 10,
+					message: 'Copyright '+year+' | '+system.Config.COMPANY,
+					color: '#c0c0c0',
+					font: 'bold 12px open sans',
+					shadowColor: 'black',
+					shadowBlur: 2,
+					shadowoffsetX: 3,
+					shadowoffsetY: 3,
+					align: 'right'
 				});
 			}
 		};

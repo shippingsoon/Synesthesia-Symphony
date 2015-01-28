@@ -68,6 +68,9 @@ Resource.init = (function(globals, system, stg, fsm, resource) {
 		//Load the title menu image.
 		resource.sprites.menu.img = document.getElementById('menu-r' + mode);
 		
+		//Load the music room sprite.
+		resource.sprites.staff.img = document.getElementById('staff-r' + mode);
+		
 		//Initiate the pause layer.
 		resource.layers.pause.canvas.width = resource.sprites.canvas_bg.img.width;
 		resource.layers.pause.canvas.height = resource.sprites.canvas_bg.img.height;

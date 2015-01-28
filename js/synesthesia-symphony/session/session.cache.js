@@ -17,8 +17,8 @@ Session.cache = (function(globals) {
 		hiscore: 2000,
 		resolution: 0,
 		volume: 10,
-		bgm_volume: 107,
-		sfx_volume: 127,
+		bgm_volume: 1,
+		sfx_volume: 5,
 		show_fps: true
 	};
 	

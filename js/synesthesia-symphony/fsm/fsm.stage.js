@@ -144,6 +144,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 			}, 300);
 			
 			
+			//Initialize the conveyor belt.
 			stg.Stage.is_odd_belt = true;
 		};
 		
