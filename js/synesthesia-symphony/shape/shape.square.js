@@ -1,18 +1,22 @@
 /*
-	@description - Square submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ *	@description - Square submodule.
+ *	@copyright - 2014 Shipping Soon
+ *	@source - https://github.com/shippingsoon/Synesthesia-Symphony
+ *	@website - https://www.shippingsoon.com/synesthesia-symphony/
+ *	@version - v0.05
+ *	@license - GPLv3
+ */
 
+var Shape = Shape || {};
 var STG = STG || {};
 var Canvas = Canvas || {};
 
-//Square submodule.
-STG.Square = (function(stg, canvas) {
-	"use strict";
+/*
+ * Square submodule.
+ * @return {Function}
+ */
+Shape.Square = (function(stg, canvas) {
+	'use strict';
 	
 	/*
 	 * Square constructor.
@@ -24,6 +28,7 @@ STG.Square = (function(stg, canvas) {
 	 * @param {String|STG.Color} options.color - The square's color.
 	 * @param {Number} options.lineWidth - The line width.
 	 * @param {String|STG.Color} options.strokeStyle - The outline color.
+	 * @return {Undefined}
 	 */
 	function Square(options) {
 		//Call our parent's constructor.
@@ -57,10 +62,11 @@ STG.Square = (function(stg, canvas) {
 		 * @param {String|STG.Color} options.color - The color.
 		 * @param {Number} options.lineWidth - The line width.
 		 * @param {String|STG.Color} options.strokeStyle - The outline color.
+		 * @return {Undefined}
 		 */
 		this.draw = function(options) {
-			var position = this.getPosition();
-			var ctx = options.ctx || this.getContext();
+			var position = that.getPosition();
+			var ctx = options.ctx || that.getContext();
 			
 			//Draw the square.
 			if (ctx) {
@@ -82,9 +88,10 @@ STG.Square = (function(stg, canvas) {
 		 * @param {Number} options.y - The y coordinate.
 		 * @param {Number} options.width - The width.
 		 * @param {Number} options.height - The height.
+		 * @return {Undefined}
 		 */
 		this.setSquare = function(options) {
-			this.setPosition(options);
+			that.setPosition(options);
 			
 			width = options.width || options.w || width;
 			height = options.height || options.h || height;
@@ -92,9 +99,10 @@ STG.Square = (function(stg, canvas) {
 		
 		/*
 		 * Returns the square's position, width and height.
+		 * @return {Object} - The shape's x and y coordinates and width/height.
 		 */
 		this.getSquare = function() {
-			var position = this.getPosition();
+			var position = that.getPosition();
 			position.width = position.w = width;
 			position.height = position.h = height;
 			
@@ -104,6 +112,7 @@ STG.Square = (function(stg, canvas) {
 		/*
 		 * Set the square's color.
 		 * @param {String|STG.Color} options.color - The new color.
+		 * @return {Undefined}
 		 */
 		this.setColor = function(_color) {
 			color = _color;
@@ -111,6 +120,7 @@ STG.Square = (function(stg, canvas) {
 		
 		/*
 		 * Get the square's color.
+		 * @return {STG.Color|String}
 		 */
 		this.getColor = function() {
 			return color;

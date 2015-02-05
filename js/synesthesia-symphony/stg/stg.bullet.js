@@ -11,9 +11,10 @@ var FSM = FSM || {};
 var STG = STG || {};
 var Resource = Resource || {};
 var System = System || {};
+var Shape = Shape || {};
 
 //Bullet submodule.
-STG.Bullet = (function(fsm, stg, resource, system) {
+STG.Bullet = (function(fsm, stg, resource, system, shape) {
 	"use strict";
 	
 	var layers = resource.layers;
@@ -32,7 +33,7 @@ STG.Bullet = (function(fsm, stg, resource, system) {
 	  */
 	function Bullet(options) {
 		//Call our parent's constructor.
-		stg.Circle.call(this, options);
+		shape.Circle.call(this, options);
 		
 		//A reference to the current object.
 		var that = this;
@@ -170,7 +171,7 @@ STG.Bullet = (function(fsm, stg, resource, system) {
 		};
 	};
 	
-	Bullet.prototype = Object.create(stg.Circle.prototype);
+	Bullet.prototype = Object.create(shape.Circle.prototype);
 	
 	return Bullet;
-}(FSM, STG, Resource, System));
+}(FSM, STG, Resource, System, Shape));

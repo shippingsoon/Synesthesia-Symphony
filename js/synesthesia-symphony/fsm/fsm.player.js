@@ -12,9 +12,10 @@ var STG = STG || {};
 var System = System || {};
 var Resource = Resource || {};
 var Pattern = Pattern || {};
+var Shape = Shape || {};
 
 //Player singleton.
-FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
+FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 	"use strict";
 	
 	//An instance of our player.
@@ -48,7 +49,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		options.radius = options.radius || config.HITBOX_RADIUS;
 		
 		//Invoke the inherited constructor.
-		stg.Circle.call(this, options);
+		shape.Circle.call(this, options);
 		
 		//The player's state.
 		var state = new fsm.State(options);
@@ -103,8 +104,8 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		state.start = function(game) {
 			var ctx = that.getContext();
 			
-			color_boxes.push(new stg.Square({x: 10 + 4, y: 540 + 4, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
-			color_boxes.push(new stg.Square({x: 10, y: 540, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
+			color_boxes.push(new shape.Square({x: 10 + 4, y: 540 + 4, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
+			color_boxes.push(new shape.Square({x: 10, y: 540, w: 8, h: 8, ctx: ctx, lineWidth: 1}));
 			
 			for (var index = 0, length = patterns.length; index < length; index++) {
 				patterns[index].target_type = options.target_type || stg.targets.enemy;
@@ -336,7 +337,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern) {
 		};
 	};
 	
-	Player.prototype = Object.create(stg.Circle.prototype);
+	Player.prototype = Object.create(shape.Circle.prototype);
 	
 	return Player;
-}(window, FSM, STG, System, Resource, Pattern));
+}(window, FSM, STG, System, Resource, Pattern, Shape));

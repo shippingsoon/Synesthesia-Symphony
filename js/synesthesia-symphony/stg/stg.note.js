@@ -12,9 +12,10 @@ var STG = STG || {};
 var Resource = Resource || {};
 var System = System || {};
 var Pattern = Pattern || {};
+var Shape = Shape || {};
 
 //Note submodule.
-STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi) {
+STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi, shape) {
 	"use strict";
 	
 	var layers = resource.layers;
@@ -31,7 +32,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi) {
 	 */
 	function Note(options) {
 		//Call our parent's constructor.
-		stg.Square.call(this, options);
+		shape.Square.call(this, options);
 		
 		//A reference to the current object.
 		var that = this;
@@ -163,7 +164,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi) {
 		};
 	};
 	
-	Note.prototype = Object.create(stg.Square.prototype);
+	Note.prototype = Object.create(shape.Square.prototype);
 	
 	return Note;
-}(window, FSM, STG, Resource, System, Pattern, MIDI));
+}(window, FSM, STG, Resource, System, Pattern, MIDI, Shape));

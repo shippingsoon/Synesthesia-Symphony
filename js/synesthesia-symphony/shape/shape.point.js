@@ -1,17 +1,20 @@
 /*
-	@description - Point submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ *	@description - Point submodule.
+ *	@copyright - 2014 Shipping Soon
+ *	@source - https://github.com/shippingsoon/Synesthesia-Symphony
+ *	@website - https://www.shippingsoon.com/synesthesia-symphony/
+ *	@version - v0.05
+ *	@license - GPLv3
+ */
 
-var STG = STG || {};
+var Shape = Shape || {};
 
-//Point submodule.
-STG.Point = (function(stg) {
-	"use strict";
+/*
+ * Point submodule.
+ * @return {Function}
+ */
+Shape.Point = (function(shape) {
+	'use strict';
 	
 	 /*
 	  * Point constructor.
@@ -19,10 +22,11 @@ STG.Point = (function(stg) {
 	  * @param {Number} options.y - The y coordinate.
 	  * @param {Number} options.delay - The delay in milliseconds.
 	  * @param {Number} options.speed - The point's speed.
+	  * @return {Undefined}
 	  */
 	function Point(options) {
 		//Call our parent's constructor.
-		stg.Circle.call(this, options);
+		shape.Circle.call(this, options);
 		
 		//Reference to the current object.
 		var that = this;
@@ -38,18 +42,20 @@ STG.Point = (function(stg) {
 		 * @param {Number} options.x - The x coordinate.
 		 * @param {Number} options.y - The y coordinate.
 		 * @param {Number} options.delay - The delay in milliseconds.
+		 * @return {Undefined}
 		 */
 		this.setPoint = function(options) {
-			this.setPosition(options);
+			that.setPosition(options);
 			
 			delay = options.delay || delay;
 		};
 		
 		/*
 		 * Returns the point's position.
+		 * @return {Object}
 		 */
 		this.getPoint = function() {
-			var position = this.getCircle();
+			var position = that.getCircle();
 			
 			position.delay = delay;
 			
@@ -59,6 +65,7 @@ STG.Point = (function(stg) {
 		/*
 		 * Set the point's delay.
 		 * @param {Number} _delay - The new delay in milliseconds.
+		 * @return {Undefined}
 		 */
 		this.setDelay = function(_delay) {
 			if (_delay > 0)
@@ -67,20 +74,21 @@ STG.Point = (function(stg) {
 		
 		/*
 		 * Get the point's delay.
+		 * @return {Undefined}
 		 */
 		this.getDelay = function() {
-			return {delay: delay};
+			return delay;
 		};
 		
 		/*
 		 * Get the point's speed.
 		 */
 		this.getSpeed = function() {
-			return {speed: speed};
+			return speed;
 		};
 	};
 	
-	Point.prototype = Object.create(stg.Circle.prototype);
+	Point.prototype = Object.create(shape.Circle.prototype);
 	
 	return Point;
-}(STG));
+}(Shape));

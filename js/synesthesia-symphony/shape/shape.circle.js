@@ -1,17 +1,20 @@
 /*
-	@description - Circle submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ *	@description - Circle submodule.
+ *	@copyright - 2014 Shipping Soon
+ *	@source - https://github.com/shippingsoon/Synesthesia-Symphony
+ *	@website - https://www.shippingsoon.com/synesthesia-symphony/
+ *	@version - v0.05
+ *	@license - GPLv3
+ */
 
-var STG = STG || {};
+var Shape = Shape || {};
 
-//Circle submodule.
-STG.Circle = (function(stg, canvas) {
-	"use strict";
+/*
+ * Circle submodule.
+ * @return {Function}
+ */
+Shape.Circle = (function(stg, canvas) {
+	'use strict';
 	
 	 /*
 	  * Circle constructor.
@@ -21,6 +24,7 @@ STG.Circle = (function(stg, canvas) {
 	  * @param {String|STG.Color} options.color - The color.
 	  * @param {Number} options.lineWidth - The line width.
 	  * @param {String|STG.Color} options.strokeStyle - The outline color.
+	  * @return {Undefined}
 	  */
 	function Circle(options) {
 		//Call our parent's constructor.
@@ -50,10 +54,11 @@ STG.Circle = (function(stg, canvas) {
 		 * @param {String|STG.Color} options.color - The color.
 		 * @param {Number} options.lineWidth - The line width.
 		 * @param {String|STG.Color} options.strokeStyle - The outline color.
+		 * @return {Undefined}
 		 */
 		this.draw = function(options) {
-			var position = this.getPosition();
-			var ctx = options.ctx || this.getContext();
+			var position = that.getPosition();
+			var ctx = options.ctx || that.getContext();
 			
 			//Draw the circle.
 			if (ctx) {
@@ -74,18 +79,20 @@ STG.Circle = (function(stg, canvas) {
 		 * @param {Number} options.x - The x coordinate.
 		 * @param {Number} options.y - The y coordinate.
 		 * @param {Number} options.radius - The radius.
+		 * @return {Undefined}
 		 */
 		this.setCircle = function(options) {
-			this.setPosition(options);
+			that.setPosition(options);
 			
 			radius = options.radius || options.r || radius;
 		};
 		
 		/*
 		 * Returns the circle's position and radius.
+		 * @return {Object} - The x and y coordinates of this shape and the radius.
 		 */
 		this.getCircle = function() {
-			var position = this.getPosition();
+			var position = that.getPosition();
 			
 			position.radius = position.r = radius;
 			
@@ -95,6 +102,7 @@ STG.Circle = (function(stg, canvas) {
 		/*
 		 * Set the circle's radius.
 		 * @param {Number} _radius - The new radius.
+		 * @return {Undefined}
 		 */
 		this.setRadius = function(_radius) {
 			if (_radius > 0)
@@ -103,6 +111,7 @@ STG.Circle = (function(stg, canvas) {
 		
 		/*
 		 * Get the circle's radius.
+		 * @return {Object}
 		 */
 		this.getRadius = function() {
 			return {radius: radius, r: radius};
@@ -111,6 +120,7 @@ STG.Circle = (function(stg, canvas) {
 		/*
 		 * Set the circle's color.
 		 * @param {String|STG.Color} options.color - The new color.
+		 * @return {Undefined}
 		 */
 		this.setColor = function(_color) {
 			color = _color;
@@ -118,6 +128,7 @@ STG.Circle = (function(stg, canvas) {
 		
 		/*
 		 * Get the circle's color.
+		 * @return {STG.Color|String}
 		 */
 		this.getColor = function() {
 			return color;

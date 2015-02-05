@@ -11,9 +11,10 @@ var System = System || {};
 var STG = STG || {};
 var Resource = Resource || {};
 var FSM = FSM || {};
+var Shape = Shape || {};
 
 //Initiates resources.
-Resource.init = (function(globals, system, stg, fsm, resource) {
+Resource.init = (function(globals, system, stg, fsm, resource, shape) {
 	"use strict";
 	
 	/*
@@ -45,7 +46,7 @@ Resource.init = (function(globals, system, stg, fsm, resource) {
 
 		//Load the stage background images.
 		for (var stage = 0; stage < 6; stage++) {
-			resource.sprites.stages_bg.push(new stg.Square({}));
+			resource.sprites.stages_bg.push(new shape.Square({}));
 			if (resource.sprites.stages_bg[stage].img = document.getElementById('stage-' + stage + '-r' + mode)) {
 				resource.sprites.stages_bg[stage].setSquare({
 					width: resource.sprites.stages_bg[stage].img.width,
@@ -92,4 +93,4 @@ Resource.init = (function(globals, system, stg, fsm, resource) {
 	}
 	
 	return init;
-}(window, System, STG, FSM, Resource)); 
+}(window, System, STG, FSM, Resource, Shape)); 

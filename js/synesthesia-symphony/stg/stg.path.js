@@ -9,14 +9,15 @@
 
 var FSM = FSM || {};
 var STG = STG || {};
+var Shape = Shape || {};
 
 //The path submodule defines different paths enemies can take.
-STG.Path = (function(globals, fsm, stg) {
-	"use strict";
+STG.Path = (function(globals, fsm, shape) {
+	'use strict';
 	
 	 /*
 	  * Path constructor.
-	  * @param {STG.Point[]|Object[]} options.points - An array of STG points or objects.
+	  * @param {Shape.Point[]|Object[]} options.points - An array of STG points or objects.
 	  * @param {FSM.Enemy} options.parent - An enemy or boss.
 	  * @param {Boolean} options.loop_points - Determines if we will loop through the points.
 	  */
@@ -79,7 +80,7 @@ STG.Path = (function(globals, fsm, stg) {
 				//If there are points to follow.
 				if (point_idx < points.length && point_idx > -1) {
 					var target = points[point_idx];
-					var speed = target.getSpeed().speed;
+					var speed = target.getSpeed();
 					
 					//Make the enemy approach the point.
 					if (parent.approach({target: target, speed: speed})) {
@@ -116,12 +117,12 @@ STG.Path = (function(globals, fsm, stg) {
 		
 		/*
 		 * Set a delay.
-		 * @param {STG.Point|Object} target - A point or object.
+		 * @param {Shape.Point|Object} target - A point or object.
 		 */
 		function setDelay(target) {
 			//The time in milliseconds the enemy will wait at this point.
 			var delay = (target.hasOwnProperty('getDelay'))
-				? target.getDelay().delay
+				? target.getDelay()
 				: target.delay;
 			
 			if (delay) {
@@ -139,4 +140,4 @@ STG.Path = (function(globals, fsm, stg) {
 	};
 	
 	return Path;
-}(window, FSM, STG));
+}(window, FSM, Shape));

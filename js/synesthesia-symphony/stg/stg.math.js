@@ -142,8 +142,8 @@ STG.Math = (function(globals, stg) {
 		
 		/*
 		 * Checks for collision between two circles.
-		 * @param {Object|STG.Circle} a - An STG circle or object.
-		 * @param {Object|STG.Circle} b - An STG circle or object.
+		 * @param {Object|Shape.Circle} a - An STG circle or object.
+		 * @param {Object|Shape.Circle} b - An STG circle or object.
 		 */
 		circleCollision: function(a, b) {
 			if (a.getCircle)
@@ -158,8 +158,8 @@ STG.Math = (function(globals, stg) {
 		
 		/*
 		 * Checks for collision between a circle and square.
-		 * @param {Object|STG.Circle} a - An STG circle or object.
-		 * @param {Object|STG.Square} b - An STG square or object.
+		 * @param {Object|Shape.Circle} a - An STG circle or object.
+		 * @param {Object|Shape.Square} b - An STG square or object.
 		 */
 		circleSquareCollision: function(a, b) {
 			var c = new stg.Vector({x: 0, y: 0});
@@ -193,8 +193,8 @@ STG.Math = (function(globals, stg) {
 		
 		/*
 		 * Checks to see if a circle is out of bounds
-		 * {STG.Circle|Object} a - An STG circle or object.
-		 * {STG.Square|Object} b - An STG square or object.
+		 * {Shape.Circle|Object} a - An STG circle or object.
+		 * {Shape.Square|Object} b - An STG square or object.
 		 */
 		outOfBounds: function(a, b) {
 			if (a.getCircle)

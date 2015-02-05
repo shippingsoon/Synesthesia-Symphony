@@ -11,6 +11,7 @@ var FSM = FSM || {};
 var STG = STG || {};
 var Pattern = Pattern || {};
 var System = System || {};
+var Shape = Shape || {};
 
 /*
  * Enemy submodule.
@@ -20,7 +21,7 @@ var System = System || {};
  * @param {System} system - System submodule.
  * @return {FSM.Enemy}
  */
-FSM.Enemy = (function(fsm, stg, pattern, system) {
+FSM.Enemy = (function(fsm, stg, pattern, system, shape) {
 	"use strict";
 	
 	/*
@@ -31,14 +32,14 @@ FSM.Enemy = (function(fsm, stg, pattern, system) {
 	 * @param {Number} options.radius - The enemy's radius.
 	 * @param {STG.Color|String} options.color - The enemy's color.
 	 * @param {Object[]} options.patterns - An array of bullet patterns.
-	 * @param {STG.Point[]|Object[]} options.paths - An array of STG points or objects.
+	 * @param {Shape.Point[]|Object[]} options.paths - An array of STG points or objects.
 	 * @param {Boolean} options.loop_points - Determines if we will loop through the points.
 	 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
 	 * @return {FSM.Enemy}
 	 */
 	function Enemy(options) {
 		//Call our parent's constructor.
-		stg.Circle.call(this, options);
+		shape.Circle.call(this, options);
 		
 		//A reference to the current object.
 		var that = this;
@@ -136,7 +137,7 @@ FSM.Enemy = (function(fsm, stg, pattern, system) {
 		
 		/*
 		 * Move the enemy towards a target. Returns true or false depending on if the target is reached.
-		 * @param {STG.Point|Object} options.target - The STG point or object we will approach.
+		 * @param {Shape.Point|Object} options.target - The STG point or object we will approach.
 		 * @param {Number} options.speed - The rate in which the enemy will move towards the target.
 		 * @return {Boolean}
 		 */
@@ -199,7 +200,7 @@ FSM.Enemy = (function(fsm, stg, pattern, system) {
 		};
 	};
 	
-	Enemy.prototype = Object.create(stg.Circle.prototype);
+	Enemy.prototype = Object.create(shape.Circle.prototype);
 	
 	return Enemy;
-}(FSM, STG, Pattern, System));
+}(FSM, STG, Pattern, System, Shape));

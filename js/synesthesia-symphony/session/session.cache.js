@@ -60,9 +60,9 @@ Session.cache = (function(globals) {
 					}
 				],
 				paths: [
-					new stg.Point({x: 0, y: 0, delay: 0, speed: 10}),
-					new stg.Point({x: 200, y: 200, delay: 8000, speed: 12}),
-					new stg.Point({x: 700, y: 700, delay: 0, speed: 14})
+					new shape.Point({x: 0, y: 0, delay: 0, speed: 10}),
+					new shape.Point({x: 200, y: 200, delay: 8000, speed: 12}),
+					new shape.Point({x: 700, y: 700, delay: 0, speed: 14})
 				],
 				loop_points: false
 			}));
@@ -92,10 +92,10 @@ Session.cache = (function(globals) {
 					}
 				],
 				paths: [
-					new stg.Point({x: 0, y: -200, delay: 12000, speed: 10}),
-					new stg.Point({x: 300, y: 200, delay: 3000, speed: 12}),
-					new stg.Point({x: 300, y: 100, delay: 3000, speed: 12}),
-					new stg.Point({x: 700, y: 0, delay: 0, speed: 14})
+					new shape.Point({x: 0, y: -200, delay: 12000, speed: 10}),
+					new shape.Point({x: 300, y: 200, delay: 3000, speed: 12}),
+					new shape.Point({x: 300, y: 100, delay: 3000, speed: 12}),
+					new shape.Point({x: 700, y: 0, delay: 0, speed: 14})
 				],
 				loop_points: false
 			}));
@@ -126,10 +126,10 @@ Session.cache = (function(globals) {
 					}
 				],
 				paths: [
-					new stg.Point({x: -100, y: 200, delay: 24000, speed: 10}),
-					new stg.Point({x: 400, y: 200, delay: 2000, speed: 12}),
-					new stg.Point({x: 300, y: 100, delay: 3000, speed: 12}),
-					new stg.Point({x: 700, y: 0, delay: 0, speed: 14})
+					new shape.Point({x: -100, y: 200, delay: 24000, speed: 10}),
+					new shape.Point({x: 400, y: 200, delay: 2000, speed: 12}),
+					new shape.Point({x: 300, y: 100, delay: 3000, speed: 12}),
+					new shape.Point({x: 700, y: 0, delay: 0, speed: 14})
 				],
 				loop_points: false
 			}));
@@ -159,10 +159,10 @@ Session.cache = (function(globals) {
 					}
 				],
 				paths: [
-					new stg.Point({x: -20, y: -20, delay: 32000, speed: 10}),
-					new stg.Point({x: 400, y: 200, delay: 5000, speed: 12}),
-					new stg.Point({x: 20, y: 100, delay: 6000, speed: 12}),
-					new stg.Point({x: 460, y: 290, delay: 3000, speed: 14})
+					new shape.Point({x: -20, y: -20, delay: 32000, speed: 10}),
+					new shape.Point({x: 400, y: 200, delay: 5000, speed: 12}),
+					new shape.Point({x: 20, y: 100, delay: 6000, speed: 12}),
+					new shape.Point({x: 460, y: 290, delay: 3000, speed: 14})
 				],
 				loop_points: true
 			}));

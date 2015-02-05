@@ -8,26 +8,26 @@
 */
 
 var System = System || {};
-var STG = STG || {};
+var Shape = Shape || {};
 
 //This module handles resources.
-var Resource = (function(globals, system, stg, $) {
+var Resource = (function(globals, system, shape, $) {
 	"use strict";
 	
 	return {
 		//Canvas layers.
 		layers: {
-			screen: new stg.Square({}),
-			buffer: new stg.Square({}),
-			pause: new stg.Square({}),
+			screen: new shape.Square({}),
+			buffer: new shape.Square({}),
+			pause: new shape.Square({}),
 		},
 		
 		//Stage backgrounds.
 		sprites: {
 			stages_bg: [],
-			canvas_bg: new stg.Square({}),
-			menu: new stg.Square({}),
-			staff: new stg.Square({})
+			canvas_bg: new shape.Square({}),
+			menu: new shape.Square({}),
+			staff: new shape.Square({})
 		},
 		
 		//Color map.
@@ -50,4 +50,4 @@ var Resource = (function(globals, system, stg, $) {
 		
 		loading_gif: null,
 	};
-}(window, System, STG, jQuery)); 
+}(window, System, Shape, jQuery)); 
