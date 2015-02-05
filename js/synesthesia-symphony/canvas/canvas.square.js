@@ -27,6 +27,7 @@ Canvas.square = (function() {
 	 * @param {Number} options.lineWidth - The line width.
 	 * @param {String|STG.Color} options.strokeStyle - The outline color.
 	 * @param {String} options.globalCompositeOperation - The composite operation.
+	 * @return {Undefined}
 	 */
 	function square(options) {
 		//The 2D rendering context.

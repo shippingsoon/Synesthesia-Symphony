@@ -7,11 +7,10 @@
 	@license - GPLv3
 */
 
-var System = System || {};
 var STG = STG || {};
 
 //Math submodule.
-STG.Math = (function(globals, system, stg) {
+STG.Math = (function(globals, stg) {
 	"use strict";
 	
 	return {
@@ -21,10 +20,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} b - An STG vector.
 		 */
 		add: function(a, b) {
-			if (a.hasOwnProperty('getPosition'))
+			if (a.getPosition)
 				a = a.getPosition();
 			
-			if (b.hasOwnProperty('getPosition'))
+			if (b.getPosition)
 				b = b.getPosition();
 				
 			return {
@@ -40,10 +39,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} b - An STG vector.
 		 */
 		subtract: function(a, b) {
-			if (a.hasOwnProperty('getPosition'))
+			if (a.getPosition)
 				a = a.getPosition();
 			
-			if (b.hasOwnProperty('getPosition'))
+			if (b.getPosition)
 				b = b.getPosition();
 			
 			return {
@@ -58,10 +57,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} b - An STG vector.
 		 */
 		multiply: function(a, b) {
-			if (a.hasOwnProperty('getPosition'))
+			if (a.getPosition)
 				a = a.getPosition();
 			
-			if (b.hasOwnProperty('getPosition'))
+			if (b.getPosition)
 				b = b.getPosition();
 			
 			return {
@@ -76,10 +75,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} b - An STG vector.
 		 */
 		divide: function(a, b) {
-			if (a.hasOwnProperty('getPosition'))
+			if (a.getPosition)
 				a = a.getPosition();
 			
-			if (b.hasOwnProperty('getPosition'))
+			if (b.getPosition)
 				b = b.getPosition();
 			
 			return {
@@ -116,10 +115,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} a - The target vector.
 		 */
 		getTargetAngle: function(a, b) {
-			if (a.hasOwnProperty('getPosition'))
+			if (a.getPosition)
 				a = a.getPosition();
 			
-			if (b.hasOwnProperty('getPosition'))
+			if (b.getPosition)
 				b = b.getPosition();
 			
 			return Math.atan2(a.y - b.y, a.x - b.x);
@@ -131,10 +130,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} b - An STG vector or object.
 		 */
 		distance: function(a, b) {
-			if (a.hasOwnProperty('getPosition'))
+			if (a.getPosition)
 				a = a.getPosition();
 			
-			if (b.hasOwnProperty('getPosition'))
+			if (b.getPosition)
 				b = b.getPosition();
 			
 			//return Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
@@ -147,10 +146,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Circle} b - An STG circle or object.
 		 */
 		circleCollision: function(a, b) {
-			if (a.hasOwnProperty('getCircle'))
+			if (a.getCircle)
 				a = a.getCircle();
 			
-			if (b.hasOwnProperty('getCircle'))
+			if (b.getCircle)
 				b = b.getCircle();
 			
 			//If the distance between the colliding objects is smaller than the combined radius.
@@ -165,10 +164,10 @@ STG.Math = (function(globals, system, stg) {
 		circleSquareCollision: function(a, b) {
 			var c = new stg.Vector({x: 0, y: 0});
 			
-			if (a.hasOwnProperty('getCircle'))
+			if (a.getCircle)
 				a = a.getCircle();
 
-			if (b.hasOwnProperty('getSquare'))
+			if (b.getSquare)
 				b = b.getSquare();
 			
 			if (a.x < b.x)
@@ -198,10 +197,10 @@ STG.Math = (function(globals, system, stg) {
 		 * {STG.Square|Object} b - An STG square or object.
 		 */
 		outOfBounds: function(a, b) {
-			if (a.hasOwnProperty('getCircle'))
+			if (a.getCircle)
 				a = a.getCircle();
 
-			if (b.hasOwnProperty('getSquare'))
+			if (b.getSquare)
 				b = b.getSquare();
 			
 			if (a.x < b.x - a.radius)
@@ -225,10 +224,10 @@ STG.Math = (function(globals, system, stg) {
 		 * @param {Object|STG.Vector} b - An STG vector or object.
 		 */
 		distanceSquared: function(a, b) {
-			if (a.hasOwnProperty('getPosition'))
+			if (a.getPosition)
 				a = a.getPosition();
 				
-			if (b.hasOwnProperty('getPosition'))
+			if (b.getPosition)
 				b = b.getPosition();
 			
 			var delta = new stg.Vector({
@@ -241,4 +240,4 @@ STG.Math = (function(globals, system, stg) {
 			return (d.x * d.x) + (d.y * d.y);
 		},
 	};
-}(window, System, STG)); 
+}(window, STG)); 

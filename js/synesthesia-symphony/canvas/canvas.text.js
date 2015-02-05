@@ -29,6 +29,7 @@ Canvas.text = (function() {
 	 * @param {Number} options.shadowoffsetX - The text shadow's x offset.
 	 * @param {Number} options.shadowoffsetY - The text shadow's y offset.
 	 * @param {Number} options.shadowBlur - The text shadow blur.
+	 * @return {Undefined}
 	 */
 	function text(options) {
 		//The 2D rendering context.
