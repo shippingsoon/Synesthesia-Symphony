@@ -21,7 +21,7 @@ Canvas.line = (function() {
 	 * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
 	 * @param {Number} options.x - The x coordinate.
 	 * @param {Number} options.y - The y coordinate.
-	 * @param {String|STG.Color} options.color - The color.
+	 * @param {String|STG.Color} options.strokeStyle - The line's color.
 	 * @param {Number} options.lineWidth - The line width.
 	 * @param {String} options.cap - The cap.
 	 * @param {String} options.globalCompositeOperation - The composite operation.
@@ -44,9 +44,13 @@ Canvas.line = (function() {
 			ctx.moveTo(options.x || 0, options.y || 0);
 			ctx.lineTo(options.w || 10, options.h || 10);
 			ctx.closePath();
-
+			
+			//If this is an STG color get its RGBA property.
+			if (typeof options.strokeStyle === 'object')
+				options.strokeStyle = options.strokeStyle.getRGBA();
+			
 			//Set the color, width and cap of the line.
-			ctx.strokeStyle = options.color || 'black';
+			ctx.strokeStyle = options.strokeStyle || 'black';
 			ctx.lineWidth = options.lineWidth || 0;
 			ctx.lineCap = options.cap || 'butt';
 

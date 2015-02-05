@@ -52,7 +52,7 @@ STG.Color = (function(stg) {
 			blue = (typeof arguments[2] === 'number') ? arguments[2] : (options.b || options.blue || 0);
 			alpha = (typeof arguments[3] === 'number')
 				? arguments[3]
-				: (((options.a !== undefined || options.alpha !== undefined) ? options.a || options.alpha: 1));
+				: (((options.a !== undefined || options.alpha !== undefined) ? (options.a || options.alpha): 1));
 			
 			//Make sure the values are valid.
 			validateColor();	
@@ -94,14 +94,14 @@ STG.Color = (function(stg) {
 		 * Returns the color in RGBA format.
 		 */
 		this.getRGBA = function() {
-			return {rgba: rgba};
+			return rgba;
 		};
 		
 		/*
 		 * Returns the color in hexadecimal format.
 		 */
 		this.getHex = function() {
-			return {hex: hex};
+			return hex;
 		};
 		
 		/*

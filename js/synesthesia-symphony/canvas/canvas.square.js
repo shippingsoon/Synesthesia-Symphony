@@ -41,21 +41,22 @@ Canvas.square = (function() {
 				ctx.globalCompositeOperation = options.globalCompositeOperation;
 			
 			//Create a square shape.
+			ctx.beginPath();
 			ctx.rect(options.x || 0, options.y || 0, options.width || options.w || 10, options.height || options.h || 10);
 			
-			if (options.color) {
-				//If this is an STG color get its RGBA property.
-				if (options.color.hasOwnProperty('getRGBA'))
-					options.color = options.color.getRGBA().rgba;
-				
-				//Fill in the circle with the given color.
-				ctx.fillStyle = options.color || 'black';
-				ctx.fill();
-			}
+			//If this is an STG color get its RGBA property.
+			if (typeof options.color === 'object')
+				options.color = options.color.getRGBA();
+			
+			//Fill in the circle with the given color.
+			ctx.fillStyle = options.color || 'black';
+			ctx.fill();
 			
 			//Stroke an outline around the square.
 			if (options.lineWidth) {
-				ctx.beginPath();
+				if (typeof options.strokeStyle === 'object')
+					options.strokeStyle = options.strokeStyle.getRGBA();
+				
 				ctx.lineWidth = options.lineWidth;
 				ctx.strokeStyle = options.strokeStyle || 'black';
 				ctx.stroke();

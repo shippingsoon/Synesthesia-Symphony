@@ -11,7 +11,7 @@ var FSM = FSM || {};
 var STG = STG || {};
 
 //Pause state.
-FSM.Pause = (function(globals, fsm, stg, resource, midi) {
+FSM.Pause = (function(globals, fsm, stg, resource, midi, canvas) {
 	"use strict";
 	
 	function Pause(options) {
@@ -141,7 +141,7 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi) {
 			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 			
 			//Draw the background.
-			stg.Canvas.square({
+			canvas.square({
 				ctx: ctx,
 				x: 0,
 				y: 0,
@@ -156,7 +156,7 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi) {
 					? '#f00'
 					: '#fff';
 				
-				stg.Canvas.text({
+				canvas.text({
 					ctx: ctx,
 					message: options[option],
 					x: (ctx.canvas.width / 2) - 100,
@@ -180,4 +180,4 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi) {
 	}
 	
 	return Pause;
-}(window, FSM, STG, Resource, MIDI));
+}(window, FSM, STG, Resource, MIDI, Canvas));

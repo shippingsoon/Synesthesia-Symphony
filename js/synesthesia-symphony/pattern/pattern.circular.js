@@ -1,11 +1,11 @@
 /*
-	@description - Circular pattern submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ *	@description - Circular pattern submodule.
+ *	@copyright - 2014 Shipping Soon
+ *	@source - https://github.com/shippingsoon/Synesthesia-Symphony
+ *	@website - https://www.shippingsoon.com/synesthesia-symphony/
+ *	@version - v0.05
+ *	@license - GPLv3
+ */
 
 var FSM = FSM || {};
 var STG = STG || {};
@@ -14,7 +14,7 @@ var Pattern = Pattern || {};
 
 //Circular pattern submodule.
 Pattern.Circular = (function(globals, fsm, stg, resource, pattern) {
-	"use strict";
+	'use strict';
 		
 	/*
 	 * Circular pattern.
@@ -31,11 +31,11 @@ Pattern.Circular = (function(globals, fsm, stg, resource, pattern) {
 	 * @param {Boolean[]} options.is_opens - Determines if a bullet will leave paint trails.
 	 * @param {Boolean} options.invert - Flips about the y-axis.
 	 * @param {Number} options.target_type - Set to 0 to retrieve the player and 1 to retrieve enemies.
+	 * @return {Undefined}
 	 */
 	function Circular(options) {
-		//var bullets = [];
-		var position = options.position || {x: 0, y:0};
-		var offsets = options.offsets || {x: 0, y:0};
+		var position = options.position || {x: 0, y: 0};
+		var offsets = options.offsets || {x: 0, y: 0};
 		var padding = options.padding || 10;
 		var speeds = options.speeds || [4];
 		var invert = (options.invert || options.invert === undefined);

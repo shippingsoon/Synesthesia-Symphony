@@ -45,6 +45,10 @@ Canvas.text = (function() {
 			//Set the font.
 			ctx.font = options.font || 'bold 16px arial';
 
+			//If this is an STG color get its RGBA property.
+			if (typeof options.color === 'object')
+				options.color = options.color.getRGBA();
+				
 			//Set the text's color.
 			ctx.fillStyle = options.color || '#444';
 			
@@ -53,6 +57,9 @@ Canvas.text = (function() {
 
 			//set the text's shadow.
 			if (options.shadowColor) {
+				if (typeof options.shadowColor === 'object')
+					options.shadowColor = options.shadowColor.getRGBA();
+					
 				ctx.shadowColor = options.shadowColor;
 				ctx.shadowOffsetX = options.shadowoffsetX || 1;
 				ctx.shadowOffsetY = options.shadowoffsetY || 1;

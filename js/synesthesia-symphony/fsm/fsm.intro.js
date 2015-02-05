@@ -21,7 +21,7 @@ var Resource = Resource || {};
  * @param {MIDI} midi - MIDI.js library.
  * @return {FSM.Intro}
  */
-FSM.Intro = (function(globals, fsm, stg, system, midi, resource) {
+FSM.Intro = (function(globals, fsm, stg, system, midi, resource, canvas) {
 	"use strict";
 	
 	/*
@@ -156,7 +156,7 @@ FSM.Intro = (function(globals, fsm, stg, system, midi, resource) {
 		 */
 		state.render = function(game) {
 			//Draw the background.
-			stg.Canvas.square({
+			canvas.square({
 				ctx: game.ctx,
 				color: background_color,
 				x: 0,
@@ -166,7 +166,7 @@ FSM.Intro = (function(globals, fsm, stg, system, midi, resource) {
 			});
 			
 			//Draw the company title.
-			stg.Canvas.text({
+			canvas.text({
 				ctx: game.ctx,
 				x: game.ctx.canvas.width / 2,
 				y: (game.ctx.canvas.height / 2) - 20,
@@ -219,4 +219,4 @@ FSM.Intro = (function(globals, fsm, stg, system, midi, resource) {
 	}
 	
 	return Intro;
-}(window, FSM, STG, System, MIDI, Resource));
+}(window, FSM, STG, System, MIDI, Resource, Canvas));

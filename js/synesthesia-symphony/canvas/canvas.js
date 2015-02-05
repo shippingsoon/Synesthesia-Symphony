@@ -7,8 +7,6 @@
  *	@license - GPLv3
  */
 
-var STG = STG || {};
-
 /*
  * This module handles HTML5 Canvas related routines.
  * @return {Undefined}

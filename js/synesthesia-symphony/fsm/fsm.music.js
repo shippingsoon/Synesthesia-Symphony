@@ -22,7 +22,7 @@ var System = System || {};
  * @param {MIDI} midi - MIDI.js library.
  * @return {FSM.Menu}
  */
-FSM.Music = (function(globals, fsm, resource, stg, system, midi) {
+FSM.Music = (function(globals, fsm, resource, stg, system, midi, canvas) {
 	"use strict";
 	
 	/*
@@ -48,9 +48,8 @@ FSM.Music = (function(globals, fsm, resource, stg, system, midi) {
 		 */
 		state.start = function(game) {
 			//Set the menu options.
-			for (var song in songs) {
+			for (var song in songs)
 				options.push(song);
-			}
 			
 			//Set a final menu option for leaving this state.
 			options.push('Return to Title');
@@ -176,17 +175,17 @@ FSM.Music = (function(globals, fsm, resource, stg, system, midi) {
 			//Circular background decoration.
 			common.color = 'rgba(0, 0, 0, 0.4)';
 			common.radius = (game.ctx.canvas.width / 2.5) - (menu_index * 4);
-			stg.Canvas.circle(common);
+			canvas.circle(common);
 			
 			//Circular background decoration.
 			common.color = 'rgba(0, 0, 0, 0.2)';
 			common.radius = game.ctx.canvas.width / 4;
-			stg.Canvas.circle(common);
+			canvas.circle(common);
 			
 			//Circular background decoration.
 			common.color = 'rgba(0, 0, 0, 0.3)';
 			common.radius = game.ctx.canvas.width / 1.5;
-			stg.Canvas.circle(common);
+			canvas.circle(common);
 			
 			//Loop through the title menu options.
 			for (var option = 0, length = options.length; option < length; option++) {
@@ -207,7 +206,7 @@ FSM.Music = (function(globals, fsm, resource, stg, system, midi) {
 				common.color = font_color;
 				common.align = 'center';
 				common.font = 'bold 16px arial'
-				stg.Canvas.text(common);
+				canvas.text(common);
 				
 				//Draw information for the currently selected song.
 				if (menu_index === options.indexOf(options[option]) && option !== length - 1) {
@@ -223,32 +222,32 @@ FSM.Music = (function(globals, fsm, resource, stg, system, midi) {
 					//Draw song's title.
 					common.y = game.ctx.canvas.height / 2 - (menu_spacing * 2);
 					common.message = 'Title: ' + song.title;
-					stg.Canvas.text(common);
+					canvas.text(common);
 					
 					//Draw series the song is from.
 					common.y = game.ctx.canvas.height / 2 - (menu_spacing * 1);
 					common.message = 'Series: ' + song.series;
-					stg.Canvas.text(common);
+					canvas.text(common);
 					
 					//Draw song's composer.
 					common.y = game.ctx.canvas.height / 2 - (menu_spacing * 0);
 					common.message = 'Composer: ' + song.composer;
-					stg.Canvas.text(common);
+					canvas.text(common);
 					
 					//Draw company that owns the song.
 					common.y = game.ctx.canvas.height / 2 + (menu_spacing * 1);
 					common.message = 'Company: ' + song.company;
-					stg.Canvas.text(common);
+					canvas.text(common);
 					
 					//Draw year the song was published.
 					common.y = game.ctx.canvas.height / 2 + (menu_spacing * 2);
 					common.message = 'Year: ' + song.year;
-					stg.Canvas.text(common);
+					canvas.text(common);
 					
 					//Draw song's arranger.
 					common.y = game.ctx.canvas.height / 2 + (menu_spacing * 3);
 					common.message = 'Arranger: ' + ((song.arranger) ? song.arranger : 'N/A');
-					stg.Canvas.text(common);
+					canvas.text(common);
 				}	
 			}
 		};
@@ -291,4 +290,4 @@ FSM.Music = (function(globals, fsm, resource, stg, system, midi) {
 	}
 	
 	return Music;
-}(window, FSM, Resource, STG, System, MIDI));
+}(window, FSM, Resource, STG, System, MIDI, Canvas));

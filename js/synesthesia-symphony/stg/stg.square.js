@@ -8,9 +8,10 @@
 */
 
 var STG = STG || {};
+var Canvas = Canvas || {};
 
 //Square submodule.
-STG.Square = (function(stg, resource) {
+STG.Square = (function(stg, canvas) {
 	"use strict";
 	
 	/*
@@ -63,7 +64,7 @@ STG.Square = (function(stg, resource) {
 			
 			//Draw the square.
 			if (ctx) {
-				stg.Canvas.square({
+				canvas.square({
 					x: options.x || position.x,
 					y: options.y || position.y,
 					width: options.width || options.w || width,
@@ -119,4 +120,4 @@ STG.Square = (function(stg, resource) {
 	Square.prototype = Object.create(stg.Vector.prototype);
 	
 	return Square;
-}(STG));
+}(STG, Canvas));

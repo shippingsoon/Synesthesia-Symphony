@@ -12,7 +12,7 @@ var STG = STG || {};
 var Resource = Resource || {};
 
 //This submodule handles common functions related to the stage states.
-STG.Stage = (function(globals, system, stg, resource) {
+STG.Stage = (function(globals, system, stg, resource, canvas) {
 	"use strict";
 	
 	return {
@@ -65,31 +65,31 @@ STG.Stage = (function(globals, system, stg, resource) {
 			common.x = 551;
 			common.y = 105;
 			common.message = 'HiScore  ' + hiscore;
-			stg.Canvas.text(common);
+			canvas.text(common);
 			
 			//Draw the current score.
 			common.x = 575;
 			common.y = 135;
 			common.message = 'Score  ' + score;
-			stg.Canvas.text(common);
+			canvas.text(common);
 			
 			//Draw the player's lives.
 			common.x = 570;
 			common.y = 175;
 			common.message = 'Player  ';
-			stg.Canvas.text(common);
+			canvas.text(common);
 			
 			//Draw the player's power.
 			common.x = 570;
 			common.y = 205;
 			common.message = 'Power  ' + player.getPower().toFixed(2) + ' / ' + config.MAX_POWER.toFixed(2);
-			stg.Canvas.text(common);
+			canvas.text(common);
 			
 			//Draw the glaze.
 			common.x = 578;
 			common.y = 235;
 			common.message = 'Glaze  ' + config.glaze;
-			stg.Canvas.text(common);
+			canvas.text(common);
 			
 			
 			if (system.Config.DEBUG) {
@@ -99,7 +99,7 @@ STG.Stage = (function(globals, system, stg, resource) {
 				common.message = 'Current Time: ' + stg.Audio.current_time;
 				common.font =  'bold 15px arial';
 				common.align = 'right';
-				stg.Canvas.text(common);
+				canvas.text(common);
 				
 				//The end time.
 				common.x = ctx.canvas.width - 10;
@@ -107,7 +107,7 @@ STG.Stage = (function(globals, system, stg, resource) {
 				common.message = 'End Time: ' + stg.Audio.end_time;
 				common.font =  'bold 15px arial';
 				common.align = 'right';
-				stg.Canvas.text(common);
+				canvas.text(common);
 				
 				//Display the total number of active bullets.
 				pad = '0000';
@@ -117,7 +117,7 @@ STG.Stage = (function(globals, system, stg, resource) {
 				common.y = ctx.canvas.height - 40;
 				common.message = 'Bullets: ' + bullet_count;
 				common.font =  'bold 15px arial';
-				stg.Canvas.text(common);
+				canvas.text(common);
 			}
 			
 			//Display the FPS.
@@ -126,7 +126,7 @@ STG.Stage = (function(globals, system, stg, resource) {
 				common.y = ctx.canvas.height - 20;
 				common.message = 'FPS: ' + Math.floor(system.Config.fps).toFixed(0);
 				common.font =  'bold 15px arial';
-				stg.Canvas.text(common);
+				canvas.text(common);
 			}
 			
 			//Draw the player's lives.
@@ -135,7 +135,7 @@ STG.Stage = (function(globals, system, stg, resource) {
 			common.y = 173;
 			common.font = 'normal 18px FontAwesome';
 			common.message = lives_text;
-			stg.Canvas.text(common);
+			canvas.text(common);
 			
 			//Draw the difficulty.
 			common.x = 652;
@@ -144,7 +144,7 @@ STG.Stage = (function(globals, system, stg, resource) {
 			common.message = difficulty;
 			common.font = 'bold 28px arial';
 			common.shadowColor = 'red';
-			stg.Canvas.text(common);
+			canvas.text(common);
 		},
 		
 		//We will use this to keep track of which canvas sprite should be pushed to the top of the conveyor belt.
@@ -226,4 +226,4 @@ STG.Stage = (function(globals, system, stg, resource) {
 			}
 		},
 	};
-}(window, System, STG, Resource)); 
+}(window, System, STG, Resource, Canvas)); 

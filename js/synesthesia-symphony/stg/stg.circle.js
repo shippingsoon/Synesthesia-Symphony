@@ -10,7 +10,7 @@
 var STG = STG || {};
 
 //Circle submodule.
-STG.Circle = (function(stg) {
+STG.Circle = (function(stg, canvas) {
 	"use strict";
 	
 	 /*
@@ -57,7 +57,7 @@ STG.Circle = (function(stg) {
 			
 			//Draw the circle.
 			if (ctx) {
-				stg.Canvas.circle({
+				canvas.circle({
 					x: options.x || position.x,
 					y: options.y || position.y,
 					radius: options.radius || options.r || radius,
@@ -127,4 +127,4 @@ STG.Circle = (function(stg) {
 	Circle.prototype = Object.create(stg.Vector.prototype);
 	
 	return Circle;
-}(STG));
+}(STG, Canvas));

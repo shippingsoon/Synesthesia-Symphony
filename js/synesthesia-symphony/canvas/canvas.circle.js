@@ -13,7 +13,7 @@ var Canvas = Canvas || {};
  * This submodule uses an HTML5 2D rendering context to draw a circle.
  * @return {Function}
  */
-Canvas.cirlce = (function() {
+Canvas.circle = (function() {
 	'use strict';
 	
 	/*
@@ -40,21 +40,19 @@ Canvas.cirlce = (function() {
 				ctx.globalCompositeOperation = options.globalCompositeOperation;
 			
 			//Make the shape circular.
+			ctx.beginPath();
 			ctx.arc(options.x || 0, options.y || 0, options.radius || 10, 0, 2 * Math.PI, false);
 			
-			if (options.color) {
-				//If this is an STG color get its RGBA property.
-				if (options.color.hasOwnProperty('getRGBA'))
-					options.color = options.color.getRGBA().rgba;
-				
-				//Fill in the circle with the given color.
-				ctx.fillStyle = options.color || 'black';
-				ctx.fill();
-			}
+			//If this is an STG color get its RGBA property.
+			if (typeof options.color === 'object')
+				options.color = options.color.getRGBA();
+			
+			//Fill in the circle with the given color.
+			ctx.fillStyle = options.color || 'black';
+			ctx.fill();
 			
 			//If a line width is specified stroke an outline around the circle..
 			if (options.lineWidth) {
-				ctx.beginPath();
 				ctx.lineWidth = options.lineWidth;
 				ctx.strokeStyle = options.strokeStyle || 'black';
 				ctx.stroke();

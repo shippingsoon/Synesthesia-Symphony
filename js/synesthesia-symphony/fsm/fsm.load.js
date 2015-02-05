@@ -22,7 +22,7 @@ var Resource = Resource || {};
  * @param {Resource} resource - Resource module.
  * @return {FSM.Intro}
  */
-FSM.Load = (function(globals, fsm, stg, system, midi, resource) {
+FSM.Load = (function(globals, fsm, stg, system, midi, resource, canvas) {
 	"use strict";
 	
 	/*
@@ -79,7 +79,7 @@ FSM.Load = (function(globals, fsm, stg, system, midi, resource) {
 		 */
 		state.render = function(game) {
 			//Draw the background.
-			stg.Canvas.square({
+			canvas.square({
 				ctx: game.ctx,
 				color: background_color,
 				x: 0,
@@ -99,4 +99,4 @@ FSM.Load = (function(globals, fsm, stg, system, midi, resource) {
 	}
 	
 	return Load;
-}(window, FSM, STG, System, MIDI, Resource));
+}(window, FSM, STG, System, MIDI, Resource, Canvas));

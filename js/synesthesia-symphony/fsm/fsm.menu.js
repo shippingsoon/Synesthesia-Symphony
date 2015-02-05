@@ -22,7 +22,7 @@ var System = System || {};
  * @param {MIDI} midi - MIDI.js library.
  * @return {FSM.Menu}
  */
-FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
+FSM.Menu = (function(globals, fsm, resource, stg, system, midi, canvas) {
 	"use strict";
 	
 	/*
@@ -216,7 +216,7 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 			game.ctx.drawImage(sprites.menu.img, 0, bg_vectors[1].getPosition().y);
 			
 			//Draw the menu options.
-			stg.Canvas.text({
+			canvas.text({
 				ctx: game.ctx,
 				x: game.ctx.canvas.width / 2,
 				y: game.ctx.canvas.height / 3,
@@ -244,7 +244,7 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 					font_color.setColor(160, 160, 160, 1);
 				
 				//Draw the menu options.
-				stg.Canvas.text({
+				canvas.text({
 					ctx: game.ctx,
 					x: game.ctx.canvas.width / 2,
 					y: (game.ctx.canvas.height / 2) + option * menu_spacing,
@@ -259,7 +259,7 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 				});
 				
 				//Draw the company title.
-				stg.Canvas.text({
+				canvas.text({
 					ctx: game.ctx,
 					x: game.ctx.canvas.width - 10,
 					y: game.ctx.canvas.height - 10,
@@ -285,4 +285,4 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi) {
 	}
 	
 	return Menu;
-}(window, FSM, Resource, STG, System, MIDI));
+}(window, FSM, Resource, STG, System, MIDI, Canvas));
