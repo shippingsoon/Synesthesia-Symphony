@@ -65,7 +65,7 @@ STG.Cmath = (function(globals, stg) {
 					
 					//If we got a color string.
 					else
-						arguments[argument] = stg.stringToColor(arguments[argument]);
+						arguments[argument] = this.stringToColor(arguments[argument]);
 				}
 				
 				//If this is an STG color.

@@ -15,6 +15,7 @@ var Resource = Resource || {};
 
 /*
  * Intro state.
+ * @param {Object} globals - Explicit global namespace.
  * @param {FSM} fsm - Finite state machine.
  * @param {STG} stg - Miscellaneous game module.
  * @param {System} system - System module.

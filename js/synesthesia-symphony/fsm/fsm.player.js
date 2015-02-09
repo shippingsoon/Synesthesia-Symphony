@@ -96,6 +96,8 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		//If the player has glazed a bullet.
 		var has_glazed = false;
 		
+		var invulnerableTimer = null;
+		
 		/*
 		 * Start the state.
 		 * @param {FSM} game.fsm - Finite state machine.
@@ -116,6 +118,18 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 					parent: that
 				});
 			}
+			
+			//Create a time out for the player's invulnerability status.
+			invulnerableTimer = new stg.Timer(that.setInvulnerable, system.Config.INVULNERABILITY_TIMEOUT, false);
+		};
+		
+		/*
+		 * Stop the state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 */
+		state.stop = function(game) {
+			invulnerableTimer.stop();
 		};
 		
 		/*
@@ -154,6 +168,26 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 				if (!stg.Math.circleSquareCollision(that, color_boxes[1]))
 					color_boxes[1].draw({color: colors[color_idx === 0 ? 0 : 1]});
 			}
+		};
+		
+		/*
+		 * Pause the state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
+		 */
+		state.pause = function(game) {
+			invulnerableTimer.pause();
+		};
+		
+		/*
+		 * Resume the state.
+		 * @param {FSM} game.fsm - Finite state machine.
+		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
+		 */
+		state.play = function(game) {
+			invulnerableTimer.play();
 		};
 		
 		/*
@@ -283,7 +317,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 				
 				//Make the player temporarily invulnerable.
 				that.setInvulnerable(true);
-				globals.setTimeout(that.setInvulnerable, system.Config.INVULNERABILITY_TIMEOUT, false);
+				invulnerableTimer.setDelay(system.Config.INVULNERABILITY_TIMEOUT).play();
 			}
 			
 			return has_collided;

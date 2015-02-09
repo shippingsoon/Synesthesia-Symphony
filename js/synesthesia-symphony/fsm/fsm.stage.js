@@ -11,7 +11,7 @@ var FSM = FSM || {};
 var STG = STG || {};
 var Resource = Resource || {};
 var System = System || {};
-
+var Shape = Shape || {};
 
 /*
  * Stage state.
@@ -21,7 +21,7 @@ var System = System || {};
  * @param {MIDI} midi - MIDI.js library.
  * @return {FSM.Intro}
  */
-FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
+FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 	"use strict";
 
 	/*
@@ -146,6 +146,52 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 			
 			//Initialize the conveyor belt.
 			stg.Stage.is_odd_belt = true;
+			
+			resource.enemies.push(new fsm.Enemy({
+				color: stg.Color({r: 0, g: 255, b: 0}),
+				x: 200,
+				y: 200,
+				ctx: layers.buffer.getContext(),
+				lives: 10,
+				target: stg.targets.player,
+				patterns: [{
+						method: 'Circular',
+						ctx: layers.buffer.getContext(),
+						max_bullets: 5,
+						padding: 10,
+						degrees: 270,
+						radii: [8, 4],
+						speeds: [5],
+						colors: ['pink', 'red'],
+						delay: 2000,
+						rate: 100,
+						duration: 30,
+						rotation: 10,
+					}, {
+						method: 'Circular',
+						ctx: layers.buffer.getContext(),
+						max_bullets: 5,
+						padding: 10,
+						degrees: 270,
+						radii: [8, 4],
+						speeds: [5],
+						colors: ['red', 'pink'],
+						delay: 2000,
+						rate: 100,
+						duration: 30,
+						rotation: -10
+					}
+				],
+				paths: [
+					new shape.Point({x: 0, y: 0, delay: 0, speed: 10}),
+					new shape.Point({x: 200, y: 200, delay: 8000, speed: 12}),
+					new shape.Point({x: 700, y: 700, delay: 0, speed: 14})
+				],
+				loop_points: false
+			}));
+			
+			state.setSubstate({substate: resource.enemies[0].getState()});
+			
 		};
 		
 		/*
@@ -287,4 +333,4 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, $) {
 	}
 	
 	return Stage;
-}(window, FSM, STG, Resource, System, MIDI, jQuery));
+}(window, FSM, STG, Resource, System, MIDI, Shape, jQuery));
