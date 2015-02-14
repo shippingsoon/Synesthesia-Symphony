@@ -1,11 +1,11 @@
 /*
-	@description - Player submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Player submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var FSM = FSM || {};
 var STG = STG || {};
@@ -14,14 +14,25 @@ var Resource = Resource || {};
 var Pattern = Pattern || {};
 var Shape = Shape || {};
 
-//Player singleton.
-FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
-	"use strict";
+/*
+ * Player singleton.
+ * @param {Object} globals - Explicit global namespace.
+ * @param {FSM} fsm - Finite state machine.
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {System} system - System module.
+ * @param {Object} resource - Resource module.
+ * @param {Object} pattern - Pattern module.
+ * @param {Shape} shape - Shape module.
+ * @param {Vector} vector - Vector module.
+ * @return {Function}
+ */
+Character.Player = (function(globals, fsm, stg, system, resource, pattern, shape, vector) {
+	'use strict';
 	
 	//An instance of our player.
 	var _instance;
 	var config = system.Config;
-	var protagonist = stg.Character.protagonist;
+	var protagonist = Character.protagonist;
 	var player_idx = protagonist.player_idx;
 	var weapon_idx = protagonist.weapon_idx;
 	var weapons = protagonist.weapons;
@@ -38,6 +49,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 	 * @param {Number} options.power - The player's initial power.
 	 * @param {Object[]} options.patterns - An array of bullet patterns.
 	 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
+	 * @return {Character.player}
 	 */
 	function Player(options) {
 		if (_instance)
@@ -58,7 +70,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		var that = this;
 		
 		//The velocity vector.
-		var velocity = new stg.Vector({});
+		var velocity = new vector({});
 		
 		//The player's primary and secondary colors.
 		var colors = options.colors || weapons.colors[player_idx][weapon_idx];
@@ -102,6 +114,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		 * Start the state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.start = function(game) {
 			var ctx = that.getContext();
@@ -127,6 +140,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		 * Stop the state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.stop = function(game) {
 			invulnerableTimer.stop();
@@ -136,6 +150,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		 * The player's logic.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.update = function(game) {
 			movement(game);
@@ -148,6 +163,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		 * Draws the player.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.render = function(game) {
 			var ctx = that.getContext();
@@ -193,6 +209,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		/*
 		 * Set the player's lives.
 		 * @param {Number} _lives - The lives to set.
+		 * @return {Undefined}
 		 */
 		this.setLives = function(_lives) {
 			lives = _lives;
@@ -200,6 +217,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		
 		/*
 		 * Get the player's lives.
+		 * @return {Number}
 		 */
 		this.getLives = function() {
 			return lives;
@@ -208,6 +226,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		/*
 		 * Set the player's power.
 		 * @param {Number} _power - The player's power.
+		 * @return {Undefined}
 		 */
 		this.setPower = function(_power) {
 			power = _power;
@@ -215,6 +234,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		
 		/*
 		 * Get the player's power.
+		 * @return {Number}
 		 */
 		this.getPower = function() {
 			return power;
@@ -225,6 +245,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		 * @param {STG.Color|String} _color - The new color.
 		 * @param {Number} _color_idx - The array index.
 		 * @param {Boolean} use_current - Determines if we will set the player's current color.
+		 * @return {Undefined}
 		 */
 		this.setColors = function(_color, _color_idx, use_current) {
 			if (use_current)
@@ -240,6 +261,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		 * Get the player's primary and secondary colors or get the player's color at a given index.
 		 * @param {Number} _color_idx - The color index.
 		 * @param {Boolean} use_current - Determines if we will set the player's current color.
+		 * @return {STG.Color|String}
 		 */
 		this.getColors = function(_color_idx, use_current) {
 			if (use_current)
@@ -254,6 +276,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		/*
 		 * Set the player's invulnerability status.
 		 * @param {Boolean} _is_invulnerable - Detemines if the player is invulnerable.
+		 * @return {Undefined}
 		 */
 		this.setInvulnerable = function(_is_invulnerable) {
 			is_invulnerable = _is_invulnerable;
@@ -261,6 +284,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		
 		/*
 		 * Get the player's invulnerability status.
+		 * @return {Boolean}
 		 */
 		this.getInvulnerable = this.isInvulnerable = function() {
 			return is_invulnerable;
@@ -270,6 +294,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		 * Handles collision.
 		 * @param {Number} options.target_type - The type of collision. 0 is for players, 1 is for enemies, 2 is for bullets.
 		 * @param {Number} options.target - The object we have collided with.
+		 * @return {Boolean}
 		 */
 		this.handleCollision = function(options) {
 			var type = options.target_type || stg.targets.bullet;
@@ -327,6 +352,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		 * Move the player.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		function movement(game) {
 			var _speed = speed;
@@ -365,6 +391,7 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 		
 		/*
 		 * Get the state.
+		 * @return {STG.State}
 		 */
 		this.getState = function() {
 			return state;
@@ -374,4 +401,4 @@ FSM.Player = (function(globals, fsm, stg, system, resource, pattern, shape) {
 	Player.prototype = Object.create(shape.Circle.prototype);
 	
 	return Player;
-}(window, FSM, STG, System, Resource, Pattern, Shape));
+}(window, FSM, STG, System, Resource, Pattern, Shape, Vector));

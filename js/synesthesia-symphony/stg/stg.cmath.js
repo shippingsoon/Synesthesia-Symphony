@@ -1,22 +1,28 @@
 /*
-	@description - Color math submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Color math submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var STG = STG || {};
 
-//Color math submodule.
+/*
+ * Color math submodule.
+ * @param {Object} globals - Explicit global namespace.
+ * @param {STG} stg - Miscellaneous game module.
+ * @return {Object}
+ */
 STG.Cmath = (function(globals, stg) {
-	"use strict";
+	'use strict';
 	
 	return {
 		/*
 		 * Converts a hexidecimal string to an STG color.
 		 * @param {String} hex - The hexidecimal color.
+		 * @return {STG.Color}
 		 */
 		hexToColor: function(hex) {
 			var offset = (hex[0] === '#') ? 1 : 0;
@@ -31,6 +37,7 @@ STG.Cmath = (function(globals, stg) {
 		/*
 		 * Converts a string to an STG color.
 		 * @param {String} color - The color string.
+		 * @return {STG.Color}
 		 */
 		stringToColor: function(color) {
 			switch (color) {
@@ -55,6 +62,7 @@ STG.Cmath = (function(globals, stg) {
 		 * Compares two colors. Returns true or false depending on if the colors match.
 		 * @param {STG.Color|String|Object} a - The first STG color, string or object to compare.
 		 * @param {STG.Color|String|Object} b - The second STG color, string or object to compare.
+		 * @return {Boolean}
 		 */
 		compareColor: function(a, b) {
 			for (var argument = 0; argument < arguments.length; argument++) {
@@ -69,7 +77,7 @@ STG.Cmath = (function(globals, stg) {
 				}
 				
 				//If this is an STG color.
-				if (arguments[argument].hasOwnProperty('getColor'))
+				if (arguments[argument] && arguments[argument].getColor)
 					arguments[argument] = arguments[argument].getColor();
 			}
 			
@@ -85,14 +93,15 @@ STG.Cmath = (function(globals, stg) {
 		 * Compares two hexadecimal colors. Returns true or false depending on if the colors match.
 		 * @param {STG.Color|String} a - The first hexadecimal string or STG color to compare.
 		 * @param {STG.Color|String} b - The second hexadecimal string or STG color to compare.
+		 * @return {Boolean}
 		 */
 		compareHexColor: function(a, b) {
 			//If this is an STG color.
-			if (a.hasOwnProperty('getColor'))
+			if (a && a.getHex)
 				a = a.getHex();
 			
 			//If this is an STG color.
-			if (b.hasOwnProperty('getColor'))
+			if (b && b.getHex)
 				b = b.getHex();
 			
 			return (a === b);

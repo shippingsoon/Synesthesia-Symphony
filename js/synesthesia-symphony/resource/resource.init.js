@@ -1,11 +1,11 @@
 /*
-	@description - Initiates resources.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Initiates resources.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var System = System || {};
 var STG = STG || {};
@@ -13,12 +13,21 @@ var Resource = Resource || {};
 var FSM = FSM || {};
 var Shape = Shape || {};
 
-//Initiates resources.
-Resource.init = (function(globals, system, stg, fsm, resource, shape) {
-	"use strict";
+/*
+ * Initiates resources.
+ * @param {Object} globals - Explicit global namespace.
+ * @param {System} system - System module.
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {Object} resource - Resource module.
+ * @param {Shape} shape - Shape module.
+ * @return {Function}
+ */
+Resource.init = (function(globals, system, stg, resource, shape) {
+	'use strict';
 	
 	/*
 	 * Initiate resources.
+	 * @return {Undefined}
 	 */
 	function init() {
 		//Get the resolution mode. 0 is low, 1 is medium, 2 is large.
@@ -42,8 +51,6 @@ Resource.init = (function(globals, system, stg, fsm, resource, shape) {
 			height: system.Config.resolution.height[mode]
 		});
 		
-		
-
 		//Load the stage background images.
 		for (var stage = 0; stage < 6; stage++) {
 			resource.sprites.stages_bg.push(new shape.Square({}));
@@ -93,4 +100,4 @@ Resource.init = (function(globals, system, stg, fsm, resource, shape) {
 	}
 	
 	return init;
-}(window, System, STG, FSM, Resource, Shape)); 
+}(window, System, STG, Resource, Shape)); 

@@ -1,10 +1,10 @@
 /*
- *	@description - Circle submodule.
- *	@copyright - 2014 Shipping Soon
- *	@source - https://github.com/shippingsoon/Synesthesia-Symphony
- *	@website - https://www.shippingsoon.com/synesthesia-symphony/
- *	@version - v0.05
- *	@license - GPLv3
+ * @description - Circle submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
  */
 
 var Shape = Shape || {};
@@ -13,7 +13,7 @@ var Shape = Shape || {};
  * Circle submodule.
  * @return {Function}
  */
-Shape.Circle = (function(stg, canvas) {
+Shape.Circle = (function(stg, canvas, vector) {
 	'use strict';
 	
 	 /*
@@ -28,7 +28,7 @@ Shape.Circle = (function(stg, canvas) {
 	  */
 	function Circle(options) {
 		//Call our parent's constructor.
-		stg.Vector.call(this, options);
+		vector.call(this, options);
 		
 		//Reference to the current object.
 		var that = this;
@@ -135,7 +135,7 @@ Shape.Circle = (function(stg, canvas) {
 		};
 	};
 	
-	Circle.prototype = Object.create(stg.Vector.prototype);
+	Circle.prototype = Object.create(vector.prototype);
 	
 	return Circle;
-}(STG, Canvas));
+}(STG, Canvas, Vector));

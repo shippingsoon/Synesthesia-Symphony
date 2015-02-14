@@ -1,25 +1,35 @@
 /*
-	@description - Synesthesia Symphony's submodule for stage states.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Synesthesia Symphony's submodule for stage states.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var System = System || {};
 var STG = STG || {};
 var Resource = Resource || {};
 
-//This submodule handles common functions related to the stage states.
-STG.Stage = (function(globals, system, stg, resource, canvas) {
-	"use strict";
+/*
+ * This submodule handles common functions related to the stage states.
+ * @param {Object} globals - Explicit global namespace.
+ * @param {System} system - System module.
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {Resource} resource - Resource module.
+ * @param {Canvas} canvas - Canvas module.
+ * @param {Vector} vector - Vector module.
+ * @return {Object}
+ */
+STG.Stage = (function(globals, system, stg, resource, canvas, vector) {
+	'use strict';
 	
 	return {
 		/*
 		 * Draws the stage difficulty, the player's lives, and the score text.
 		 * @param {CanvasRenderingContext2D} ctx - Provides the 2D rendering context.
-		 * @param {FSM.Player} player - The player object.
+		 * @param {Character.Player} player - The player object.
+		 * @return {Undefined}
 		 */
 		drawStageInfo: function(ctx, player) {
 			//Various game related configuration data.
@@ -153,9 +163,10 @@ STG.Stage = (function(globals, system, stg, resource, canvas) {
 		/*
 		 * Moves the canvas background. To move the background we uses two alternating canvas sprites to create the illusion of seamless movement.
 		 * When one canvas has moved off the screen we will move it back to the top.
-		 * @param {STG.Vector[]} canvas_vectors - An array of two position vectors which will determine where we will draw the canvas sprites. 
+		 * @param {Vector[]} canvas_vectors - An array of two position vectors which will determine where we will draw the canvas sprites. 
 		 * @param {Number} height - The height of the canvas sprite.
 		 * @param {Number} speed - The rate in which we will be moving the canvas sprite on the conveyor belt.
+		 * @return {Undefined}
 		 */
 		conveyorBelt: function(canvas_vectors, height, speed) {
 			//Determine which canvas sprite should be moved to the top of the conveyor belt.
@@ -176,7 +187,9 @@ STG.Stage = (function(globals, system, stg, resource, canvas) {
 		},
 		
 		/*
-		 * 
+		 * Builds the piano.
+		 * @param {FSM.State} state - The state.
+		 * @return {Undefined}
 		 */
 		buildPiano: function(state) {
 			var offset = 0;
@@ -226,4 +239,4 @@ STG.Stage = (function(globals, system, stg, resource, canvas) {
 			}
 		},
 	};
-}(window, System, STG, Resource, Canvas)); 
+}(window, System, STG, Resource, Canvas, Vector)); 

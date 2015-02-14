@@ -1,11 +1,11 @@
 /*
-	@description - Stage state.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Stage state.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 	
 var FSM = FSM || {};
 var STG = STG || {};
@@ -15,18 +15,24 @@ var Shape = Shape || {};
 
 /*
  * Stage state.
+ * @param {Object} globals - Explicit global namespace.
  * @param {FSM} fsm - Finite state machine.
  * @param {STG} stg - Miscellaneous game module.
- * @param {System} system - System submodule.
+ * @param {Object} resource - Resource module.
+ * @param {System} system - System module.
  * @param {MIDI} midi - MIDI.js library.
- * @return {FSM.Intro}
+ * @param {Shape} shape - Shape module.
+ * @param {Vector} vector - Vector module.
+ * @param {Character} character - Character module.
+ * @return {Function}
  */
-FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
-	"use strict";
+FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, character) {
+	'use strict';
 
 	/*
 	 * Stage state.
 	 * @param {FSM} options - TBA
+	 * @return {Undefined}
 	 */
 	function Stage(options) {
 		//The HTML5 canvases.
@@ -42,14 +48,14 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 		var config = system.Config;
 		var that = this;
 		var state = new fsm.State({parent: that});
-		var pauseState = new fsm.Pause({});
+		var pauseState = new fsm.Pause({}).getState();
 		var color_map = resource.color_map;
 		var songs = resource.songs;
 		var interval = null;
 		var has_clicked = false;
 		
 		//Our player.
-		resource.player = new fsm.Player({
+		resource.player = new character.Player({
 			x: 250,
 			y: 380,
 			ctx: layers.buffer.getContext(),
@@ -87,8 +93,8 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 		
 		//The position vector for the two revolving canvas sprites.
 		var canvas_vectors = [
-			new stg.Vector({x: 0, y: 0}),
-			new stg.Vector({x: 0, y: -sprites.canvas_bg.img.height})
+			new vector({x: 0, y: 0}),
+			new vector({x: 0, y: -sprites.canvas_bg.img.height})
 		];
 		
 		//Music player.
@@ -98,6 +104,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 		 * Initiate this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.start = function(game) {
 			resource.bullets = [];
@@ -147,7 +154,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 			//Initialize the conveyor belt.
 			stg.Stage.is_odd_belt = true;
 			
-			resource.enemies.push(new fsm.Enemy({
+			resource.enemies.push(new character.Enemy({
 				color: stg.Color({r: 0, g: 255, b: 0}),
 				x: 200,
 				y: 200,
@@ -198,6 +205,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 		 * Stop this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.stop = function(game) {
 			//Stop the music.
@@ -228,6 +236,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 * @param {Number} game.event - Numeric event code.
+		 * @return {Undefined}
 		 */
 		state.controller = function(game) {
 			//Handle keyup events.
@@ -247,6 +256,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 		 * Handle game logic for this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.update = function(game) {
 			if (has_clicked) {
@@ -272,6 +282,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 		 * Render this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.render = function(game) {
 			//Draw the background image on the screen layer.
@@ -295,6 +306,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 		 * When the state is resumed.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.play = function(game) {
 			if (!mplayer.playing)
@@ -310,6 +322,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 		 * When the state is paused.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.pause = function(game) {
 			//If music is currently playing pause it.
@@ -325,7 +338,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 		
 		/*
 		 * Return the state.
-		 * @return {FSM.State} - An FSM state.
+		 * @return {FSM.State}.
 		 */
 		this.getState = function() {
 			return state;
@@ -333,4 +346,4 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, $) {
 	}
 	
 	return Stage;
-}(window, FSM, STG, Resource, System, MIDI, Shape, jQuery));
+}(window, FSM, STG, Resource, System, MIDI, Shape, Vector, Character));

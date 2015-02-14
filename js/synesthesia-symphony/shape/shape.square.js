@@ -1,10 +1,10 @@
 /*
- *	@description - Square submodule.
- *	@copyright - 2014 Shipping Soon
- *	@source - https://github.com/shippingsoon/Synesthesia-Symphony
- *	@website - https://www.shippingsoon.com/synesthesia-symphony/
- *	@version - v0.05
- *	@license - GPLv3
+ * @description - Square submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
  */
 
 var Shape = Shape || {};
@@ -13,9 +13,12 @@ var Canvas = Canvas || {};
 
 /*
  * Square submodule.
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {Canvas} canvas - Canvas module.
+ * @param {Vector} vector - Vector module.
  * @return {Function}
  */
-Shape.Square = (function(stg, canvas) {
+Shape.Square = (function(stg, canvas, vector) {
 	'use strict';
 	
 	/*
@@ -32,7 +35,7 @@ Shape.Square = (function(stg, canvas) {
 	 */
 	function Square(options) {
 		//Call our parent's constructor.
-		stg.Vector.call(this, options);
+		vector.call(this, options);
 		
 		//Reference to the current object.
 		var that = this;
@@ -127,7 +130,7 @@ Shape.Square = (function(stg, canvas) {
 		};
 	};
 	
-	Square.prototype = Object.create(stg.Vector.prototype);
+	Square.prototype = Object.create(vector.prototype);
 	
 	return Square;
-}(STG, Canvas));
+}(STG, Canvas, Vector));

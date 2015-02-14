@@ -1,10 +1,10 @@
 /*
- *	@description - Load state.
- *	@copyright - 2014 Shipping Soon
- *	@source - https://github.com/shippingsoon/Finite-State-Machine/
- *	@website - https://www.shippingsoon.com/synesthesia-symphony/
- *	@version - v0.05
- *	@license - GPLv3
+ * @description - Load state.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Finite-State-Machine/
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
  */
 
 var FSM = FSM || {};
@@ -20,10 +20,11 @@ var Resource = Resource || {};
  * @param {System} system - System module.
  * @param {MIDI} midi - MIDI.js library.
  * @param {Resource} resource - Resource module.
- * @return {FSM.Intro}
+ * @param {Canvas} canvas - Canvas module.
+ * @return {Function}
  */
 FSM.Load = (function(globals, fsm, stg, system, midi, resource, canvas) {
-	"use strict";
+	'use strict';
 	
 	/*
 	 * Load state.

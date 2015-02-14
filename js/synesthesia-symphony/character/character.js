@@ -1,19 +1,26 @@
 /*
-	@description - Synesthesia Symphony's sub module for characters.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Synesthesia Symphony's submodule for characters.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var System = System || {};
 var STG = STG || {};
 var Resource = Resource || {};
 
-//This sub module contains character related data structures.
-STG.Character = (function(globals, system, stg, resource) {
-	"use strict";
+/*
+ * This sub module contains character related data structures.
+ * @param {Object} globals - Explicit global namespace.
+ * @param {System} system - System module.
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {Object} resource - Resource module.
+ * @return {Function}
+ */
+var Character = (function(globals, system, stg, resource) {
+	'use strict';
 	
 	return {
 		protagonist: {

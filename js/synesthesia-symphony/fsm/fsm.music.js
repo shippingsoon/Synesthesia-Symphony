@@ -1,11 +1,11 @@
 /*
-	@description - Music room menu state.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Finite-State-Machine/
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Music room menu state.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Finite-State-Machine/
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var FSM = FSM || {};
 var Resource = Resource || {};
@@ -20,10 +20,12 @@ var System = System || {};
  * @param {STG} stg - Miscellaneous game module.
  * @param {System} system - System submodule.
  * @param {MIDI} midi - MIDI.js library.
- * @return {FSM.Menu}
+ * @param {Canvas} canvas - Canvas module.
+ * @param {Vector} vector - Vector module.
+ * @return {Function}
  */
-FSM.Music = (function(globals, fsm, resource, stg, system, midi, canvas) {
-	"use strict";
+FSM.Music = (function(globals, fsm, resource, stg, system, midi, canvas, vector) {
+	'use strict';
 	
 	/*
 	 * Music room state.
@@ -290,4 +292,4 @@ FSM.Music = (function(globals, fsm, resource, stg, system, midi, canvas) {
 	}
 	
 	return Music;
-}(window, FSM, Resource, STG, System, MIDI, Canvas));
+}(window, FSM, Resource, STG, System, MIDI, Canvas, Vector));

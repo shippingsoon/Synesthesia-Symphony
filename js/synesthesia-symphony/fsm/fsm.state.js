@@ -1,17 +1,20 @@
 /*
-	@description - Finite state machine.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Finite-State-Machine/
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Finite state machine.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Finite-State-Machine/
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var FSM = FSM || {};
 
-//State.
-FSM.State = (function(globals) {
-	"use strict";
+/*
+ * State
+ * @return {Function}
+ */
+FSM.State = (function() {
+	'use strict';
 	
 	/*
 	 * A state. We can define the polymorphic methods of this state via the parameters.
@@ -23,6 +26,7 @@ FSM.State = (function(globals) {
 	 * @param {Function} options.update - Handle events and logic of this state.
 	 * @param {Function} options.render - Handle the rendering routines of this state.
 	 * @param {Object} options.parent - The parent of this state. This will be used by substates to access properties of their parent state.
+	 * @return {Undefined}
 	 */
 	function State(options) {
 		//A reference to the current object.
@@ -71,6 +75,7 @@ FSM.State = (function(globals) {
 		 * @param {FSM} options.fsm - Finite state machine
 		 * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
 		 * @param {Boolean} options.start_state - Determines if we will initiate this substate.
+		 * @return {Undefined}
 		 */
 		this.setSubstate = function(options) {
 			if (options.substate) {
@@ -92,6 +97,7 @@ FSM.State = (function(globals) {
 		/*
 		 * Retrieve a substate.
 		 * @param {Number} index - The array index of the substate to retrieve.
+		 * @return {FSM.State|FSM.State[]}
 		 */
 		this.getSubstate = function(index) {
 			//If we were given an index return the substate at the given index.
@@ -104,6 +110,7 @@ FSM.State = (function(globals) {
 		/*
 		 * Set the parent of this state.
 		 * @param {Object} _parent - The parent of this state.
+		 * @return {Undefined}
 		 */
 		this.setParent = function(_parent) {
 			parent = _parent;
@@ -111,6 +118,7 @@ FSM.State = (function(globals) {
 		
 		/*
 		 * Get the parent of this state.
+		 * @return {FSM.State}
 		 */
 		this.getParent = function() {
 			return parent;
@@ -119,6 +127,7 @@ FSM.State = (function(globals) {
 		/*
 		 * Sets a state's active status.
 		 * @param {Boolean} is_active - Determines if the active status will be true or false.
+		 * @return {Undefined}
 		 */
 		this.setActive = function(is_active) {
 			active = is_active;
@@ -126,6 +135,7 @@ FSM.State = (function(globals) {
 		
 		/*
 		 * Checks if this state is still active.
+		 * @return {Boolean}
 		 */
 		this.getActive = this.isActive = function() {
 			return active;
@@ -134,6 +144,7 @@ FSM.State = (function(globals) {
 		/*
 		 * Sets a state's alive status.
 		 * @param {Boolean} is_alive - Determines if the alive status will be true or false.
+		 * @return {Undefined}
 		 */
 		this.setAlive = function(is_alive) {
 			alive = is_alive;
@@ -141,6 +152,7 @@ FSM.State = (function(globals) {
 		
 		/*
 		 * Checks if this state is still alive.
+		 * @return {Boolean}
 		 */
 		this.getAlive = this.isAlive = function() {
 			return alive;
@@ -149,6 +161,7 @@ FSM.State = (function(globals) {
 		/*
 		 * Sets a state's visible status.
 		 * @param {Boolean} is_visible - Determines if the visible status will be true or false.
+		 * @return {Undefined}
 		 */
 		this.setVisible = function(is_visible) {
 			visible = is_visible;
@@ -156,6 +169,7 @@ FSM.State = (function(globals) {
 		
 		/*
 		 * Checks if this state is visible.
+		 * @return {Boolean}
 		 */
 		this.getVisible = this.isVisible = function() {
 			return visible;
@@ -163,6 +177,7 @@ FSM.State = (function(globals) {
 		
 		/*
 		 * Filters out dead substates.
+		 * @return {Undefined}
 		 */
 		this.cleanSubstate = function() {
 			if (substates.length !== 0) {
@@ -175,4 +190,4 @@ FSM.State = (function(globals) {
 	}
 	
 	return State;
-}(window));
+}());

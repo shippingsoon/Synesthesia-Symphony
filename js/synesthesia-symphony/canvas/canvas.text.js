@@ -1,10 +1,10 @@
 /*
- *	@description - HTML5 Canvas submodule
- *	@copyright - 2014 Shipping Soon
- *	@source - https://github.com/shippingsoon/Synesthesia-Symphony
- *	@website - https://www.shippingsoon.com/synesthesia-symphony/
- *	@version - v0.05
- *	@license - GPLv3
+ * @description - HTML5 Canvas submodule
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
  */
 
 var Canvas = Canvas || {};

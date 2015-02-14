@@ -1,22 +1,26 @@
 /*
-	@description - Pattern submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Pattern submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var FSM = FSM || {};
 var STG = STG || {};
 var Resource = Resource || {};
 var Pattern = Pattern || {};
 
-//Pattern submodule.
-Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
-	"use strict";
-	
-	var layers = resource.layers;
+/*
+ * Pattern submodule.
+ * @param {Object} globals - Explicit global namespace.
+ * @param {FSM} fsm - Finite state machine.
+ * @param {Pattern} pattern - Pattern module.
+ * @return {Function}
+ */
+Pattern.Create = (function(globals, fsm, pattern) {
+	'use strict';
 	
 	/*
 	 * Pattern constructor.
@@ -36,6 +40,7 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 	 * @param {Boolean[]} options.is_opens - Determines if a bullet will leave paint trails.
 	 * @param {Boolean} options.invert - Flips about the y-axis.
 	 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
+	 * @return {Undefined}
 	 */
 	function Create(options) {
 		//A reference to the current object.
@@ -81,6 +86,7 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 		 * Initiate this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.start = function(game) {
 			if (!can_fire)
@@ -93,6 +99,7 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 		 * Handle game logic for this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.update = function(game) {
 			options.fsm = game.fsm;
@@ -121,6 +128,7 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 		/*
 		 * Changes the fire state.
 		 * @param {Boolean} _can_fire - Determines if we can fire.
+		 * @return {Undefined}
 		 */
 		function setFire(_can_fire) {
 			can_fire = _can_fire;
@@ -129,6 +137,7 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 		/*
 		 * Changes the auto fire state.
 		 * @param {Boolean} _auto_fire - Determines if shots are fired automatically.
+		 * @return {Undefined}
 		 */
 		this.setAutoFire = function(_auto_fire) {
 			auto_fire = _auto_fire;
@@ -137,6 +146,7 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 		/*
 		 * Changes the pattern's colors.
 		 * @param {STG.Color[]|String[]} _colors - An array of colors.
+		 * @return {Undefined}
 		 */
 		this.setColors = function(_colors) {
 			colors = _colors;
@@ -144,6 +154,7 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 		
 		/*
 		 * Get the state.
+		 * @return {FSM.State}
 		 */
 		this.getState = function() {
 			return state;
@@ -151,4 +162,4 @@ Pattern.Create = (function(globals, fsm, stg, resource, pattern) {
 	};
 	
 	return Create;
-}(window, FSM, STG, Resource, Pattern));
+}(window, FSM, Pattern));

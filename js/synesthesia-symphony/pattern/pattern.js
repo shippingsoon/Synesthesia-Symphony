@@ -1,25 +1,27 @@
 /*
-	@description - Pattern module.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Pattern module.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
-var FSM = FSM || {};
 var STG = STG || {};
 var Resource = Resource || {};
 
-//Pattern module.
-Pattern = (function(globals, fsm, stg, resource) {
-	"use strict";
-	
-	var layers = resource.layers;
+/*
+ * Pattern module.
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {Resource} resource - Resource module.
+ * @return {Object}
+ */
+Pattern = (function(stg, resource) {
+	'use strict';
 	
 	return {
 		/*
-		 * Initializes bullets with given properties. Returns an array of bullets.
+		 * Initializes bullets with given properties.
 		 * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
 		 * @param {Object} options.position - An x and y coordinate for the initial position of the bullet.
 		 * @param {Object} options.offsets - An x and y coordinate for how much we will offset the bullet.
@@ -29,8 +31,10 @@ Pattern = (function(globals, fsm, stg, resource) {
 		 * @param {Number[]} options.radii - An array circle radii.
 		 * @param {Boolean[]} options.is_opens - Determines if a bullet will leave paint trails.
 		 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
+		 * @return {Undefined}
  		 */
 		createBullets: function(options) {
+			var layers = resource.layers;
 			var length = resource.bullets.length;
 			var ctx = options.ctx || layers.buffer.getContext();
 			var position = options.position || {x: 0, y: 0};
@@ -66,5 +70,4 @@ Pattern = (function(globals, fsm, stg, resource) {
 			}
 		}
 	};
-	
-}(window, FSM, STG, Resource));
+}(STG, Resource));

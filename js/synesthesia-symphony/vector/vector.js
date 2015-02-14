@@ -1,27 +1,30 @@
 /*
-	@description - Vector submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Vector module.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
-var STG = STG || {};
-
-//Vector submodule.
-STG.Vector = (function(stg) {
-	"use strict";
-	
-	var math = stg.Math;
+/*
+ * Vector module.
+ * @return {Function}
+ */
+var Vector = (function() {
+	'use strict';
 	
 	 /*
 	  * Vector constructor.
 	  * @param {Number} options.x - The x coordinate.
 	  * @param {Number} options.y - The y coordinate.
 	  * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
+	  * @return {Undefined}
 	  */
 	function Vector(options) {
+		//Submodule for vector math.
+		var math = Vector.Math;
+		
 		//Reference to the current object.
 		var that = this;
 		
@@ -34,6 +37,7 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Returns the length of the vector.
+		 * @return {Number}
 		 */
 		this.length = function() {
 			return Math.sqrt((x * x) + (y * y));
@@ -41,6 +45,7 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Returns the length of the vector squared. This method can be used to cheaply find the nearest object.
+		 * @return {Number}
 		 */
 		this.lengthSquared = function() {
 			return ((x * x) + (y * y));
@@ -48,7 +53,8 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Adds a value to the vector.
-		 * @param {STG.Vector|Number|Object} vector - The vector or number we will add to our vector.
+		 * @param {Vector|Number|Object} vector - The vector or number we will add to our vector.
+		 * @return {Vector}
 		 */
 		this.add = function(vector) {
 			return _operation(math.add, vector);
@@ -56,7 +62,8 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Subtracts a value from the vector.
-		 * @param {STG.Vector|Number|Object} vector - The vector or number we will subtract from our vector.
+		 * @param {Vector|Number|Object} vector - The vector or number we will subtract from our vector.
+		 * @return {Vector}
 		 */
 		this.subtract = function(vector) {
 			return _operation(math.subtract, vector);
@@ -64,7 +71,8 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Multiplies the vector by a value.
-		 * @param {STG.Vector|Number|Object} vector - The vector or number we will multiply our vector by.
+		 * @param {Vector|Number|Object} vector - The vector or number we will multiply our vector by.
+		 * @return {Vector}
 		 */
 		this.multiply = function(vector) {
 			return _operation(math.multiply, vector);
@@ -72,7 +80,8 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Divides the vector by a value.
-		 * @param {STG.Vector|Number|Object} vector - The vector or number we will divide our vector by.
+		 * @param {Vector|Number|Object} vector - The vector or number we will divide our vector by.
+		 * @return {Vector}
 		 */
 		this.divide = function(vector) {
 			return _operation(math.divide, vector);
@@ -80,11 +89,12 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Sets the vector's position.
-		 * @param {STG.Vector|Number|Object} vector - The new position.
+		 * @param {Vector|Number|Object} vector - The new position.
+		 * @return {Vector}
 		 */
 		this.setPosition = this.setVector = function(vector) {
 			//If this is a Vector.
-			if (vector.hasOwnProperty('getPosition')) {
+			if (vector && vector.getPosition) {
 				x = vector.getPosition().x;
 				y = vector.getPosition().y;
 			}
@@ -105,7 +115,8 @@ STG.Vector = (function(stg) {
 		};
 		
 		/*
-		 * Returns the vector's position.
+		 * Returns the vector's x and y coordinates.
+		 * @return {Object}
 		 */
 		this.getPosition = this.getVector = function() {
 			return {x: x, y: y};
@@ -114,6 +125,7 @@ STG.Vector = (function(stg) {
 		/*
 		 * Set the 2d drawing context.
 		 * @param {CanvasRenderingContext2D} _ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		this.setContext = function(_ctx) {
 			ctx = _ctx;
@@ -121,6 +133,7 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Get the vector's 2d drawing context.
+		 * @return {CanvasRenderingContext2D}
 		 */
 		this.getContext = function() {
 			return ctx;
@@ -128,8 +141,9 @@ STG.Vector = (function(stg) {
 		
 		/*
 		 * Performs arithmetic operations on vectors.
-		 * @param {Function} method - The arithmetic function to be invoked.
-		 * @param {STG.Vector|Number|Object} vector - The vector or number we will be applying to our vector.
+		 * @param {Function} method - The arithmetic function to be performed.
+		 * @param {Vector|Number|Object} vector - The vector, number, or object we will be applying to our vector.
+		 * @return {Vector}
 		 */
 		function _operation(method, vector) {
 			// Get the current position.
@@ -139,7 +153,7 @@ STG.Vector = (function(stg) {
 			var destination = null;
 			
 			//If we received a vector.
-			if (vector.hasOwnProperty('getPosition'))
+			if (vector && vector.getPosition)
 				destination = method(position, vector.getPosition());
 			
 			//If we received a number.
@@ -158,4 +172,4 @@ STG.Vector = (function(stg) {
 	};
 	
 	return Vector;
-}(STG));
+}());

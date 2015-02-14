@@ -1,19 +1,33 @@
 /*
-	@description - Finite state machine.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Finite-State-Machine/
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Finite state machine.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Finite-State-Machine/
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var FSM = FSM || {};
 var STG = STG || {};
 
-//Pause state.
+/*
+ * Pause state.
+ * @param {Object} globals - Explicit global namespace.
+ * @param {FSM} fsm - Finite state machine.
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {Object} resource - Resource module.
+ * @param {MIDI} midi - MIDI.js library.
+ * @param {Object} canvas - Canvas module.
+ * @return {Function}
+ */
 FSM.Pause = (function(globals, fsm, stg, resource, midi, canvas) {
-	"use strict";
+	'use strict';
 	
+	/*
+	 * The pause menu state.
+	 * @param {Object} options.state - FSM state.
+	 * @return {Undefined}
+	 */
 	function Pause(options) {
 		var state = new fsm.State(options);
 		var options = ['Resume Game', 'Go to Start Menu', 'Quit Game'];
@@ -28,6 +42,7 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi, canvas) {
 		 * Initiate this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.start = function(game) {
 			
@@ -39,6 +54,7 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi, canvas) {
 		 * Stop this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.stop = function(game) {
 			//Remove the event.
@@ -53,6 +69,7 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi, canvas) {
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 * @param {Number} game.event - Numeric event code.
+		 * @return {Undefined}
 		 */
 		state.controller = function(game) {
 			if (!has_clicked) {
@@ -120,6 +137,7 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi, canvas) {
 		 * Handle game logic for this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.update = function(game) {
 			if (has_clicked) {
@@ -136,6 +154,7 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi, canvas) {
 		 * Render this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.render = function(game) {
 			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -171,12 +190,11 @@ FSM.Pause = (function(globals, fsm, stg, resource, midi, canvas) {
 		
 		/*
 		 * Return the state.
+		 * @return {FSM.State}
 		 */
 		this.getState = function() {
 			return state;
 		};
-		
-		return this.getState();
 	}
 	
 	return Pause;

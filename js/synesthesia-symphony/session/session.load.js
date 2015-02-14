@@ -1,23 +1,32 @@
 /*
-	@description - Synesthesia Symphony's session submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Synesthesia Symphony's session submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var System = System || {};
 var Resource = Resource || {};
 var FSM = FSM || {};
 var Session = Session || {};
 
-//This submodule loads a session from the server or from a submodule.
+/*
+ * This submodule loads a session from the server or from a submodule.
+ * @param {Object} globals - Explicit global namespace.
+ * @param {System} system - System module.
+ * @param {Object} resource - Resource module.
+ * @param {FSM} fsm - Finite state machine.
+ * @param {Object} session - Session module.
+ * @return {Function}
+ */
 Session.load = (function(globals, system, resource, fsm, session, $) {
-	"use strict";
+	'use strict';
 
 	/*
 	 * Main function. Todo: Use fixed times steps and requestAnimationFrame().
+	 * @return {Undefined}
 	 */
 	function main() {
 		//The 2D rendering context.
@@ -45,6 +54,7 @@ Session.load = (function(globals, system, resource, fsm, session, $) {
 	/*
 	 * Invokes the main function in intervals.
 	 * @param {Object} data - The data we will use to initiate the system configuration submodule.
+	 * @return {Undefined}
 	 */
 	function startSession(data) {
 		//Load the session.
@@ -59,7 +69,7 @@ Session.load = (function(globals, system, resource, fsm, session, $) {
 		resource.init();
 		
 		//Initiate our state machine.
-		system.fsm = new fsm.Init({});
+		system.fsm = new fsm({});
 		
 		//Transition into the load state.
 		system.fsm.transition({state: new fsm.Load({}).getState(), ctx: resource.layers.screen.getContext()});
@@ -70,6 +80,7 @@ Session.load = (function(globals, system, resource, fsm, session, $) {
 
 	/*
 	 * Loads a session from a server or from a submodule.
+	 * @return {Undefined}
 	 */
 	function load() {
 		//If we are online.

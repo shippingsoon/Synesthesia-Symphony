@@ -1,25 +1,32 @@
 /*
-	@description - Path submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Finite-State-Machine/
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Path submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Finite-State-Machine/
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var FSM = FSM || {};
 var STG = STG || {};
 var Shape = Shape || {};
 
-//The path submodule defines different paths enemies can take.
+/*
+ * The path submodule defines different paths enemies can take.
+ * @param {Object} globals - Explicit global namespace.
+ * @param {FSM} fsm - Finite state machine.
+ * @param {Shape} shape - Shape module.
+ * @return {Function}
+ */
 STG.Path = (function(globals, fsm, shape) {
 	'use strict';
 	
 	 /*
 	  * Path constructor.
 	  * @param {Shape.Point[]|Object[]} options.points - An array of STG points or objects.
-	  * @param {FSM.Enemy} options.parent - An enemy or boss.
+	  * @param {Character.Enemy} options.parent - An enemy or boss.
 	  * @param {Boolean} options.loop_points - Determines if we will loop through the points.
+	  * @return {Undefined}
 	  */
 	function Path(options) {
 		//A reference to the current object.
@@ -53,6 +60,7 @@ STG.Path = (function(globals, fsm, shape) {
 		 * Initiate this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.start = function(game) {
 			if (parent && points.length !== 0) {
@@ -74,6 +82,7 @@ STG.Path = (function(globals, fsm, shape) {
 		 * Handle game logic for this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.update = function(game) {
 			if (parent && can_move) {
@@ -110,6 +119,7 @@ STG.Path = (function(globals, fsm, shape) {
 		/*
 		 * Changes the move state.
 		 * @param {Boolean} _can_move - Determines if we can move.
+		 * @return {Undefined}
 		 */
 		function setMove(_can_move) {//console.log('can_move', _can_move)
 			can_move = _can_move;
@@ -118,6 +128,7 @@ STG.Path = (function(globals, fsm, shape) {
 		/*
 		 * Set a delay.
 		 * @param {Shape.Point|Object} target - A point or object.
+		 * @return {Undefined}
 		 */
 		function setDelay(target) {
 			//The time in milliseconds the enemy will wait at this point.
@@ -133,6 +144,7 @@ STG.Path = (function(globals, fsm, shape) {
 		
 		/*
 		 * Get the state.
+		 * @return {FSM.State}
 		 */
 		this.getState = function() {
 			return state;

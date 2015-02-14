@@ -1,10 +1,10 @@
 /*
- *	@description - Finite state machine.
- *	@copyright - 2014 Shipping Soon
- *	@source - https://github.com/shippingsoon/Finite-State-Machine/
- *	@website - https://www.shippingsoon.com/synesthesia-symphony/
- *	@version - v0.05
- *	@license - GPLv3
+ * @description - Finite state machine.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Finite-State-Machine/
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
  */
 
 var FSM = FSM || {};
@@ -23,7 +23,7 @@ var Resource = Resource || {};
  * @return {FSM.Intro}
  */
 FSM.Intro = (function(globals, fsm, stg, system, midi, resource, canvas) {
-	"use strict";
+	'use strict';
 	
 	/*
 	 * Intro state.

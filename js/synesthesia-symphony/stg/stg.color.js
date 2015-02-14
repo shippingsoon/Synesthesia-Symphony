@@ -1,17 +1,21 @@
 /*
-	@description - Color submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Color submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var STG = STG || {};
 
-//Color submodule.
+/*
+ * Color submodule.
+ * @param {STG} stg - Miscellaneous game module.
+ * @return {Function}
+ */
 STG.Color = (function(stg) {
-	"use strict";
+	'use strict';
 	
 	 /*
 	  * Color constructor.
@@ -19,6 +23,7 @@ STG.Color = (function(stg) {
 	  * @param {Object} options.g - Green.
 	  * @param {Object} options.b - Blue.
 	  * @param {Object} options.a - Alpha.
+	  * @return {Undefined}
 	  */
 	function Color(options) {
 		//A reference to the current object.
@@ -44,6 +49,7 @@ STG.Color = (function(stg) {
 		 * @param {Number} options.g - Green.
 		 * @param {Number} options.b - Blue.
 		 * @param {Number} options.a - Alpha.
+		 * @return {Undefined}
 		 */
 		this.setColor = function(options) {
 			//Set the hues.
@@ -60,6 +66,7 @@ STG.Color = (function(stg) {
 		
 		/*
 		 * Returns the colors.
+		 * @return {Object}
 		 */
 		this.getColor = function() {
 			return {
@@ -75,6 +82,7 @@ STG.Color = (function(stg) {
 		/*
 		 * Sets the color's alpha (transparency).
 		 * @param {Number} _alpha - The alpha (transparency).
+		 * @return {Undefined}
 		 */
 		this.setAlpha = function(_alpha) {
 			alpha = _alpha;
@@ -85,6 +93,7 @@ STG.Color = (function(stg) {
 		
 		/*
 		 * Returns the color's alpha (transparency).
+		 * @return {Object}
 		 */
 		this.getAlpha = function() {
 			return {alpha: alpha, a: alpha};
@@ -92,6 +101,7 @@ STG.Color = (function(stg) {
 		
 		/*
 		 * Returns the color in RGBA format.
+		 * @return {String}
 		 */
 		this.getRGBA = function() {
 			return rgba;
@@ -99,6 +109,7 @@ STG.Color = (function(stg) {
 		
 		/*
 		 * Returns the color in hexadecimal format.
+		 * @return {String}
 		 */
 		this.getHex = function() {
 			return hex;
@@ -107,6 +118,7 @@ STG.Color = (function(stg) {
 		/*
 		 * Returns a hexadecimal color.
 		 * @param {Sting} _hex - The hexadecimal color.
+		 * @return {String}
 		 */
 		function buildHex() {
 			var _hex = '#';
@@ -120,6 +132,7 @@ STG.Color = (function(stg) {
 		
 		/*
 		 * Returns the color in RGBA format.
+		 * @return {String}
 		 */
 		function buildRGBA() {
 			return 'rgba(' + red + ', ' + green + ', ' + blue + ', ' + alpha +')';
@@ -127,6 +140,7 @@ STG.Color = (function(stg) {
 		
 		/*
 		 * Makes sure we have a valid color range. The min and max range is 0 and 255.
+		 * @return {Undefined}
 		 */
 		function validateColor() {
 			if (red < 0)

@@ -1,10 +1,10 @@
 /*
- *	@description - Enemy submodule.
- *	@copyright - 2014 Shipping Soon
- *	@source - https://github.com/shippingsoon/Finite-State-Machine/
- *	@website - https://www.shippingsoon.com/synesthesia-symphony/
- *	@version - v0.05
- *	@license - GPLv3
+ * @description - Enemy submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Finite-State-Machine/
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
  */
 
 var FSM = FSM || {};
@@ -19,10 +19,10 @@ var Shape = Shape || {};
  * @param {STG} stg - Miscellaneous game module.
  * @param {Pattern} pattern - Pattern submodule for generating bullet patterns.
  * @param {System} system - System submodule.
- * @return {FSM.Enemy}
+ * @return {Function}
  */
-FSM.Enemy = (function(fsm, stg, pattern, system, shape) {
-	"use strict";
+Character.Enemy = (function(fsm, stg, pattern, system, shape, vector) {
+	'use strict';
 	
 	/*
 	 * Enemy constructor.
@@ -35,7 +35,7 @@ FSM.Enemy = (function(fsm, stg, pattern, system, shape) {
 	 * @param {Shape.Point[]|Object[]} options.paths - An array of STG points or objects.
 	 * @param {Boolean} options.loop_points - Determines if we will loop through the points.
 	 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
-	 * @return {FSM.Enemy}
+	 * @return {Character.Enemy}
 	 */
 	function Enemy(options) {
 		//Call our parent's constructor.
@@ -119,7 +119,7 @@ FSM.Enemy = (function(fsm, stg, pattern, system, shape) {
 		/*
 		 * Set the enemy's lives.
 		 * @param {Number} _lives - The lives to set.
-		 * @return {FSM.Enemy}
+		 * @return {Character.Enemy}
 		 */
 		this.setLives = function(_lives) {
 			lives = _lives;
@@ -203,4 +203,4 @@ FSM.Enemy = (function(fsm, stg, pattern, system, shape) {
 	Enemy.prototype = Object.create(shape.Circle.prototype);
 	
 	return Enemy;
-}(FSM, STG, Pattern, System, Shape));
+}(FSM, STG, Pattern, System, Shape, Vector));

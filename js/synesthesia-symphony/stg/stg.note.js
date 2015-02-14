@@ -1,11 +1,11 @@
 /*
-	@description - Note submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Note submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var FSM = FSM || {};
 var STG = STG || {};
@@ -14,11 +14,22 @@ var System = System || {};
 var Pattern = Pattern || {};
 var Shape = Shape || {};
 
-//Note submodule.
-STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi, shape) {
-	"use strict";
+/*
+ * Note submodule.
+ * @param {Object} globals - Explicit global namespace.
+ * @param {FSM} fsm - Finite state machine.
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {Resource} resource - Resource module.
+ * @param {System} system - System module.
+ * @param {Pattern} pattern - Pattern module.
+ * @param {MIDI} midi - MIDI.js library.
+ * @param {Shape} shape - Shape module.
+ * @param {Vector} vector - Vector module.
+ * @return {Function}
+ */
+STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi, shape, vector) {
+	'use strict';
 	
-	var layers = resource.layers;
 	/*
 	 * Note constructor.
 	 * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
@@ -67,6 +78,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi, shape) 
 		 * @param {Number} e.detail.note - MIDI note.
 		 * @param {Number} e.detail.channel - MIDI channel.
 		 * @param {Number} e.detail.velocity - MIDI velocity.
+		 * @return {Undefined}
 		 */
 		function listen(e) {
 			color_idx = 0;
@@ -81,6 +93,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi, shape) 
 		 * Start the state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.start = function(game) {
 			//Listen for MIDI events.
@@ -113,6 +126,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi, shape) 
 		 * Stop the state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.stop = function(game) {
 			//Mark this state as dead.
@@ -126,6 +140,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi, shape) 
 		 * Draw the note.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.render = function(game) {
 			if (ctx)
@@ -136,6 +151,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi, shape) 
 		 * Update the bullet's location.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.update = function(game) {
 			if (!has_collided && stg.Math.circleSquareCollision(resource.player, that)) {
@@ -151,6 +167,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi, shape) 
 		/*
 		 * Sets the color index.
 		 * @param {Number} _color_idx - Set the index of the colors array.
+		 * @return {Undefined}
 		 */
 		this.setColorIndex = function(_color_idx) {
 			color_idx = _color_idx;
@@ -167,4 +184,4 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi, shape) 
 	Note.prototype = Object.create(shape.Square.prototype);
 	
 	return Note;
-}(window, FSM, STG, Resource, System, Pattern, MIDI, Shape));
+}(window, FSM, STG, Resource, System, Pattern, MIDI, Shape, Vector));

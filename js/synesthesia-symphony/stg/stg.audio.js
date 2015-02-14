@@ -1,18 +1,25 @@
 /*
-	@description - Audio submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Audio submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var STG = STG || {};
 var System = System || {};
 
-//Audio helper submodule.
+/*
+ * Audio helper submodule.
+ * @param {Object} globals - Explicit globa
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {System} system - System module.
+ * @param {MIDI} midi - MIDI.js library.
+ * @return {Object}
+ */
 STG.Audio = (function(globals, stg, system, midi) {
-	"use strict";
+	'use strict';
 	
 	return {
 		//The current time of the MIDI.js file that is playing.

@@ -1,17 +1,21 @@
 /*
-	@description - Synesthesia Symphony's configuration submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
+ * @description - Configuration submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
 */
 
 var System = System || {};
 
-//Configuration submodule.
+/*
+ * Configuration submodule.
+ * @param {Object} globals - Explicit global namespace.
+ * @return {Object}
+ */
 System.Config = System.Cfg = (function(globals) {
-	"use strict";
+	'use strict';
 	
 	return {
 		//Determines if we will use sessions. If this game is not played on a server then this should be set to false.
@@ -30,7 +34,7 @@ System.Config = System.Cfg = (function(globals) {
 		COMPANY: 'Shipping Soon',
 		
 		//Version.
-		VERSION: 'v0.05',
+		VERSION: 'v0.06',
 		
 		//The player's initial lives.
 		INITIAL_LIVES: 2,

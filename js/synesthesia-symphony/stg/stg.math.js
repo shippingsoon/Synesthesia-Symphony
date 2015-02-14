@@ -1,96 +1,29 @@
 /*
-	@description - Math submodule.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Vector math submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var STG = STG || {};
+var Vector = Vector || {};
 
-//Math submodule.
-STG.Math = (function(globals, stg) {
-	"use strict";
+/*
+ * Vector math submodule.
+ * @param {Vector} - Vector module.
+ * @return {Object}
+ */
+STG.Math = (function(vector) {
+	'use strict';
 	
 	return {
-		/*
-		 * Adds two vectors.
-		 * @param {Object|STG.Vector} a - An STG vector.
-		 * @param {Object|STG.Vector} b - An STG vector.
-		 */
-		add: function(a, b) {
-			if (a.getPosition)
-				a = a.getPosition();
-			
-			if (b.getPosition)
-				b = b.getPosition();
-				
-			return {
-				x: (a.x || 0) + (b.x || 0),
-				y: (a.y || 0) + (b.y || 0)
-			};
-			
-		},
-		
-		/*
-		 * Subtracts two vectors.
-		 * @param {Object|STG.Vector} a - An STG vector.
-		 * @param {Object|STG.Vector} b - An STG vector.
-		 */
-		subtract: function(a, b) {
-			if (a.getPosition)
-				a = a.getPosition();
-			
-			if (b.getPosition)
-				b = b.getPosition();
-			
-			return {
-				x: (a.x || 0) - (b.x || 0),
-				y: (a.y || 0) - (b.y || 0)
-			};
-		},
-		
-		/*
-		 * Multiplies two vectors.
-		 * @param {Object|STG.Vector} a - An STG vector.
-		 * @param {Object|STG.Vector} b - An STG vector.
-		 */
-		multiply: function(a, b) {
-			if (a.getPosition)
-				a = a.getPosition();
-			
-			if (b.getPosition)
-				b = b.getPosition();
-			
-			return {
-				x: (a.x || 0) * (b.x || 0),
-				y: (a.y || 0) * (b.y || 0)
-			};
-		},
-		
-		/*
-		 * Divides two vectors.
-		 * @param {Object|STG.Vector} a - An STG vector.
-		 * @param {Object|STG.Vector} b - An STG vector.
-		 */
-		divide: function(a, b) {
-			if (a.getPosition)
-				a = a.getPosition();
-			
-			if (b.getPosition)
-				b = b.getPosition();
-			
-			return {
-				x: (a.x || 1) / (b.x || 1),
-				y: (a.y || 1) / (b.y || 1)
-			};
-		},
-		
 		/*
 		 * Converts degrees to radians.
 		 * @param {Number} options.degrees - The degree.
 		 * @param {Boolean} options.invert - Determines if we flip about the y-axis.
+		 * @return {Number}
 		 */
 		degreeToRadian: function(options) {
 			var invert = (!options.invert && !arguments[1]) ? 1 : -1;
@@ -102,6 +35,7 @@ STG.Math = (function(globals, stg) {
 		 * Converts radians to degrees.
 		 * @param {Number} options.radians - The radian.
 		 * @param {Boolean} options.invert - Determines if we flip about the y-axis.
+		 * @return {Number}
 		 */
 		radianToDegree: function(options) {
 			var invert = (!options.invert && !arguments[1]) ? 1 : -1;
@@ -111,14 +45,15 @@ STG.Math = (function(globals, stg) {
 		
 		/*
 		 * Gets a target angle.
-		 * @param {Object|STG.Vector} a - The vector.
-		 * @param {Object|STG.Vector} a - The target vector.
+		 * @param {Object|Vector} a - The vector.
+		 * @param {Object|Vector} a - The target vector.
+		 * @return {Number}
 		 */
 		getTargetAngle: function(a, b) {
-			if (a.getPosition)
+			if (a && a.getPosition)
 				a = a.getPosition();
 			
-			if (b.getPosition)
+			if (b && b.getPosition)
 				b = b.getPosition();
 			
 			return Math.atan2(a.y - b.y, a.x - b.x);
@@ -126,14 +61,15 @@ STG.Math = (function(globals, stg) {
 		
 		/*
 		 * Gets the distance between two objects. Todo: optimize this function.
-		 * @param {Object|STG.Vector} a - An STG vector or object.
-		 * @param {Object|STG.Vector} b - An STG vector or object.
+		 * @param {Object|Vector} a - An STG vector or object.
+		 * @param {Object|Vector} b - An STG vector or object.
+		 * @return {Number}
 		 */
 		distance: function(a, b) {
-			if (a.getPosition)
+			if (a && a.getPosition)
 				a = a.getPosition();
 			
-			if (b.getPosition)
+			if (b && b.getPosition)
 				b = b.getPosition();
 			
 			//return Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
@@ -144,12 +80,13 @@ STG.Math = (function(globals, stg) {
 		 * Checks for collision between two circles.
 		 * @param {Object|Shape.Circle} a - An STG circle or object.
 		 * @param {Object|Shape.Circle} b - An STG circle or object.
+		 * @return {Boolean}
 		 */
 		circleCollision: function(a, b) {
-			if (a.getCircle)
+			if (a && a.getCircle)
 				a = a.getCircle();
 			
-			if (b.getCircle)
+			if (b && b.getCircle)
 				b = b.getCircle();
 			
 			//If the distance between the colliding objects is smaller than the combined radius.
@@ -160,14 +97,15 @@ STG.Math = (function(globals, stg) {
 		 * Checks for collision between a circle and square.
 		 * @param {Object|Shape.Circle} a - An STG circle or object.
 		 * @param {Object|Shape.Square} b - An STG square or object.
+		 * @return {Boolean}
 		 */
 		circleSquareCollision: function(a, b) {
-			var c = new stg.Vector({x: 0, y: 0});
+			var c = new vector({x: 0, y: 0});
 			
-			if (a.getCircle)
+			if (a && a.getCircle)
 				a = a.getCircle();
 
-			if (b.getSquare)
+			if (b && b.getSquare)
 				b = b.getSquare();
 			
 			if (a.x < b.x)
@@ -195,12 +133,13 @@ STG.Math = (function(globals, stg) {
 		 * Checks to see if a circle is out of bounds
 		 * {Shape.Circle|Object} a - An STG circle or object.
 		 * {Shape.Square|Object} b - An STG square or object.
+		 * @return {Boolean}
 		 */
 		outOfBounds: function(a, b) {
-			if (a.getCircle)
+			if (a && a.getCircle)
 				a = a.getCircle();
 
-			if (b.getSquare)
+			if (b && b.getSquare)
 				b = b.getSquare();
 			
 			if (a.x < b.x - a.radius)
@@ -220,8 +159,9 @@ STG.Math = (function(globals, stg) {
 		
 		/*
 		 * Returns the squared distance between two vectors.
-		 * @param {Object|STG.Vector} a - An STG vector or object.
-		 * @param {Object|STG.Vector} b - An STG vector or object.
+		 * @param {Object|Vector} a - An STG vector or object.
+		 * @param {Object|Vector} b - An STG vector or object.
+		 * @return {Number}
 		 */
 		distanceSquared: function(a, b) {
 			if (a.getPosition)
@@ -230,7 +170,7 @@ STG.Math = (function(globals, stg) {
 			if (b.getPosition)
 				b = b.getPosition();
 			
-			var delta = new stg.Vector({
+			var delta = new vector({
 				x: b.x - a.x,
 				y: b.y - a.y
 			});
@@ -240,4 +180,4 @@ STG.Math = (function(globals, stg) {
 			return (d.x * d.x) + (d.y * d.y);
 		},
 	};
-}(window, STG)); 
+}(Vector)); 

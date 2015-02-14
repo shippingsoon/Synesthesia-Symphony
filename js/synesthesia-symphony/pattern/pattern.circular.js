@@ -1,10 +1,10 @@
 /*
- *	@description - Circular pattern submodule.
- *	@copyright - 2014 Shipping Soon
- *	@source - https://github.com/shippingsoon/Synesthesia-Symphony
- *	@website - https://www.shippingsoon.com/synesthesia-symphony/
- *	@version - v0.05
- *	@license - GPLv3
+ * @description - Circular pattern submodule.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
  */
 
 var FSM = FSM || {};
@@ -12,8 +12,15 @@ var STG = STG || {};
 var Resource = Resource || {};
 var Pattern = Pattern || {};
 
-//Circular pattern submodule.
-Pattern.Circular = (function(globals, fsm, stg, resource, pattern) {
+/*
+ * Circular pattern submodule.
+ * @param {FSM} fsm - Finite state machine.
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {Resource} resource - Resource module.
+ * @param {Pattern} pattern - Pattern module.
+ * @return {Function}
+ */
+Pattern.Circular = (function(fsm, stg, resource, pattern) {
 	'use strict';
 		
 	/*
@@ -80,6 +87,6 @@ Pattern.Circular = (function(globals, fsm, stg, resource, pattern) {
 			degrees += padding;
 		}
 	}
-		
+	
 	return Circular;
-}(window, FSM, STG, Resource, Pattern));
+}(FSM, STG, Resource, Pattern));

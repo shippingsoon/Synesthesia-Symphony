@@ -1,23 +1,29 @@
 /*
- *	@description - Finite state machine.
- *	@copyright - 2014 Shipping Soon
- *	@source - https://github.com/shippingsoon/Finite-State-Machine/
- *	@website - https://www.shippingsoon.com/synesthesia-symphony/
- *	@version - v0.05
- *	@license - GPLv3
+ * @description - Finite state machine.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Finite-State-Machine/
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
  */
 
-var FSM = FSM || {};
 var STG = STG || {};
 var Resource = Resource || {};
 
-//Finite state machine.
-FSM.Init = (function(globals, stg, resource) {
-	"use strict";
+/*
+ * Finite state machine.
+ * @param {Object} globals - Explicit global namespace.
+ * @param {STG} stg - Miscellaneous game module.
+ * @param {Object} resource - Resource module.
+ * @return {Function}
+ */
+var FSM = (function(globals, stg, resource) {
+	'use strict';
 	
 	/*
 	 * Handles states.
 	 * @param {Object} options - TBA options for our state machine.
+	 * @return {Undefined}
 	 */
 	function Init(options) {
 		//An array of states.
@@ -32,6 +38,7 @@ FSM.Init = (function(globals, stg, resource) {
 		/*
 		 * Handle events in the current state.
 		 * @param {Number} event - Numeric event code.
+		 * @return {Undefined}
 		 */
 		this.controller = function(event) {
 			if (states.length !== 0 && event) {
@@ -46,6 +53,7 @@ FSM.Init = (function(globals, stg, resource) {
 		/*
 		 * Handle logic in the current state.
 		 * @param {CanvasRenderingContext2D} fsm.ctx - Provides the 2D rendering context.
+		 * @return {FSM}
 		 */
 		this.update = function(fsm) {
 			if (states.length !== 0) {
@@ -62,6 +70,7 @@ FSM.Init = (function(globals, stg, resource) {
 		/*
 		 * Render the current state.
 		 * @param {CanvasRenderingContext2D} fsm.ctx - Provides the 2D rendering context.
+		 * @return {FSM}
 		 */
 		this.render = function(fsm) {
 			if (states.length !== 0) {
@@ -79,6 +88,7 @@ FSM.Init = (function(globals, stg, resource) {
 		 * Pushes a new state on to the stack.
 		 * @param {FSM.State} fsm.state - A state to be processed.
 		 * @param {CanvasRenderingContext2D} fsm.ctx - Provides the 2D rendering context.
+		 * @return {FSM}
 		 */
 		this.forward = function(fsm) {
 			//Pause the current state.
@@ -99,6 +109,7 @@ FSM.Init = (function(globals, stg, resource) {
 		 * Pops a state from the stack.
 		 * @param {Boolean} fsm.pause - Determines if we will pause the state before switching to a previous state.
 		 * @param {CanvasRenderingContext2D} fsm.ctx - Provides the 2D rendering context.
+		 * @return {FSM}
 		 */
 		this.rewind = function(fsm) {
 			if (states.length !== 0) {
@@ -122,6 +133,7 @@ FSM.Init = (function(globals, stg, resource) {
 		 * Transitions from one state to the next.
 		 * @param {FSM.State} fsm.state - A state to be processed.
 		 * @param {CanvasRenderingContext2D} fsm.ctx - Provides the 2D rendering context.
+		 * @return {FSM}
 		 */
 		this.transition = function(fsm) {
 			//Filter out inactive states.
@@ -151,6 +163,7 @@ FSM.Init = (function(globals, stg, resource) {
 		 * Adds a substate to the current state.
 		 * @param {FSM.State} options.substate - A state to be processed.
 		 * @param {Object} options.parent - The parent of this substate.
+		 * @return {FSM}
 		 */
 		this.setSubstate = function(options) {
 			if (states.length !== 0) {
@@ -164,6 +177,7 @@ FSM.Init = (function(globals, stg, resource) {
 		
 		/*
 		 * Retrieves the current state.
+		 * @return {FSM.State}
 		 */
 		 function currentState() {
 			return states[states.length - 1];
@@ -171,6 +185,7 @@ FSM.Init = (function(globals, stg, resource) {
 		 
 		/*
 		 * Filters out dead states and substates.
+		 * @return {FSM}
 		 */
 		this.cleanState = function() {
 			states = states.filter(function(state) {
@@ -187,6 +202,7 @@ FSM.Init = (function(globals, stg, resource) {
 		/*
 		 * Set the parent of the current state.
 		 * @param {Object} _parent - The parent of the current state.
+		 * @return {FSM}
 		 */
 		this.setParent = function(_parent) {
 			parent = _parent;
@@ -196,6 +212,7 @@ FSM.Init = (function(globals, stg, resource) {
 		
 		/*
 		 * Get the parent of the current state.
+		 * @return {FSM.State}
 		 */
 		this.getParent = function() {
 			return parent;
@@ -206,6 +223,7 @@ FSM.Init = (function(globals, stg, resource) {
 		 * @param {FSM.State} options.state - A state to be processed.
 		 * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
 		 * @param {String} options.method - The name of the method to call.
+		 * @return {Undefined}
 		 */
 		function _fsm(options) {
 			var callback = null;
@@ -234,6 +252,7 @@ FSM.Init = (function(globals, stg, resource) {
 		
 		/*
 		 * Manually initiate a state.
+		 * @return {FSM.State}
 		 */
 		this.run = function(options) {
 			_fsm({state: options.state, ctx: options.ctx, method: 'start'});

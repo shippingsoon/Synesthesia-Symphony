@@ -1,18 +1,21 @@
 /*
-	@description - Synesthesia Symphony's resource module.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Synesthesia-Symphony
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Synesthesia Symphony's resource module.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
-var System = System || {};
 var Shape = Shape || {};
 
-//This module handles resources.
-var Resource = (function(globals, system, shape, $) {
-	"use strict";
+/*
+ * This module handles resources.
+ * @param {Shape} shape - Shape module.
+ * @return {Object}
+ */
+var Resource = (function(shape) {
+	'use strict';
 	
 	return {
 		//Canvas layers.
@@ -50,4 +53,4 @@ var Resource = (function(globals, system, shape, $) {
 		
 		loading_gif: null,
 	};
-}(window, System, Shape, jQuery)); 
+}(Shape)); 

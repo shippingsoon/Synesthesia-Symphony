@@ -1,11 +1,11 @@
 /*
-	@description - Title menu state.
-	@copyright - 2014 Shipping Soon
-	@source - https://github.com/shippingsoon/Finite-State-Machine/
-	@website - https://www.shippingsoon.com/synesthesia-symphony/
-	@version - v0.05
-	@license - GPLv3
-*/
+ * @description - Title menu state.
+ * @copyright - 2014 Shipping Soon
+ * @source - https://github.com/shippingsoon/Finite-State-Machine/
+ * @website - https://www.shippingsoon.com/synesthesia-symphony/
+ * @version - v0.06
+ * @license - GPLv3
+ */
 
 var FSM = FSM || {};
 var Resource = Resource || {};
@@ -20,10 +20,12 @@ var System = System || {};
  * @param {STG} stg - Miscellaneous game module.
  * @param {System} system - System submodule.
  * @param {MIDI} midi - MIDI.js library.
- * @return {FSM.Menu}
+ * @param {Canvas} canvas - Canvas module.
+ * @param {Vector} vector - Vector module.
+ * @return {Function}
  */
-FSM.Menu = (function(globals, fsm, resource, stg, system, midi, canvas) {
-	"use strict";
+FSM.Menu = (function(globals, fsm, resource, stg, system, midi, canvas, vector) {
+	'use strict';
 	
 	/*
 	 * The title menu state.
@@ -49,8 +51,8 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi, canvas) {
 		
 		//The position vector for the two revolving background sprites.
 		var bg_vectors = [
-			new stg.Vector({x: 0, y: 0}),
-			new stg.Vector({x: 0, y: -sprites.menu.img.height})
+			new vector({x: 0, y: 0}),
+			new vector({x: 0, y: -sprites.menu.img.height})
 		];
 		
 		/*
@@ -285,4 +287,4 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi, canvas) {
 	}
 	
 	return Menu;
-}(window, FSM, Resource, STG, System, MIDI, Canvas));
+}(window, FSM, Resource, STG, System, MIDI, Canvas, Vector));
