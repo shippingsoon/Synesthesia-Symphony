@@ -16,9 +16,10 @@ var System = System || {};
  * @param {STG} stg - Miscellaneous game module.
  * @param {System} system - System module.
  * @param {MIDI} midi - MIDI.js library.
+ * @param {Resource} resource - Resource module.
  * @return {Object}
  */
-STG.Audio = (function(globals, stg, system, midi) {
+STG.Audio = (function(globals, stg, system, midi, resource) {
 	'use strict';
 	
 	return {
@@ -128,10 +129,10 @@ STG.Audio = (function(globals, stg, system, midi) {
 		 */
 		playSfx: function(channel, note, velocity, delay, use_bgm_volume) {
 			if (!use_bgm_volume)
-				midi.setVolume(0, system.Config.sfx_volume);
+				midi.setVolume(0, system.sfx_volume);
 			
-			midi.noteOn(channel || 0, note || 0, velocity || system.Config.sfx_volume, delay || 0);
-			midi.setVolume(0, system.Config.bgm_volume)
+			midi.noteOn(channel || 0, note || 0, velocity || system.sfx_volume, delay || 0);
+			midi.setVolume(0, system.bgm_volume)
 		},
 		
 		/*
@@ -154,5 +155,48 @@ STG.Audio = (function(globals, stg, system, midi) {
 			stg.Audio.current_time = stg.Audio.formatTime(now);
 			stg.Audio.end_time = stg.Audio.formatTime(end)
 		},
+		
+		/*
+		 * Plays a MIDI song.
+		 * @param {Object|Resource.songs} options.song - The MIDI song to play.
+		 * @param {Function} options.addListener - MIDI.js addListener callback.
+		 * @param {Function} options.setAnimation - MIDI.js setAnimation callback.
+		 * @return {Undefined}
+		 */
+		playSong: function (options) {
+			var song = (options.song) ? options.song : arguments[0];
+			var addListener = (options.addListener) ? options.addListener : (arguments[1] || null);
+			var setAnimation = (options.setAnimation) ? options.setAnimation : (arguments[2] || null);
+			
+			//MIDI.js music player.
+			var mplayer = midi.Player;
+			
+			//Show the loading gif.
+			resource.sprites['loading_gif'].img.style.display = 'block';
+			
+			//Stop the music.
+			if (mplayer.playing)
+				mplayer.stop();
+			
+			//Map the MIDI channel to an instrument.
+			this.programChange(song);
+			
+			//Load and play the menu music.
+			mplayer.loadFile(song.file, function(data) {
+				//Hide the loading gif.
+				resource.sprites['loading_gif'].img.style.display = 'none';
+				
+				//MIDI event listener.
+				if (typeof addListener === 'function')
+					mplayer.addListener(addListener);
+				
+				//Loop the music.
+				if (typeof setAnimation === 'function')
+					mplayer.setAnimation(setAnimation);
+			
+				//Start the music.
+				mplayer.start();
+			});
+		}
 	};
-}(window, STG, System, MIDI)); 
+}(window, STG, System, MIDI, Resource)); 

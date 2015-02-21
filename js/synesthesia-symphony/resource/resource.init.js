@@ -27,65 +27,73 @@ Resource.init = (function(globals, system, stg, resource, shape) {
 	
 	/*
 	 * Initiate resources.
+	 * @param {String} mode - The currently selected screen resolution.
 	 * @return {Undefined}
 	 */
-	function init() {
-		//Get the resolution mode. 0 is low, 1 is medium, 2 is large.
-		var mode = system.Config.resolution.selection;
+	function init(mode) {
+		var width = system.resolutions[mode].width;
+		var height = system.resolutions[mode].height;
+		
+		//Load the sprites.
+		for (var sprite in resource.sprites) {
+			var element = sprite + '-' + mode;
+			var image = document.getElementById(element);
 			
-		//Load the layer canvases.
+			if (!image)
+				throw 'Resource.init() error, image not found: ' + element;
+			
+			resource.sprites[sprite] = new shape.Square({width: image.width, height: image.height});
+			resource.sprites[sprite].img = image;
+		}
+		
+		//Load the canvas layers.
 		for (var layer in resource.layers) {
-			var canvas = document.getElementById(layer + '-layer');
+			var element = layer + '-layer';
+			var canvas = document.getElementById(element);
+			
+			if (!canvas)
+				throw 'Resource.init() error, canvas not found: ' + element;
+			
 			var ctx = canvas.getContext('2d');
 			
+			canvas.width = width;
+			canvas.height = height;
+			resource.layers[layer] = new shape.Square({width: width, height: height});
 			resource.layers[layer].canvas = canvas;
-			resource.layers[layer].ctx = ctx
+			resource.layers[layer].ctx = ctx;
 			resource.layers[layer].setContext(ctx);
 		}
 		
-		//Set the width and height of our screen layer canvas.
-		resource.layers.screen.canvas.width = system.Config.resolution.width[mode];
-		resource.layers.screen.canvas.height = system.Config.resolution.height[mode];
-		resource.layers.screen.setSquare({
-			width: system.Config.resolution.width[mode],
-			height: system.Config.resolution.height[mode]
-		});
-		
-		//Load the stage background images.
-		for (var stage = 0; stage < 6; stage++) {
-			resource.sprites.stages_bg.push(new shape.Square({}));
-			if (resource.sprites.stages_bg[stage].img = document.getElementById('stage-' + stage + '-r' + mode)) {
-				resource.sprites.stages_bg[stage].setSquare({
-					width: resource.sprites.stages_bg[stage].img.width,
-					height: resource.sprites.stages_bg[stage].img.height
-				});
-			}
+		//Grab the canvas sprite's dimensions.
+		var canvas = {
+			width: resource.sprites.canvas.img.width,
+			height: resource.sprites.canvas.img.height
 		}
 		
-		//Load the canvas texture image.
-		resource.sprites.canvas_bg.img = document.getElementById('canvas-bg-r' + mode);
-		
-		//Use the canvas sprite's dimensions to set our buffer layer's dimensions.
-		resource.layers.buffer.canvas.width = resource.sprites.canvas_bg.img.width;
-		resource.layers.buffer.canvas.height = resource.sprites.canvas_bg.img.height;
+		//Use the canvas sprite's dimensions to set the buffer layer's dimensions.
+		resource.layers[layer].canvas.width = canvas.width;
+		resource.layers.buffer.canvas.height = canvas.height;
 		resource.layers.buffer.setSquare({
-			width: resource.sprites.canvas_bg.img.width,
-			height: resource.sprites.canvas_bg.img.height
+			width: canvas.width,
+			height: canvas.height
 		});
 		
-		//Load the title menu image.
-		resource.sprites.menu.img = document.getElementById('menu-r' + mode);
+		resource.layers.buffer.canvas.width = canvas.width;
+		resource.layers.buffer.canvas.height = canvas.height;
+		resource.layers.buffer.setSquare({
+			width: canvas.width,
+			height: canvas.height
+		});
 		
-		//Load the music room sprite.
-		resource.sprites.staff.img = document.getElementById('staff-r' + mode);
-		
-		//Initiate the pause layer.
-		resource.layers.pause.canvas.width = resource.sprites.canvas_bg.img.width;
-		resource.layers.pause.canvas.height = resource.sprites.canvas_bg.img.height;
+		//Use the canvas sprite's dimensions to set the pause layer's dimensions.
+		resource.layers.pause.canvas.width = canvas.width;
+		resource.layers.pause.canvas.height = canvas.height;
 		resource.layers.pause.setSquare({
-			width: resource.sprites.canvas_bg.img.width,
-			height: resource.sprites.canvas_bg.img.height
+			width: canvas.width,
+			height: canvas.height
 		});
+		
+
 		
 		//Set the color map.
 		var synesthesia_map = MusicTheory.Synesthesia.map('D. D. Jameson (1844)');
@@ -96,7 +104,7 @@ Resource.init = (function(globals, system, stg, resource, shape) {
 		}
 		
 		//The loading gif.
-		resource.loading_gif = document.getElementById('loading-gif');
+		//resource.loading_gif = document.getElementById('loading-gif');
 	}
 	
 	return init;

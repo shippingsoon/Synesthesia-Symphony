@@ -25,57 +25,33 @@ Session.load = (function(globals, system, resource, fsm, session, $) {
 	'use strict';
 
 	/*
-	 * Main function. Todo: Use fixed times steps and requestAnimationFrame().
-	 * @return {Undefined}
-	 */
-	function main() {
-		//The 2D rendering context.
-		var ctx = resource.layers.screen.getContext();
-		
-		//Get the current time.
-		var current_time = new Date;
-		
-		//The previous time.
-		this.previous_time = this.previous_time || current_time;
-		
-		//Handle logic of the current state.
-		system.fsm.update({ctx: ctx});
-
-		//Render the current state.
-		system.fsm.render({ctx: ctx});
-
-		//Set the average frames per second.
-		system.Config.fps = 1000 / (current_time.getTime() - this.previous_time.getTime());
-		
-		//Set the previous time to the current time.
-		this.previous_time = current_time;
-	};
-
-	/*
 	 * Invokes the main function in intervals.
 	 * @param {Object} data - The data we will use to initiate the system configuration submodule.
 	 * @return {Undefined}
 	 */
 	function startSession(data) {
 		//Load the session.
-		system.Config.hiscore = data.hiscore;
-		system.Config.resolution.selection = data.resolution;
-		system.Config.volume = data.volume;
-		system.Config.bgm_volume = data.bgm_volume;
-		system.Config.sfx_volume = data.sfx_volume;
-		system.Config.show_fps = data.show_fps;
+		session.init(data);
 		
-		//Initiate the resource submodule.
-		resource.init();
+		//Initiate the resources.
+		resource.init(system.resolution_idx);
 		
-		//Initiate our state machine.
+		//2D rendering context.
+		var ctx = resource.layers.screen.getContext();
+		
+		//The targeted frames per second.
+		var FPS = (1000 / system.Config.TARGET_FPS);
+		
+		//Initiate the finite state machine.
 		system.fsm = new fsm({});
 		
 		//Transition into the load state.
-		system.fsm.transition({state: new fsm.Load({}).getState(), ctx: resource.layers.screen.getContext()});
+		system.fsm.transition({state: new fsm.Load({}).getState(), ctx: ctx});
 
-		//Call our main function every n frames per second.
-		globals.interval = setInterval(main, (1000 / system.Config.TARGET_FPS));
+		//Call the main function every n frames per second.
+		globals.interval = setInterval(function() {
+			system.main(system.fsm, ctx);
+		}, FPS);
 	}
 
 	/*
@@ -94,7 +70,7 @@ Session.load = (function(globals, system, resource, fsm, session, $) {
 					startSession(data);
 				},
 				error: function(data) {
-					if (system.Config.DEBUG)
+					if (system.Config.DEBUG_MODE)
 						console.log('Error loading session', data);
 					
 					startSession(session.cache);

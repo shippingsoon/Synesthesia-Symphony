@@ -25,8 +25,8 @@ Session.save = (function(globals, system, $) {
 	 */
 	function save() {
 		var session = {
-			hiscore: system.Config.hiscore,
-			resolution: system.Config.resolution.selection
+			hiscore: system.hiscore,
+			resolution: system.resolution_idx
 		};
 		
 		if (system.Config.ONLINE) {
@@ -39,7 +39,7 @@ Session.save = (function(globals, system, $) {
 					
 				},
 				error: function(data) {
-					if (system.Config.DEBUG)
+					if (system.Config.DEBUG_MODE)
 						console.log(data);
 				}
 			});

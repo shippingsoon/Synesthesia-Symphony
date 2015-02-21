@@ -63,7 +63,7 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi, canvas, vector) 
 		 */
 		state.start = state.play = function(game) {
 			//Show the loading gif.
-			resource.loading_gif.style.display = 'block';
+			resource.sprites['loading_gif'].img.style.display = 'block';
 			
 			//Map the MIDI channel to an instrument.
 			stg.Audio.programChange(songs['fairy_mountain']);
@@ -71,7 +71,7 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi, canvas, vector) 
 			//Load and play the menu music.
 			mplayer.loadFile(songs['fairy_mountain'].file, function(data) {
 				//Hide the loading gif.
-				resource.loading_gif.style.display = 'none';
+				resource.sprites['loading_gif'].img.style.display = 'none';
 				
 				//Start the music.
 				mplayer.start();
@@ -179,17 +179,32 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi, canvas, vector) 
 					//Play a SFX.
 					stg.Audio.playSfx(0, 70, 127, 0);
 					
-					//If the Game Start option is selected.
-					if (menu_index === 0)
-						game.fsm.transition({state: new fsm.Stage({}).getState()});
-					
-					//If Music Room is selected.
-					else if (menu_index === 2)
-						game.fsm.forward({state: new fsm.Music({}).getState(), ctx: game.ctx});
-					
-					//If Quit is selected.
-					else if (menu_index === options.length - 1)
-						game.fsm.rewind({stop: true, ctx: game.ctx});
+					switch (menu_index) {
+						//If Game Start option is selected.
+						case 0:
+							game.fsm.transition({state: new fsm.Stage({}).getState()});
+							break;
+						
+						//If Extra Start option is selected.
+						case 1:
+							//game.fsm.transition({state: new fsm.Extra({}).getState()});
+							break;
+						
+						//If Music Room option is selected.
+						case 2:
+							game.fsm.forward({state: new fsm.Music({}).getState(), ctx: game.ctx});
+							break;
+							
+						//If Config option is selected.
+						case 3:
+							game.fsm.forward({state: new fsm.Config({}).getState(), ctx: game.ctx});
+							break;
+						
+						//If Quit option is selected.
+						case 4:
+							game.fsm.rewind({stop: true, ctx: game.ctx});
+							break;
+					}
 					
 					break;
 			}

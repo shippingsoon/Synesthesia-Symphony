@@ -94,7 +94,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 		//The position vector for the two revolving canvas sprites.
 		var canvas_vectors = [
 			new vector({x: 0, y: 0}),
-			new vector({x: 0, y: -sprites.canvas_bg.img.height})
+			new vector({x: 0, y: -sprites.canvas.img.height})
 		];
 		
 		//Music player.
@@ -109,30 +109,16 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 		state.start = function(game) {
 			resource.bullets = [];
 			
-			//Show the loading gif.
-			resource.loading_gif.style.display = 'block';
-			
-			//Map the MIDI channel to an instrument.
-			stg.Audio.programChange(songs['sky_chase_zone']);
-			
-			//Load and play the stage music.
-			mplayer.loadFile(songs['sky_chase_zone'].file, function(data) {
-				//hide the loading gif.
-				resource.loading_gif.style.display = 'none';
-				
-				//MIDI event listener.
-				mplayer.addListener(function (data) {
-					//console.log("hi");
+			//Play the background music.
+			stg.Audio.playSong({
+				song: songs['sky_chase_zone'],
+				setAnimation: stg.Audio.replayer,
+				addListener: function(data) {
+					//Dispatch events to the piano keys.
 					var event = new CustomEvent('onNote-' + data.note, {'detail': data});
 					globals.dispatchEvent(event);
-				});
-					
-				//Start the music.
-				mplayer.start();
+				}
 			});
-			
-			//Loop the music.
-			mplayer.setAnimation(stg.Audio.replayer);
 			
 			//Builds the piano.
 			stg.Stage.buildPiano(state);
@@ -271,11 +257,11 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 			});
 			
 			//If the current score has passed the hiscore.
-			if (config.score > config.hiscore)
-				config.hiscore = config.score;
+			if (system.score > system.hiscore)
+				system.hiscore = system.score;
 			
 			//This function moves the canvas sprite's position.
-			stg.Stage.conveyorBelt(canvas_vectors, sprites.canvas_bg.img.height, system.Config.canvas_scroll_rate);
+			stg.Stage.conveyorBelt(canvas_vectors, sprites.canvas.img.height, system.canvas_scroll_rate);
 		};
 		
 		/*
@@ -286,11 +272,11 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 		 */
 		state.render = function(game) {
 			//Draw the background image on the screen layer.
-			game.ctx.drawImage(sprites.stages_bg[0].img, 0, 0);
+			game.ctx.drawImage(sprites.stage_0.img, 0, 0);
 			
 			//Draw the two revolving canvas sprites on to the buffer layer.
-			layers.buffer.ctx.drawImage(sprites.canvas_bg.img, 0, canvas_vectors[0].getPosition().y);
-			layers.buffer.ctx.drawImage(sprites.canvas_bg.img, 0, canvas_vectors[1].getPosition().y);
+			layers.buffer.ctx.drawImage(sprites.canvas.img, 0, canvas_vectors[0].getPosition().y);
+			layers.buffer.ctx.drawImage(sprites.canvas.img, 0, canvas_vectors[1].getPosition().y);
 			
 			//This function draws various game related text on the screen.
 			stg.Stage.drawStageInfo(game.ctx, resource.player);

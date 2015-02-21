@@ -18,7 +18,7 @@ Session.cache = (function() {
 	
 	return {
 		hiscore: 2000,
-		resolution: 0,
+		resolution_idx: 'low',
 		volume: 0,
 		bgm_volume: 0,
 		sfx_volume: 0,

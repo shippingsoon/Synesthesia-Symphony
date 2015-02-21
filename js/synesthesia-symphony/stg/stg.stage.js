@@ -35,15 +35,12 @@ STG.Stage = (function(globals, system, stg, resource, canvas, vector) {
 			//Various game related configuration data.
 			var config = system.Config;
 			
-			//The current difficulty setting.
-			var mode = config.difficulty.selection;
-			
 			//The name of the difficulty.
-			var difficulty = config.difficulty.titles[mode];
+			var difficulty = system.difficulties[system.difficulty_idx].title;
 			
 			//The current scores.
-			var hiscore = config.hiscore.toString();
-			var score = config.score.toString();
+			var hiscore = system.hiscore.toString();
+			var score = system.score.toString();
 			
 			//The player's lives.
 			var lives = player.getLives();
@@ -92,17 +89,16 @@ STG.Stage = (function(globals, system, stg, resource, canvas, vector) {
 			//Draw the player's power.
 			common.x = 570;
 			common.y = 205;
-			common.message = 'Power  ' + player.getPower().toFixed(2) + ' / ' + config.MAX_POWER.toFixed(2);
+			common.message = 'Power  ' + player.getPower().toFixed(2) + ' / ' + config.PLAYER.MAX_POWER.toFixed(2);
 			canvas.text(common);
 			
 			//Draw the glaze.
 			common.x = 578;
 			common.y = 235;
-			common.message = 'Glaze  ' + config.glaze;
+			common.message = 'Glaze  ' + system.glaze;
 			canvas.text(common);
 			
-			
-			if (system.Config.DEBUG) {
+			if (system.Config.DEBUG_MODE) {
 				//The current time.
 				common.x = ctx.canvas.width - 10;
 				common.y = ctx.canvas.height - 80;
@@ -131,10 +127,10 @@ STG.Stage = (function(globals, system, stg, resource, canvas, vector) {
 			}
 			
 			//Display the FPS.
-			if (system.Config.show_fps || system.Config.DEBUG) {
+			if (system.show_fps || system.Config.DEBUG_MODE) {
 				common.x = ctx.canvas.width - 10;
 				common.y = ctx.canvas.height - 20;
-				common.message = 'FPS: ' + Math.floor(system.Config.fps).toFixed(0);
+				common.message = 'FPS: ' + Math.floor(system.fps).toFixed(0);
 				common.font =  'bold 15px arial';
 				canvas.text(common);
 			}

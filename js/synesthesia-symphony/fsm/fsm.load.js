@@ -55,7 +55,7 @@ FSM.Load = (function(globals, fsm, stg, system, midi, resource, canvas) {
 				instruments: system.Config.PIANO_ONLY ? ['acoustic_grand_piano'] : instruments,
 				callback: function() {
 					//Set the volume.
-					midi.setVolume(0, system.Config.bgm_volume);
+					midi.setVolume(0, system.bgm_volume);
 					
 					//The speed the songs are played.
 					midi.Player.timeWarp = 1;
@@ -65,7 +65,7 @@ FSM.Load = (function(globals, fsm, stg, system, midi, resource, canvas) {
 					
 					//Transition to the intro state.
 					game.fsm.transition({
-						state: new fsm.Intro({}).getState(),
+						state: new fsm.Config({}).getState(),
 						ctx: game.ctx
 					});
 				}

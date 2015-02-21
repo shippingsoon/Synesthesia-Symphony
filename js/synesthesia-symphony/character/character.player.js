@@ -58,7 +58,7 @@ Character.Player = (function(globals, fsm, stg, system, resource, pattern, shape
 			_instance = this;
 		
 		//The player's radius.
-		options.radius = options.radius || config.HITBOX_RADIUS;
+		options.radius = options.radius || config.PLAYER.HITBOX_RADIUS;
 		
 		//Invoke the inherited constructor.
 		shape.Circle.call(this, options);
@@ -82,16 +82,16 @@ Character.Player = (function(globals, fsm, stg, system, resource, pattern, shape
 		var color_idx = 0;
 		
 		//The player's speed.
-		var speed = options.speed || config.PLAYER_SPEED;
+		var speed = options.speed || config.PLAYER.SPEED;
 		
 		//The player's focused speed.
-		var focused_speed = options.focused_speed || config.PLAYER_FOCUS_SPEED;
+		var focused_speed = options.focused_speed || config.PLAYER.FOCUS_SPEED;
 		
 		//The player's lives.
-		var lives = options.lives || config.INITIAL_LIVES;
+		var lives = options.lives || config.PLAYER.INITIAL_LIVES;
 		
 		//The player's power. This will determine the player's rate of fire.
-		var power = options.power || config.INITIAL_POWER;
+		var power = options.power || config.PLAYER.INITIAL_POWER;
 		
 		//Options for bullet patterns.
 		var patterns = options.patterns || [];
@@ -133,7 +133,7 @@ Character.Player = (function(globals, fsm, stg, system, resource, pattern, shape
 			}
 			
 			//Create a time out for the player's invulnerability status.
-			invulnerableTimer = new stg.Timer(that.setInvulnerable, system.Config.INVULNERABILITY_TIMEOUT, false);
+			invulnerableTimer = new stg.Timer(that.setInvulnerable, config.PLAYER.INVULNERABILITY_TIMEOUT, false);
 		};
 		
 		/*
@@ -317,8 +317,8 @@ Character.Player = (function(globals, fsm, stg, system, resource, pattern, shape
 					
 					//Set a timeout to prevent the player from being able to gain too much glaze points.
 					setTimeout(function() {
-						system.Config.glaze++;
-						system.Config.score += 10;
+						system.glaze++;
+						system.score += 10;
 						has_glazed = false;
 					}, 200);
 				}
@@ -342,7 +342,7 @@ Character.Player = (function(globals, fsm, stg, system, resource, pattern, shape
 				
 				//Make the player temporarily invulnerable.
 				that.setInvulnerable(true);
-				invulnerableTimer.setDelay(system.Config.INVULNERABILITY_TIMEOUT).play();
+				invulnerableTimer.setDelay(config.PLAYER.INVULNERABILITY_TIMEOUT).play();
 			}
 			
 			return has_collided;

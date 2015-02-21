@@ -135,8 +135,11 @@ FSM.Music = (function(globals, fsm, resource, stg, system, midi, canvas, vector)
 						game.fsm.rewind({stop: true, ctx: game.ctx});
 					
 					//Play a MIDI song.
-					else
-						playSong(menu_index);
+					else 
+						stg.Audio.playSong({
+							song: songs[options[menu_index]],
+							setAnimation: stg.Audio.replayer
+						});
 					
 					break;
 			}
@@ -148,7 +151,6 @@ FSM.Music = (function(globals, fsm, resource, stg, system, midi, canvas, vector)
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 * @return {Undefined}
 		 */
-		var test = 300;
 		state.render = function(game) {
 			//Draw the background image on the screen layer.
 			game.ctx.drawImage(sprites.staff.img, 0, 0);
@@ -253,34 +255,6 @@ FSM.Music = (function(globals, fsm, resource, stg, system, midi, canvas, vector)
 				}	
 			}
 		};
-		
-		/*
-		 * Plays a MIDI song.
-		 * @param {Number} index - The song index.
-		 * @return {Undefined}
-		 */
-		function playSong(index) {
-			if (options.length !== 0) {
-				//Show the loading gif.
-				resource.loading_gif.style.display = 'block';
-				
-				//Stop the music.
-				if (mplayer.playing)
-					mplayer.stop();
-				
-				//Map the MIDI channel to an instrument.
-				stg.Audio.programChange(songs[options[index]]);
-				
-				//Load and play the menu music.
-				mplayer.loadFile(songs[options[index]].file, function(data) {
-					//Hide the loading gif.
-					resource.loading_gif.style.display = 'none';
-					
-					//Start the music.
-					mplayer.start();
-				});
-			}
-		}
 		
 		/*
 		 * Return the state.

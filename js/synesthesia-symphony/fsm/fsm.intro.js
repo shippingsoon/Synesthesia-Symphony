@@ -48,7 +48,7 @@ FSM.Intro = (function(globals, fsm, stg, system, midi, resource, canvas) {
 		 */
 		state.start = function(game) {
 			//Show the loading gif.
-			resource.loading_gif.style.display = 'block';
+			resource.sprites['loading_gif'].img.style.display = 'block';
 			
 			//Load and play the intro music.
 			mplayer.loadFile(songs['intro'].file, function(data) {
@@ -140,7 +140,7 @@ FSM.Intro = (function(globals, fsm, stg, system, midi, resource, canvas) {
 			can_keypress = false;
 			hue = 0;
 			font_size = 1;
-			resource.loading_gif.style.display = 'block';
+			resource.sprites['loading_gif'].img.style.display = 'block';
 			
 			//Load and play the intro music.
 			mplayer.loadFile(songs['intro'].file, function(data) {
@@ -186,7 +186,7 @@ FSM.Intro = (function(globals, fsm, stg, system, midi, resource, canvas) {
 		 */
 		function startMusic(game) {
 			//Hide the loading gif.
-			resource.loading_gif.style.display = 'none';
+			resource.sprites['loading_gif'].img.style.display = 'none';
 						
 			//Map the MIDI channel to an instrument.
 			stg.Audio.programChange(songs['intro']);

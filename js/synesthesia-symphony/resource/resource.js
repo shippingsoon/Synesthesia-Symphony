@@ -20,17 +20,19 @@ var Resource = (function(shape) {
 	return {
 		//Canvas layers.
 		layers: {
-			screen: new shape.Square({}),
-			buffer: new shape.Square({}),
-			pause: new shape.Square({}),
+			screen: null,
+			buffer: null,
+			pause: null,
 		},
 		
 		//Stage backgrounds.
 		sprites: {
-			stages_bg: [],
-			canvas_bg: new shape.Square({}),
-			menu: new shape.Square({}),
-			staff: new shape.Square({})
+			stage_0: null,
+			canvas: null,
+			menu: null,
+			staff: null,
+			config: null,
+			loading_gif: null
 		},
 		
 		//Color map.
@@ -50,7 +52,5 @@ var Resource = (function(shape) {
 		
 		//The piano notes.
 		notes: [],
-		
-		loading_gif: null,
 	};
 }(Shape)); 

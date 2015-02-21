@@ -140,7 +140,7 @@ STG.Bullet = (function(fsm, stg, resource, system, shape, vector) {
 				color: color,
 				strokeStyle: color,
 				target_type: stg.targets.player,
-				vy: system.Config.canvas_scroll_rate
+				vy: system.canvas_scroll_rate
 			});
 			
 			options.fsm.setSubstate({substate: paint_bullet.getState()});
