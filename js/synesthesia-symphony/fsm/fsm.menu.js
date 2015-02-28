@@ -62,23 +62,13 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi, canvas, vector) 
 		 * @return {Undefined}
 		 */
 		state.start = state.play = function(game) {
-			//Show the loading gif.
-			resource.sprites['loading_gif'].img.style.display = 'block';
-			
-			//Map the MIDI channel to an instrument.
-			stg.Audio.programChange(songs['fairy_mountain']);
-						
-			//Load and play the menu music.
-			mplayer.loadFile(songs['fairy_mountain'].file, function(data) {
-				//Hide the loading gif.
-				resource.sprites['loading_gif'].img.style.display = 'none';
-				
-				//Start the music.
-				mplayer.start();
-			});
-			
-			//Loop the music.
-			mplayer.setAnimation(stg.Audio.replayer);
+			//Play a MIDI song.
+			if (game.method === 'start') {
+				stg.Audio.playSong({
+					song: songs['fairy_mountain'],
+					setAnimation: stg.Audio.replayer
+				});
+			}
 			
 			//Handle events for this state.
 			globals.addEventListener('keydown', game.fsm.controller, false);
@@ -101,11 +91,11 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi, canvas, vector) 
 		 */
 		state.stop = state.pause = function(game) {
 			//Stop the music.
-			mplayer.stop();
+			if (game.method === 'stop')
+				stg.Audio.stopSong();
 			
 			//Remove the events.
 			globals.removeEventListener('keydown', game.fsm.controller, false);
-			mplayer.clearAnimation();
 		};
 		
 		/*

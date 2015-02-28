@@ -35,19 +35,19 @@ FSM.Config = (function(globals, fsm, resource, stg, system, midi, canvas, vector
 	function Config(options) {
 		var state = new fsm.State(options.state || {});
 		var options = [
-			{title: 'Resolution', disabled: false, visible: true, value: ['800x600', '1280x720', '1920x1080']},
-			{title: 'Master Volume', disabled: false, visible: true},
+			{title: 'Resolution', disabled: false, visible: true},
+			{title: 'Master Volume', disabled: true, visible: false},
 			{title: 'BGM Volume', disabled: false, visible: true},
 			{title: 'SFX Volume', disabled: false, visible: true},
-			{title: 'Auto Save', disabled: false, visible: true},
+			{title: 'Show FPS', disabled: false, visible: true},
 			{title: 'Return to Title', disabled: false, visible: true},
 		];
+		var resolution_keys = Object.keys(system.resolutions);
+		var resolution_idx = resolution_keys.indexOf(system.resolution_idx);
 		var menu_spacing = 50;
 		var menu_index = 0;
 		var font_color = new stg.Color(0, 0, 0, 1);
 		var sprites = resource.sprites;
-		var mplayer = midi.Player;
-		var songs = resource.songs;
 		
 		/*
 		 * Initiate this state.
@@ -56,12 +56,6 @@ FSM.Config = (function(globals, fsm, resource, stg, system, midi, canvas, vector
 		 * @return {Undefined}
 		 */
 		state.start = function(game) {
-			//Play the background music.
-			stg.Audio.playSong({
-				song: songs['fairy_mountain'],
-				setAnimation: stg.Audio.replayer
-			});
-			
 			//Handle events for this state.
 			globals.addEventListener('keydown', game.fsm.controller, false);
 			
@@ -74,9 +68,6 @@ FSM.Config = (function(globals, fsm, resource, stg, system, midi, canvas, vector
 		 * @return {Undefined}
 		 */
 		state.stop = function(game) {
-			//Stop the music.
-			mplayer.stop();
-			
 			//Remove the events.
 			globals.removeEventListener('keydown', game.fsm.controller, false);
 		};
@@ -115,6 +106,7 @@ FSM.Config = (function(globals, fsm, resource, stg, system, midi, canvas, vector
 					//Bring the menu cursor to the last option.
 					else
 						menu_index = options.length - 1;
+					
 					break;
 				
 				//Z, Enter or Space key is pressed.
@@ -128,6 +120,68 @@ FSM.Config = (function(globals, fsm, resource, stg, system, midi, canvas, vector
 					if (menu_index === options.length - 1)
 						game.fsm.rewind({stop: true, ctx: game.ctx});
 					
+					break;
+				
+				//Key Right.
+				case 39:		
+					switch (menu_index) {
+						case 0:
+							if (resolution_idx < resolution_keys.length - 1)
+								system.resolution_idx = resolution_keys[++resolution_idx];
+							break;
+						
+						case 1:
+							if (system.volume < 100)
+								system.volume += 5;
+							break;
+						
+						case 2:
+							if (system.bgm_volume < 100)
+								system.bgm_volume += 5;
+							break;
+						
+						case 3:
+							if (system.sfx_volume < 100)
+								system.sfx_volume += 5;
+							break;
+						
+						case 4:
+							system.show_fps = true;
+							break;
+					}
+					
+					stg.Audio.playSfx(0, 61, 127, 0);
+					break;
+				
+				//Key Left.
+				case 37:
+					switch (menu_index) {
+						case 0:
+							if (resolution_idx > 0)
+								system.resolution_idx = resolution_keys[--resolution_idx];
+							break;
+						
+						case 1:
+							if (system.volume > 0)
+								system.volume -= 5;
+							break;
+						
+						case 2:
+							if (system.bgm_volume > 0)
+								system.bgm_volume -= 5;
+							break;
+						
+						case 3:
+							if (system.sfx_volume > 0)
+								system.sfx_volume -= 5;
+							break;
+						
+						case 4:
+							system.show_fps = false;
+							break;
+					}
+					
+					stg.Audio.playSfx(0, 60, 127, 0);
 					break;
 			}
 		};
@@ -145,18 +199,18 @@ FSM.Config = (function(globals, fsm, resource, stg, system, midi, canvas, vector
 			//Common font settings.
 			var common = {
 				ctx: game.ctx,
-				color: 'white',
-				font: '26px arial',
-				align: 'right',
+				font: 'bold 26px arial',
 				shadowColor: 'black',
 				shadowBlur: 2,
 				shadowoffsetX: 3,
 				shadowoffsetY: 3,
-				x: game.ctx.canvas.width / 2,
 				y: (game.ctx.canvas.height / 2) - (options.length * menu_spacing) / 2
 			};
 			
 			for (var option = 0, length = options.length; option < length; option++) {
+				if (!options[option].visible)
+					continue;
+					
 				if (menu_index === options.indexOf(options[option]))
 					font_color.setColor(255, 0, 0);
 				else
@@ -165,7 +219,44 @@ FSM.Config = (function(globals, fsm, resource, stg, system, midi, canvas, vector
 				common.color = font_color;
 				common.message = options[option].title;
 				common.y = common.y + menu_spacing;
+				common.x = game.ctx.canvas.width / 2;
+				common.align = 'right';
+				
+				if (option === options.length - 1) {
+					common.align = 'center';
+					common.y = game.ctx.canvas.height - 40;
+				}
+				
 				canvas.text(common);
+				
+				switch (option) {
+					case 0:
+						common.message = system.resolutions[system.resolution_idx].title;
+						break;
+					
+					case 1:
+						common.message = system.volume.toString();
+						break;
+					
+					case 2:
+						common.message = system.bgm_volume.toString();
+						break;
+					
+					case 3:
+						common.message = system.sfx_volume.toString();
+						break;
+					
+					case 4:
+						common.message = (system.show_fps) ? 'On' : 'Off';
+						break;
+						
+					default:
+						common.message = '';
+				}
+				
+				common.x += 20;
+				common.align = 'left';
+				canvas.text(common);			
 			}
 		};
 		

@@ -188,7 +188,7 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector) {
 			that.setLives(lives - 1);
 			
 			//Increase the score.
-			system.Config.score += 100;
+			system.score += 100;
 		}
 		
 		/*

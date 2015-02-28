@@ -46,15 +46,29 @@ FSM.Intro = (function(globals, fsm, stg, system, midi, resource, canvas) {
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 * @return {Undefined} 
 		 */
-		state.start = function(game) {
-			//Show the loading gif.
-			resource.sprites['loading_gif'].img.style.display = 'block';
+		state.start = state.play = function(game) {
+			can_keypress = false;
+			hue = 0;
+			font_size = 1;
 			
-			//Load and play the intro music.
-			mplayer.loadFile(songs['intro'].file, function(data) {
-				startMusic(game);
+			//Handle events for this state.
+			globals.addEventListener('keyup', game.fsm.controller, false);
+					
+			//Create a fade out effect by incrementing the background color.
+			interval = setInterval(function() {
+				if (hue <= 255) {
+					//Increment the color from black to white.
+					hue += 1;
+					
+					//Increase the font's size.
+					font_size += 0.3;
+				}
+			}, 60);
+			
+			//Play a MIDI song.
+			stg.Audio.playSong({
+				song: songs['intro']
 			});
-			
 		};
 		
 		/*
@@ -131,25 +145,6 @@ FSM.Intro = (function(globals, fsm, stg, system, midi, resource, canvas) {
 		};
 		
 		/*
-		 * If the state is resumed.
-		 * @param {FSM} game.fsm - Finite state machine.
-		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
-		 * @return {Undefined}
-		 */
-		state.play = function(game) {
-			can_keypress = false;
-			hue = 0;
-			font_size = 1;
-			resource.sprites['loading_gif'].img.style.display = 'block';
-			
-			//Load and play the intro music.
-			mplayer.loadFile(songs['intro'].file, function(data) {
-				startMusic(game);
-			});
-			
-		};
-		
-		/*
 		 * Render this state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
@@ -177,38 +172,6 @@ FSM.Intro = (function(globals, fsm, stg, system, midi, resource, canvas) {
 				align: 'center',
 			});
 		};
-		
-		/*
-		 * Starts the MIDI player and initializes MIDI.js resources.
-		 * @param {FSM} game.fsm - Finite state machine.
-		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
-		 * @return {Undefined}
-		 */
-		function startMusic(game) {
-			//Hide the loading gif.
-			resource.sprites['loading_gif'].img.style.display = 'none';
-						
-			//Map the MIDI channel to an instrument.
-			stg.Audio.programChange(songs['intro']);
-			
-			//Handle events for this state.
-			globals.addEventListener('keyup', game.fsm.controller, false);
-					
-			//Create a fade out effect by incrementing the background color.
-			interval = setInterval(function() {
-				if (hue <= 255) {
-					//Increment the color from black to white.
-					hue += 1;
-					
-					//Increase the font's size.
-					font_size += 0.3;
-				}
-			}, 60);
-			
-			//Play the music.
-			mplayer.pause();
-			mplayer.start();
-		}
 		
 		/*
 		 * Return the state.

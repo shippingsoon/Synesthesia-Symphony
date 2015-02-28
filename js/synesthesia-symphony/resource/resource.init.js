@@ -93,8 +93,6 @@ Resource.init = (function(globals, system, stg, resource, shape) {
 			height: canvas.height
 		});
 		
-
-		
 		//Set the color map.
 		var synesthesia_map = MusicTheory.Synesthesia.map('D. D. Jameson (1844)');
 		
@@ -102,9 +100,6 @@ Resource.init = (function(globals, system, stg, resource, shape) {
 			if (synesthesia_map[map])
 				resource.color_map.push(stg.Cmath.hexToColor(synesthesia_map[map].hex));
 		}
-		
-		//The loading gif.
-		//resource.loading_gif = document.getElementById('loading-gif');
 	}
 	
 	return init;

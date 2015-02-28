@@ -127,7 +127,7 @@ STG.Stage = (function(globals, system, stg, resource, canvas, vector) {
 			}
 			
 			//Display the FPS.
-			if (system.show_fps || system.Config.DEBUG_MODE) {
+			if (system.show_fps) {
 				common.x = ctx.canvas.width - 10;
 				common.y = ctx.canvas.height - 20;
 				common.message = 'FPS: ' + Math.floor(system.fps).toFixed(0);

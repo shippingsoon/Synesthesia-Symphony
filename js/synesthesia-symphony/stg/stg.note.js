@@ -158,7 +158,7 @@ STG.Note = (function(globals, fsm, stg, resource, system, pattern, midi, shape, 
 				listen(null);
 				if (midi)
 					midi.noteOn(0, note, 127, 0);
-				system.Config.score += 1;
+				system.score += 1;
 				has_collided = true; 
 				setTimeout(function(){has_collided = false;}, 1000);
 			}

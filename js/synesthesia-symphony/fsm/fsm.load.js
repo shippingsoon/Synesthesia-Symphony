@@ -65,7 +65,7 @@ FSM.Load = (function(globals, fsm, stg, system, midi, resource, canvas) {
 					
 					//Transition to the intro state.
 					game.fsm.transition({
-						state: new fsm.Config({}).getState(),
+						state: new fsm.Intro({}).getState(),
 						ctx: game.ctx
 					});
 				}

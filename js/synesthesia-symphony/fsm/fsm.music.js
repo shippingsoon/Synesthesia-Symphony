@@ -68,8 +68,11 @@ FSM.Music = (function(globals, fsm, resource, stg, system, midi, canvas, vector)
 		 * @return {Undefined}
 		 */
 		state.stop = function(game) {
-			//Stop the music.
-			mplayer.stop();
+			//Play the menu music.
+			stg.Audio.playSong({
+				song: songs['fairy_mountain'],
+				setAnimation: stg.Audio.replayer
+			});
 			
 			//Remove the events.
 			globals.removeEventListener('keydown', game.fsm.controller, false);

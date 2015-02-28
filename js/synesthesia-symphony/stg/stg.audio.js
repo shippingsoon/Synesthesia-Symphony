@@ -161,12 +161,14 @@ STG.Audio = (function(globals, stg, system, midi, resource) {
 		 * @param {Object|Resource.songs} options.song - The MIDI song to play.
 		 * @param {Function} options.addListener - MIDI.js addListener callback.
 		 * @param {Function} options.setAnimation - MIDI.js setAnimation callback.
+		 * @param {Function} options.loadFile - MIDI.js loadFile callback.
 		 * @return {Undefined}
 		 */
 		playSong: function (options) {
 			var song = (options.song) ? options.song : arguments[0];
 			var addListener = (options.addListener) ? options.addListener : (arguments[1] || null);
 			var setAnimation = (options.setAnimation) ? options.setAnimation : (arguments[2] || null);
+			var loadFile = (options.loadFile) ? options.loadFile : (arguments[3] || null);
 			
 			//MIDI.js music player.
 			var mplayer = midi.Player;
@@ -182,7 +184,7 @@ STG.Audio = (function(globals, stg, system, midi, resource) {
 			this.programChange(song);
 			
 			//Load and play the menu music.
-			mplayer.loadFile(song.file, function(data) {
+			mplayer.loadFile(song.file, loadFile || function(data) {
 				//Hide the loading gif.
 				resource.sprites['loading_gif'].img.style.display = 'none';
 				
@@ -197,6 +199,23 @@ STG.Audio = (function(globals, stg, system, midi, resource) {
 				//Start the music.
 				mplayer.start();
 			});
+		},
+		
+		/*
+		 * Stops a MIDI song.
+		 * @return {Undefined}
+		 */
+		stopSong: function () {
+			//MIDI.js music player.
+			var mplayer = midi.Player;
+			
+			//Stop the music.
+			if (mplayer.playing)
+				mplayer.stop();
+			
+			//Clear events.
+			mplayer.clearAnimation();
+			mplayer.removeListener();
 		}
 	};
 }(window, STG, System, MIDI, Resource)); 
