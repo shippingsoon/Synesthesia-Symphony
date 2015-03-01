@@ -153,10 +153,18 @@ Character.Player = (function(globals, fsm, stg, system, resource, pattern, shape
 		 * @return {Undefined}
 		 */
 		state.update = function(game) {
+			//Handle the player's movement.
 			movement(game);
 			
-			if (lives < 1)
-				that.setLives(5);
+			if (lives < 1) {
+				//If debug mode is enabled reset the player's lives.
+				if (system.Config.DEBUG_MODE)
+					that.setLives(5);
+				
+				//Transition to Game Over state.
+				else
+					game.fsm.forward({state: new fsm.Gameover({}).getState(), ctx: game.ctx});
+			}
 		};
 		
 		/*

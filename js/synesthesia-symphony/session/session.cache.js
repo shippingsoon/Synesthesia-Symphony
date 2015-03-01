@@ -17,11 +17,11 @@ Session.cache = (function() {
 	'use strict';
 	
 	return {
-		hiscore: 2000,
+		hiscore: 4000,
 		resolution_idx: 'low',
-		volume: 0,
-		bgm_volume: 0,
-		sfx_volume: 0,
+		volume: 127,
+		bgm_volume: 90,
+		sfx_volume: 120,
 		show_fps: true
 	};
 }()); 

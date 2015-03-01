@@ -108,9 +108,8 @@ STG.Bullet = (function(fsm, stg, resource, system, shape, vector) {
 			that.add(that.velocity);
 			
 			//If the bullet has collided or went out of bounds mark it as collided.
-			if (out_of_bounds || has_collided) {
+			if (out_of_bounds || has_collided)
 				state.setAlive(false);
-			}
 		};
 		
 		/*
