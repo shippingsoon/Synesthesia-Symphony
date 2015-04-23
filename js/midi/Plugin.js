@@ -140,27 +140,31 @@ if (window.AudioContext || window.webkitAudioContext) (function () {
 		if (!MIDI.Soundfont[instrument][url]) { // missing soundfont
 			return callback(instrument);
 		}
-		var base64 = MIDI.Soundfont[instrument][url].split(",")[1];
-		var buffer = Base64Binary.decodeArrayBuffer(base64);
-		ctx.decodeAudioData(buffer, function (buffer) {
-			var msg = url;
-			while (msg.length < 3) msg += "&nbsp;";
-			if (typeof (MIDI.loader) !== "undefined") {
-				MIDI.loader.update(null, synth.instrument + "<br>Processing: " + (index / 87 * 100 >> 0) + "%<br>" + msg);
-			}
-			buffer.id = url;
-			bufferList[index] = buffer;
-			//
-			if (bufferList.length === urlList.length) {
-				while (bufferList.length) {
-					buffer = bufferList.pop();
-					if (!buffer) continue;
-					var nodeId = MIDI.keyToNote[buffer.id];
-					audioBuffers[instrumentId + "" + nodeId] = buffer;
+		
+		//Quick hack for MIDI.js crashing bug.
+		setTimeout(function() {
+			var base64 = MIDI.Soundfont[instrument][url].split(",")[1];
+			var buffer = Base64Binary.decodeArrayBuffer(base64);
+			ctx.decodeAudioData(buffer, function (buffer) {
+				var msg = url;
+				while (msg.length < 3) msg += "&nbsp;";
+				if (typeof (MIDI.loader) !== "undefined") {
+					MIDI.loader.update(null, synth.instrument + "<br>Processing: " + (index / 87 * 100 >> 0) + "%<br>" + msg);
 				}
-				callback(instrument);
-			}
-		});
+				buffer.id = url;
+				bufferList[index] = buffer;
+				//
+				if (bufferList.length === urlList.length) {
+					while (bufferList.length) {
+						buffer = bufferList.pop();
+						if (!buffer) continue;
+						var nodeId = MIDI.keyToNote[buffer.id];
+						audioBuffers[instrumentId + "" + nodeId] = buffer;
+					}
+					callback(instrument);
+				}
+			});
+		}, 2000);
 	};
 
 	root.setVolume = function (channel, volume) {
