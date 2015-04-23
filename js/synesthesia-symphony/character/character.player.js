@@ -300,40 +300,43 @@ Character.Player = (function(globals, fsm, stg, system, resource, pattern, shape
 		
 		/*
 		 * Handles collision.
-		 * @param {Number} options.target_type - The type of collision. 0 is for players, 1 is for enemies, 2 is for bullets.
-		 * @param {Number} options.target - The object we have collided with.
+		 * @param {Number} target - The object we have collided with.
+		 * @param {Number} target_type - The type of collision. 0 is for players, 1 is for enemies, 2 is for bullets.
 		 * @return {Boolean}
 		 */
-		this.handleCollision = function(options) {
-			var type = options.target_type || stg.targets.bullet;
-			var lives = that.getLives();
+		this.handleCollision = function(target, target_type) {
+			//Determines if the collision is valid.
 			var has_collided = false;
 			
-			//If we have collided with an enemy.
-			if (type === stg.targets.enemy) {
-				has_collided = true;
-			}
-			
-			//If we have collided with a bullet.
-			else if (type === stg.targets.bullet) {
-				//Check for color collision.
-				has_collided = !stg.Cmath.compareColor(colors[color_idx].getColor(), options.target.getColor());
-				
-				//If the player has glazed a friendly colored bullet.
-				if (!has_collided && !has_glazed) {
-					has_glazed = true;
+			switch (target_type) {
+				//If we have collided with an enemy.
+				case stg.targets.enemy:
+					has_collided = true;
 					
-					//Set a timeout to prevent the player from being able to gain too much glaze points.
-					setTimeout(function() {
-						system.glaze++;
-						system.score += 10;
-						has_glazed = false;
-					}, 200);
-				}
-			}
-			
-			else if (type === stg.targets.item) {
+					break;
 				
+				//If we have collided with a bullet.
+				case stg.targets.bullet:
+					//Check for color collision.
+					has_collided = !stg.Cmath.compareColor(colors[color_idx].getColor(), target.getColor());
+					
+					//If the player has glazed a friendly colored bullet.
+					if (!has_collided && !has_glazed) {
+						has_glazed = true;
+						
+						//Set a timeout to prevent the player from being able to gain too much glaze points.
+						setTimeout(function() {
+							system.glaze++;
+							system.score += 10;
+							has_glazed = false;
+						}, 200);
+					}
+					
+					break;
+				
+				case stg.targets.item:
+					
+					break;
 			}
 			
 			if (has_collided) {
@@ -342,11 +345,16 @@ Character.Player = (function(globals, fsm, stg, system, resource, pattern, shape
 					resource.bullets[bullet].getState().setAlive(false);
 				resource.bullets = [];
 				
+				//Clear the enemies.
+				for (var enemy in resource.enemies)
+					resource.enemies[enemy].getState().setAlive(false);
+				resource.enemies = [];
+					
 				//Play a SFX.
 				stg.Audio.playSfx(0, 89, 127, 0);
 				
 				//Decrease the player's lives.
-				that.setLives(lives - 1);
+				that.setLives(that.getLives() - 1);
 				
 				//Make the player temporarily invulnerable.
 				that.setInvulnerable(true);

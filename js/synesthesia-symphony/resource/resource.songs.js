@@ -91,5 +91,5 @@ Resource.songs = (function(system) {
 				13: 15
 			},
 		}
-	};
+	}
 }(System)); 

@@ -70,6 +70,9 @@ STG.Bullet = (function(fsm, stg, resource, system, shape, vector) {
 		//Drawing layer.
 		var layers = resource.layers;
 		
+		//The player.
+		var player = Character.Player();
+		
 		//Set this state's parent.
 		state.setParent(that);
 		
@@ -77,6 +80,7 @@ STG.Bullet = (function(fsm, stg, resource, system, shape, vector) {
 		 * Stop the state.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.stop = function(game) {
 			//Mark this state as dead.
@@ -87,6 +91,7 @@ STG.Bullet = (function(fsm, stg, resource, system, shape, vector) {
 		 * Update the bullet's location.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.update = function(game) {
 			var stage = game.fsm.getParent();
@@ -102,7 +107,7 @@ STG.Bullet = (function(fsm, stg, resource, system, shape, vector) {
 			
 			//Check for collision between the bullet and objects.
 			if (!out_of_bounds)
-				has_collided = handleCollision();
+				has_collided = handleCollision(target_type);
 			
 			//Add the velocity vector to the bullet's position.
 			that.add(that.velocity);
@@ -116,6 +121,7 @@ STG.Bullet = (function(fsm, stg, resource, system, shape, vector) {
 		 * Draw the bullet.
 		 * @param {FSM} game.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		state.render = function(game) {
 			if (ctx)
@@ -126,6 +132,7 @@ STG.Bullet = (function(fsm, stg, resource, system, shape, vector) {
 		 * Generates a paint trail.
 		 * @param {FSM} options.fsm - Finite state machine.
 		 * @param {CanvasRenderingContext2D} options.ctx - Provides the 2D rendering context.
+		 * @return {Undefined}
 		 */
 		function makePaintTrail(options) {
 			var circle = that.getCircle();
@@ -138,7 +145,7 @@ STG.Bullet = (function(fsm, stg, resource, system, shape, vector) {
 				radius: circle.radius,
 				color: color,
 				strokeStyle: color,
-				target_type: stg.targets.player,
+				target_type: target_type,
 				vy: system.canvas_scroll_rate
 			});
 			
@@ -147,24 +154,24 @@ STG.Bullet = (function(fsm, stg, resource, system, shape, vector) {
 		
 		/*
 		 * Handles collision between bullets and objects.
+		 * @param {Number} target_type - The type of object that is colliding.
+		 * @return {Undefined}
 		 */
-		function handleCollision() {
+		function handleCollision(target_type) {
 			var has_collided = false;
-			var player = resource.player;
-			var enemies = resource.enemies;
 			
-			//If our target is a player.
+			//If the target is a player.
 			if (target_type === stg.targets.player && !player.isInvulnerable()) {
 				if (stg.Math.circleCollision(that, player))
-					has_collided = player.handleCollision({target_type: stg.targets.bullet, target: that});
+					has_collided = player.handleCollision(that, stg.targets.bullet);
 			}
 			
-			//If our target is an enemy.
+			//If the target is an enemy.
 			else if (target_type === stg.targets.enemy) {
-				for (var enemy = 0, length = enemies.length; enemy < length; enemy++) {
+				for (var enemy = 0, length = resource.enemies.length; enemy < length; enemy++) {
 					
-					if (has_collided = stg.Math.circleCollision(that, enemies[enemy])) {
-						enemies[enemy].handleCollision();
+					if (has_collided = stg.Math.circleCollision(that, resource.enemies[enemy])) {
+						resource.enemies[enemy].handleCollision(that, stg.targets.bullet);
 						break;
 					}
 				}
@@ -175,6 +182,7 @@ STG.Bullet = (function(fsm, stg, resource, system, shape, vector) {
 		
 		/*
 		 * Get the state.
+		 * @return {FSM.State}
 		 */
 		this.getState = function() {
 			return state;

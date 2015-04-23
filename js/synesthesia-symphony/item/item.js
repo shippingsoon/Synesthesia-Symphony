@@ -1,5 +1,5 @@
 /*
- * @description - Offline resources.
+ * @description - Item module.
  * @copyright - 2014 Shipping Soon
  * @source - https://github.com/shippingsoon/Synesthesia-Symphony
  * @website - https://www.shippingsoon.com/synesthesia-symphony/
@@ -7,21 +7,12 @@
  * @license - GPLv3
  */
 
-var Session = Session || {};
-
 /*
- * Offline resources.
+ * Item module.
  * @return {Object}
  */
-Session.cache = (function() {
+var Item = (function() {
 	'use strict';
 	
-	return {
-		hiscore: 4000,
-		resolution_idx: 'low',
-		volume: 120,
-		bgm_volume: 120,
-		sfx_volume: 120,
-		show_fps: true
-	};
-}()); 
+	 return {};
+}());

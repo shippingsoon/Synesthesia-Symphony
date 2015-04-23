@@ -19,9 +19,12 @@ var Shape = Shape || {};
  * @param {STG} stg - Miscellaneous game module.
  * @param {Pattern} pattern - Pattern submodule for generating bullet patterns.
  * @param {System} system - System submodule.
+ * @param {Shape} shape - Shape submodule.
+ * @param {Vector} vector - Vector submodule.
+ * @param {System} resource - Resource submodule.
  * @return {Function}
  */
-Character.Enemy = (function(fsm, stg, pattern, system, shape, vector) {
+Character.Enemy = (function(fsm, stg, pattern, system, shape, vector, resource, character) {
 	'use strict';
 	
 	/*
@@ -31,8 +34,9 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector) {
 	 * @param {Number} options.y - The y coordinate.
 	 * @param {Number} options.radius - The enemy's radius.
 	 * @param {STG.Color|String} options.color - The enemy's color.
-	 * @param {Object[]} options.patterns - An array of bullet patterns.
-	 * @param {Shape.Point[]|Object[]} options.paths - An array of STG points or objects.
+	 * @param {Object[]} options.patterns - An array of objects to define the enemy's bullet patterns.
+	 * @param {Object[]} options.paths - An array of objects to define the STG paths the enemy will follow.
+	 * @param {Object[]} options.items - An array of objects to define the items the enemy will drop.
 	 * @param {Boolean} options.loop_points - Determines if we will loop through the points.
 	 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
 	 * @return {Character.Enemy}
@@ -53,20 +57,23 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector) {
 		//Options for bullet patterns.
 		var patterns = options.patterns || [];
 		
-		//An array of STG points.
-		var points = options.paths || [];
+		//An array of points.
+		var paths = options.paths || [];
 		
-		//Determines if we will loop through the points.
-		var loop_points = options.loop_points || false;
+		//An array of items.
+		var items = options.items || [];
 		
 		//Stores the bullet patterns.
 		var danmakus = [];
 		
-		//The path the enemy will follow.
-		var path = null;
+		//The route the enemy will follow.
+		var route = null;
 		
 		//The enemy's lives.
 		var lives = options.lives || 10;
+		
+		//Player.
+		var player = new character.Player();
 		
 		/*
 		 * Start the state.
@@ -76,22 +83,33 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector) {
 		 */
 		state.start = function(game) {
 			var ctx = that.getContext();
+			var points = [];
 			
+			//Determines if we will loop through the points.
+			var loop_points = options.loop_points || false;
+		
 			//Set the bullet patterns.
-			for (var index = 0, length = patterns.length; index < length; index++) {
-				patterns[index].target_type = options.target_type || 0;
+			for (var path = 0, length = patterns.length; path < length; path++) {
+				patterns[path].target_type = options.target_type || 0;
 				
-				danmakus.push(new pattern.Create(patterns[index]));
+				danmakus.push(new pattern.Create(patterns[path]));
 				
 				state.setSubstate({
-					substate: danmakus[index].getState(), 
+					substate: danmakus[path].getState(), 
 					parent: that
 				});
 			}
 			
-			//Set the paths.
-			path = new stg.Path({points: points, loop_points: loop_points, parent: that});
-			state.setSubstate({substate: path.getState(), parent: that});
+			//If a path was given.
+			if (paths) {
+				for (var path = 0, length = paths.length; path < length; path++)
+					points.push(new shape.Point(paths[path]));
+				
+				//Set the route.
+				route = new stg.Path({points: points, loop_points: loop_points, parent: that});
+				
+				state.setSubstate({substate: route.getState(), parent: that});
+			}
 		};
 		
 		/*
@@ -101,14 +119,18 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector) {
 		 * @return {Undefined}
 		 */
 		state.update = function(game) {
-			if (lives < 1)
+			if (stg.Math.circleCollision(that, player))
+				that.handleCollision(player, stg.targets.player);
+			
+			if (lives < 1) {
 				state.setAlive(false);
+			}
 		};
 		
 		/*
 		 * Draws the enemy.
 		 * @param {FSM} game.fsm - Finite state machine.
-		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
+		 * @paaram {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
 		 * @return {Undefined}
 		 */
 		state.render = function(game) {
@@ -148,7 +170,7 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector) {
 			//The target we will try to approach.
 			var target = options.target || {x: 0, y: 0};
 			
-			if (target.hasOwnProperty('getPosition'))
+			if (target.getPoint)
 				target = target.getPoint();
 			
 			//The rate in which the enemy will move towards the target.
@@ -179,16 +201,29 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector) {
 		
 		/*
 		 * Handles collision.
+		 * @param {Character.player|STG.bullet} target - The target the enemy is colliding with.
+		 * @param {Number|STG.targets} target_type - The type of target the enemy is colliding with.
 		 * @return {Undefined}
 		 */
-		this.handleCollision = function() {
+		this.handleCollision = function(target, target_type) {
 			var lives = that.getLives();
 			
-			//Decrease the enemy's lives.
-			that.setLives(lives - 1);
-			
-			//Increase the score.
-			system.score += 100;
+			switch (target_type) {
+				//If the target is a player.
+				case stg.targets.player:
+					//Handle collision for the player.
+					target.handleCollision(that, stg.targets.enemy);
+					break;
+					
+				//If the target is a bullet.
+				case stg.targets.bullet:
+					//Decrease the enemy's lives.
+					that.setLives(lives - 1);
+					
+					//Increase the score.
+					system.score += 100;
+					break;
+			}
 		}
 		
 		/*
@@ -203,4 +238,4 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector) {
 	Enemy.prototype = Object.create(shape.Circle.prototype);
 	
 	return Enemy;
-}(FSM, STG, Pattern, System, Shape, Vector));
+}(FSM, STG, Pattern, System, Shape, Vector, Resource, Character));
