@@ -38,6 +38,7 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi, canvas, vector) 
 			{title: 'Game Start', disabled: false, visible: true},
 			{title: 'Extra Start', disabled: true, visible: true},
 			{title: 'Music Room', disabled: false, visible: true},
+			{title: 'Map Editor', disabled: false, visible: system.Cfg.DEBUG_MODE},
 			{title: 'Config', disabled: false, visible: true},
 			{title: 'Quit', disabled: false, visible: true}
 		];
@@ -184,14 +185,19 @@ FSM.Menu = (function(globals, fsm, resource, stg, system, midi, canvas, vector) 
 						case 2:
 							game.fsm.forward({state: new fsm.Music({}).getState(), ctx: game.ctx});
 							break;
-							
-						//If Config option is selected.
+						
+						//If Map Editor option is selected.
 						case 3:
+							game.fsm.forward({state: new fsm.Editor({}).getState(), ctx: game.ctx});
+							break;
+						
+						//If Config option is selected.
+						case 4:
 							game.fsm.forward({state: new fsm.Config({}).getState(), ctx: game.ctx});
 							break;
 						
 						//If Quit option is selected.
-						case 4:
+						case 5:
 							game.fsm.rewind({stop: true, ctx: game.ctx});
 							break;
 					}

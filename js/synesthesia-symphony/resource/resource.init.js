@@ -98,7 +98,7 @@ Resource.init = (function(globals, system, stg, resource, shape) {
 		
 		for (var map = 0; map < 12; map++) {
 			if (synesthesia_map[map])
-				resource.color_map.push(stg.Cmath.hexToColor(synesthesia_map[map].hex));
+				resource.color_map.push(stg.Cmath.stringToColor(synesthesia_map[map].hex));
 		}
 	}
 	

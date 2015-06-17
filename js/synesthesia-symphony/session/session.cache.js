@@ -19,9 +19,9 @@ Session.cache = (function() {
 	return {
 		hiscore: 4000,
 		resolution_idx: 'low',
-		volume: 120,
-		bgm_volume: 120,
-		sfx_volume: 120,
+		volume: 0,
+		bgm_volume: 0,
+		sfx_volume: 0,
 		show_fps: true
 	};
 }()); 

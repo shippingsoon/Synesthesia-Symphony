@@ -34,11 +34,12 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector, resource, 
 	 * @param {Number} options.y - The y coordinate.
 	 * @param {Number} options.radius - The enemy's radius.
 	 * @param {STG.Color|String} options.color - The enemy's color.
+	 * @param {Number} options.life_points - The enemy's life points.
+	 * @param {Number} options.hit_points - The enemy's hit points.
 	 * @param {Object[]} options.patterns - An array of objects to define the enemy's bullet patterns.
 	 * @param {Object[]} options.paths - An array of objects to define the STG paths the enemy will follow.
 	 * @param {Object[]} options.items - An array of objects to define the items the enemy will drop.
 	 * @param {Boolean} options.loop_points - Determines if we will loop through the points.
-	 * @param {Number} options.target_type - The target type. Set to 0 to retrieve the player and 1 to retrieve enemies.
 	 * @return {Character.Enemy}
 	 */
 	function Enemy(options) {
@@ -70,7 +71,11 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector, resource, 
 		var route = null;
 		
 		//The enemy's lives.
-		var lives = options.lives || 10;
+		var life_points = options.life_points || 1;
+		
+		//The enemy's hit points and initial hit points.
+		var hit_points = options.hit_points || 10;
+		var initial_hit_points = options.hit_points || 10;
 		
 		//Player.
 		var player = new character.Player();
@@ -90,7 +95,7 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector, resource, 
 		
 			//Set the bullet patterns.
 			for (var path = 0, length = patterns.length; path < length; path++) {
-				patterns[path].target_type = options.target_type || 0;
+				patterns[path].target_type = stg.targets.player;
 				
 				danmakus.push(new pattern.Create(patterns[path]));
 				
@@ -121,10 +126,7 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector, resource, 
 		state.update = function(game) {
 			if (stg.Math.circleCollision(that, player))
 				that.handleCollision(player, stg.targets.player);
-			
-			if (lives < 1) {
-				state.setAlive(false);
-			}
+
 		};
 		
 		/*
@@ -140,11 +142,41 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector, resource, 
 		
 		/*
 		 * Set the enemy's lives.
-		 * @param {Number} _lives - The lives to set.
+		 * @param {Number} lp - The life points to set.
+		 * @param {Boolean} is_relative - Set the life points relative to its current value.
 		 * @return {Character.Enemy}
 		 */
-		this.setLives = function(_lives) {
-			lives = _lives;
+		this.setLifePoints = function(lp, is_relative) {
+			if (is_relative)
+				life_points += lp;
+			else
+				life_points = _lp;
+			
+			//If there are no more life points destroy this object.
+			if (life_points < 1) {
+				state.setAlive(false);
+			}
+
+			return that;
+		};
+
+		/*
+		 * Set the enemy's health.
+		 * @param {Number} hp - The health to set.
+		 * @param {Boolean} is_relative - Set the health points relative to its current value.
+		 * @return {Character.Enemy}
+		 */
+		this.setHitPoints = function(hp, is_relative) {
+			if (is_relative)
+				hit_points += hp;
+			else
+				hit_points = hp;
+			
+			//If there are no more hit points decrease the life points and reset the hit points.
+			if (hit_points < 0) {
+				that.setLifePoints(-1, true);
+				hit_points = initial_hit_points;
+			}
 			
 			return that;
 		};
@@ -206,8 +238,6 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector, resource, 
 		 * @return {Undefined}
 		 */
 		this.handleCollision = function(target, target_type) {
-			var lives = that.getLives();
-			
 			switch (target_type) {
 				//If the target is a player.
 				case stg.targets.player:
@@ -217,8 +247,8 @@ Character.Enemy = (function(fsm, stg, pattern, system, shape, vector, resource, 
 					
 				//If the target is a bullet.
 				case stg.targets.bullet:
-					//Decrease the enemy's lives.
-					that.setLives(lives - 1);
+					//Decrease the enemy's hit points.
+					that.setHitPoints(-1, true);
 					
 					//Increase the score.
 					system.score += 100;

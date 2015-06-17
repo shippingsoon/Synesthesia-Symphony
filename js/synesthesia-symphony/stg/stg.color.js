@@ -30,12 +30,12 @@ STG.Color = (function(stg) {
 		var that = this;
 		
 		//Set the hues.
-		var red = (typeof arguments[0] === 'number') ? arguments[0] : (options.r || 0);
-		var green = (typeof arguments[1] === 'number') ? arguments[1] : (options.g || 0);
-		var blue = (typeof arguments[2] === 'number') ? arguments[2] : (options.b || 0);
+		var red = 0;
+		var green = 0;
+		var blue = 0;
 		
 		//Set the alpha.
-		var alpha = (typeof arguments[3] === 'number') ? arguments[3] : (((options.a !== undefined) ? options.a : 1));
+		var alpha = 1;
 		
 		//The color in hexadecimal format.
 		var hex = null;
@@ -52,14 +52,22 @@ STG.Color = (function(stg) {
 		 * @return {Undefined}
 		 */
 		this.setColor = function(options) {
-			//Set the hues.
-			red = (typeof arguments[0] === 'number') ? arguments[0] : (options.r || options.red || 0);
-			green = (typeof arguments[1] === 'number') ? arguments[1] : (options.g || options.green || 0);
-			blue = (typeof arguments[2] === 'number') ? arguments[2] : (options.b || options.blue || 0);
-			alpha = (typeof arguments[3] === 'number')
-				? arguments[3]
-				: (((options.a !== undefined || options.alpha !== undefined) ? (options.a || options.alpha): 1));
-			
+			if (typeof options === 'string') {
+				var color = parseCSSColor(options) || [0, 0, 0, 1];
+				
+				red = color[0];
+				green = color[1];
+				blue = color[2];
+				alpha = color[3];
+			}
+			else {
+				//Set the hues.
+				red = (typeof arguments[0] === 'number') ? arguments[0] : (options.r || options.red || 0);
+				green = (typeof arguments[1] === 'number') ? arguments[1] : (options.g || options.green || 0);
+				blue = (typeof arguments[2] === 'number') ? arguments[2] : (options.b || options.blue || 0);
+				alpha = (typeof arguments[3] === 'number') ? arguments[3] : (options.a || options.alpha || 1);
+			}
+
 			//Make sure the values are valid.
 			validateColor();	
 		};
@@ -120,7 +128,7 @@ STG.Color = (function(stg) {
 		 * @param {Sting} _hex - The hexadecimal color.
 		 * @return {String}
 		 */
-		function buildHex() {
+		function _buildHex() {
 			var _hex = '#';
 			
 			_hex += (red > 15) ? red.toString(16) : '0' + red.toString(16);
@@ -134,7 +142,7 @@ STG.Color = (function(stg) {
 		 * Returns the color in RGBA format.
 		 * @return {String}
 		 */
-		function buildRGBA() {
+		function _buildRGBA() {
 			return 'rgba(' + red + ', ' + green + ', ' + blue + ', ' + alpha +')';
 		};
 		
@@ -163,13 +171,13 @@ STG.Color = (function(stg) {
 			if (alpha > 1)
 				alpha = 1;
 			
-			hex = buildHex();
+			hex = _buildHex();
 			
-			rgba = buildRGBA();
+			rgba = _buildRGBA();
 		};
 		
-		//Make sure the color values are valid.
-		validateColor();
+		//Set the color.
+		this.setColor.apply(null, arguments);
 	};
 	
 	return Color;

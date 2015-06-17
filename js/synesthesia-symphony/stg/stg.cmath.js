@@ -20,42 +20,18 @@ STG.Cmath = (function(globals, stg) {
 	
 	return {
 		/*
-		 * Converts a hexidecimal string to an STG color.
-		 * @param {String} hex - The hexidecimal color.
-		 * @return {STG.Color}
-		 */
-		hexToColor: function(hex) {
-			var offset = (hex[0] === '#') ? 1 : 0;
-			
-			var red = parseInt(hex.slice(offset, offset + 2), 16);
-			var green = parseInt(hex.slice(offset + 2, offset + 4), 16);
-			var blue = parseInt(hex.slice(offset + 4, offset + 6), 16);
-			
-			return new stg.Color(red, green, blue, 1);
-		},
-		
-		/*
-		 * Converts a string to an STG color.
-		 * @param {String} color - The color string.
+		 * Converts a string to an STG color. Accepts hex, rgba, and names of colors.
+		 * @param {String} color - The hex, hsla, or rgba values of the color.
 		 * @return {STG.Color}
 		 */
 		stringToColor: function(color) {
-			switch (color) {
-				case 'red':
-					return new stg.Color(255, 0, 0, 1);
-					break;
-					
-				case 'green':
-					return new stg.Color(0, 255, 0, 1);
-					break;
-					
-				case 'blue':
-					return new stg.Color(0, 0, 255, 1);
-					break;
-					
-				default:
-					return new stg.Color(0, 0, 0, 1);
-			}
+			var colors = parseCSSColor(color) || [0, 0, 0, 1];
+			var red = colors[0];
+			var green = colors[1];
+			var blue = colors[2];
+			var alpha = colors[3];
+			
+			return new stg.Color(red, green, blue, alpha);
 		},
 		
 		/*
@@ -65,27 +41,28 @@ STG.Cmath = (function(globals, stg) {
 		 * @return {Boolean}
 		 */
 		compareColor: function(a, b) {
+			//Array of colors to compare.
+			var color = [];
+			
+			//Loop through each argument and convert them to STG colors.
 			for (var argument = 0; argument < arguments.length; argument++) {
-				if (typeof arguments[argument] === 'string') {
-					//If we got a color in hexidecimal format.
-					if (arguments[argument][0] === '#')
-						arguments[argument] = stg.hexToColor(arguments[argument]);
-					
-					//If we got a color string.
-					else
-						arguments[argument] = this.stringToColor(arguments[argument]);
-				}
+				//If this is a string convert it to an STG color.
+				if (typeof arguments[argument] === 'string')
+					arguments[argument] = this.stringToColor(arguments[argument]);
 				
-				//If this is an STG color.
-				if (arguments[argument] && arguments[argument].getColor)
-					arguments[argument] = arguments[argument].getColor();
+				//If this is an STG color retrieve its color values.
+				if (arguments[argument] && arguments[argument].getColor) {
+					colors.push(arguments[argument].getColor());
+				}
+				else
+					return false;
 			}
 			
 			//Compare the colors.
 			return (
-				arguments[0].r === arguments[1].r &&
-				arguments[0].b === arguments[1].b &&
-				arguments[0].g === arguments[1].g
+				colors[0].r === colors[1].r &&
+				colors[0].b === colors[1].b &&
+				colors[0].g === colors[1].g
 			);
 		},
 		

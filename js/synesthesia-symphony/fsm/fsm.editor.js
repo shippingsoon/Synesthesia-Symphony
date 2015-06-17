@@ -1,5 +1,5 @@
 /*
- * @description - Stage state.
+ * @description - Editor state.
  * @copyright - 2014 Shipping Soon
  * @source - https://github.com/shippingsoon/Synesthesia-Symphony
  * @website - https://www.shippingsoon.com/synesthesia-symphony/
@@ -12,9 +12,9 @@ var STG = STG || {};
 var Resource = Resource || {};
 var System = System || {};
 var Shape = Shape || {};
-
+var Session = Session || {};
 /*
- * Stage state.
+ * Editor state.
  * @param {Object} globals - Explicit global namespace.
  * @param {FSM} fsm - Finite state machine.
  * @param {STG} stg - Miscellaneous game module.
@@ -24,17 +24,19 @@ var Shape = Shape || {};
  * @param {Shape} shape - Shape module.
  * @param {Vector} vector - Vector module.
  * @param {Character} character - Character module.
+ * @param {Object} $ - jQuery library.
+ * @param {Object} session - Session module.
  * @return {Function}
  */
-FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, character) {
+FSM.Editor = (function(globals, fsm, stg, resource, system, midi, shape, vector, character, $, session) {
 	'use strict';
 
 	/*
-	 * Stage state.
+	 * Editor state.
 	 * @param {FSM} options - TBA
 	 * @return {Undefined}
 	 */
-	function Stage(options) {
+	function Editor(options) {
 		//The HTML5 canvases.
 		var layers = resource.layers;
 		
@@ -53,44 +55,10 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 		var songs = resource.songs;
 		var interval = null;
 		var has_clicked = false;
-		
-		//Our player.
-		resource.player = new character.Player({
-			x: 250,
-			y: 380,
-			ctx: layers.buffer.getContext(),
-			target: stg.targets.enemies,
-			colors: [new stg.Color(color_map[9].getColor()), new stg.Color(color_map[7].getColor())],
-			lives: 5,
-			lineWidth: 3,
-			patterns: [{
-					method: 'Circular',
-					ctx: layers.buffer.getContext(),
-					max_bullets: 1,
-					offsets: {x: 10, y: -10},
-					padding: 0,
-					degrees: 90,
-					radii: [4],
-					speeds: [18],
-					delay: 0,
-					rate: 100,
-					rotation: 0
-				}, {
-					method: 'Circular',
-					ctx: layers.buffer.getContext(),
-					max_bullets: 1,
-					offsets: {x: -10, y: -10},
-					padding: 0,
-					degrees: 90,
-					radii: [4],
-					speeds: [18],
-					delay: 0,
-					rate: 100,
-					rotation: 0
-				}
-			],
-		});
-		
+		var mouse = new vector({x: 0, y: 0});
+		var enemies = [];
+		var waypoints = [];
+
 		//The position vector for the two revolving canvas sprites.
 		var canvas_vectors = [
 			new vector({x: 0, y: 0}),
@@ -99,7 +67,61 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 		
 		//Music player.
 		var mplayer = midi.Player;
-		
+
+		/*
+		 * Sets the mouse location relative to the canvas.
+		 * @param {Object} event - Mouse event.
+		 * @return {Undefined}
+		 */
+		function setMouse(event) {
+			var canvas_element = $(this).offset();
+			
+			mouse.setPosition({
+				x: (event.pageX - canvas_element.left) - 40,
+				y: (event.pageY - canvas_element.top) - 20
+			});
+			
+			//console.clear();
+			//console.log("Mouse (%s, %s)", mouse.x, mouse.y);
+		}
+
+		/*
+		 * Saves a new enemy.
+		 * @param {Vector} mouse - Mouse vector coordinates.
+		 * @return {Undefined}
+		 */
+		function addEnemy(mouse) {
+			var enemy = {
+				//user_id: 1,
+				user_group_id: 10,
+				user_name: 'Joe Smith2',
+				email_address: 'joe2@gmail.gov',
+				password: 't3stInG13423sdfsfs@!',
+				salt: '3$#$@#$efdfdsfs',
+				date_added: new Date(1990, 6, 22)
+			};
+			
+			//$.post(session.base_url('set/create/users'), enemy, function(data) {
+			//	console.log("success: %s", data);
+			//});
+			
+			$.ajax({
+				type: 'POST',
+				url: session.base_url('set/create/users'),
+				data: JSON.stringify(enemy),
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function(new_enemy) {
+					if (new_enemy.user_id) {
+						enemies.push(new_enemy);
+						
+					}
+					console.log("success: %s", data);
+				}
+			});
+			//console.log("added enemy");
+		}
+
 		/*
 		 * Initiate this state.
 		 * @param {FSM} game.fsm - Finite state machine.
@@ -107,88 +129,53 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 		 * @return {Undefined}
 		 */
 		state.start = function(game) {
-			resource.bullets = [];
-			
-			//Play the background music.
-			stg.Audio.playSong({
-				song: songs['sky_chase_zone'],
-				setAnimation: stg.Audio.replayer,
-				addListener: function(data) {
-					//Dispatch events to the piano keys.
-					var event = new CustomEvent('onNote-' + data.note, {'detail': data});
-					globals.dispatchEvent(event);
-				}
-			});
-			
-			//Builds the piano.
-			stg.Stage.buildPiano(state);
-	
-			//Add the player substate.
-			state.setSubstate({substate: resource.player.getState()});
-			
 			//Handle events for this state.
 			globals.addEventListener('keydown', game.fsm.controller, false);
 			
-			//Filter out inactive bullets.
-			interval = setInterval(function() {
-				resource.bullets = resource.bullets.filter(function(bullet){
-					return bullet.getState().isAlive();
-				});
-			}, 300);
+			//Mouse event.
+			$('.synesthesia-symphony').on('mousemove', setMouse);
 			
+			//Show mouse cursor.
+			$('.synesthesia-symphony').css('cursor', 'pointer');
 			
 			//Initialize the conveyor belt.
 			stg.Stage.is_odd_belt = true;
 			
-			resource.enemies.push(new character.Enemy({
-				color: stg.Color({r: 0, g: 255, b: 0}),
-				x: 200,
-				y: 200,
-				ctx: layers.buffer.getContext(),
-				life_points: 1,
-				hit_points: 10,
-				patterns: [{
-					method: 'Circular',
-					ctx: layers.buffer.getContext(),
-					max_bullets: 5,
-					padding: 10,
-					degrees: 270,
-					radii: [8, 4],
-					speeds: [5],
-					colors: [new stg.Color('pink'), new stg.Color('red')],
-					//colors: ['pink', 'red'],
-					delay: 2000,
-					rate: 100,
-					duration: 30,
-					rotation: 10,
-				}, {
-					method: 'Circular',
-					ctx: layers.buffer.getContext(),
-					max_bullets: 5,
-					padding: 10,
-					degrees: 270,
-					radii: [8, 4],
-					speeds: [5],
-					colors: [new stg.Color('pink'), new stg.Color('red')],
-					//colors: ['red', 'pink'],
-					delay: 2000,
-					rate: 100,
-					duration: 30,
-					rotation: -10
-				}],
-				paths: [
-					{x: 0, y: 0, delay: 0, speed: 10},
-					{x: 200, y: 200, delay: 8000, speed: 12},
-					{x: 700, y: 700, delay: 0, speed: 14}
-				],
-				loop_points: false,
-				items: [
-					{}
-				]
-			}));
+			//General context menu.
+			var general_menu = {
+				items: {
+					add: {name: 'Add Enemy', icon: 'add', callback: function() {addEnemy(mouse);}},
+					save: {name: 'Save', icon: 'quit'}
+				}
+			};
 			
-			state.setSubstate({substate: resource.enemies[0].getState()});
+			//Context menu for managing enemies.
+			var enemy_menu = {
+				items: {
+					edit: {name: 'Edit', icon: 'edit'},
+					cut: {name: 'Cut', icon: 'cut'},
+					add: {name: 'Add Waypoint', icon: 'add'},
+					delete: {name: 'Delete', icon: 'delete'}
+				}
+			};
 			
+			//Context menu for managing enemy waypoints.
+			var waypoint_menu = {
+				items: {
+					cut: {name: 'Cut', icon: 'cut'},
+					delete: {name: 'Delete', icon: 'delete'}
+				}
+			};
+
+			$.contextMenu({
+				selector: '.synesthesia-symphony',
+				zIndex: 1000,
+				build: function($trigger, e) {
+					
+					//if (mouse.getPosition().y > 300)
+						return general_menu;
+				}
+			});
 		};
 		
 		/*
@@ -198,23 +185,14 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 		 * @return {Undefined}
 		 */
 		state.stop = function(game) {
-			//Stop the music.
-			mplayer.stop();
-				
 			//Remove the events.
-			mplayer.removeListener();
-			mplayer.clearAnimation();
 			globals.removeEventListener('keydown', game.fsm.controller, false);
 			
-			//Clear the interval.
-			if (interval !== null) {
-				clearInterval(interval);
-				interval = null;
-			}
+			//Stop the mouse event.
+			$('.synesthesia-symphony').off('mousemove', false);
 			
-			//Empty the resources.
-			resource.bullets = [];
-			resource.notes = [];
+			//Hide the mouse cursor.
+			$('.synesthesia-symphony').css('cursor', 'none');
 			
 			//Clear the 2D rendering context.
 			var ctx = layers.buffer.getContext()
@@ -229,17 +207,7 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 		 * @return {Undefined}
 		 */
 		state.controller = function(game) {
-			//Handle keyup events.
-			if (game.event.keyCode && !has_clicked) {
-				switch (game.event.keyCode) {
-					//Escape key is pressed transition to the pause state.
-					case 27:
-						game.fsm.forward({state: pauseState, ctx: game.ctx});
-						break;
-				}
-				
-				has_clicked = true;
-			}
+			
 		};
 		
 		/*
@@ -249,23 +217,8 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 		 * @return {Undefined}
 		 */
 		state.update = function(game) {
-			if (has_clicked) {
-				setTimeout(function() {
-					has_clicked = false;
-				}, 100);
-			}
-			
-			//Filter out inactive enemies.
-			resource.enemies = resource.enemies.filter(function(enemy){
-				return enemy.getState().isAlive();
-			});
-			
-			//If the current score has passed the hiscore.
-			if (system.score > system.hiscore)
-				system.hiscore = system.score;
-			
 			//This function moves the canvas sprite's position.
-			stg.Stage.conveyorBelt(canvas_vectors, sprites.canvas.img.height, system.canvas_scroll_rate);
+			//stg.Stage.conveyorBelt(canvas_vectors, sprites.canvas.img.height, system.canvas_scroll_rate);
 		};
 		
 		/*
@@ -282,9 +235,6 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 			layers.buffer.ctx.drawImage(sprites.canvas.img, 0, canvas_vectors[0].getPosition().y);
 			layers.buffer.ctx.drawImage(sprites.canvas.img, 0, canvas_vectors[1].getPosition().y);
 			
-			//This function draws various game related text on the screen.
-			stg.Stage.drawStageInfo(game.ctx, resource.player);
-			
 			//Return a callback.
 			return function () {
 				//Render the buffer layer on the screen layer.
@@ -299,14 +249,9 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 		 * @return {Undefined}
 		 */
 		state.play = function(game) {
-			if (!mplayer.playing)
-				mplayer.resume();
-			
-			has_clicked = true;
-			
 			//Add the event listeners.
 			globals.addEventListener('keydown', game.fsm.controller, false);
-		}
+		};
 		
 		/*
 		 * When the state is paused.
@@ -315,16 +260,9 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 		 * @return {Undefined}
 		 */
 		state.pause = function(game) {
-			//If music is currently playing pause it.
-			if (mplayer.playing)
-				mplayer.pause();
-			
-			//Play a SFX.
-			stg.Audio.playSfx(0, 60, 127, 0);
-			
 			//Remove the event listeners.
 			globals.removeEventListener('keydown', game.fsm.controller, false);
-		}
+		};
 		
 		/*
 		 * Return the state.
@@ -335,5 +273,5 @@ FSM.Stage = (function(globals, fsm, stg, resource, system, midi, shape, vector, 
 		};
 	}
 	
-	return Stage;
-}(window, FSM, STG, Resource, System, MIDI, Shape, Vector, Character));
+	return Editor;
+}(window, FSM, STG, Resource, System, MIDI, Shape, Vector, Character, jQuery, Session));

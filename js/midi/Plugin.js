@@ -133,6 +133,8 @@ if (window.AudioContext || window.webkitAudioContext) (function () {
 	var sources = {};
 	var masterVolume = 127;
 	var audioBuffers = {};
+	var timer = 12;
+	var count = 0;
 	var audioLoader = function (instrument, urlList, index, bufferList, callback) {
 		var synth = MIDI.GeneralMIDI.byName[instrument];
 		var instrumentId = synth.number;
@@ -142,7 +144,14 @@ if (window.AudioContext || window.webkitAudioContext) (function () {
 		}
 		
 		//Quick hack for MIDI.js crashing bug.
+		/*
 		setTimeout(function() {
+			if (count++ > 50) {
+				timer += 2;
+				count = 0;
+			}
+		*/
+			//console.log("timer: %s", timer);
 			var base64 = MIDI.Soundfont[instrument][url].split(",")[1];
 			var buffer = Base64Binary.decodeArrayBuffer(base64);
 			ctx.decodeAudioData(buffer, function (buffer) {
@@ -163,8 +172,13 @@ if (window.AudioContext || window.webkitAudioContext) (function () {
 					}
 					callback(instrument);
 				}
+				
 			});
-		}, 2000);
+		
+		//}, timer * 1000);
+		
+		
+		
 	};
 
 	root.setVolume = function (channel, volume) {
@@ -269,7 +283,7 @@ if (window.AudioContext || window.webkitAudioContext) (function () {
 		var pending = {};
 		var oncomplete = function(instrument) {
 			delete pending[instrument];
-			for (var key in pending) break;
+			for (var key in pending)  break;
 			if (!key) conf.callback();
 		};
 		for (var instrument in MIDI.Soundfont) {
