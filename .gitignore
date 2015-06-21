@@ -2,4 +2,4 @@
 /design.txt
 /patterns.txt
 /todo.txt
-
+/server/node_modules/server_settings/*.js
