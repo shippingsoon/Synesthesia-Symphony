@@ -16,8 +16,6 @@
  * @param {Object} config - Server configuration.
  * @return {Function}
  */
-
-
 module.exports = function(models, express, config) {
 	var routes = {};
 	var public_models = ['users', 'user_groups'];
