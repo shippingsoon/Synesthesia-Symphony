@@ -1,3 +1,0 @@
-Synesthesia Symphony - Server
-====================
-

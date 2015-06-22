@@ -1,0 +1,15 @@
+File: sky-chase-zone.mid
+1:Track name:         Drums
+2:Track name:         Bass
+3:Track name:       Background
+4:Track name:       Background
+5:Track name:         Melody
+6:Track name:           Counterpoint
+7:Track name:          Melody
+8:Track name:          Background
+9:Track name:            Counterpoint
+10:Track name:           Background
+11:Track name:           Melody
+12:Track name:           Drums
+13:Track name:          Melody
+14:Track name:          Melody
