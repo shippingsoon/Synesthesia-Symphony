@@ -59,6 +59,7 @@ app.set('view engine', 'html');
 app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(bodyParser());
 app.use(methodOverride());
 app.use(compression());
 app.use(favicon(__dirname + '/public/sprite/favicon.ico'));
@@ -80,10 +81,15 @@ var routes = {
 	api: require('./routes/api')(models, app, config)
 };
 
+//CRUD operations for all records.
 router.route('/api/:version/:model')
-	.get(routes.api.getModel)
-	.put(routes.api.upsertModel);
+	.post(routes.api.upsertModel) //Create.
+	.get(routes.api.getModel) //Read.
+	.put(routes.api.upsertModel) //Update.
+	.delete(routes.api.dropModel); //Delete.
 
+//CRUD operations for a given record.
 router.route('/api/:version/:model/:id')
-	.get(routes.api.getById)
-	.put(routes.api.upsertModel);
+	.get(routes.api.getById) //Read.
+	.put(routes.api.upsertModel) //Update.
+	.delete(routes.api.dropById); //Delete.
