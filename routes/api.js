@@ -20,6 +20,19 @@
  * @return {Function}
  */
 module.exports = function(models, express, config) {
+	//The models that are access.
+	var public_models = ['users', 'user_groups'];
+	
+	/*
+	 * Logs error messages to stderr.
+	 * @param {String} error - An error message.
+	 * @return {Undefined}
+	 */
+	var errorHandler = function(error) {
+		if (config.debug && error)
+			console.error("Error: %s", error);
+	};
+
 	return {
 		/*
 		 * Retrieve data from a model by the primary ID.
@@ -31,20 +44,17 @@ module.exports = function(models, express, config) {
 		getById: function(request, response, next) {
 			var model = request.params.model;
 			var id = parseInt(request.params.id);
-			var public_models = ['users', 'user_groups'];
+			var is_valid = (id && public_models.indexOf(model) !== -1);
 			
-			if (id && public_models.indexOf(model) !== -1) {
+			if (is_valid) {
 				models[model]
 					.findById(id)
 					.then(function(result) {
-						response.json(result ? [result.dataValues] : []);
+						(result)
+							? response.status(200).json([result.dataValues])
+							: response.status(404).json([]);
 					})
-					.catch(function(error) {  
-						if (config.debug)
-							console.log("error: %s", error);
-						
-						response.status(404).render('404', {title: '404 Not Found'});
-					});
+					.catch(errorHandler);
 			}
 			else
 				response.status(404).render('404', {title: '404 Not Found'});
@@ -59,22 +69,22 @@ module.exports = function(models, express, config) {
 		 */
 		getModel: function(request, response, next) {
 			var model = request.params.model;
-			var offset = parseInt(request.params.offset) || 0;
-			var limit = parseInt(request.params.limit) || 10;
-			var order = parseInt(request.params.order);
-			var public_models = ['users', 'user_groups'];
-
-			if (public_models.indexOf(model) !== -1) {
+			var conditions = {
+				offset: parseInt(request.params.offset) || 0,
+				limit: parseInt(request.params.limit) || null,
+				order: request.params.order || null 
+			};
+			var is_valid = (public_models.indexOf(model) !== -1);
+			
+			if (is_valid) {
 				models[model]
-					.findAll(/*{offset: offset, limit: limit}*/)
+					.findAll(conditions)
 					.then(function(result) {
-						response.json(result);
-					}).catch(function(error) {
-						if (config.debug)
-							console.log("error: %s", error);
-						
-						response.status(404).render('404', {title: '404 Not Found'});
-					});
+						(result)
+							? response.status(200).json(result)
+							: response.status(404).json([]);
+					})
+					.catch(errorHandler);
 			}
 			else
 				response.status(404).render('404', {title: '404 Not Found'});
@@ -89,20 +99,15 @@ module.exports = function(models, express, config) {
 		 */
 		upsertModel: function(request, response, next) {
 			var model = request.params.model;
-			var public_models = ['users', 'user_groups'];
-			//console.dir(request.body);	
 			
 			if (request.body) {
 				models[model].upsert(request.body)
 					.then(function(result) {
-						response.json({});
+						(result)
+							? response.status(200).json({})
+							: response.status(404).json({});
 					})
-					.catch(function(error) {
-						if (config.debug)
-							console.log("error: %s", error);
-							
-						response.status(404).render('404', {title: '404 Not Found'});
-					});
+					.catch(errorHandler);
 			}
 			else
 				response.status(404).render('404', {title: '404 Not Found'});
@@ -117,19 +122,16 @@ module.exports = function(models, express, config) {
 		 */
 		dropModel: function(request, response, next) {
 			var model = request.params.model;
-			var public_models = ['users', 'user_groups'];
+			var is_valid = (public_models.indexOf(model) !== -1);
 			
-			if (public_models.indexOf(model) !== -1) {
+			if (is_valid) {
 				models[model].truncate({cascade: true})
 					.then(function(result) {
-						response.json({});
+						(result)
+							? response.status(200).json({})
+							: response.status(404).json({});
 					})
-					.catch(function(error) {
-						if (config.debug)
-							console.log("error: %s", error);
-						
-						response.status(404).render('404', {title: '404 Not Found'});
-					});
+					.catch(errorHandler);
 			}
 			else
 				response.status(404).render('404', {title: '404 Not Found'});
@@ -144,21 +146,17 @@ module.exports = function(models, express, config) {
 		 */
 		dropById: function(request, response, next) {
 			var model = request.params.model;
-			var id = request.params.id;
-			var public_models = ['users', 'user_groups'];
+			var id = parseInt(request.params.id);
+			var is_valid = (id && public_models.indexOf(model) !== -1);
 			
-			if (id && public_models.indexOf(model) !== -1) {
+			if (is_valid) {
 				models[model].destroy({id: id})
 					.then(function(result) {
-						response.json({res: result});
-						
+						(result)
+							? response.status(200).json({})
+							: response.status(404).json({});
 					})
-					.catch(function(error) {
-						if (config.debug)
-							console.log("error: %s", error);
-						
-						response.status(404).render('404', {title: '404 Not Found'});
-					});
+					.catch(errorHandler);
 			}
 			else
 				response.status(404).render('404', {title: '404 Not Found'});

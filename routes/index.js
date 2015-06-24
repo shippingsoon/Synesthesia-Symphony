@@ -16,18 +16,16 @@
  */
 
 module.exports = function(models, express, config) {
-	var routes = {};
-	
-	/*
-	 * Index page.
-	 * @param {Object} request - Server request.
-	 * @param {Object} response - Server response.
-	 * @param {Function} next - .
-	 * @return {Undefined}
-	 */
-	routes.index = function(request, response, next) {
-		response.render('index', { title: 'Index | '});
+	return {
+		/*
+		 * Home page.
+		 * @param {Object} request - Server request.
+		 * @param {Object} response - Server response.
+		 * @param {Function} next - .
+		 * @return {Undefined}
+		 */
+		home: function(request, response, next) {
+			response.render('index', { title: 'Index | '});
+		}
 	};
-
-	return routes;
 };

@@ -15,7 +15,6 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var compression = require('compression');
-var favicon = require('serve-favicon');
 var errorHandler = require('errorhandler');
 var app = express();
 var router = express.Router();
@@ -56,13 +55,12 @@ sequelize.sync();
 app.engine('html', require('ejs').renderFile);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'html');
-app.set('port', process.env.PORT || 3000);
+app.set('port', config.server.port);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(bodyParser());
 app.use(methodOverride());
 app.use(compression());
-app.use(favicon(__dirname + '/public/sprite/favicon.ico'));
 app.use(morgan());
 app.use(express.static(__dirname + '/public', {maxAge: 86400000}));
 app.use(router);
@@ -81,6 +79,9 @@ var routes = {
 	api: require('./routes/api')(models, app, config)
 };
 
+//Home page.
+router.route('/').get(routes.index.home);
+
 //CRUD operations for all records.
 router.route('/api/:version/:model')
 	.post(routes.api.upsertModel) //Create.
@@ -93,3 +94,6 @@ router.route('/api/:version/:model/:id')
 	.get(routes.api.getById) //Read.
 	.put(routes.api.upsertModel) //Update.
 	.delete(routes.api.dropById); //Delete.
+
+
+
