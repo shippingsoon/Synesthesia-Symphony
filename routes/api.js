@@ -30,7 +30,8 @@ module.exports = function(models, express, config) {
 	 */
 	var errorHandler = function(error) {
 		if (config.debug && error)
-			console.error("Error: %s", error);
+			//console.error("Error: %s", error);
+			console.log("Error: %s", error);
 	};
 
 	return {
@@ -149,12 +150,17 @@ module.exports = function(models, express, config) {
 			var id = parseInt(request.params.id);
 			var is_valid = (id && public_models.indexOf(model) !== -1);
 			
-			if (is_valid) {
-				models[model].destroy({id: id})
-					.then(function(result) {
-						(result)
-							? response.status(200).json({})
-							: response.status(404).json({});
+			if (is_valid && models[model].primaryKeyCount === 1) {
+				var condition = {};
+				var primary_key = models[model].primaryKeyField;
+				condition[primary_key] = id;
+				
+				models[model]
+					.destroy({force: true, where: condition})
+					.then(function(affected_rows) {
+						response
+							.status((affected_rows > 0) ? 200 : 404)
+							.json({affected_rows: affected_rows});
 					})
 					.catch(errorHandler);
 			}
