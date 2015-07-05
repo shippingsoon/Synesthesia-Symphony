@@ -2,5 +2,5 @@
 /design.txt
 /patterns.txt
 /todo.txt
-/server/node_modules/server_settings/*.js
+server/node_modules/server_settings/*
 .DS_Store
