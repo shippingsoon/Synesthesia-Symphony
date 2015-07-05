@@ -28,8 +28,8 @@ var Session = (function(globals, system) {
 		 */
 		base_url: function(path) {
 			path = (path) ? path.toLowerCase() : '';
-			//return base.href + path;
-			return 'http://localhost:21616/' + path;
+			return base.href + path;
+			//return 'http://localhost:21616/' + path;
 		}
 	};
 }(window, System)); 

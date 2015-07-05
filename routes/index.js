@@ -25,6 +25,7 @@ module.exports = function(models, express, config) {
 		 * @return {Undefined}
 		 */
 		home: function(request, response, next) {
+			debugger;
 			response.render('index', { title: 'Index | '});
 		}
 	};

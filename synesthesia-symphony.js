@@ -11,6 +11,8 @@
 
 //Import third party modules.
 var express = require('express');
+var https = require('https');
+var fs = require('fs');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
@@ -43,17 +45,28 @@ var sequelize = new Sequelize(config.db.database, config.db.user, config.db.pass
 
 //Import the models.
 var models = {
-	user_groups: sequelize.import(__dirname + '/models/user_groups'),
-	users: sequelize.import(__dirname + '/models/users')
+	user_groups: sequelize.import('./models/user_groups'),
+	users: sequelize.import('./models/users')
 };
 
 //Set relations.
 models.user_groups.hasOne(models.users, {foreignKey: 'user_group_id_fk', onDelete: 'cascade', onUpdate: 'no action'});
 sequelize.sync();
 
+var ssl_settings = {
+    key: fs.readFileSync('./ssl/synesthesia-symphony.key'),
+    cert: fs.readFileSync('./ssl/synesthesia-symphony.crt')
+};
+
+//Bind the HTTPS server to a port.
+app.server = https.createServer(ssl_settings, app);
+app.server.listen(config.server.port, function(){
+	console.log("Express server listening on: %s:%s", app.server.address().address, app.get('port'));
+});
+
 //Configure Express.js.
 app.engine('html', require('ejs').renderFile);
-app.set('views', __dirname + '/views');
+app.set('views', './views');
 app.set('view engine', 'html');
 app.set('port', config.server.port);
 app.use(bodyParser.urlencoded({extended: true}));
@@ -62,16 +75,11 @@ app.use(bodyParser());
 app.use(methodOverride());
 app.use(compression());
 app.use(morgan());
-app.use(express.static(__dirname + '/public', {maxAge: 86400000}));
+app.use(express.static('./public', {maxAge: 86400000}));
 app.use(router);
 
 if (app.get('env') === 'development')
 	app.use(errorHandler({ dumpExceptions: true, showStack: true }));
-
-//Bind the server to a port.
-app.listen(app.get('port'), function() {
-	console.log("Express server listening on port %d in %s mode", app.get('port'), app.get('env'));
-});
 
 //Express.js routes.
 var routes = {
