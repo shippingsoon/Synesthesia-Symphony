@@ -36,7 +36,12 @@ var sequelize_settings = {
 		engine: 'InnoDB',
 		charset: 'utf8',
 		collate: 'utf8_general_ci',
-		syncOnAssociation: true
+		syncOnAssociation: true,
+		pool: {
+			maxConnections: 10,
+			minConnections: 0,
+			maxIdleTime: 1000
+		}
 	}
 };
 
@@ -46,12 +51,23 @@ var sequelize = new Sequelize(config.db.database, config.db.user, config.db.pass
 //Import the models.
 var models = {
 	user_groups: sequelize.import('./models/user_groups'),
-	users: sequelize.import('./models/users')
+	users: sequelize.import('./models/users'),
+	user_scores: sequelize.import('./models/user_scores'),
+	user_settings: sequelize.import('./models/user_settings'),
+	user_statistics: sequelize.import('./models/user_statistics'),
+	user_stages: sequelize.import('./models/user_stages'),
+	user_enemies: sequelize.import('./models/user_enemies')
 };
 
-//Set relations.
-models.user_groups.hasOne(models.users, {foreignKey: 'user_group_id_fk', onDelete: 'cascade', onUpdate: 'no action'});
-sequelize.sync();
+//Set the foreign key relationships for referencial integrity.
+models.user_groups.hasMany(models.users, {foreignKey: 'user_group_id', onDelete: 'cascade', onUpdate: 'no action'});
+models.users.hasOne(models.user_scores, {foreignKey: 'user_id', onDelete: 'cascade', onUpdate: 'no action'});
+models.users.hasOne(models.user_settings, {foreignKey: 'user_id', onDelete: 'cascade', onUpdate: 'no action'});
+models.users.hasOne(models.user_statistics, {foreignKey: 'user_id', onDelete: 'cascade', onUpdate: 'no action'});
+models.users.hasOne(models.user_stages, {foreignKey: 'user_id', onDelete: 'cascade', onUpdate: 'no action'});
+models.users.hasOne(models.user_enemies, {foreignKey: 'user_id', onDelete: 'cascade', onUpdate: 'no action'});
+
+sequelize.sync({force: true});
 
 var ssl_settings = {
     key: fs.readFileSync('./ssl/synesthesia-symphony.key'),
@@ -83,7 +99,7 @@ if (app.get('env') === 'development')
 
 //Express.js routes.
 var routes = {
-	index: require('./routes/index')(models, app, config),
+	index: require('./routes/index')(models, config),
 	api: require('./routes/api')(models, app, config)
 };
 

@@ -4,3 +4,4 @@
 /todo.txt
 server/node_modules/server_settings/*
 .DS_Store
+*.bak

@@ -67,7 +67,7 @@ Resource.songs = (function(system) {
 		
 		//Sky chase zone.
 		sky_chase_zone: {
-			file: file_path + 'sky-chase-zone.mid',
+			file: file_path + 'moldau.mid',
 			title: 'Sky Chase Zone',
 			series: 'Sonic The Hedgehog 2',
 			composer: 'Masato Nakamura',

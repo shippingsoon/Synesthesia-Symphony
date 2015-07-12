@@ -10,23 +10,23 @@
 /*
  * Index routes.
  * @param {Object} models - Sequelize models.
- * @param {Object} express - Express.js application.
  * @param {Object} config - Server configuration.
  * @return {Function}
  */
 
-module.exports = function(models, express, config) {
+module.exports = function(models, config) {
 	return {
 		/*
 		 * Home page.
-		 * @param {Object} request - Server request.
-		 * @param {Object} response - Server response.
+		 * @param {Object} req - Server request.
+		 * @param {Object} res - Server response.
 		 * @param {Function} next - .
 		 * @return {Undefined}
 		 */
-		home: function(request, response, next) {
+		home: function(req, res, next) {
 			debugger;
-			response.render('index', { title: 'Index | '});
+			var base_url = req.protocol + '://' + req.hostname + ':' + req.app.server.address().port + '/';
+			res.render('index', {title: 'Index | ', base_url: base_url});
 		}
 	};
 };

@@ -8,8 +8,8 @@
  */
 
 /*
- * User groups table.
- * @param {Object} Sequelize - Sequelize module.
+ * User Groups table.
+ * @param {Object} sequelize - Sequelize module.
  * @param {Object} data_types - Sequelize data types.
  * @return {Object}
  */
@@ -32,3 +32,13 @@ module.exports = function(sequelize, data_types) {
 		}
 	});
 };
+
+/*
+CREATE TABLE IF NOT EXISTS `synesthesia_symphony`.`user_groups` (
+  `user_group_id` INT(4) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'The user group ID.',
+  `title` VARCHAR(20) NOT NULL COMMENT 'Name of user group.',
+  PRIMARY KEY (`user_group_id`)  COMMENT '',
+  UNIQUE INDEX `title_un_idx` (`title` ASC)  COMMENT '')
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+*/

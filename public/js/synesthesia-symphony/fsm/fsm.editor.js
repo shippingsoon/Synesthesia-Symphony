@@ -37,6 +37,8 @@ FSM.Editor = (function(globals, fsm, stg, resource, system, midi, shape, vector,
 	 * @return {Undefined}
 	 */
 	function Editor(options) {
+		$('#sortable').sortable();
+
 		//The HTML5 canvases.
 		var layers = resource.layers;
 		

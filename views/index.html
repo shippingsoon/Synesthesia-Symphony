@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta http-equiv="cache-control" content="no-cache" />
-		<base href="https://localhost:3000/"/>
+		<base href="<%= base_url %>"/>
 		<link rel="shortcut icon" href="./sprite/favicon.ico"/>
 		<title><%= title %>Synesthesia Symphony (v0.06) - Shipping Soon</title>
 		
@@ -29,9 +29,11 @@
 		<script src="./js/midi/musictheory/Synesthesia.js?t=116" type="text/javascript" defer></script>
 		
 		<!-- jQuery -->
-		<script src="./js/jquery/jquery-1.11.1.min.js?t=116" type="text/javascript" defer></script>
+		<script src="./js/jquery/jquery.min.js?t=116" type="text/javascript" defer></script>
+		<script src="./js/jquery-ui/jquery-ui.min.js?t=116" type="text/javascript" defer></script>
 		<script src="./js/jquery/jquery.hotkeys.js?t=116" type="text/javascript" defer></script>
 		<script src="./js/jquery/jquery.key-status.js?t=116" type="text/javascript" defer></script>
+		<link href="./css/jquery-ui/jquery-ui.min.css?t=116" rel="stylesheet" type="text/css" />
 		
 		<!-- Font-Awesome -->
 		<link href="./css/font-awesome/font-awesome.css?t=116" rel="stylesheet" type="text/css" />
@@ -114,6 +116,50 @@
 		<script src="./js/synesthesia-symphony/synesthesia-symphony.js?t=116" type="text/javascript" defer></script>
 	</head>
 	<body>
+		<div id="editor">
+			<section class="opensans light-weight">
+				<h3>1) Login</h3>
+				
+				<input type="text" id="user_name" placeholder="User"/>
+				<input type="password" id="password" placeholder="Password"/>
+			</section>
+
+			<section class="opensans light-weight">
+				<h3>2) Select Stage</h3>
+				
+				<select id="stage_id" name="stage_id">
+					<option selected>Select Stage</option>
+					<option value="1">Stage 01</option>
+					<option value="2">Stage 02</option>
+				</select>
+			</section>
+
+			<section class="opensans light-weight">
+				<h3>3) Select MIDI</h3>
+
+				<select id="midi_id" name="midi_id">
+					<option selected>Select MIDI</option>
+					<option value="1">Intro</option>
+					<option value="2">Mountain</option>
+				</select>
+			</section>
+
+			<section class="opensans light-weight">
+				<h3>4) Save Playlist</h3>
+
+				<input type="button" class="" value="Save Playlist" />
+			</section>
+
+
+			<section class="opensans light-weight">
+				<h3>5) Order Playlist</h3>
+
+				<ul id="sortable" class="sortable">
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Intro.midi | Stage 01</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Mountain.midi | Stage 01</li>
+				</ul>
+			</section>
+		</div>
 		<div class="synesthesia-symphony box menu-1">
 			<canvas id="screen-layer">Your browser does not support HTML5 Canvas.</canvas>
 			<canvas id="buffer-layer">Your browser does not support HTML5 Canvas.</canvas>

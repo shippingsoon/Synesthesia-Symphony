@@ -9,7 +9,7 @@
 
 /*
  * Users table.
- * @param {Object} Sequelize - Sequelize module.
+ * @param {Object} sequelize - Sequelize module.
  * @param {Object} data_types - Sequelize data types.
  * @return {Object}
  */
@@ -53,12 +53,26 @@ module.exports = function(sequelize, data_types) {
 			type: data_types.STRING(200),
 			comment: 'The user salt',
 			allowNull: false
-		},
-		date_added: {
-			field: 'date_added',
-			type: data_types.DATE,
-			comment: 'Date added',
-			allowNull: false
 		}
 	});
 };
+
+/*
+CREATE TABLE IF NOT EXISTS `synesthesia_symphony`.`users` (
+  `user_id` INT(4) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'The user ID.',
+  `user_group_id` INT(4) UNSIGNED NOT NULL COMMENT 'The user group.',
+  `email_address` VARCHAR(100) NOT NULL COMMENT 'The user email address.',
+  `user_name` VARCHAR(20) NOT NULL COMMENT 'The user name.',
+  `password` VARCHAR(100) NOT NULL COMMENT 'The user password.',
+  `salt` VARCHAR(100) NOT NULL COMMENT 'The password salt.',
+  PRIMARY KEY (`user_id`)  COMMENT '',
+  INDEX `user_group_id_fk_idx` USING BTREE (`user_group_id` ASC)  COMMENT '',
+  UNIQUE INDEX `email_address_un_idx` (`email_address` ASC)  COMMENT '',
+  CONSTRAINT `user_group_id_fk`
+    FOREIGN KEY (`user_group_id`)
+    REFERENCES `synesthesia_symphony`.`user_groups` (`user_group_id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+*/
