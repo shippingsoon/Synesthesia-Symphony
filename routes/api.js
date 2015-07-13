@@ -7,8 +7,7 @@
  * @license - GPLv3
  */
 
-
-
+var server_utils = require('server_utils');
 
 'use strict';
 
@@ -20,20 +19,6 @@
  * @return {Function}
  */
 module.exports = function(models, express, config) {
-	//The models that are access.
-	var public_models = ['users', 'user_groups'];
-	
-	/*
-	 * Logs error messages to stderr.
-	 * @param {String} error - An error message.
-	 * @return {Undefined}
-	 */
-	var errorHandler = function(error) {
-		if (config.debug && error)
-			//console.error("Error: %s", error);
-			console.log("Error: %s", error);
-	};
-
 	return {
 		/*
 		 * Retrieve data from a model by the primary ID.
@@ -45,9 +30,8 @@ module.exports = function(models, express, config) {
 		getById: function(request, response, next) {
 			var model = request.params.model;
 			var id = parseInt(request.params.id);
-			var is_valid = (id && public_models.indexOf(model) !== -1);
 			
-			if (is_valid) {
+			if (models[model] && id) {
 				models[model]
 					.findById(id)
 					.then(function(result) {
@@ -55,7 +39,7 @@ module.exports = function(models, express, config) {
 							? response.status(200).json([result.dataValues])
 							: response.status(404).json([]);
 					})
-					.catch(errorHandler);
+					.catch(server_utils.errorHandler);
 			}
 			else
 				response.status(404).render('404', {title: '404 Not Found'});
@@ -75,9 +59,8 @@ module.exports = function(models, express, config) {
 				limit: parseInt(request.params.limit) || null,
 				order: request.params.order || null 
 			};
-			var is_valid = (public_models.indexOf(model) !== -1);
 			
-			if (is_valid) {
+			if (models[model]) {
 				models[model]
 					.findAll(conditions)
 					.then(function(result) {
@@ -85,7 +68,7 @@ module.exports = function(models, express, config) {
 							? response.status(200).json(result)
 							: response.status(404).json([]);
 					})
-					.catch(errorHandler);
+					.catch(server_utils.errorHandler);
 			}
 			else
 				response.status(404).render('404', {title: '404 Not Found'});
@@ -101,14 +84,14 @@ module.exports = function(models, express, config) {
 		upsertModel: function(request, response, next) {
 			var model = request.params.model;
 			
-			if (request.body) {
+			if (models[model] && request.body) {
 				models[model].upsert(request.body)
 					.then(function(result) {
 						(result)
 							? response.status(200).json({})
 							: response.status(404).json({});
 					})
-					.catch(errorHandler);
+					.catch(server_utils.errorHandler);
 			}
 			else
 				response.status(404).render('404', {title: '404 Not Found'});
@@ -123,16 +106,15 @@ module.exports = function(models, express, config) {
 		 */
 		dropModel: function(request, response, next) {
 			var model = request.params.model;
-			var is_valid = (public_models.indexOf(model) !== -1);
 			
-			if (is_valid) {
+			if (models[model]) {
 				models[model].truncate({cascade: true})
 					.then(function(result) {
 						(result)
 							? response.status(200).json({})
 							: response.status(404).json({});
 					})
-					.catch(errorHandler);
+					.catch(server_utils.errorHandler);
 			}
 			else
 				response.status(404).render('404', {title: '404 Not Found'});
@@ -148,9 +130,8 @@ module.exports = function(models, express, config) {
 		dropById: function(request, response, next) {
 			var model = request.params.model;
 			var id = parseInt(request.params.id);
-			var is_valid = (id && public_models.indexOf(model) !== -1);
 			
-			if (is_valid && models[model].primaryKeyCount === 1) {
+			if (models[model] && id && models[model].primaryKeyCount === 1) {
 				var condition = {};
 				var primary_key = models[model].primaryKeyField;
 				condition[primary_key] = id;
@@ -162,7 +143,7 @@ module.exports = function(models, express, config) {
 							.status((affected_rows > 0) ? 200 : 404)
 							.json({affected_rows: affected_rows});
 					})
-					.catch(errorHandler);
+					.catch(server_utils.errorHandler);
 			}
 			else
 				response.status(404).render('404', {title: '404 Not Found'});

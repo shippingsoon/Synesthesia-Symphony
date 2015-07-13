@@ -15,6 +15,7 @@ var https = require('https');
 var fs = require('fs');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var methodOverride = require('method-override');
 var compression = require('compression');
 var errorHandler = require('errorhandler');
@@ -24,6 +25,7 @@ var Sequelize = require('sequelize');
 
 //Import first party modules.
 var config = require('server_settings');
+var server_utils = require('server_utils');
 
 //Sequelize's configuration settings.
 var sequelize_settings = {
@@ -67,7 +69,25 @@ models.users.hasOne(models.user_statistics, {foreignKey: 'user_id', onDelete: 'c
 models.users.hasOne(models.user_stages, {foreignKey: 'user_id', onDelete: 'cascade', onUpdate: 'no action'});
 models.users.hasOne(models.user_enemies, {foreignKey: 'user_id', onDelete: 'cascade', onUpdate: 'no action'});
 
-sequelize.sync({force: true});
+sequelize.sync({force: true}).then(function(){
+	models.user_groups
+		.bulkCreate([
+			{user_group_id: 1, title: 'Admin'},
+			{user_group_id: 2, title: 'Member'},
+			{user_group_id: 3, title: 'Guest'},
+			{user_group_id: 4, title: 'Banned'}
+		])
+		.then(function() {
+			models.users
+				.bulkCreate([
+					{user_id: 1, user_group_id: 1, email_address: 'admin@shippingsoon.com', user_name: 'admin', password: '$#REf5fsFc%*)dfF0o3#4', salt: '%GG#$DFDFc52DE#$s$^'},
+					{user_id: 2, user_group_id: 3, email_address: 'info@shippingsoon.com', user_name: 'guest', password: '$#REoS4%!$fdfs9FsWA', salt: '%GG#@Ffsd4#J)*d8Bc23'}
+				])
+				.catch(server_utils.errorHandler);
+		})
+		.catch(server_utils.errorHandler);
+
+});
 
 var ssl_settings = {
     key: fs.readFileSync('./ssl/synesthesia-symphony.key'),
@@ -88,14 +108,27 @@ app.set('port', config.server.port);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(bodyParser());
+app.use(session({
+	secret: config.server.secret,
+	saveUninitialized: true,
+	resave: true
+}));
 app.use(methodOverride());
 app.use(compression());
-app.use(morgan());
+//app.use(morgan());
 app.use(express.static('./public', {maxAge: 86400000}));
 app.use(router);
+app.all('*', function(req, res) {
+	var session = req.session;
 
-if (app.get('env') === 'development')
-	app.use(errorHandler({ dumpExceptions: true, showStack: true }));
+	if (!session || !session.is_logged_in) {
+		session.is_logged_in = false;
+		
+		//session.user_id =
+	}
+});
+//if (app.get('env') === 'development')
+//	app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 
 //Express.js routes.
 var routes = {
