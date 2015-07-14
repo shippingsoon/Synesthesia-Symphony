@@ -105,6 +105,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('views', './views');
 app.set('view engine', 'html');
 app.set('port', config.server.port);
+app.set('models', models);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(bodyParser());
@@ -118,6 +119,7 @@ app.use(compression());
 //app.use(morgan());
 app.use(express.static('./public', {maxAge: 86400000}));
 app.use(router);
+
 app.all('*', function(req, res) {
 	var session = req.session;
 
@@ -127,6 +129,7 @@ app.all('*', function(req, res) {
 		//session.user_id =
 	}
 });
+
 //if (app.get('env') === 'development')
 //	app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 
