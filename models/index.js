@@ -80,7 +80,6 @@ sequelize.sync({force: true}).then(function(){
 				.catch(server_utils.errorHandler);
 		})
 		.catch(server_utils.errorHandler);
-
 });
 
 module.exports.sequelize = sequelize;

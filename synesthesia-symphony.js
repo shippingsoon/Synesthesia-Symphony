@@ -26,7 +26,7 @@ var router = express.Router();
 var config = require('server_settings');
 var server_utils = require('server_utils');
 
-
+//Load the SSL certificate and private key.
 var ssl_settings = {
     key: fs.readFileSync('./ssl/synesthesia-symphony.key'),
     cert: fs.readFileSync('./ssl/synesthesia-symphony.crt')
@@ -58,20 +58,8 @@ app.use(morgan());
 app.use(express.static('./public', {maxAge: 86400000}));
 app.use(router);
 
-/*
-app.all('*', function(req, res) {
-	var session = req.session;
-
-	if (!session || !session.is_logged_in) {
-		session.is_logged_in = false;
-		
-		//session.user_id =
-	}
-});
-*/
-
 if (app.get('env') === 'development')
-	app.use(errorHandler({ dumpExceptions: true, showStack: true }));
+	app.use(errorHandler({dumpExceptions: true, showStack: true}));
 
 //Express.js routes.
 var routes = {
@@ -94,6 +82,4 @@ router.route('/api/:version/:model/:id')
 	.get(routes.api.getById) //Read.
 	.put(routes.api.upsertModel) //Update.
 	.delete(routes.api.dropById); //Delete.
-
-
 

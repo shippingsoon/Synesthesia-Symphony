@@ -81,9 +81,7 @@ module.exports.upsertModel = function(request, response, next) {
 	if (models[model] && request.body) {
 		models[model].upsert(request.body)
 			.then(function(result) {
-				(result)
-					? response.status(200).json({})
-					: response.status(404).json({});
+				response.status((result) ? 200 : 404).json({});
 			})
 			.catch(server_utils.errorHandler);
 	}
@@ -105,9 +103,7 @@ module.exports.dropModel = function(request, response, next) {
 	if (models[model]) {
 		models[model].truncate({cascade: true})
 			.then(function(result) {
-				(result)
-					? response.status(200).json({})
-					: response.status(404).json({});
+				response.status((result) ? 200 : 404).json({});
 			})
 			.catch(server_utils.errorHandler);
 	}
