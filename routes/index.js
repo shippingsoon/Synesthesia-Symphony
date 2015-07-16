@@ -8,25 +8,14 @@
  */
 
 /*
- * Index routes.
- * @param {Object} models - Sequelize models.
- * @param {Object} config - Server configuration.
- * @return {Function}
+ * Home page.
+ * @param {Object} req - Server request.
+ * @param {Object} res - Server response.
+ * @param {Function} next - .
+ * @return {Undefined}
  */
-
-module.exports = function(models, config) {
-	return {
-		/*
-		 * Home page.
-		 * @param {Object} req - Server request.
-		 * @param {Object} res - Server response.
-		 * @param {Function} next - .
-		 * @return {Undefined}
-		 */
-		home: function(req, res, next) {
-			debugger;
-			var base_url = req.protocol + '://' + req.hostname + ':' + req.app.server.address().port + '/';
-			res.render('index', {title: 'Index | ', base_url: base_url});
-		}
-	};
+module.exports.home = function(req, res, next) {
+	debugger;
+	var base_url = req.protocol + '://' + req.hostname + ':' + req.app.server.address().port + '/';
+	res.render('index', {title: 'Index | ', base_url: base_url});
 };
