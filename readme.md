@@ -5,7 +5,7 @@ Synesthesia Symphony is a shoot 'em up game designed for HTML5 Canvas. What make
 
 On the frontend I used a <a href="https://github.com/shippingsoon/Finite-State-Machine" target="_blank">finite state machine</a> and the <a href="http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html" target="_blank">javascript module pattern</a> to keep the codebase organized and robust. To make things even more manageable, I set an arbitrary limit of 400 lines for each submodule.
 
-The backend is coded in Node.js. I used Expressjs and a <a href="http://docs.sequelizejs.com/en/latest/">promised based ORM</a> for my <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Model View Controller</a> framework. I used this framework to implement a <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">RESTful</a> JSON API.
+The backend is coded in Node.js. I used Expressjs and a <a href="http://docs.sequelizejs.com/en/latest/">promised based ORM</a> for my <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Model View Controller</a> framework. I used this MVC framework to implement a <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">RESTful</a> JSON API. Mocha and <a href="https://github.com/shouldjs/should.js">Shouldjs</a> was used for unit testing.
 
 #### Installation:
 
