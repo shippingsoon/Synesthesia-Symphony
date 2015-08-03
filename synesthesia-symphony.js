@@ -15,12 +15,17 @@ var https = require('https');
 var fs = require('fs');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-var session = require('express-session');
+var session = require('client-sessions');
 var methodOverride = require('method-override');
 var compression = require('compression');
 var errorHandler = require('errorhandler');
 var app = express();
-var router = express.Router();
+
+//Expressjs routers.
+var routers = {
+	v1: require('./routes/v1'),
+	//v2: require('./routes/v2'),
+};
 
 //Import first party modules.
 var config = require('server_settings');
@@ -32,10 +37,21 @@ var ssl_settings = {
     cert: fs.readFileSync('./ssl/synesthesia-symphony.crt')
 };
 
+//Client session settings.
+var session_settings = {
+	secret: config.server.secret,
+	cookieName: 'session',
+	duration: 30 * 60 * 1000, //Session is valid for 30 minutes.
+	activeDuration: 5 * 60 * 1000, //The user can keep session active for 5 minutes.
+	httpOnly: true,
+	secure: true,
+	ephemeral: true
+};
+
 //Bind the HTTPS server to a port.
 app.server = https.createServer(ssl_settings, app);
 app.server.listen(config.server.port, function(){
-	console.log("Express server listening on: %s:%s", app.server.address().address, app.get('port'));
+	console.log("Expressjs server listening on: %s:%s", app.server.address().address, app.get('port'));
 });
 
 //Configure Express.js.
@@ -47,39 +63,19 @@ app.set('models', require('./models'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(bodyParser());
-app.use(session({
-	secret: config.server.secret,
-	saveUninitialized: true,
-	resave: true
-}));
+app.use(session(session_settings));
 app.use(methodOverride());
 app.use(compression());
-app.use(morgan());
+//app.use(morgan());
 app.use(express.static('./public', {maxAge: 86400000}));
-app.use(router);
+
+//Load the modular routers.
+app.use('/v1', routers.v1);
+//app.use('/v2', routers.v2);
+
+//Default to the latest version of the API.
+app.use('/', routers.v1);
 
 if (app.get('env') === 'development')
 	app.use(errorHandler({dumpExceptions: true, showStack: true}));
-
-//Express.js routes.
-var routes = {
-	index: require('./routes/index'),
-	api: require('./routes/api')
-};
-
-//Home page.
-router.route('/').get(routes.index.home);
-
-//CRUD operations for all records.
-router.route('/api/:version/:model')
-	.post(routes.api.upsertModel) //Create.
-	.get(routes.api.getModel) //Read.
-	.put(routes.api.upsertModel) //Update.
-	.delete(routes.api.dropModel); //Delete.
-
-//CRUD operations for a given record.
-router.route('/api/:version/:model/:id')
-	.get(routes.api.getById) //Read.
-	.put(routes.api.upsertModel) //Update.
-	.delete(routes.api.dropById); //Delete.
 

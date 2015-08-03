@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta http-equiv="cache-control" content="no-cache" />
+		<base href="<%= base_url %>"/>
+		<link rel="shortcut icon" href="./sprite/favicon.ico"/>
+		<title>Login | Synesthesia Symphony (v0.06) - Shipping Soon</title>
+		
+		<!-- jQuery -->
+		<script src="./js/jquery/jquery.min.js?t=116" type="text/javascript" defer></script>
+		<script src="./js/jquery-ui/jquery-ui.min.js?t=116" type="text/javascript" defer></script>
+		<script src="./js/jquery/jquery.hotkeys.js?t=116" type="text/javascript" defer></script>
+		<script src="./js/jquery/jquery.key-status.js?t=116" type="text/javascript" defer></script>
+		<link href="./css/jquery-ui/jquery-ui.min.css?t=116" rel="stylesheet" type="text/css" />
+		
+		<!-- Font-Awesome -->
+		<link href="./css/font-awesome/font-awesome.css?t=116" rel="stylesheet" type="text/css" />
+		
+		<!-- Context-Menu -->
+		<link href="./css/context-menu/jquery.contextMenu.css?t=116" rel="stylesheet" type="text/css" />
+		<script src="./js/context-menu/jquery.ui.position.js?t=116" type="text/javascript" defer></script>
+		<script src="./js/context-menu/jquery.contextMenu.js?t=116" type="text/javascript" defer></script>
+		<script src="./js/css-color-parser/csscolorparser.js?t=116" type="text/javascript" defer></script>
+			
+		<!-- Synesthesia Symphony -->
+		<link href="./css/synesthesia-symphony.css?t=116" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<form id="login-form" method="post" action="<%= base_url %>">
+			<input type="email" id="email_address" name="email_address" placeholder="Email Address" maxlength="100" value="" required/>
+			<input type="password" id="password" name="password" placeholder="Password" maxlength="100" value="" required/>
+			<input type="Submit" value="Submit" />
+		</form>
+	</body>
+</html>
