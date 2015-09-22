@@ -33,8 +33,8 @@ var server_utils = require('server_utils');
 
 //Load the SSL certificate and private key.
 var ssl_settings = {
-    key: fs.readFileSync('./ssl/synesthesia-symphony.key'),
-    cert: fs.readFileSync('./ssl/synesthesia-symphony.crt')
+	key: fs.readFileSync('./ssl/synesthesia-symphony.key'),
+	cert: fs.readFileSync('./ssl/synesthesia-symphony.crt')
 };
 
 //Client session settings.
