@@ -24,7 +24,7 @@ vi node_modules/server_settings/server_settings.js
 #### Run:
 
 ```sh
-nodejs synesthesia-symphonny.js
+nodejs synesthesia-symphony.js
 
 #Using forever.js
 forever start synesthesia-symphony.js
