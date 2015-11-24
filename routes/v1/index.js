@@ -20,7 +20,7 @@ var server_utils = require('server_utils');
  */
 module.exports.home = function(req, res, next) {
 	debugger;
-	res.render('index', {title: 'Index | ', base_url: server_utils.baseURL(req, '')});
+	res.render('index', {title: 'Index | ', base_url: server_utils.baseUrl(req, '')});
 };
 
 /*

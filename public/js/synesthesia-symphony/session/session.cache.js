@@ -20,8 +20,8 @@ Session.cache = (function() {
 		hiscore: 4000,
 		resolution_idx: 'low',
 		volume: 0,
-		bgm_volume: 0,
-		sfx_volume: 0,
+		bgm_volume: 128,
+		sfx_volume: 128,
 		show_fps: true
 	};
 }()); 

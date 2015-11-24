@@ -34,15 +34,15 @@ module.exports = function(sequelize, data_types) {
 			field: 'date_added',
 			type: data_types.DATE(),
 			comment: 'The date this record was added',
-			allowNull: false,
-			defaultValue: sequelize.fn('NOW')
+			allowNull: true,
+			defaultValue: null //sequelize.fn('NOW')
 		},
 		date_updated: {
 			field: 'date_updated',
 			type: data_types.DATE(),
 			comment: 'The date this record was last updated',
-			allowNull: false,
-			defaultValue: sequelize.fn('NOW() ON UPDATE NOW')
+			allowNull: true,
+			defaultValue: null //sequelize.fn('NOW() ON UPDATE NOW')
 		},
 		user_agent: {
 			field: 'user_agent',
