@@ -12,18 +12,25 @@ The backend is coded in Node.js. I used Expressjs and a <a href="http://docs.seq
 
 To install on Linux:<br/>
 ```sh
+#Install git, npm, and nodejs
 sudo apt-get install nodejs npm git
+
+#Clone the repo
 git clone https://github.com/shippingsoon/Synesthesia-Symphony
 cd Synesthesia-Symphony
+
+#Install global nodejs modules
 sudo npm update
 sudo npm -g install forever
 sudo npm -g install nodemon
-#Edit MySQL user and password.
+
+#Edit MySQL user and password
 vi node_modules/server_settings/server_settings.js
 ```
 #### Run:
 
 ```sh
+#Run the program
 nodejs synesthesia-symphony.js
 
 #Using forever.js
