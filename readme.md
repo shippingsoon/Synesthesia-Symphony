@@ -7,7 +7,6 @@ On the frontend I used a <a href="https://github.com/shippingsoon/Finite-State-M
 
 The backend is coded in Node.js. I used Expressjs and a <a href="http://docs.sequelizejs.com/en/latest/">promised based ORM</a> for my <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Model View Controller</a> framework. I used this MVC framework to implement a <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">RESTful</a> JSON API. Mocha and <a href="https://github.com/shouldjs/should.js">Shouldjs</a> was used for unit testing. MySQL Workbench was used to generate the EER models.
 
-Word count tells me that the source code is approaching <b>8000</b> lines of code.
 
 #### Installation:
 
@@ -16,13 +15,23 @@ To install on Linux:<br/>
 sudo apt-get install nodejs npm git
 git clone https://github.com/shippingsoon/Synesthesia-Symphony
 cd Synesthesia-Symphony
-npm update
+sudo npm update
+sudo npm -g install forever
+sudo npm -g install nodemon
+#Edit MySQL user and password.
+vi node_modules/server_settings/server_settings.js
 ```
 #### Run:
 
 ```sh
 nodejs synesthesia-symphonny.js
+
+#Using forever.js
+forever start synesthesia-symphony.js
+
+#For development
+nodemon synesthesia-symphony.js
 ```
 
 #### Play it here:
-<a href="https://www.shippingsoon.com/synesthesia-symphony" target="_blank">https://www.shippingsoon.com/synesthesia-symphony</a>
+<a href="https://shippingsoon.com:3000" target="_blank">https://shippingsoon.com:3000</a>
