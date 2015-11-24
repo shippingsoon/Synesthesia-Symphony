@@ -5,4 +5,5 @@
 /ssl/
 server/node_modules/server_settings/*
 .DS_Store
+*.swp
 *.bak
