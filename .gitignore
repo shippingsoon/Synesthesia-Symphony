@@ -2,6 +2,7 @@
 /design.txt
 /patterns.txt
 /todo.txt
+/ssl/
 server/node_modules/server_settings/*
 .DS_Store
 *.bak
