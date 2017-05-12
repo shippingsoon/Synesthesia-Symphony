@@ -1,0 +1,125 @@
+html, body {
+	height:100%;
+	overflow:hidden;
+}
+
+@font-face {
+	font-family:'Open Sans';
+	font-style:normal;
+	font-weight:300;
+	src:local('Open Sans Light'), local('OpenSans-Light'), url('../font/opensans/opensans-light.woff') format('woff');
+}
+
+.opensans {
+	font-family:Open Sans, Helvetica, Arial;
+}
+
+.light-weight {
+	margin-top:0px;
+	font-weight:300;
+}
+
+a {
+	text-decoration:none;
+	color:DeepSkyBlue;
+}
+
+body {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	background-color:#666;
+	background-image:url('../sprite/bg/body-texture.png');
+	color:white;
+	text-shadow:black 1px 1px 1px;
+}
+
+.centered {
+	text-align:center;
+}
+
+.synesthesia-symphony {
+	position:relative;
+	margin:50px auto;
+	display:block;
+	border-radius:4px;
+	/*outline:solid 1px #CCC;*/
+	overflow:visible;
+	cursor:none;
+}
+
+	.synesthesia-symphony canvas {
+		background-color:transparent;
+		position:absolute;
+		left:0px;
+		top:0px;
+		z-index:1;
+		border-radius:4px;
+	}
+	
+	.synesthesia-symphony, #screen-layer{
+		width:800px;
+		height:600px;
+	}
+
+.resources, .hide {
+	display:none;
+}
+
+#sprite-layer {
+	z-index:1;
+}
+
+#buffer-layer {
+	z-index:2;
+}
+
+#pause-layer {
+	z-index:3;
+}
+
+#pause-layer, #buffer-layer {
+	left:40px;
+	top:20px;
+}
+
+.loading {
+	position:absolute;
+	z-index:4;
+	left:0px;
+	right:0px;
+	top:0px;
+	bottom:0px;
+	margin:auto;
+}
+
+.how-to {
+	text-align:left;
+	margin:auto;
+	width:200px;
+}
+
+.sortable {
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	width:60%
+}
+
+.sortable li {
+	margin:0 3px 3px 3px;
+	padding:0.4em;
+	padding-left:1.5em;
+	font-size:1.0em;
+	height:12px;
+	width:240px;
+	line-height:12px;
+}
+
+.sortable li span {
+	position:absolute;
+	margin-left:-1.3em;
+}
+
+#editor select, #editor input, #editor .sortable {
+	margin-left:40px;
+}
+
