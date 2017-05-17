@@ -1,104 +1,65 @@
 /*
- * @description - Synesthesia Symphony's system module.
+ * @description - The system namespace is the foundation for which every class is built upon.
  * @copyright - 2014 Shipping Soon
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @website - https://www.shippingsoon.com/synesthesia-symphony/
- * @version - v0.06
  * @license - GPLv3
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @demo - https://www.shippingsoon.com/synesthesia-symphony/
  */
-
-/*
- * This module handles miscellaneous system related task and resources.
- * @return {Object}
- */
-var System = (function() {
-	'use strict';
-	
-	return {
-		//Finite state machine.
-		fsm: null,
-		
-		//The master volume. This will determine the min and max volume of the background music and sound effects.
-		volume: 127,
-		
-		//The background music volume.
-		bgm_volume: 127,
-		
-		//The sound effects volume.
-		sfx_volue: 127,
-		
-		//Current score.
-		score: 0,
-		
-		//Hiscore.
-		hiscore: 0,
-		
-		//Typically in a danmaku game you keep track of how much times the player has grazed a bullet.
-		//In this game we will keep track of how many times a player has come into contact with a safe colored bullet.
-		//tl;dr Glaze is NOT a typo of graze.
-		glaze: 0,
-		
-		//Screen resolutions.
-		resolutions: {
-			low: {
-				width: 800,
-				height: 600,
-				title: '800x600'
-			},
-			
-			medium: {
-				width: 1024,
-				height: 720,
-				title: '1024x720'
-			},
-			
-			high: {
-				width: 1920,
-				height: 1080,
-				title: '1920x1080'
-			}
-		},
-		
-		//The currently selected screen resolution.
-		resolution_idx: 'low',
-		
-		//Difficulty modes.
-		difficulties: {
-			easy: {
-				title: 'Easy',
-				cleared: false,
-				one_credit_clear: false
-			},
-			
-			normal: {
-				title: 'Normal',
-				cleared: false,
-				one_credit_clear: false
-			},
-			
-			hard: {
-				title: 'Hard',
-				cleared: false,
-				one_credit_clear: false
-			},
-			
-			lunatic: {
-				title: 'Lunatic',
-				cleared: false,
-				one_credit_clear: false
-			}
-		},
-		
-		//The currently selected difficulty.
-		difficulty_idx: 'easy',
-		
-		//Determines if we show the average frames per second.
-		show_fps: false,
-		
-		//The average frames per second.
-		fps: 0,
-		
-		//The rate in which the canvas scrolls down.
-		canvas_scroll_rate: 3,
-	};
-}()); 
+"use strict";
+/// <reference path="./system.session.ts" />
+/// <reference path="../game/character/game.player.ts" />
+var Symphony;
+(function (Symphony) {
+    var System;
+    (function (System) {
+        //The current time. This is used to measure the delta time between two frames.
+        var currentTime = Date.now();
+        /**
+         * This is the program's entry point. This method loads a session from a config file or db, initiates resources, and invokes the game loop.
+         * @returns {void}
+         */
+        function main() {
+            //Load the configuration data.
+            //DevNote: This is the only asynchronous callback hell you'll find in this codebase, I promise.
+            System.Session.init(function (json) {
+                //Store the configuration data.
+                System.Config = json;
+                //Load resources
+                System.canvas = document.getElementById("out");
+                System.ctx = System.canvas.getContext("2d");
+                //Debug.
+                System.fsm = new System.FSM();
+                var player;
+                player = new Symphony.Game.Player({ x: 0, y: 0, r: 10, speed: 300 });
+                System.fsm.push({ state: player, ctx: System.ctx });
+                //Start the recursive game loop.
+                gameLoop();
+            });
+        }
+        System.main = main;
+        /**
+         * This is the game loop. This method is recursively invoked via the requestAnimationFrame() method.
+         * @returns {void}
+         */
+        function gameLoop() {
+            //This variable holds the time that was stored in the previous frame.
+            var previousTime = currentTime;
+            //Update the current time.
+            currentTime = Date.now();
+            //Delta time is the time difference between the current and previous frames.
+            var dt = currentTime - previousTime;
+            //Here we use the requestAnimationFrame() method to recursively invoke the gameLoop() method.
+            System.animationFrameId = requestAnimationFrame(gameLoop);
+            //Update the instantaneous frames per second.
+            System.FPS = 1000.0 / dt;
+            //Limit the frame rate.
+            if (dt > System.Config.TARGETED_FPS)
+                dt = System.Config.TARGETED_FPS;
+            //Handle logic in the current state.
+            System.fsm.update({ ctx: System.ctx, dt: dt });
+            //Render the current state.
+            System.fsm.draw({ ctx: System.ctx, dt: dt });
+        }
+    })(System = Symphony.System || (Symphony.System = {}));
+})(Symphony || (Symphony = {}));
+//# sourceMappingURL=system.js.map

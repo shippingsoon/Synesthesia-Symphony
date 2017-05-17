@@ -1,21 +1,17 @@
 /*
- * @description - Synesthesia Symphony
+ * @description - Synesthesia Symphony. The main function is invoked in this file.
  * @copyright - 2014 Shipping Soon
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @website - https://www.shippingsoon.com/synesthesia-symphony/
- * @version - v0.06
  * @license - GPLv3
+ * @source - https://github.com/shippingsoon/Synesthesia-Symphony
+ * @demo - https://www.shippingsoon.com/synesthesia-symphony/
  */
-var Session = Session || {};
-/*
- * Program starting point.
- * @param {Object} globals - Explicit global namespace.
- * @param {Object} session - Session module.
- * @return {Undefined}
- */
-(function (globals, session) {
+"use strict";
+/// <reference path="./system/system.ts" />
+//Program starting point.
+var Symphony;
+(function (Symphony) {
     'use strict';
-    //Initiate the session.
-    session.load();
-}(window, Session));
+    //Initiate the main game loop.
+    Symphony.System.main();
+})(Symphony || (Symphony = {}));
 //# sourceMappingURL=synesthesia-symphony.js.map
