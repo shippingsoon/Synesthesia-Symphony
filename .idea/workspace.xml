@@ -5,446 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b353007-2b11-47db-bc17-fedd1efbac55" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/config.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/game/character/game.player.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/math/math.point.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/math/math.vector.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/system/system.fsm.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/system/system.session.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/system/system.state.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/system/system.ts" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/canvas/canvas.circle.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/canvas/canvas.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/canvas/canvas.line.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/canvas/canvas.square.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/canvas/canvas.text.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/character/character.enemy.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/character/character.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/character/character.player.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/fsm/fsm.config.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/fsm/fsm.editor.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/fsm/fsm.intro.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/fsm/fsm.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/fsm/fsm.load.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/fsm/fsm.menu.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/fsm/fsm.music.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/fsm/fsm.pause.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/fsm/fsm.stage.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/fsm/fsm.state.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/item/item.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/item/item.lifeup.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mod/mod.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pattern/pattern.circular.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pattern/pattern.create.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pattern/pattern.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resource/resource.init.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resource/resource.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resource/resource.songs.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/css/context-menu/jquery.contextMenu.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/css/font-awesome/font-awesome.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/css/font-awesome/font-awesome.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/css/jquery-ui/jquery-ui.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/css/jquery-ui/jquery-ui.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/css/jquery-ui/jquery-ui.structure.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/css/jquery-ui/jquery-ui.structure.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/css/jquery-ui/jquery-ui.theme.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/css/jquery-ui/jquery-ui.theme.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/css/synesthesia-symphony.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/font/font-awesome/FontAwesome.otf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/font/font-awesome/fontawesome-webfont.eot" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/font/font-awesome/fontawesome-webfont.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/font/font-awesome/fontawesome-webfont.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/font/font-awesome/fontawesome-webfont.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/font/opensans/opensans-bold.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/font/opensans/opensans-italic.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/font/opensans/opensans-light-italic.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/font/opensans/opensans-light.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/font/opensans/opensans-semibold-italic.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/font/opensans/opensans-semibold.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/font/opensans/opensans.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/context-menu/jquery.contextMenu.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/context-menu/jquery.ui.position.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/css-color-parser/csscolorparser.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/css-color-parser/package.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/jquery-ui/jquery-ui.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/jquery-ui/jquery-ui.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/jquery/jquery.hotkeys.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/jquery/jquery.key-status.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/jquery/jquery.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/AudioDetect.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/LoadPlugin.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/Player.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/Plugin.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/color/SpaceW3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/SoundManager2/license.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/SoundManager2/script/soundmanager2-jsmin.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/SoundManager2/script/soundmanager2-nodebug-jsmin.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/SoundManager2/script/soundmanager2-nodebug.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/SoundManager2/script/soundmanager2.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/SoundManager2/swf/soundmanager2.swf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/SoundManager2/swf/soundmanager2_debug.swf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/SoundManager2/swf/soundmanager2_flash9.swf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/SoundManager2/swf/soundmanager2_flash9_debug.swf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/SoundManager2/swf/soundmanager2_flash_xdomain.zip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/WebMIDIAPI.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/jasmid/LICENSE" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/jasmid/midifile.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/jasmid/replayer.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/jasmid/stream.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/shim/Base64.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/inc/shim/base64binary.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/musictheory/Synesthesia.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/widget/Loader.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/window/DOMLoader.XMLHttp.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/window/Event.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/js/midi/window/Queue.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/battle-theme.mid" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/battle.mid" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/decisive-battle.mid" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/details/battle-theme.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/details/dr_midi.pl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/details/fairy-mountain.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/details/green-hill.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/details/intro.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/details/midi_text21.pl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/details/program.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/details/sky-chase-zone.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/details/sky-chase-zone2.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/details/still-alive.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/erasure-always.mid" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/fairy-mountain.mid" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/final-boss.mid" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/green-hill.mid" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/intro.mid" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/metal.mid" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/moldau.mid" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/sky-chase-zone.mid" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/midi/still-alive.mid" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/accordion-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/accordion-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/acoustic_bass-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/acoustic_bass-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/acoustic_grand_piano-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/acoustic_grand_piano-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/acoustic_guitar_nylon-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/acoustic_guitar_nylon-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/acoustic_guitar_steel-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/acoustic_guitar_steel-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/agogo-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/agogo-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/alto_sax-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/alto_sax-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/applause-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/applause-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/bagpipe-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/bagpipe-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/banjo-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/banjo-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/baritone_sax-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/baritone_sax-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/bassoon-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/bassoon-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/bird_tweet-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/bird_tweet-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/blown_bottle-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/blown_bottle-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/brass_section-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/brass_section-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/breath_noise-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/breath_noise-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/bright_acoustic_piano-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/bright_acoustic_piano-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/celesta-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/celesta-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/cello-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/cello-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/choir_aahs-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/choir_aahs-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/church_organ-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/church_organ-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/clarinet-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/clarinet-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/clavinet-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/clavinet-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/contrabass-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/contrabass-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/distortion_guitar-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/distortion_guitar-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/drawbar_organ-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/drawbar_organ-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/dulcimer-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/dulcimer-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_bass_finger-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_bass_finger-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_bass_pick-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_bass_pick-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_grand_piano-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_grand_piano-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_guitar_clean-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_guitar_clean-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_guitar_jazz-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_guitar_jazz-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_guitar_muted-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_guitar_muted-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_piano_1-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_piano_1-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_piano_2-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/electric_piano_2-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/english_horn-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/english_horn-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fiddle-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fiddle-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/flute-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/flute-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/french_horn-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/french_horn-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fretless_bass-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fretless_bass-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_1_rain-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_1_rain-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_2_soundtrack-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_2_soundtrack-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_3_crystal-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_3_crystal-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_4_atmosphere-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_4_atmosphere-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_5_brightness-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_5_brightness-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_6_goblins-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_6_goblins-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_7_echoes-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_7_echoes-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_8_scifi-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/fx_8_scifi-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/glockenspiel-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/glockenspiel-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/guitar_fret_noise-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/guitar_fret_noise-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/guitar_harmonics-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/guitar_harmonics-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/gunshot-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/gunshot-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/harmonica-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/harmonica-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/harpsichord-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/harpsichord-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/helicopter-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/helicopter-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/honkytonk_piano-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/honkytonk_piano-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/kalimba-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/kalimba-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/koto-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/koto-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_1_square-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_1_square-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_2_sawtooth-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_2_sawtooth-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_3_calliope-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_3_calliope-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_4_chiff-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_4_chiff-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_5_charang-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_5_charang-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_6_voice-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_6_voice-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_7_fifths-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_7_fifths-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_8_bass__lead-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/lead_8_bass__lead-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/marimba-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/marimba-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/melodic_tom-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/melodic_tom-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/music_box-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/music_box-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/muted_trumpet-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/muted_trumpet-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/oboe-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/oboe-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/ocarina-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/ocarina-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/orchestra_hit-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/orchestra_hit-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/orchestral_harp-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/orchestral_harp-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/overdriven_guitar-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/overdriven_guitar-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_1_new_age-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_1_new_age-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_2_warm-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_2_warm-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_3_polysynth-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_3_polysynth-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_4_choir-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_4_choir-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_5_bowed-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_5_bowed-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_6_metallic-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_6_metallic-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_7_halo-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_7_halo-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_8_sweep-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pad_8_sweep-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pan_flute-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pan_flute-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/percussive_organ-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/percussive_organ-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/piccolo-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/piccolo-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pizzicato_strings-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/pizzicato_strings-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/recorder-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/recorder-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/reed_organ-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/reed_organ-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/reverse_cymbal-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/reverse_cymbal-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/rock_organ-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/rock_organ-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/seashore-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/seashore-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/shakuhachi-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/shakuhachi-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/shamisen-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/shamisen-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/shanai-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/shanai-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/sitar-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/sitar-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/slap_bass_1-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/slap_bass_1-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/slap_bass_2-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/slap_bass_2-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/soprano_sax-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/soprano_sax-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/soundfont.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/steel_drums-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/steel_drums-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/string_ensemble_1-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/string_ensemble_1-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/string_ensemble_2-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/string_ensemble_2-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_bass_1-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_bass_1-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_bass_2-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_bass_2-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_brass_1-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_brass_1-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_brass_2-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_brass_2-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_choir-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_choir-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_drum-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_drum-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_strings_1-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_strings_1-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_strings_2-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/synth_strings_2-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/taiko_drum-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/taiko_drum-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/tango_accordion-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/tango_accordion-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/telephone_ring-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/telephone_ring-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/tenor_sax-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/tenor_sax-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/timpani-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/timpani-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/tinkle_bell-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/tinkle_bell-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/tremolo_strings-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/tremolo_strings-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/trombone-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/trombone-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/trumpet-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/trumpet-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/tuba-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/tuba-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/tubular_bells-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/tubular_bells-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/vibraphone-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/vibraphone-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/viola-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/viola-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/violin-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/violin-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/voice_oohs-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/voice_oohs-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/whistle-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/whistle-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/woodblock-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/woodblock-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/xylophone-mp3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/soundfont/xylophone-ogg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/bg/0/config-low0.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/bg/0/config-low1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/bg/0/config-r033.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/bg/0/copy of config-r0.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/bg/body-texture.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/bg/canvas-low.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/bg/config-low.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/bg/menu-low.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/bg/staff-low.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/bg/stage_0-low.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/context-menu/cut.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/context-menu/door.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/context-menu/page_white_add.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/context-menu/page_white_copy.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/context-menu/page_white_delete.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/context-menu/page_white_edit.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/context-menu/page_white_paste.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/favicon.ico" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-bg_diagonals-thick_8_333333_40x40.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-bg_flat_65_ffffff_40x100.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-bg_glass_40_111111_1x400 - old.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-bg_glass_40_111111_1x400.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-bg_glass_55_1c1c1c_1x400.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-bg_highlight-hard_100_f9f9f9_1x100.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-bg_highlight-hard_40_aaaaaa_1x100.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-bg_highlight-soft_50_aaaaaa_1x100.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-bg_inset-hard_45_cd0a0a_1x100.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-bg_inset-hard_55_ffeb80_1x100.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-icons_222222_256x240.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-icons_4ca300_256x240.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-icons_bbbbbb_256x240.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-icons_ededed_256x240.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-icons_ffcf29_256x240.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/jquery-ui/ui-icons_ffffff_256x240.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sprite/loading_gif-low.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/session/session.cache.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/session/session.init.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/session/session.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/session/session.load.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/session/session.save.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/shape/shape.circle.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/shape/shape.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/shape/shape.point.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/shape/shape.square.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/stg/stg.audio.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/stg/stg.bullet.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/stg/stg.cmath.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/stg/stg.color.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/stg/stg.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/stg/stg.math.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/stg/stg.note.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/stg/stg.path.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/stg/stg.stage.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/stg/stg.timer.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/system/system.config.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/system/system.main.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/system/system.menu.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/vector/vector.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/vector/vector.math.js" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/system/system.resource.ts" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/game/character/game.player.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/game/character/game.player.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/math/math.point.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/math/math.vector.js.map" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game/character/game.player.ts" afterPath="$PROJECT_DIR$/game/character/game.player.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/math/math.point.js" afterPath="$PROJECT_DIR$/math/math.point.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/math/math.vector.js" afterPath="$PROJECT_DIR$/math/math.vector.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/synesthesia-symphony.js" afterPath="$PROJECT_DIR$/synesthesia-symphony.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/synesthesia-symphony.js.map" afterPath="$PROJECT_DIR$/synesthesia-symphony.js.map" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/synesthesia-symphony.ts" afterPath="$PROJECT_DIR$/synesthesia-symphony.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/system.fsm.js" afterPath="$PROJECT_DIR$/system/system.fsm.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/system.fsm.js.map" afterPath="$PROJECT_DIR$/system/system.fsm.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/system.fsm.ts" afterPath="$PROJECT_DIR$/system/system.fsm.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/system.js" afterPath="$PROJECT_DIR$/system/system.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tsconfig.json" afterPath="$PROJECT_DIR$/tsconfig.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/system.js.map" afterPath="$PROJECT_DIR$/system/system.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/system.session.js" afterPath="$PROJECT_DIR$/system/system.session.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/system.session.js.map" afterPath="$PROJECT_DIR$/system/system.session.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/system.session.ts" afterPath="$PROJECT_DIR$/system/system.session.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/system.state.js" afterPath="$PROJECT_DIR$/system/system.state.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/system.state.js.map" afterPath="$PROJECT_DIR$/system/system.state.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/system.ts" afterPath="$PROJECT_DIR$/system/system.ts" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -468,36 +52,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="452">
-              <caret line="56" column="89" lean-forward="false" selection-start-line="56" selection-start-column="89" selection-end-line="56" selection-end-column="89" />
-              <folding>
-                <element signature="n#style#0;n#canvas#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="readme.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/readme.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="136">
-                <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
-                <folding />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="game.player.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game/character/game.player.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="3" />
+            <state relative-caret-position="51">
+              <caret line="9" column="53" lean-forward="false" selection-start-line="9" selection-start-column="53" selection-end-line="9" selection-end-column="53" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -505,11 +64,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="math.vector.ts" pinned="false" current-in-tab="false">
+      <file leaf-file-name="math.vector.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/math/math.vector.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="733">
-              <caret line="118" column="35" lean-forward="true" selection-start-line="118" selection-start-column="35" selection-end-line="118" selection-end-column="35" />
+            <state relative-caret-position="17">
+              <caret line="80" column="24" lean-forward="false" selection-start-line="80" selection-start-column="24" selection-end-line="80" selection-end-column="24" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -520,11 +79,34 @@
       <file leaf-file-name="system.fsm.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system/system.fsm.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-474">
-              <caret line="37" column="43" lean-forward="false" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="43" />
+            <state relative-caret-position="85">
+              <caret line="11" column="6" lean-forward="false" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="readme.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/readme.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="136">
+                <caret line="8" column="5" lean-forward="false" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+                <folding />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="math.point.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/math/math.point.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="15" column="4" lean-forward="false" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -532,8 +114,8 @@
       <file leaf-file-name="system.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system/system.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="52" column="0" lean-forward="true" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+            <state relative-caret-position="204">
+              <caret line="18" column="31" lean-forward="false" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -541,24 +123,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="system.session.ts" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/system/system.session.ts">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="36" lean-forward="false" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
+            <state relative-caret-position="102">
+              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="synesthesia-symphony.iml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/synesthesia-symphony.iml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="9" lean-forward="false" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="system.resource.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/system.resource.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -616,24 +208,26 @@
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_1.ts" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.ts" />
         <option value="$PROJECT_DIR$/tsconfig.json" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/old/index.html" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/FPS.ts" />
         <option value="$PROJECT_DIR$/old/session/session.load.js" />
         <option value="$PROJECT_DIR$/game/character/system.fsm.ts" />
         <option value="$PROJECT_DIR$/system/system.state.ts" />
-        <option value="$PROJECT_DIR$/system/system.fsm.ts" />
         <option value="$PROJECT_DIR$/math/math.vector.js.ts" />
         <option value="$PROJECT_DIR$/math/math.point.ts" />
         <option value="$PROJECT_DIR$/math/math.vector.ts" />
-        <option value="$PROJECT_DIR$/game/character/game.player.ts" />
-        <option value="$PROJECT_DIR$/synesthesia-symphony.ts" />
         <option value="$PROJECT_DIR$/system/system.config.ts" />
         <option value="$PROJECT_DIR$/system/readme.md" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/config.json" />
-        <option value="$PROJECT_DIR$/system/system.session.ts" />
+        <option value="$PROJECT_DIR$/tester.json" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/system/system.ts" />
+        <option value="$PROJECT_DIR$/system/system.session.ts" />
+        <option value="$PROJECT_DIR$/system/system.resource.ts" />
+        <option value="$PROJECT_DIR$/game/character/game.player.ts" />
+        <option value="$PROJECT_DIR$/system/system.fsm.ts" />
+        <option value="$PROJECT_DIR$/synesthesia-symphony.ts" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -698,6 +292,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.intellij.ide.scratch.ScratchProjectViewPane$MyProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Scratches" />
+              <option name="myItemType" value="com.intellij.ide.scratch.ScratchProjectViewPane$MyRootNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -755,29 +365,9 @@
               <option name="myItemId" value="character" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="game.player.ts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NestingTreeNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.intellij.ide.scratch.ScratchProjectViewPane$MyProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Scratches" />
-              <option name="myItemType" value="com.intellij.ide.scratch.ScratchProjectViewPane$MyRootNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -797,9 +387,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/system" />
       <recent name="$PROJECT_DIR$/math" />
       <recent name="$PROJECT_DIR$/stg/stg.character.player.ts" />
-      <recent name="$PROJECT_DIR$/system" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -1378,12 +968,22 @@
       <workItem from="1494457794401" duration="238000" />
       <workItem from="1494562809234" duration="30545000" />
       <workItem from="1494887677889" duration="306000" />
-      <workItem from="1494888102031" duration="28665000" />
+      <workItem from="1494888102031" duration="33942000" />
+      <workItem from="1495039530112" duration="49000" />
+      <workItem from="1495039655889" duration="711000" />
     </task>
+    <task id="LOCAL-00001" summary="Added session management">
+      <created>1494985242027</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1494985242027</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64638000" />
+    <option name="totallyTimeSpent" value="70675000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1396,38 +996,37 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="-953" width="1920" height="1080" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32871288" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44851485" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32871288" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17891374" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18217821" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4493976" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17891374" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32871288" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18217821" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32871288" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1436,8 +1035,6 @@
       <list>
         <option value="$PROJECT_DIR$/synesthesia-symphony.js.map" />
         <option value="$PROJECT_DIR$/system/system.js.map" />
-        <option value="$PROJECT_DIR$/system/system.config.js" />
-        <option value="$PROJECT_DIR$/system/system.config.js.map" />
         <option value="$PROJECT_DIR$/system/system.fsm.js.map" />
         <option value="$PROJECT_DIR$/system/system.fsm.js" />
         <option value="$PROJECT_DIR$/system/system.state.js.map" />
@@ -1446,6 +1043,13 @@
         <option value="$PROJECT_DIR$/game/character/game.player.js.map" />
         <option value="$PROJECT_DIR$/math/math.point.js.map" />
         <option value="$PROJECT_DIR$/math/math.point.js" />
+        <option value="$PROJECT_DIR$/system/system.resource.js.map" />
+        <option value="$PROJECT_DIR$/system/system.resource.js" />
+        <option value="$PROJECT_DIR$/system/system.session.js.map" />
+        <option value="$PROJECT_DIR$/system/system.session.js" />
+        <option value="$PROJECT_DIR$/system/system.js" />
+        <option value="$PROJECT_DIR$/math/math.vector.js" />
+        <option value="$PROJECT_DIR$/math/math.vector.js.map" />
       </list>
     </option>
   </component>
@@ -1480,7 +1084,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Removed Express.js RESTful API" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed Express.js RESTful API" />
+    <MESSAGE value="Added session management" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added session management" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1493,12 +1098,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/js/synesthesia-symphony/item/item.js" />
-    <entry file="file://$PROJECT_DIR$/public/js/synesthesia-symphony/item/item.js" />
-    <entry file="file://$PROJECT_DIR$/public/js/synesthesia-symphony/item/item.lifeup.js" />
-    <entry file="file://$PROJECT_DIR$/public/js/synesthesia-symphony/synesthesia-symphony.js" />
-    <entry file="file://$PROJECT_DIR$/public/js/synesthesia-symphony/shape/shape.js" />
-    <entry file="file://$PROJECT_DIR$/public/js/synesthesia-symphony/shape/shape.point.js" />
     <entry file="file://$PROJECT_DIR$/public/js/synesthesia-symphony/session/session.load.js" />
     <entry file="file://$PROJECT_DIR$/synesthesia-symphony.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -1530,20 +1129,7 @@
     <entry file="file://$PROJECT_DIR$/session/session.js" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_1.ts" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_1.txt" />
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="4" lean-forward="false" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="10" column="32" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/old/index.html" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/FPS.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -1555,24 +1141,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="1" lean-forward="true" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/old/session/session.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/fsm/fsm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="268" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/old/session/session.js" />
+    <entry file="file://$PROJECT_DIR$/old/fsm/fsm.js" />
     <entry file="file://$PROJECT_DIR$/../Danmaku/src/danmaku.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-262">
@@ -1580,128 +1153,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/old/fsm/fsm.stage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2006">
-          <caret line="125" column="22" lean-forward="false" selection-start-line="125" selection-start-column="22" selection-end-line="125" selection-end-column="22" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/canvas/canvas.circle.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="21" column="20" lean-forward="false" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/character/character.player.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6426">
-          <caret line="385" column="12" lean-forward="false" selection-start-line="385" selection-start-column="12" selection-end-line="404" selection-end-column="13" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/system/system.main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="19" column="32" lean-forward="false" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/system/system.menu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="29" column="40" lean-forward="false" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/fsm/fsm.state.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="26" lean-forward="false" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/session/session.load.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="17" lean-forward="true" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/system/system.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/game/character/system.fsm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="14" column="19" lean-forward="false" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/system/system.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="3" lean-forward="false" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="71" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/vector/vector.math.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/vector/vector.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="37" column="8" lean-forward="false" selection-start-line="37" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/old/fsm/fsm.stage.js" />
+    <entry file="file://$PROJECT_DIR$/old/canvas/canvas.circle.js" />
+    <entry file="file://$PROJECT_DIR$/old/character/character.player.js" />
+    <entry file="file://$PROJECT_DIR$/old/system/system.main.js" />
+    <entry file="file://$PROJECT_DIR$/old/system/system.menu.js" />
+    <entry file="file://$PROJECT_DIR$/old/fsm/fsm.state.js" />
+    <entry file="file://$PROJECT_DIR$/old/session/session.load.js" />
+    <entry file="file://$PROJECT_DIR$/old/system/system.config.js" />
+    <entry file="file://$PROJECT_DIR$/game/character/system.fsm.js" />
+    <entry file="file://$PROJECT_DIR$/old/system/system.ts" />
+    <entry file="file://$PROJECT_DIR$/old/vector/vector.math.js" />
+    <entry file="file://$PROJECT_DIR$/old/vector/vector.js" />
     <entry file="file://$PROJECT_DIR$/game/character/game.player.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/math/math.point.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="4" lean-forward="false" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1709,58 +1176,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="3" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/synesthesia-symphony.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="20" lean-forward="true" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/system.config.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="61" lean-forward="true" selection-start-line="5" selection-start-column="61" selection-end-line="5" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/system/system.config.ts" />
+    <entry file="file://$PROJECT_DIR$/tester.json" />
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="56" column="89" lean-forward="false" selection-start-line="56" selection-start-column="89" selection-end-line="56" selection-end-column="89" />
-          <folding>
-            <element signature="n#style#0;n#canvas#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="653">
+          <caret line="57" column="28" lean-forward="false" selection-start-line="57" selection-start-column="28" selection-end-line="57" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/readme.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="136">
-            <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/math/math.vector.ts">
+    <entry file="file://$PROJECT_DIR$/system/system.session.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="733">
-          <caret line="118" column="35" lean-forward="true" selection-start-line="118" selection-start-column="35" selection-end-line="118" selection-end-column="35" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state relative-caret-position="170">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1768,14 +1199,59 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="36" lean-forward="false" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/synesthesia-symphony.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="29" lean-forward="true" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/old/resource/resource.songs.js" />
+    <entry file="file://$PROJECT_DIR$/system/system.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="18" column="31" lean-forward="false" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/old/resource/resource.js" />
+    <entry file="file://$PROJECT_DIR$/old/resource/resource.init.js" />
+    <entry file="file://$PROJECT_DIR$/game/character/game.player.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="9" column="53" lean-forward="false" selection-start-line="9" selection-start-column="53" selection-end-line="9" selection-end-column="53" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/game/character/game.player.ts">
+    <entry file="file://$PROJECT_DIR$/synesthesia-symphony.iml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="3" />
+        <state relative-caret-position="119">
+          <caret line="7" column="9" lean-forward="false" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/system.resource.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -1784,28 +1260,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/system/system.fsm.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-474">
-          <caret line="37" column="43" lean-forward="false" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="43" />
+        <state relative-caret-position="85">
+          <caret line="11" column="6" lean-forward="false" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/system.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="52" column="0" lean-forward="true" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+    <entry file="file://$PROJECT_DIR$/system/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="136">
+            <caret line="8" column="5" lean-forward="false" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+            <folding />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/system.session.ts">
+    <entry file="file://$PROJECT_DIR$/math/math.point.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        <state relative-caret-position="153">
+          <caret line="15" column="4" lean-forward="false" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/math/math.vector.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="80" column="24" lean-forward="false" selection-start-line="80" selection-start-column="24" selection-end-line="80" selection-end-column="24" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>

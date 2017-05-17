@@ -10,8 +10,8 @@
 /// <reference path="../game/character/game.player.ts" />
 
 namespace Symphony.System {
-	//This variable holds configuration data.
-	export let Config:Symphony.System.Session.ConfigType;
+	//This variable holds ReadOnly configuration data.
+	export let Config:System.Session.ConfigType;
 	//The instantaneous frames per second the app is getting.
 	export let FPS:number;
 	//Finite state machine.
@@ -26,14 +26,14 @@ namespace Symphony.System {
 	let currentTime:any = Date.now();
 
 	/**
-	 * This is the program's entry point. This method loads a session from a config file or db, initiates resources, and invokes the game loop.
+	 * This is the program's entry point. This method loads a session from a config file, initiates resources, and invokes the game loop.
 	 * @returns {void}
 	 */
-	export function main() {
+	export function main():void {
 		//Load the configuration data.
 		//DevNote: This is the only asynchronous callback hell you'll find in this codebase, I promise.
 		System.Session.init(function(json) {
-			//Store the configuration data.
+			//Store the ReadOnly configuration data.
 			System.Config = json;
 
 			//Load resources
@@ -42,20 +42,20 @@ namespace Symphony.System {
 
 			//Debug.
 			System.fsm = new System.FSM();
-			let player: Symphony.Game.Player;
-			player = new Symphony.Game.Player({x: 0, y: 0, r: 10, speed: 300});
+			let player: Game.Player;
+			player = new Game.Player({x: 0, y: 0, r: 10, speed: 300});
 			System.fsm.push({state: player, ctx: ctx});
 
 			//Start the recursive game loop.
 			gameLoop();
-		})
+		});
 	}
 
 	/**
 	 * This is the game loop. This method is recursively invoked via the requestAnimationFrame() method.
 	 * @returns {void}
 	 */
-	function gameLoop() {
+	function gameLoop():void {
 		//This variable holds the time that was stored in the previous frame.
 		let previousTime:any = currentTime;
 

@@ -15,9 +15,7 @@ namespace Symphony.Game {
     import State = System.State;
     import FSM = System.FSM;
 
-    //Let the compiler know that we are using the Lodash utilities library..
-    declare let _:any;
-    declare let Keydown:any;
+
     declare let Math:any;
 
     export class Player extends Symphony.Math.Vector implements System.State {

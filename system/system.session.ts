@@ -8,8 +8,7 @@
 
 /// <reference path="./system.ts" />
 
-//Tell the TypeScript compiler we are using the jQuery library.
-declare let jQuery:any;
+
 
 namespace Symphony.System.Session {
 	/**
@@ -80,10 +79,10 @@ namespace Symphony.System.Session {
 		readonly PLAYER_FOCUS_SPEED:number;
 		readonly PLAYER_HITBOX_RADIUS:number;
 		readonly PLAYER_INVULNERABILITY_TIMEOUT:number;
-		readonly MIDI_FILE_PATH:string,
-		readonly TITLE:string,
-		readonly DEVELOPER:string,
-		readonly VERSION:string
+		readonly MIDI_FILE_PATH:string;
+		readonly TITLE:string;
+		readonly DEVELOPER:string;
+		readonly VERSION:string;
 	}
 
 	/**

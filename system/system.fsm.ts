@@ -9,9 +9,6 @@
 /// <reference path="./system.ts" />
 
 namespace Symphony.System {
-    //Let the TypeScript compiler know we are using the LoDash utilities library.
-    declare let _:any;
-
     /*
      * The FSM (Finite State Machine) is a design pattern that allows developers to easily manage game states.
      */
