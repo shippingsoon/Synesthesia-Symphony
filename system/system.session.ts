@@ -7,10 +7,13 @@
  */
 
 /// <reference path="./system.ts" />
-
+/// <reference path="./../synesthesia-symphony.ts" />
 
 
 namespace Symphony.System.Session {
+	//Tell the TypeScript compiler we are using the jQuery library.
+	declare let jQuery:any;
+
 	/**
 	 * Loads configuration data from a JSON file or remote database.
 	 * @param {string} url - The URL to request data from.
@@ -83,6 +86,18 @@ namespace Symphony.System.Session {
 		readonly TITLE:string;
 		readonly DEVELOPER:string;
 		readonly VERSION:string;
+		readonly RESOLUTIONS:{
+			LOW:ResolutionType,
+			MEDIUM:ResolutionType,
+			HIGH:ResolutionType
+		};
+	}
+
+	export interface ResolutionType {
+		readonly W:number;
+		readonly H:number;
+		readonly CANVAS_W:number;
+		readonly CANVAS_H:number;
 	}
 
 	/**

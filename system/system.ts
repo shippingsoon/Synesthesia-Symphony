@@ -7,21 +7,31 @@
  */
 
 /// <reference path="./system.session.ts" />
+/// <reference path="./system.resource.ts" />
 /// <reference path="../game/character/game.player.ts" />
+/// <reference path="../game/state/state.intro.ts" />
 
 namespace Symphony.System {
 	//This variable holds ReadOnly configuration data.
 	export let Config:System.Session.ConfigType;
+
 	//The instantaneous frames per second the app is getting.
 	export let FPS:number;
+
 	//Finite state machine.
 	export let fsm:System.FSM;
+
 	//HTML5 2D drawing context.
 	export let ctx:CanvasRenderingContext2D;
+	export let bg_ctx:CanvasRenderingContext2D;
+
 	//HTML5 canvas element.
 	export let canvas:HTMLCanvasElement;
+	export let bg_canvas:HTMLCanvasElement;
+
 	//The request ID that is returned from the requestAnimationFrame() method.
 	export let animationFrameId:number;
+
 	//The current time. This is used to measure the delta time between two frames.
 	let currentTime:any = Date.now();
 
@@ -36,15 +46,16 @@ namespace Symphony.System {
 			//Store the ReadOnly configuration data.
 			System.Config = json;
 
-			//Load resources
-			System.canvas = <HTMLCanvasElement> document.getElementById("out");
-			System.ctx = System.canvas.getContext("2d");
+			//Initiate resources such as canvas width. After this call,
+			//the System.canvas, System.ctx, and System.fsm should be set.
+			System.Resource.init(System);
 
 			//Debug.
-			System.fsm = new System.FSM();
 			let player: Game.Player;
-			player = new Game.Player({x: 0, y: 0, r: 10, speed: 300});
-			System.fsm.push({state: player, ctx: ctx});
+			player = new Game.Player({x: 100, y: 100, r: 10, speed: 500});
+
+			//System.fsm.push({state: player, ctx: System.ctx});
+			System.fsm.push({state: new Game.State.Intro, ctx: System.ctx});
 
 			//Start the recursive game loop.
 			gameLoop();

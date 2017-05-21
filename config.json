@@ -13,5 +13,10 @@
   "MIDI_FILE_PATH": "./midi/",
   "TITLE": "Synesthesia Symphony",
   "DEVELOPER": "Shipping Soon",
-  "VERSION": "v0.07"
+  "VERSION": "v0.07",
+  "RESOLUTIONS":{
+    "LOW":{"W":640, "H":480, "CANVAS_W":384, "CANVAS_H":448},
+    "MEDIUM":{"W":1280, "H":720, "CANVAS_W":768, "CANVAS_H":672},
+    "HIGH":{"W":1920, "H":1080, "CANVAS_W":1152, "CANVAS_H":1008}
+  }
 }

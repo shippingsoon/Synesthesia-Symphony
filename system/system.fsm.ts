@@ -9,6 +9,8 @@
 /// <reference path="./system.ts" />
 
 namespace Symphony.System {
+
+
     /*
      * The FSM (Finite State Machine) is a design pattern that allows developers to easily manage game states.
      */
