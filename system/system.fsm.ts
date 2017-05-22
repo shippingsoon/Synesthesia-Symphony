@@ -7,16 +7,15 @@
  */
 
 /// <reference path="./system.ts" />
+/// <reference path="./system.state.ts" />
 
 namespace Symphony.System {
-
-
     /*
      * The FSM (Finite State Machine) is a design pattern that allows developers to easily manage game states.
      */
     export class FSM {
         //An array of game states.
-        private states:Array<State> = new Array();
+        private states:Array<System.State> = new Array();
 
         /*
          * Handle logic in the current state.
@@ -93,7 +92,7 @@ namespace Symphony.System {
         ctx?:CanvasRenderingContext2D;
 
         //A game state.
-        state?:State;
+        state?:System.State;
 
         //Delta time. The time difference from the current and previous game state.
         dt?:number;

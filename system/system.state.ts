@@ -9,8 +9,9 @@
 /// <reference path="./system.ts" />
 
 namespace Symphony.System {
-    /*
+    /**
      * Game state interface.
+     * @interface
      */
     export interface State {
         update(o:any):void;

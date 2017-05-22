@@ -50,12 +50,8 @@ namespace Symphony.System {
 			//the System.canvas, System.ctx, and System.fsm should be set.
 			System.Resource.init(System);
 
-			//Debug.
-			let player: Game.Player;
-			player = new Game.Player({x: 100, y: 100, r: 10, speed: 500});
-
-			//System.fsm.push({state: player, ctx: System.ctx});
-			System.fsm.push({state: new Game.State.Intro, ctx: System.ctx});
+			//Transition to the Intro state.
+			System.fsm.push({state: new Game.State.Stage, ctx: System.ctx});
 
 			//Start the recursive game loop.
 			gameLoop();

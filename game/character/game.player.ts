@@ -9,6 +9,9 @@
 /// <reference path="../../system/system.ts" />
 /// <reference path="../../system/system.state.ts" />
 /// <reference path="../../system/system.fsm.ts" />
+/// <reference path="../../canvas/shape/shape.ts" />
+/// <reference path="../../canvas/shape/shape.circle.ts" />
+/// <reference path="../../math/math.vector.ts" />
 
 namespace Symphony.Game {
 	//Import dependencies.
@@ -19,12 +22,15 @@ namespace Symphony.Game {
 	declare let Math:any;
 
 
-    export class Player extends Symphony.Math.Vector implements System.State {
-        private fsm:System.FSM = new System.FSM();
-        public r:number;
+    export class Player extends Symphony.Canvas.Shape.CircleShape implements System.State {
         public speed:number;
         public count:number = 0;
         public ctx_test:any;
+
+	    constructor({x = 0, y = 0, r = 10, speed = 10}:{x?:number, y?:number, r?:number, speed?:number}) {
+		    super({x: x, y: y, r: r});
+		    this.speed = speed;
+	    }
 
         public start(o:any) {
 
@@ -81,13 +87,6 @@ namespace Symphony.Game {
 	        this.ctx_test.fill();
 
             //this.ctx_test.stroke();
-        }
-
-        constructor({x = 0, y = 0, r = 10, speed = 10}:{x?:number, y?:number, r?:number, speed?:number}) {
-            super({x: x, y: y, ctx:null});
-
-            this.r = r;
-            this.speed = speed;
         }
     }
 }

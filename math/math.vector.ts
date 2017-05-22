@@ -19,13 +19,13 @@ namespace Symphony.Math {
 		 * @param {number} y - The y coordinate.
 		 * @param {number} ctx - The HTML5 2D rendering context.
 		 */
-		constructor({x = 0, y = 0, ctx}:{x:number, y:number, ctx:CanvasRenderingContext2D}) {
-			super({x: x, y: y, ctx: ctx});
+		constructor({x = 0, y = 0}:{x:number, y:number}) {
+			super({x: x, y: y});
 		}
 
 		/**
 		 * Returns the magnitude of the vector.
-		 * @returns {Number}
+		 * @return {Number}
 		 */
 		public magnitude():number {
 			return Math.sqrt((this.x * this.x) + (this.y * this.y));
@@ -33,7 +33,7 @@ namespace Symphony.Math {
 
 		/**
 		 * Returns the angle of this vector
-		 * @returns {Number}
+		 * @return {Number}
 		 */
 		public angle():number {
 			let n:number = 0;
@@ -50,7 +50,7 @@ namespace Symphony.Math {
 
 		/**
 		 * Returns the length of the vector squared. This method can be used to cheaply find the nearest object.
-		 * @returns {Number}
+		 * @return {Number}
 		 */
 		public lengthSquared():number {
 			return ((this.x * this.x) + (this.y * this.y));
@@ -60,7 +60,7 @@ namespace Symphony.Math {
 		/**
 		 * Adds two vectors.
 		 * @param {Symphony.Math.Vector} vector - The vector that will be added to this vector instance.
-		 * @returns {Symphony.Math.Vector}
+		 * @return {Symphony.Math.Vector}
 		 */
 		public add(vector:Vector):this {
 			this.x += vector.getX();
@@ -72,7 +72,7 @@ namespace Symphony.Math {
 		/**
 		 * Subtracts two vectors.
 		 * @param {Symphony.Math.Vector} vector - The vector that will be subtracted from this vector instance.
-		 * @returns {Symphony.Math.Vector}
+		 * @return {Symphony.Math.Vector}
 		 */
 		public subtract(vector:Vector):this {
 			this.x -= vector.getX();
@@ -84,7 +84,7 @@ namespace Symphony.Math {
 		/**
 		 * Multiplies two vectors.
 		 * @param {Symphony.Math.Vector} vector - The vector that will be multiplied by this vector instance.
-		 * @returns {Symphony.Math.Vector}
+		 * @return {Symphony.Math.Vector}
 		 */
 		public multiply(vector:Vector):this {
 			this.x *= vector.getX();
@@ -96,7 +96,7 @@ namespace Symphony.Math {
 		/**
 		 *
 		 * @param {Symphony.Math.Vector} vector - The vector that will divide this vector instance.
-		 * @returns {Symphony.Math.Vector}
+		 * @return {Symphony.Math.Vector}
 		 */
 		public divide(vector:Vector):this {
 			try {
@@ -113,7 +113,7 @@ namespace Symphony.Math {
 		/**
 		 *
 		 * @param {Symphony.Math.Vector} vector - The vector that we will use to set the position.
-		 * @returns {Symphony.Math.Vector}
+		 * @return {Symphony.Math.Vector}
 		 */
 		public setPosition(vector:Vector):this {
 			this.x = vector.getX();
@@ -124,7 +124,7 @@ namespace Symphony.Math {
 
 		/**
 		 * Retrieves the vector's location
-		 * @returns {Symphony.Math.VectorType}
+		 * @return {Symphony.Math.VectorType}
 		 */
 		public getPosition():VectorType {
 			return {x: this.x, y: this.y};

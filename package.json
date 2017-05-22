@@ -1,0 +1,23 @@
+{
+  "name": "synesthesia-symphony",
+  "version": "1.0.0",
+  "description": "Synesthesia Symphony ====================",
+  "main": "synesthesia-symphony.js",
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shippingsoon/Synesthesia-Symphony.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shippingsoon/Synesthesia-Symphony/issues"
+  },
+  "homepage": "https://github.com/shippingsoon/Synesthesia-Symphony#readme"
+}
