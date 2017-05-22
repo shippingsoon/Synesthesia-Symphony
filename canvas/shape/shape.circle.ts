@@ -12,6 +12,8 @@
 
 
 namespace Symphony.Canvas.Shape {
+	declare let Math:any;
+
 	export class CircleShape extends Symphony.Math.Vector {
 		protected r:number;
 
@@ -22,7 +24,7 @@ namespace Symphony.Canvas.Shape {
 		 * @param {number} y
 		 * @param {number} r
 		 */
-		public constructor({x = 0, y = 0, r = 1}:any) {
+		public constructor({x = 0, y = 0, r = 1}:{x:number, y:number, r:number}) {
 			super({x: x, y: y});
 
 			//Make sure the radius is greater than 0.
@@ -42,7 +44,7 @@ namespace Symphony.Canvas.Shape {
 
 		/**
 		 * Sets the circle's radius.
-		 * @param radius
+		 * @param {number} radius
 		 * @return {Symphony.Canvas.Shape.CircleShape}
 		 */
 		public setRadius(radius:number):this {
@@ -71,19 +73,23 @@ namespace Symphony.Canvas.Shape {
 
 		/**
 		 * @constructor
-		 * @param x
-		 * @param y
-		 * @param r
-		 * @param color
-		 * @param lineWidth
-		 * @param lineColor
-		 * @param globalCompositeOperation
+		 * @param {number} x
+		 * @param {number} y
+		 * @param {number} r
+		 * @param {Symphony.Canvas.ColorType} color
+		 * @param {number} lineWidth
+		 * @param {Symphony.Canvas.ColorType} lineColor -
+		 * @param {any} gco - globalCompositeOperation
 		 */
-		constructor({x = 0, y = 0, r = 0, color = {r:0, b:0, g:0, a:1} || 'green', lineWidth = 1, lineColor = {r:0, b:0, g:0, a:1}, globalCompositeOperation = null}:{x:number, y:number, r:number, color:Canvas.ColorType|string, lineWidth:number, lineColor:ColorType, globalCompositeOperation:string}) {
+		constructor(
+			{x = 0, y = 0, r = 0, color = {r:0, b:0, g:255, a:1}, lineWidth = 1, lineColor = {r:0, b:0, g:0, a:1}, gco = null}:
+				{x?:number, y?:number, r?:number, color?:Canvas.ColorType|string, lineWidth?:number, lineColor?:ColorType|string, gco?:string}
+		) {
 			super({x: x, y: y, r: r});
 			this.color = new Color(color);
 			this.lineWidth = lineWidth;
 			this.lineColor = new Color(lineColor);
+			this.globalCompositeOperation = gco;
 		}
 
 		/**
@@ -102,7 +108,7 @@ namespace Symphony.Canvas.Shape {
 
 				//Make the shape circular.
 				ctx.beginPath();
-				ctx.arc(this.x, this.y, this.r, 0, 2 * 1 /*Math.PI*/, false);
+				ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
 
 				//Fill in the circle with the given color.
 				ctx.fillStyle = this.color.getHex();
@@ -128,16 +134,29 @@ namespace Symphony.Canvas.Shape {
 			return this.color.getColor();
 		}
 
+		/**
+		 *
+		 * @param color
+		 * @return {Symphony.Canvas.Shape.Circle}
+		 */
 		public setColor(color:Canvas.ColorType):Circle {
 			this.color.setColor(color);
 
 			return this;
 		}
 
+		/**
+		 * Get the color of this circle in hexadecimal format.
+		 * @return {string}
+		 */
 		public getHex():string {
 			return this.color.getHex();
 		}
 
+		/**
+		 * Get the color of this circle in rgba format.
+		 * @return {string}
+		 */
 		public getRGBA():string {
 			return this.color.getRGBA();
 		}

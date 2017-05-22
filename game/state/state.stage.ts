@@ -14,72 +14,63 @@ namespace Symphony.Game.State {
 		private entityManger:StageManager;
 
 		public start(o:any):void {
-			let player:Game.Player = new Game.Player({x: 100, y: 100, r: 100});
-			this.entityManger = new StageManager(player);
+			this.entityManger = new StageManager({x: 0, y: 100, r: 20, speed:768});
 		}
 
 		public update(o:any):void {
-			this.entityManger.update();
+			this.entityManger.update(o);
 		}
 
 		public draw(o:any):void {
-			this.entityManger.draw();
+			this.entityManger.draw(o);
 		}
 	}
 
 	export class StageManager {
 		private player:any;
-		private boss:any;
+		private bosses:any[];
 		private enemies:any[];
 		private items:any[];
 		private bullets:any[];
 		private bulletIndex:number;
 
 
-		public update():void {
-			//Handle logic for the player and boss.
-			_.forEach(['player', 'boss'], function(key) {
-				if (!_.isEmpty(this[key]) && this[key].isActive())
-					this[key].update();
-			});
+		public update(o:any):void {
+			let keys:string[] = ['bosses', 'enemies', 'items', 'bullets'];
 
-			//Handle logic for the bullets.
-			for (let bullet:number = this.bulletIndex; bullet < this.bullets.length; bullet++) {
-				if (!_.isEmpty(this.bullets[bullet]) && this.bullets[bullet].isActive()) {
-					this.bullets[bullet].update();
+			//debugger;
+
+			//Handle logic for the player.
+			if (!_.isEmpty(this.player))
+				this.player.update(o);
+
+			for (let key of keys) {
+				if (!_.isEmpty(this[key])) {
+					for (var i = 0; i < this[key].length; i++) {
+						if (!_.isEmpty(this[key][i]))
+							this[key][i].update(o);
+					}
 				}
 			}
-
-			//Handle logic for the enemies and items.
-			_.forEach(['enemies', 'items'], function(key) {
-				_.forEach(this[key], function(value) {
-					if (!_.isEmpty(value) && value.isActive())
-						value.update();
-				});
-			});
 		}
 
-		public draw():void {
-			//Drwa the player and boss entities.
-			_.forEach(['player', 'boss'], function(key) {
-				if (!_.isEmpty(this[key]) && this[key].isVisible())
-					this[key].draw();
-			});
+		public draw(o:any):void {
+			let keys:string[] = ['bosses', 'enemies', 'items', 'bullets'];
 
-			//Draw the bullets.
-			for (let bullet:number = this.bulletIndex; bullet < this.bullets.length; bullet++) {
-				if (!_.isEmpty(this.bullets[bullet]) && this.bullets[bullet].isVisible()) {
-					this.bullets[bullet].draw();
+			//debugger;
+
+			//Draw
+			if (!_.isEmpty(this.player))
+				this.player.draw(o);
+
+			for (let key of keys) {
+				if (!_.isEmpty(this[key])) {
+					for (var i = 0; i < this[key].length; i++) {
+						if (!_.isEmpty(this[key][i]))
+							this[key][i].draw(o);
+					}
 				}
 			}
-
-			//Draw the enemies and items.
-			_.forEach(['enemies', 'items'], function(key) {
-				_.forEach(this[key], function(value) {
-					if (!_.isEmpty(value) && value.isVisible())
-						value.draw();
-				});
-			});
 		}
 
 		public add(key:string, value:any):void {
@@ -87,7 +78,7 @@ namespace Symphony.Game.State {
 		}
 
 		public constructor(player:any) {
-			this.player = new Game.Player({});
+			this.player = new Game.Player(player);
 		}
 	}
 }

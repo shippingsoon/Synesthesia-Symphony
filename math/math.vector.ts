@@ -14,7 +14,7 @@ namespace Symphony.Math {
 
 	export class Vector extends Point {
 		/**
-		 *
+		 * @constructor
 		 * @param {number} x - The x coordinate.
 		 * @param {number} y - The y coordinate.
 		 * @param {number} ctx - The HTML5 2D rendering context.
@@ -25,7 +25,7 @@ namespace Symphony.Math {
 
 		/**
 		 * Returns the magnitude of the vector.
-		 * @return {Number}
+		 * @return {number}
 		 */
 		public magnitude():number {
 			return Math.sqrt((this.x * this.x) + (this.y * this.y));
@@ -33,7 +33,7 @@ namespace Symphony.Math {
 
 		/**
 		 * Returns the angle of this vector
-		 * @return {Number}
+		 * @return {number}
 		 */
 		public angle():number {
 			let n:number = 0;
@@ -50,7 +50,7 @@ namespace Symphony.Math {
 
 		/**
 		 * Returns the length of the vector squared. This method can be used to cheaply find the nearest object.
-		 * @return {Number}
+		 * @return {number}
 		 */
 		public lengthSquared():number {
 			return ((this.x * this.x) + (this.y * this.y));
@@ -59,49 +59,49 @@ namespace Symphony.Math {
 
 		/**
 		 * Adds two vectors.
-		 * @param {Symphony.Math.Vector} vector - The vector that will be added to this vector instance.
+		 * @param {Symphony.Math.VectorType} vector - The vector that will be added to this vector instance.
 		 * @return {Symphony.Math.Vector}
 		 */
-		public add(vector:Vector):this {
-			this.x += vector.getX();
-			this.y += vector.getY();
+		public add(vector:VectorType):this {
+			this.x += vector.x;
+			this.y += vector.y;
 
 			return this;
 		}
 
 		/**
 		 * Subtracts two vectors.
-		 * @param {Symphony.Math.Vector} vector - The vector that will be subtracted from this vector instance.
+		 * @param {Symphony.Math.VectorType} vector - The vector that will be subtracted from this vector instance.
 		 * @return {Symphony.Math.Vector}
 		 */
-		public subtract(vector:Vector):this {
-			this.x -= vector.getX();
-			this.y -= vector.getY();
+		public subtract(vector:VectorType):this {
+			this.x -= vector.x;
+			this.y -= vector.y;
 
 			return this;
 		}
 
 		/**
 		 * Multiplies two vectors.
-		 * @param {Symphony.Math.Vector} vector - The vector that will be multiplied by this vector instance.
+		 * @param {Symphony.Math.VectorType} vector - The vector that will be multiplied by this vector instance.
 		 * @return {Symphony.Math.Vector}
 		 */
-		public multiply(vector:Vector):this {
-			this.x *= vector.getX();
-			this.y *= vector.getY();
+		public multiply(vector:VectorType):this {
+			this.x *= vector.x;
+			this.y *= vector.y;
 
 			return this;
 		}
 
 		/**
 		 *
-		 * @param {Symphony.Math.Vector} vector - The vector that will divide this vector instance.
+		 * @param {Symphony.Math.VectorType} vector - The vector that will divide this vector instance.
 		 * @return {Symphony.Math.Vector}
 		 */
-		public divide(vector:Vector):this {
+		public divide(vector:VectorType):this {
 			try {
-				this.x /= vector.getX();
-				this.y /= vector.getY();
+				this.x /= vector.x;
+				this.y /= vector.y;
 			}
 			catch (e) {
 				console.error(e);
@@ -112,12 +112,12 @@ namespace Symphony.Math {
 
 		/**
 		 *
-		 * @param {Symphony.Math.Vector} vector - The vector that we will use to set the position.
+		 * @param {Symphony.Math.VectorType} vector - The vector that we will use to set the position.
 		 * @return {Symphony.Math.Vector}
 		 */
-		public setPosition(vector:Vector):this {
-			this.x = vector.getX();
-			this.y = vector.getY();
+		public setPosition(vector:VectorType):this {
+			this.x = vector.x;
+			this.y = vector.y;
 
 			return this;
 		}
@@ -131,7 +131,10 @@ namespace Symphony.Math {
 		}
 	}
 
-	//Helper interface.
+	/**
+	 * Defines a vector.
+	 * @interface
+	 */
 	export interface VectorType {
 		x:number;
 		y:number;

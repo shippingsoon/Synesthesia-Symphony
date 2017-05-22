@@ -21,33 +21,27 @@ namespace Symphony.Game {
 	declare var Keydown:any;
 	declare let Math:any;
 
-
     export class Player extends Symphony.Canvas.Shape.CircleShape implements System.State {
         public speed:number;
-        public count:number = 0;
-        public ctx_test:any;
+        public circle:Canvas.Shape.Circle;
 
 	    constructor({x = 0, y = 0, r = 10, speed = 10}:{x?:number, y?:number, r?:number, speed?:number}) {
 		    super({x: x, y: y, r: r});
 		    this.speed = speed;
+
+		    this.circle = new Canvas.Shape.Circle({
+			    x: x,
+			    y: y,
+			    r: r,
+			    color: 'red'
+		    });
 	    }
 
         public start(o:any) {
 
-            for (var i = 0; i < 80; i++ ) {
-                //var tmpPlayer = new Symphony.Game.Player({x:0, y:0, r:10, speed:i});
-                //fsm.push({state:tmpPlayer, ctx:o.ctx});
-            }
-	        this.img = document.getElementById('text');
-            var tmp  = <HTMLCanvasElement>document.getElementById('canvas-layer')
-                this.ctx_test = tmp.getContext('2d');
         }
 
         public update(o:any):void {
-            //console.log(`o.dt: ${o.dt}`);
-            //console.log(`this.speed: ${this.speed}`);
-            //console.log(`this.speed * o.dt: ${this.speed * o.dt}`);
-
             var s = this.speed * (o.dt / 1000.0);
 
             //The Up key has been pressed.
@@ -66,27 +60,15 @@ namespace Symphony.Game {
             if ((Keydown.right || Keydown.d))
                 this.x = this.x + s;
 
-            //console.log(`(x: ${this.x}, y: ${this.y})`)
+            this.circle.setPosition(this.getPosition());
+
+            //console.log(`${Symphony.System.FPS.toFixed(2)} (x: ${this.x.toFixed(2)}, y: ${this.y.toFixed(2)}) ${new Date()}`)
 
         }
-	    public img:any;
 
         public draw(o:System.StateData):void {
-            //this.ctx_test.clearRect(0, 0, 800, 600);
-            this.ctx_test.beginPath();
-            this.ctx_test.arc(this.x, this.y, this.r * 1, 0, 2 * Math.PI, false);
-
-
-            var grd = this.ctx_test.createLinearGradient(0,0,200,0);
-            grd.addColorStop(0,"red");
-            grd.addColorStop(1,"blue");
-            this.ctx_test.lineBorder = 0;
-            this.ctx_test.fillStyle = grd;
-            //o.ctx.drawImage(this.img, 50, 240);
-	        //this.ctx_test.fillStyle = 'green';
-	        this.ctx_test.fill();
-
-            //this.ctx_test.stroke();
+	    	o.ctx.clearRect(0, 0, System.canvas.width, System.canvas.height)
+			this.circle.draw(o.ctx);
         }
     }
 }
