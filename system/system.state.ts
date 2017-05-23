@@ -9,17 +9,17 @@
 /// <reference path="./system.ts" />
 
 namespace Symphony.System {
-    /**
-     * Game state interface.
-     * @interface
-     */
-    export interface State {
-        update(o:any):void;
-        draw(o:any):void;
-        start(o:any):void;
-        stop?(o:any):void;
-        play?(o:any):void;
-        pause?(o:any):void;
-    }
+	/**
+	 * Game state interface.
+	 * @interface
+	 */
+	export interface State {
+		update(o:any):void;
+		draw(o:any):void;
+		start(o:any):void;
+		stop?(o:any):void;
+		play?(o:any):void;
+		pause?(o:any):void;
+	}
 }
 

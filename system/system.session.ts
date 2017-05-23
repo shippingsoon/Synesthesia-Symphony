@@ -141,7 +141,7 @@ namespace Symphony.System {
 					}(json));
 				}
 			});
-		}
+	}
 
 		/**
 		 * This method initiates resources such as the System.canvas and System.ctx.

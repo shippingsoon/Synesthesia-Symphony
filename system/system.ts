@@ -48,10 +48,10 @@ namespace Symphony.System {
 		//Load the configuration data.
 		//DevNote: This is the only asynchronous callback hell you'll find in this codebase, I promise.
 		System.session = new System.Session((json) => {
-			alert('hello')
+			alert('hello');
 			//Transition to the Intro state.
 			this.FSM.push({state: new Game.State.Stage, ctx: System.session.ctx});
-			console.log("foobar")
+			console.log("foobar");
 			//Start the recursive game loop.
 			gameLoop();
 		});
