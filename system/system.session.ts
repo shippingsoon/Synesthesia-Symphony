@@ -7,68 +7,170 @@
  */
 
 /// <reference path="./system.ts" />
-/// <reference path="./../synesthesia-symphony.ts" />
 
-
-namespace Symphony.System.Session {
+namespace Symphony.System {
 	//Tell the TypeScript compiler we are using the jQuery library.
 	declare let jQuery:any;
 
-	/**
-	 * Loads configuration data from a JSON file or remote database.
-	 * @param {string} url - The URL to request data from.
-	 * @param {Function} callback - The callback method that will be invoked on success.
-	 * @returns {void}
-	 */
-	export function loadSession(url:string, callback:Function):void {
-		jQuery.ajax({
-			dataType: "json",
-			url: url,
-			success: callback,
-			error: _onError
-		});
-	}
+	export class Session {
+		//HTML5 canvas element.
+		private canvasElement:HTMLCanvasElement;
+		private backgroundCanvasElement:HTMLCanvasElement;
 
-	/**
-	 * Saves configuration data to a remote database via a RESTful JSON API.
-	 * @param {string} url - The URL of the RESTFul API that we will send data to.
-	 * @param {Symphony.System.Session.ConfigType} config - The configuration data we will be saving.
-	 * @param {Function} callback
-	 * @returns {void}
-	 */
-	export function saveSession(url:string, config:Symphony.System.Session.ConfigType, callback:Function):void {
-		jQuery.ajax({
-			dataType: "json",
-			type: "POST",
-			url: url,
-			data: config,
-			success: callback,
-			error: _onError
-		});
-	}
+		//HTML5 2D drawing context.
+		private context:CanvasRenderingContext2D;
+		private backgroundContext:CanvasRenderingContext2D;
 
-	/**
-	 * Initiates a session.
-	 * @param {Function} callback
-	 * @returns {void}
-	 */
-	export function init(callback:Function):void {
-		//Read the configuration data from the config.json file.
-		Session.loadSession("/synesthesia-symphony/config.json", function(json) {
-			//This will determine if we will pull configuration data from a database.
-			if (json.USE_DB) {
-				//Load the configuration data from a remote database.
-				//this.load("localhost:3000/api/load", callback);
-			}
-			else {
-				//Use the config data we received from the config.json file.
-				callback(json);
-			}
-		})
+		//The instantaneous frames per second.
+		private framesPerSecond:number;
+
+		//This variable holds ReadOnly configuration data.
+		private config:System.ConfigType;
+
+		//Finite state machine.
+		private finiteStateMachine:System.FSM;
+
+		//The request ID that is returned from the requestAnimationFrame() method. This can be used to stop the requestAnimationFrame() loop.
+		private animationFrameId:number;
+
+		/**
+		 * @constructor
+		 * @param {Function} callback
+		 * @param {string} configURL
+		 */
+		constructor(callback:Function, configURL:string = "/synesthesia-symphony/config.json") {
+			this.init(callback, configURL);
+		}
+
+		/**
+		 * Get the canvas element.
+		 * @return {HTMLCanvasElement}
+		 */
+		public get canvas():HTMLCanvasElement {
+			return this.canvasElement;
+		}
+
+		/**
+		 * Get the background canvas element.
+		 * @return {HTMLCanvasElement}
+		 */
+		public get backgroundCanvas():HTMLCanvasElement {
+			return this.backgroundCanvasElement;
+		}
+
+		/**
+		 * Gets the 2D drawing context.
+		 * @return {CanvasRenderingContext2D}
+		 */
+		public get ctx():CanvasRenderingContext2D {
+			return this.context;
+		}
+
+		/**
+		 * Gets the 2D drawing context for the background.
+		 * @return {CanvasRenderingContext2D}
+		 */
+		public get getBackgroundCtx():CanvasRenderingContext2D {
+			return this.backgroundContext;
+		}
+
+		/**
+		 * Set the instantaneous frames per second counter.
+		 * @param {number} fps
+		 */
+		public set setFPS(fps:number) {
+			this.framesPerSecond = fps;
+		}
+
+		/**
+		 * Get the instantaneous frames per second.
+		 * @return {number}
+		 */
+		public get getFPS():number {
+			return this.framesPerSecond;
+		}
+
+		/**
+		 * Get the config data.
+		 * @return {ConfigType}
+		 */
+		public get CONFIG():ConfigType {
+			return this.config;
+		}
+
+		/**
+		 * Get the finite state machine.
+		 * @return {System.FSM}
+		 */
+		public get FSM():System.FSM {
+			return this.finiteStateMachine;
+		}
+
+		/**
+		 * Get the animationFrameId.
+		 * @param {number} animationFrameId
+		 */
+		public set setAnimationFrameId(animationFrameId:number) {
+			this.animationFrameId = animationFrameId;
+		}
+
+		/**
+		 * Initiates a session.
+		 * @param {Function} callback
+		 * @param {String} configURL
+		 * @return {void}
+		 */
+		public init(callback:Function, configURL:string = "/synesthesia-symphony/config.json"):void {
+			//Read the configuration data from the config.json file.
+			debugger;
+			loadSession(configURL, (json) => {
+				//This will determine if we will pull configuration data from a database.
+				if (json.USE_DB) {
+					//Load the configuration data from a remote database.
+					//this.load(json.DB_URL || "localhost:3000/api/load", callback);
+				}
+				else {
+					//Use the config data we received from the config.json file.
+					var that = this;
+					(function(json){
+						//Detect the current screen resolution.
+						//The getResolution() method will return a System.Config.RESOLUTIONS object containing the width and height
+						//which we will use to set the canvas' width and height.
+						that.initResources(getResolution(json.RESOLUTIONS));
+						callback(json);
+					}(json));
+				}
+			});
+		}
+
+		/**
+		 * This method initiates resources such as the System.canvas and System.ctx.
+		 * @param {Symphony.System} system - The System namespace.
+		 * @return {void}
+		 */
+		public initResources(resolution:ResolutionType):void {
+			//Set the canvas.
+			this.canvasElement = <HTMLCanvasElement> document.querySelector("#canvas-layer");
+			this.backgroundCanvasElement = <HTMLCanvasElement> document.querySelector("#background-layer");
+
+			//Use the value from System.Config.RESOLUTIONS to update the canvas width and height.
+			this.canvasElement.width = resolution.CANVAS_W;
+			this.canvasElement.height = resolution.CANVAS_H;
+			this.backgroundCanvasElement.width = resolution.W;
+			this.backgroundCanvasElement.height = resolution.H;
+
+			//Set the HTML5 2D drawing context.
+			this.context = this.canvasElement.getContext("2d");
+			this.backgroundContext = this.backgroundCanvasElement.getContext("2d");
+
+			//Create a new Finite State Machine.
+			this.finiteStateMachine = new System.FSM();
+		}
 	}
 
 	/**
 	 * An interface for configuration data.
+	 * @interface
 	 */
 	export interface ConfigType {
 		readonly USE_DB:boolean;
@@ -93,6 +195,9 @@ namespace Symphony.System.Session {
 		};
 	}
 
+	/**
+	 * @interface
+	 */
 	export interface ResolutionType {
 		readonly W:number;
 		readonly H:number;
@@ -101,9 +206,61 @@ namespace Symphony.System.Session {
 	}
 
 	/**
+	 * This method tries to detect the screen resolution. It returns an object containing a width and height.
+	 * @param {Symphony.System.Config.RESOLUTIONS} resolutions - The screen resolutions.
+	 * @return {Symphony.System.ResolutionType}
+	 */
+	//export function getResolution(resolutions:{LOW:ResolutionType, MEDIUM:ResolutionType, HIGH:ResolutionType}):System.ResolutionType {
+	export function getResolution(resolutions:any):System.ResolutionType {
+		//Check to see if this is a medium screen resolution.
+		if (window.matchMedia(`(min-width:${resolutions['MEDIUM'].W}px)`).matches)
+			return resolutions['MEDIUM'];
+
+		//Check to see if this is a high screen resolution.
+		else if (window.matchMedia(`(min-width:${resolutions['HIGH'].W}px)`).matches)
+			return resolutions['HIGH'];
+
+		//Return the low resolution.
+		return resolutions['LOW'];
+	}
+
+	/**
+	 * Loads configuration data from a JSON file or remote database.
+	 * @param {string} url - The URL to request data from.
+	 * @param {Function} callback - The callback method that will be invoked on success.
+	 * @return {void}
+	 */
+	export function loadSession(url:string, callback:Function):void {
+		jQuery.ajax({
+			dataType: "json",
+			url: url,
+			success: callback,
+			error: _onError
+		});
+	}
+
+	/**
+	 * Saves configuration data to a remote database via a RESTful JSON API.
+	 * @param {string} url - The URL of the RESTFul API that we will send data to.
+	 * @param {Symphony.System.ConfigType} config - The configuration data we will be saving.
+	 * @param {Function} callback
+	 * @return {void}
+	 */
+	export function saveSession(url:string, config:Symphony.System.ConfigType, callback:Function):void {
+		jQuery.ajax({
+			dataType: "json",
+			type: "POST",
+			url: url,
+			data: config,
+			success: callback,
+			error: _onError
+		});
+	}
+
+	/**
 	 * Helper method for logging error messages. TODO: Add this to a Debug namespace.
 	 * @param {object} err - An object containing server request status.
-	 * @returns {void}
+	 * @return {void}
 	 */
 	function _onError(err:object):void {
 		console.error("An error has occurred, make sure you are pulling valid JSON from the config.json file", err);

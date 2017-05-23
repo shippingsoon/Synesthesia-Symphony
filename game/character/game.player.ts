@@ -9,9 +9,9 @@
 /// <reference path="../../system/system.ts" />
 /// <reference path="../../system/system.state.ts" />
 /// <reference path="../../system/system.fsm.ts" />
-/// <reference path="../../canvas/shape/shape.ts" />
-/// <reference path="../../canvas/shape/shape.circle.ts" />
-/// <reference path="../../math/math.vector.ts" />
+/// <reference path="../../graphics/shape/graphics.shape.ts" />
+/// <reference path="../../graphics/shape/graphics.circle.ts" />
+/// <reference path="../../graphics/graphics.vector.ts" />
 
 namespace Symphony.Game {
 	//Import dependencies.
@@ -21,15 +21,15 @@ namespace Symphony.Game {
 	declare var Keydown:any;
 	declare let Math:any;
 
-    export class Player extends Symphony.Canvas.Shape.CircleShape implements System.State {
+    export class Player extends Symphony.Graphics.CircleShape implements System.State {
         public speed:number;
-        public circle:Canvas.Shape.Circle;
+        public circle:Graphics.Circle;
 
 	    constructor({x = 0, y = 0, r = 10, speed = 10}:{x?:number, y?:number, r?:number, speed?:number}) {
 		    super({x: x, y: y, r: r});
 		    this.speed = speed;
 
-		    this.circle = new Canvas.Shape.Circle({
+		    this.circle = new Graphics.Circle({
 			    x: x,
 			    y: y,
 			    r: r,
@@ -60,7 +60,8 @@ namespace Symphony.Game {
             if ((Keydown.right || Keydown.d))
                 this.x = this.x + s;
 
-            this.circle.setPosition(this.getPosition());
+            //this.circle.setPosition(this.getPosition());
+	        this.circle.setPosition = this.getPosition;
 
             //console.log(`${Symphony.System.FPS.toFixed(2)} (x: ${this.x.toFixed(2)}, y: ${this.y.toFixed(2)}) ${new Date()}`)
 

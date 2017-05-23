@@ -7,13 +7,17 @@
  */
 
 /// <reference path="./system.session.ts" />
-/// <reference path="./system.resource.ts" />
-/// <reference path="../game/character/game.player.ts" />
-/// <reference path="../game/state/state.intro.ts" />
+/// <reference path="./system.fsm.ts" />
+/// <reference path="./system.state.ts" />
+/// <reference path="../game/state/game.intro.ts" />
 
 namespace Symphony.System {
+	//Session
+	export let session:System.Session;
+
+	/*
 	//This variable holds ReadOnly configuration data.
-	export let Config:System.Session.ConfigType;
+	export let Config:System.ConfigType;
 
 	//The instantaneous frames per second the app is getting.
 	export let FPS:number;
@@ -31,18 +35,31 @@ namespace Symphony.System {
 
 	//The request ID that is returned from the requestAnimationFrame() method.
 	export let animationFrameId:number;
+	*/
 
 	//The current time. This is used to measure the delta time between two frames.
 	let currentTime:any = Date.now();
 
 	/**
 	 * This is the program's entry point. This method loads a session from a config file, initiates resources, and invokes the game loop.
-	 * @returns {void}
+	 * @return {void}
 	 */
 	export function main():void {
 		//Load the configuration data.
 		//DevNote: This is the only asynchronous callback hell you'll find in this codebase, I promise.
-		System.Session.init(function(json) {
+		System.session = new System.Session((json) => {
+			alert('hello')
+			//Transition to the Intro state.
+			this.FSM.push({state: new Game.State.Stage, ctx: System.session.ctx});
+			console.log("foobar")
+			//Start the recursive game loop.
+			gameLoop();
+		});
+
+		/*
+		//Load the configuration data.
+		//DevNote: This is the only asynchronous callback hell you'll find in this codebase, I promise.
+		System.init(function(json) {
 			//Store the ReadOnly configuration data.
 			System.Config = json;
 
@@ -51,16 +68,17 @@ namespace Symphony.System {
 			System.Resource.init(System);
 
 			//Transition to the Intro state.
-			System.fsm.push({state: new Game.State.Stage, ctx: System.ctx});
+			//System.fsm.push({state: new Game.State.Stage, ctx: System.ctx});
 
 			//Start the recursive game loop.
-			gameLoop();
+			//gameLoop();
 		});
+		*/
 	}
 
 	/**
 	 * This is the game loop. This method is recursively invoked via the requestAnimationFrame() method.
-	 * @returns {void}
+	 * @return {void}
 	 */
 	function gameLoop():void {
 		//This variable holds the time that was stored in the previous frame.
@@ -73,19 +91,19 @@ namespace Symphony.System {
 		let dt:number = currentTime - previousTime;
 
 		//Here we use the requestAnimationFrame() method to recursively invoke the gameLoop() method.
-		System.animationFrameId = requestAnimationFrame(gameLoop);
+		System.session.setAnimationFrameId = requestAnimationFrame(gameLoop);
 
 		//Update the instantaneous frames per second.
-		System.FPS = 1000.0 / dt;
+		System.session.setFPS = 1000.0 / dt;
 
 		//Limit the frame rate.
-		if (dt > System.Config.TARGETED_FPS)
-			dt = System.Config.TARGETED_FPS;
+		if (dt > System.session.CONFIG.TARGETED_FPS)
+			dt = System.session.CONFIG.TARGETED_FPS;
 
 		//Handle logic in the current state.
-		System.fsm.update({ctx: ctx, dt: dt});
+		System.session.FSM.update({ctx: System.session.ctx, dt: dt});
 
 		//Render the current state.
-		System.fsm.draw({ctx: ctx, dt: dt});
+		System.session.FSM.draw({ctx: System.session.ctx, dt: dt});
 	}
 }

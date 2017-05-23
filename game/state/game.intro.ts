@@ -10,6 +10,7 @@
 /// <reference path="./../../system/system.state.ts" />
 
 namespace Symphony.Game.State {
+	/*
 	export class Intro implements System.State {
 		public start(o:any):void {
 			System.bg_canvas.addEventListener("webkitTransitionEnd", function(event) {
@@ -27,4 +28,5 @@ namespace Symphony.Game.State {
 
 		}
 	}
+	*/
 }

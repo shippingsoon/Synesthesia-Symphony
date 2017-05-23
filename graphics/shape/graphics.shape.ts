@@ -6,7 +6,17 @@
  * @demo - https://www.shippingsoon.com/synesthesia-symphony/
  */
 
-namespace Symphony.Canvas.Shape {
+/// <reference path="../../graphics/graphics.vector.ts" />
+
+namespace Symphony.Graphics {
+	export abstract class Shape extends Graphics.Vector {
+		/**
+		 * Returns the area of this shape.
+		 * @return {number}
+		 */
+		public abstract get getArea():number;
+	}
+
 	/**
 	 * Defines classes that can be drawn to the screen.
 	 * @interface

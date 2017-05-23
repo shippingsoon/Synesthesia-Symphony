@@ -1,12 +1,13 @@
 /*
- * @description -
+ * @description - Color class
  * @copyright - 2014 Shipping Soon
  * @license - GPLv3
  * @source - https://github.com/shippingsoon/Synesthesia-Symphony
  * @demo - https://www.shippingsoon.com/synesthesia-symphony/
  */
 
-namespace Symphony.Canvas {
+namespace Symphony.Graphics {
+	//Let the TypeScript compiler know we are using the 3rd party parseCSSColor() function.
 	declare let parseCSSColor:Function;
 
 	export class Color {
@@ -19,14 +20,16 @@ namespace Symphony.Canvas {
 
 		/**
 		 * Color constructor.
+		 * @constructor
 		 * @param {number} r - Red.
 		 * @param {number} g - Green.
 		 * @param {number} b - Blue.
 		 * @param {number} a - Alpha.
 		 */
-		public constructor({r = 0, g = 0, b = 0, a = 1}:ColorType|any) {
+		public constructor({r = 0, g = 0, b = 0, a = 1}:Graphics.ColorType|any) {
+			//If the argument passed to this method is a string.
 			if (_.isString(arguments[0])) {
-				//Use 3rd party parseCSSColor() function to convert our text to color.
+				//Use 3rd party parseCSSColor() function to convert the color name to a rgba value.
 				let parsedColors:number[] = parseCSSColor(arguments[0]);
 
 				if (_.isEmpty(parsedColors))
@@ -55,9 +58,9 @@ namespace Symphony.Canvas {
 
 		/**
 		 * Gets the red, green, blue and alpha color components.
-		 * @return {Symphony.Canvas.ColorType}
+		 * @return {Symphony.Graphics.ColorType}
 		 */
-		public getColor():ColorType {
+		public getColor():Graphics.ColorType {
 			return {
 				r: this.r,
 				g: this.b,
@@ -68,10 +71,10 @@ namespace Symphony.Canvas {
 
 		/**
 		 * Sets the color.
-		 * @param {Symphony.Canvas.ColorType} color
-		 * @return {Symphony.Canvas.Color}
+		 * @param {Symphony.Graphics.ColorType} color
+		 * @return {Symphony.Graphics.Color}
 		 */
-		public setColor(color:ColorType|any):Color {
+		public setColor(color:Graphics.ColorType|any):Color {
 			this.r = color.r;
 			this.g = color.g;
 			this.b = color.b;
@@ -92,7 +95,7 @@ namespace Symphony.Canvas {
 		 * Gets the color of this object in hexadecimal format.
 		 * @return {string}
 		 */
-		public getHex():string {
+		public get getHex():string {
 			return this.hexString;
 		}
 
@@ -100,7 +103,7 @@ namespace Symphony.Canvas {
 		 * Gets the color of this object in rgba format.
 		 * @return {string}
 		 */
-		public getRGBA():string {
+		public get getRGBA():string {
 			return this.rgbaString;
 		}
 
@@ -108,81 +111,72 @@ namespace Symphony.Canvas {
 		 * Gets the red component.
 		 * @return {number}
 		 */
-		public getRed():number {
+		public get getRed():number {
 			return this.r;
 		}
 
 		/**
 		 * Sets the red component.
 		 * @param {number} red - A number between 0-255.
-		 * @return {Symphony.Canvas.Color}
+		 * @return {void}
 		 */
-		public setRed(red:number):this {
+		public set setRed(red:number) {
 			this.r = red;
 
 			//Make sure the values are valid.
 			if (!isValidColor(this.getColor()))
 				throw `Invalid RGBA colors: rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
-
-			return this;
 		}
-
 
 		/**
 		 * Gets the green component.
 		 * @return {number}
 		 */
-		public getGreen():number {
+		public get getGreen():number {
 			return this.g;
 		}
 
 		/**
 		 * Sets the green component.
 		 * @param {number} green - A number between 0-255.
-		 * @return {Symphony.Canvas.Color}
+		 * @return {void}
 		 */
-		public setGreen(green:number):this {
+		public set setGreen(green:number) {
 			this.g = green;
-
-			return this;
 		}
 
 		/**
 		 * Gets the blue component.
 		 * @return {number}
 		 */
-		public getBlue():number {
+		public get getBlue():number {
 			return this.b;
 		}
 
 		/**
 		 * Sets the blue component.
 		 * @param {number} blue - A number between 0-255.
-		 * @return {Symphony.Canvas.Color}
+		 * @return {void}
 		 */
-		public setBlue(blue:number):this {
+		public set setBlue(blue:number) {
 			this.b = blue;
-
-			return this;
 		}
 
 		/**
 		 * Gets the alpha component.
 		 * @return {number}
 		 */
-		public getAlpha():number {
+		public get getAlpha():number {
 			return this.a;
 		}
 
 		/**
 		 * Sets the alpha component.
 		 * @param {number} alpha - A number between 0-255.
-		 * @return {Symphony.Canvas.Color}
+		 * @return {void}
 		 */
-		public setAlpha(alpha:number):this {
+		public set setAlpha(alpha:number) {
 			this.a = alpha;
-
-			return this;
 		}
 	}
 
@@ -199,10 +193,10 @@ namespace Symphony.Canvas {
 
 	/**
 	 * Converts a color object to a hexadecimal string.
-	 * @param {Symphony.Canvas.ColorType} color - The color object containing rgb colors that will be converted to hex.
+	 * @param {Symphony.Graphics.ColorType} color - The color object containing rgb colors that will be converted to hex.
 	 * @return {string}
 	 */
-	export function buildHex(color:Canvas.ColorType):string {
+	export function buildHex(color:Graphics.ColorType):string {
 		let hexString:string = '#';
 
 		//Here we append the red, green and blue component to the output variable.
@@ -217,20 +211,20 @@ namespace Symphony.Canvas {
 
 	/**
 	 * Converts a color object to a hexadecimal string.
-	 * @param {Symphony.Canvas.ColorType} color - The color object containing rgb colors that will be converted to hex.
+	 * @param {Symphony.Graphics.ColorType} color - The color object containing rgb colors that will be converted to hex.
 	 * @return {string}
 	 */
-	export function buildRGBA(color:Canvas.ColorType):string {
+	export function buildRGBA(color:Graphics.ColorType):string {
 		//Use LoDash' join() method to concat the rgba colors. The array input values will be comma delimited i.e., rgba(0,0,0,1).
 		return `rgba(${_.join([color.r, color.g, color.b, color.a])})`;
 	}
 
 	/**
 	 * This method makes sure the colors are in the 0-255 range and it also makes sure the alpha value is between 0-1.
-	 * @param {Symphony.Canvas.ColorType} color - The color to be checked.
+	 * @param {Symphony.Graphics.ColorType} color - The color to be checked.
 	 * return {boolean}
 	 */
-	export function isValidColor(color:Canvas.ColorType):boolean {
+	export function isValidColor(color:Graphics.ColorType):boolean {
 		return (
 			_.inRange(color.r, 0, 256) &&
 			_.inRange(color.g, 0, 256) &&
@@ -238,4 +232,6 @@ namespace Symphony.Canvas {
 			_.inRange(color.a, 0, 2)
 		);
 	}
+
+
 }
