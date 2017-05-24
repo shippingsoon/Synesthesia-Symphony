@@ -35,11 +35,49 @@ namespace Symphony.System {
 
 		/**
 		 * @constructor
-		 * @param {Function} callback
-		 * @param {string} configURL
 		 */
-		constructor(callback:Function, configURL:string = "/synesthesia-symphony/config.json") {
-			this.init(callback, configURL);
+		public constructor() {
+		}
+
+		/**
+		 * Loads configuration data from a JSON file or remote database.
+		 * @param {string} url - The URL to request data from.
+		 * @param {Function} callback - The callback method that will be invoked on success.
+		 * @return {void}
+		 */
+		 public async load(url:string, callback:Function):Promise<void> {
+			 return new Promise<void>((resolve, reject) => {
+			 	jQuery.ajax({
+					dataType: "json",
+					url: url,
+					success: callback,
+					error: function(err) {
+						console.error(err);
+					}
+				});
+			 });
+		}
+
+		/**
+		 * Saves configuration data to a remote database via a RESTful JSON API.
+		 * @param {string} url - The URL of the RESTFul API that we will send data to.
+		 * @param {Symphony.System.ConfigType} config - The configuration data we will be saving.
+		 * @param {Function} callback
+		 * @return {void}
+		 */
+		public async save(url:string, config:Symphony.System.ConfigType, callback:Function): Promise<void> {
+			return new Promise<void>((resolve, reject) => {
+				jQuery.ajax({
+					dataType: "json",
+					type: "POST",
+					url: url,
+					data: config,
+					success: callback,
+					error: function (err) {
+						console.error(err);
+					}
+				});
+			});
 		}
 
 		/**
@@ -116,40 +154,27 @@ namespace Symphony.System {
 
 		/**
 		 * Initiates a session.
-		 * @param {Function} callback
 		 * @param {String} configURL
+		 * @param {Function} callback
 		 * @return {void}
 		 */
-		public init(callback:Function, configURL:string = "/synesthesia-symphony/config.json"):void {
+		public loadConfig(configURL:string = "/synesthesia-symphony/config.json", callback:Function):Promise<void> {
 			//Read the configuration data from the config.json file.
-			debugger;
-			loadSession(configURL, (json) => {
-				//This will determine if we will pull configuration data from a database.
-				if (json.USE_DB) {
-					//Load the configuration data from a remote database.
-					//this.load(json.DB_URL || "localhost:3000/api/load", callback);
-				}
-				else {
-					//Use the config data we received from the config.json file.
-					var that = this;
-					(function(json){
-						//Detect the current screen resolution.
-						//The getResolution() method will return a System.Config.RESOLUTIONS object containing the width and height
-						//which we will use to set the canvas' width and height.
-						that.initResources(getResolution(json.RESOLUTIONS));
-						callback(json);
-					}(json));
-				}
-			});
-	}
+			return this.load(configURL, callback);
+		}
 
 		/**
 		 * This method initiates resources such as the System.canvas and System.ctx.
 		 * @param {Symphony.System} system - The System namespace.
 		 * @return {void}
 		 */
-		public initResources(resolution:ResolutionType):void {
-			//Set the canvas.
+		public initResources(resolutionSettings:ResolutionType):void {
+			//Detect the current screen resolution.
+			//The getResolution() method will return a System.Config.RESOLUTIONS object containing the width and height
+			//which we will use to set the canvas' width and height.
+			let resolution:ResolutionType = getResolution(resolutionSettings);
+
+			//Set the canv as.
 			this.canvasElement = <HTMLCanvasElement> document.querySelector("#canvas-layer");
 			this.backgroundCanvasElement = <HTMLCanvasElement> document.querySelector("#background-layer");
 
@@ -207,8 +232,8 @@ namespace Symphony.System {
 
 	/**
 	 * This method tries to detect the screen resolution. It returns an object containing a width and height.
-	 * @param {Symphony.System.Config.RESOLUTIONS} resolutions - The screen resolutions.
-	 * @return {Symphony.System.ResolutionType}
+	 * @param {Symphony.Session.ResolutionType} resolutions - The screen resolutions.
+	 * @return {Symphony.Session.ResolutionType}
 	 */
 	//export function getResolution(resolutions:{LOW:ResolutionType, MEDIUM:ResolutionType, HIGH:ResolutionType}):System.ResolutionType {
 	export function getResolution(resolutions:any):System.ResolutionType {
@@ -222,39 +247,6 @@ namespace Symphony.System {
 
 		//Return the low resolution.
 		return resolutions['LOW'];
-	}
-
-	/**
-	 * Loads configuration data from a JSON file or remote database.
-	 * @param {string} url - The URL to request data from.
-	 * @param {Function} callback - The callback method that will be invoked on success.
-	 * @return {void}
-	 */
-	export function loadSession(url:string, callback:Function):void {
-		jQuery.ajax({
-			dataType: "json",
-			url: url,
-			success: callback,
-			error: _onError
-		});
-	}
-
-	/**
-	 * Saves configuration data to a remote database via a RESTful JSON API.
-	 * @param {string} url - The URL of the RESTFul API that we will send data to.
-	 * @param {Symphony.System.ConfigType} config - The configuration data we will be saving.
-	 * @param {Function} callback
-	 * @return {void}
-	 */
-	export function saveSession(url:string, config:Symphony.System.ConfigType, callback:Function):void {
-		jQuery.ajax({
-			dataType: "json",
-			type: "POST",
-			url: url,
-			data: config,
-			success: callback,
-			error: _onError
-		});
 	}
 
 	/**

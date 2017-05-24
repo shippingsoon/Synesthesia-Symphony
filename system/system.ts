@@ -15,28 +15,6 @@ namespace Symphony.System {
 	//Session
 	export let session:System.Session;
 
-	/*
-	//This variable holds ReadOnly configuration data.
-	export let Config:System.ConfigType;
-
-	//The instantaneous frames per second the app is getting.
-	export let FPS:number;
-
-	//Finite state machine.
-	export let fsm:System.FSM;
-
-	//HTML5 2D drawing context.
-	export let ctx:CanvasRenderingContext2D;
-	export let bg_ctx:CanvasRenderingContext2D;
-
-	//HTML5 canvas element.
-	export let canvas:HTMLCanvasElement;
-	export let bg_canvas:HTMLCanvasElement;
-
-	//The request ID that is returned from the requestAnimationFrame() method.
-	export let animationFrameId:number;
-	*/
-
 	//The current time. This is used to measure the delta time between two frames.
 	let currentTime:any = Date.now();
 
@@ -44,9 +22,28 @@ namespace Symphony.System {
 	 * This is the program's entry point. This method loads a session from a config file, initiates resources, and invokes the game loop.
 	 * @return {void}
 	 */
-	export function main():void {
+	export async function main():Promise<number> {
 		//Load the configuration data.
 		//DevNote: This is the only asynchronous callback hell you'll find in this codebase, I promise.
+		System.session = new System.Session();
+
+		await System.session.loadConfig('',  (json) => {
+			//This will determine if we will pull configuration data from a database.
+			if (json.USE_DB) {
+				//Load the configuration data from a remote database.
+				//this.load(json.DB_URL || "localhost:3000/api/load", callback);
+			}
+			else {
+				//Use the config data we received from the config.json file.
+
+
+
+				System.session.initResources(json.RESOLUTIONS);
+
+			}
+		});
+
+		/*
 		System.session = new System.Session((json) => {
 			alert('hello');
 			//Transition to the Intro state.
@@ -55,6 +52,7 @@ namespace Symphony.System {
 			//Start the recursive game loop.
 			gameLoop();
 		});
+		*/
 
 		/*
 		//Load the configuration data.

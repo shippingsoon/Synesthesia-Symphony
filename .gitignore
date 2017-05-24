@@ -2,8 +2,10 @@
 /node_modules
 /typings
 /typings.json
+/.idea
 .DS_Store
 *.swp
 *.bak
 *.js
 *.map
+/*.iml
