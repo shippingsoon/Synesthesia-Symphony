@@ -8,77 +8,34 @@
 
 /// <reference path="./../../system/system.ts" />
 /// <reference path="./../../system/system.state.ts" />
+/// <reference path="./../game.stage-manager.ts" />
 
-namespace Symphony.Game.State {
-	export class Stage implements System.State {
-		private entityManger:StageManager;
+namespace Symphony.Game {
+	export class Stage extends System.State {
+		private entityManger:Game.StageManager;
 
-		public start(o:any):void {
-			this.entityManger = new StageManager({x: 0, y: 100, r: 20, speed:768});
+		public start(data:System.StateData):void {
+			this.entityManger = new Game.StageManager({x: 0, y: 100, r: 20, speed:500, color: {r:2, g:2, b:2, a:1}});
 		}
 
-		public update(o:any):void {
-			this.entityManger.update(o);
+		public update(data:System.StateData):void {
+			this.entityManger.update(data);
 		}
 
-		public draw(o:any):void {
-			this.entityManger.draw(o);
-		}
-	}
-
-	export class StageManager {
-		private player:any;
-		private bosses:any[];
-		private enemies:any[];
-		private items:any[];
-		private bullets:any[];
-		private bulletIndex:number;
-
-
-		public update(o:any):void {
-			let keys:string[] = ['bosses', 'enemies', 'items', 'bullets'];
-
-			//debugger;
-
-			//Handle logic for the player.
-			if (!_.isEmpty(this.player))
-				this.player.update(o);
-
-			for (let key of keys) {
-				if (!_.isEmpty(this[key])) {
-					for (var i = 0; i < this[key].length; i++) {
-						if (!_.isEmpty(this[key][i]))
-							this[key][i].update(o);
-					}
-				}
-			}
+		public draw(data:System.StateData):void {
+			this.entityManger.draw(data);
 		}
 
-		public draw(o:any):void {
-			let keys:string[] = ['bosses', 'enemies', 'items', 'bullets'];
+		public pause(data:System.StateData):void {
 
-			//debugger;
-
-			//Draw
-			if (!_.isEmpty(this.player))
-				this.player.draw(o);
-
-			for (let key of keys) {
-				if (!_.isEmpty(this[key])) {
-					for (var i = 0; i < this[key].length; i++) {
-						if (!_.isEmpty(this[key][i]))
-							this[key][i].draw(o);
-					}
-				}
-			}
 		}
 
-		public add(key:string, value:any):void {
-			this[key].push(value);
+		public play(data:System.StateData):void {
+
 		}
 
-		public constructor(player:any) {
-			this.player = new Game.Player(player);
+		public stop(data:System.StateData):void {
+
 		}
 	}
 }

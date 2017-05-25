@@ -17,9 +17,9 @@ namespace Symphony.System {
 		//An array of game states.
 		private states:Array<System.State> = new Array();
 
-		/*
+		/**
 		 * Handle logic in the current state.
-		 * @param {number} data.dt - Delta time between the current and previous frames.
+		 * @param {System.StateData} data - An object containing the 2D drawing context and delta time.
 		 * @return {void}
 		 */
 		public update(data:StateData):void {
@@ -31,9 +31,9 @@ namespace Symphony.System {
 			}
 		}
 
-		/*
+		/**
 		 * Render the current state.
-		 * @param {CanvasRenderingContext2D} data.ctx - Provides the 2D rendering context.
+		 * @param {System.StateData} data - An object containing the 2D drawing context and delta time.
 		 * @return {void}
 		 */
 		public draw(data:StateData):void {
@@ -44,11 +44,9 @@ namespace Symphony.System {
 			}
 		}
 
-		/*
+		/**
 		 * Pushes a new state on to the stack.
-		 * @param {System.State} game.state - A state to be processed.
-		 * @param {CanvasRenderingContext2D} game.ctx - Provides the 2D rendering context.
-		 * @param {number} data.dt - Delta time between the current and previous frames.
+		 * @param {System.StateData} data - An object containing the 2D drawing context and delta time.
 		 * @return {void}
 		 */
 		public push(game:StateData):void {
@@ -63,10 +61,9 @@ namespace Symphony.System {
 			_.last(this.states).start(game);
 		}
 
-		/*
+		/**
 		 * Pops a state from the stack and optionally suspends the state.
-		 * @param {Boolean} data.pause - Determines if we will pause the state before switching to a previous state.
-		 * @param {CanvasRenderingContext2D} data.ctx - Provides the 2D rendering context.
+		 * @param {System.StateData} data - An object containing the 2D drawing context and delta time.
 		 * @return {void}
 		 */
 		public pop(data:StateData):void {
@@ -84,21 +81,6 @@ namespace Symphony.System {
 		};
 	}
 
-	/*
-	 * The data structure we will pass to the finite state machine.
-	 */
-	export interface StateData {
-		//HTML5 2D rendering context.
-		ctx?:CanvasRenderingContext2D;
 
-		//A game state.
-		state?:System.State;
-
-		//Delta time. The time difference from the current and previous game state.
-		dt?:number;
-
-		//Determines if we will pause the state.
-		pause?:boolean;
-	}
 }
 

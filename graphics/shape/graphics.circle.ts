@@ -88,9 +88,7 @@ namespace Symphony.Graphics {
 		 * @param {Symphony.Graphics.ColorType} lineColor -
 		 * @param {any} gco - globalCompositeOperation
 		 */
-		constructor(
-			{x = 0, y = 0, r = 0, color = {r:0, b:0, g:255, a:1}, lineWidth = 1, lineColor = {r:0, b:0, g:0, a:1}, gco = null}:
-				{x?:number, y?:number, r?:number, color?:Graphics.ColorType|string, lineWidth?:number, lineColor?:Graphics.ColorType|string, gco?:string}
+		constructor({x = 0, y = 0, r = 0, color = {r:0, b:0, g:255, a:1}, lineWidth = 1, lineColor = {r:0, b:0, g:0, a:1}, gco = null}:{x?:number, y?:number, r?:number, color?:Graphics.ColorType|string, lineWidth?:number, lineColor?:Graphics.ColorType|string, gco?:string}
 		) {
 			super({x: x, y: y, r: r});
 			this.color = new Color(color);

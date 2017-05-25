@@ -12,7 +12,7 @@
 /// <reference path="../game/state/game.intro.ts" />
 
 namespace Symphony.System {
-	//Session
+	//Start a new session.
 	export let session:System.Session;
 
 	//The current time. This is used to measure the delta time between two frames.
@@ -22,56 +22,32 @@ namespace Symphony.System {
 	 * This is the program's entry point. This method loads a session from a config file, initiates resources, and invokes the game loop.
 	 * @return {void}
 	 */
-	export async function main():Promise<number> {
-		//Load the configuration data.
-		//DevNote: This is the only asynchronous callback hell you'll find in this codebase, I promise.
+	export async function main(configURL:string = "/synesthesia-symphony/config.json") {
+		//Start a new session.
 		System.session = new System.Session();
 
-		await System.session.loadConfig('',  (json) => {
-			//This will determine if we will pull configuration data from a database.
-			if (json.USE_DB) {
-				//Load the configuration data from a remote database.
-				//this.load(json.DB_URL || "localhost:3000/api/load", callback);
-			}
-			else {
-				//Use the config data we received from the config.json file.
+		try {
+			//Load the config.json file into the session instance.
+			//Here we use async await to avoid callback hell.
+			System.session.setConfig = await System.session.load(configURL);
+		}
+		catch (err) {
+			console.error("Session.load() error, make sure the config.json file contains the correct data", err);
+		}
 
+		//Make sure the config data is set.
+		if (_.isEmpty(System.session.config.RESOLUTIONS))
+			throw "Make sure the config.json file is valid JSON and implements the ConfigType interface found in System.Session.ts";
 
+		//Initiate resources such as canvas width.
+		//The Session.initResources() method uses CSS3 media queries to determine the size for the canvas' width and height.
+		System.session.initResources(System.session.config.RESOLUTIONS);
 
-				System.session.initResources(json.RESOLUTIONS);
+		//Transition to the Intro state.
+		System.session.FSM.push({state: new Game.Stage(), ctx: System.session.ctx});
 
-			}
-		});
-
-		/*
-		System.session = new System.Session((json) => {
-			alert('hello');
-			//Transition to the Intro state.
-			this.FSM.push({state: new Game.State.Stage, ctx: System.session.ctx});
-			console.log("foobar");
-			//Start the recursive game loop.
-			gameLoop();
-		});
-		*/
-
-		/*
-		//Load the configuration data.
-		//DevNote: This is the only asynchronous callback hell you'll find in this codebase, I promise.
-		System.init(function(json) {
-			//Store the ReadOnly configuration data.
-			System.Config = json;
-
-			//Initiate resources such as canvas width. After this call,
-			//the System.canvas, System.ctx, and System.fsm should be set.
-			System.Resource.init(System);
-
-			//Transition to the Intro state.
-			//System.fsm.push({state: new Game.State.Stage, ctx: System.ctx});
-
-			//Start the recursive game loop.
-			//gameLoop();
-		});
-		*/
+		//Start the recursive game loop.
+		gameLoop();
 	}
 
 	/**
@@ -95,8 +71,8 @@ namespace Symphony.System {
 		System.session.setFPS = 1000.0 / dt;
 
 		//Limit the frame rate.
-		if (dt > System.session.CONFIG.TARGETED_FPS)
-			dt = System.session.CONFIG.TARGETED_FPS;
+		if (dt > System.session.config.TARGETED_FPS)
+			dt = System.session.config.TARGETED_FPS;
 
 		//Handle logic in the current state.
 		System.session.FSM.update({ctx: System.session.ctx, dt: dt});

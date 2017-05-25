@@ -7,6 +7,7 @@
  */
 
 /// <reference path="../../system/system.ts" />
+/// <reference path="../../system/system.session.ts" />
 /// <reference path="../../system/system.state.ts" />
 /// <reference path="../../system/system.fsm.ts" />
 /// <reference path="../../graphics/shape/graphics.shape.ts" />
@@ -15,17 +16,16 @@
 
 namespace Symphony.Game {
 	//Import dependencies.
-	import State = System.State;
-	import FSM = System.FSM;
+	import session = System.session;
 
 	declare var Keydown:any;
 	declare let Math:any;
 
-	export class Player extends Symphony.Graphics.CircleShape implements System.State {
+	class _Player extends Symphony.Graphics.CircleShape {
 		public speed:number;
 		public circle:Graphics.Circle;
 
-		constructor({x = 0, y = 0, r = 10, speed = 10}:{x?:number, y?:number, r?:number, speed?:number}) {
+		constructor({x = 0, y = 0, r = 10, speed = 10, color = 'red'}:{x?:number, y?:number, r?:number, speed?:number, color?:Graphics.ColorType}) {
 			super({x: x, y: y, r: r});
 			this.speed = speed;
 
@@ -33,16 +33,17 @@ namespace Symphony.Game {
 				x: x,
 				y: y,
 				r: r,
-				color: 'red'
+				color: color
 			});
 		}
 
-		public start(o:any) {
+		public start(o:System.StateData) {
 
 		}
 
-		public update(o:any):void {
-			var s = this.speed * (o.dt / 1000.0);
+		public update(o:System.StateData):void {
+			let s = this.speed * (o.dt / 1000.0);
+			console.log(`(${this.x}, ${this.y})`);
 
 			//The Up key has been pressed.
 			if ((Keydown.up || Keydown.w))
@@ -68,9 +69,21 @@ namespace Symphony.Game {
 		}
 
 		public draw(o:System.StateData):void {
-			//o.ctx.clearRect(0, 0, System.canvas.width, System.canvas.height)
+			o.ctx.clearRect(0, 0, System.session.canvas.width, System.session.canvas.height);
+			console.log(`(${this.x}, ${this.y})`);
 			this.circle.draw(o.ctx);
 		}
+	}
+
+	export class Player extends _Player {
+		public constructor(o:any){
+			super(o);
+
+
+		}
+
+
+
 	}
 }
 

@@ -9,7 +9,7 @@
 /// <reference path="./../../system/system.ts" />
 /// <reference path="./../../system/system.state.ts" />
 
-namespace Symphony.Game.State {
+namespace Symphony.Game {
 	/*
 	export class Intro implements System.State {
 		public start(o:any):void {

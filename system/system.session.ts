@@ -25,7 +25,7 @@ namespace Symphony.System {
 		private framesPerSecond:number;
 
 		//This variable holds ReadOnly configuration data.
-		private config:System.ConfigType;
+		private configData:System.ConfigType;
 
 		//Finite state machine.
 		private finiteStateMachine:System.FSM;
@@ -37,6 +37,10 @@ namespace Symphony.System {
 		 * @constructor
 		 */
 		public constructor() {
+			window.addEventListener("resize", (that) => {
+				this.initResources(this.configData.RESOLUTIONS);
+			});
+
 		}
 
 		/**
@@ -45,15 +49,13 @@ namespace Symphony.System {
 		 * @param {Function} callback - The callback method that will be invoked on success.
 		 * @return {void}
 		 */
-		 public async load(url:string, callback:Function):Promise<void> {
+		 public load(url:string):Promise<any> {
 			 return new Promise<void>((resolve, reject) => {
 			 	jQuery.ajax({
 					dataType: "json",
 					url: url,
-					success: callback,
-					error: function(err) {
-						console.error(err);
-					}
+				    success: (json) => { resolve(json); },
+				    error: (err) => { reject(err); }
 				});
 			 });
 		}
@@ -62,20 +64,17 @@ namespace Symphony.System {
 		 * Saves configuration data to a remote database via a RESTful JSON API.
 		 * @param {string} url - The URL of the RESTFul API that we will send data to.
 		 * @param {Symphony.System.ConfigType} config - The configuration data we will be saving.
-		 * @param {Function} callback
 		 * @return {void}
 		 */
-		public async save(url:string, config:Symphony.System.ConfigType, callback:Function): Promise<void> {
+		public save(url:string, config:object): Promise<void> {
 			return new Promise<void>((resolve, reject) => {
 				jQuery.ajax({
 					dataType: "json",
 					type: "POST",
 					url: url,
 					data: config,
-					success: callback,
-					error: function (err) {
-						console.error(err);
-					}
+					success: (json) => { resolve(json); },
+					error: (err) => { reject(err); }
 				});
 			});
 		}
@@ -132,8 +131,8 @@ namespace Symphony.System {
 		 * Get the config data.
 		 * @return {ConfigType}
 		 */
-		public get CONFIG():ConfigType {
-			return this.config;
+		public get config():ConfigType {
+			return this.configData;
 		}
 
 		/**
@@ -158,9 +157,8 @@ namespace Symphony.System {
 		 * @param {Function} callback
 		 * @return {void}
 		 */
-		public loadConfig(configURL:string = "/synesthesia-symphony/config.json", callback:Function):Promise<void> {
-			//Read the configuration data from the config.json file.
-			return this.load(configURL, callback);
+		public set setConfig(config:ConfigType) {
+			this.configData = config;
 		}
 
 		/**
@@ -168,7 +166,7 @@ namespace Symphony.System {
 		 * @param {Symphony.System} system - The System namespace.
 		 * @return {void}
 		 */
-		public initResources(resolutionSettings:ResolutionType):void {
+		public initResources(resolutionSettings:{LOW:ResolutionType, MEDIUM:ResolutionType, HIGH:ResolutionType}):void {
 			//Detect the current screen resolution.
 			//The getResolution() method will return a System.Config.RESOLUTIONS object containing the width and height
 			//which we will use to set the canvas' width and height.
@@ -221,6 +219,7 @@ namespace Symphony.System {
 	}
 
 	/**
+	 * Screen resolution data structure.
 	 * @interface
 	 */
 	export interface ResolutionType {
@@ -247,14 +246,5 @@ namespace Symphony.System {
 
 		//Return the low resolution.
 		return resolutions['LOW'];
-	}
-
-	/**
-	 * Helper method for logging error messages. TODO: Add this to a Debug namespace.
-	 * @param {object} err - An object containing server request status.
-	 * @return {void}
-	 */
-	function _onError(err:object):void {
-		console.error("An error has occurred, make sure you are pulling valid JSON from the config.json file", err);
 	}
 }

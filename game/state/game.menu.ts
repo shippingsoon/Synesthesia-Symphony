@@ -11,6 +11,6 @@
 /// <reference path="./../../system/system.ts" />
 /// <reference path="./../../system/system.state.ts" />
 
-namespace Symphony.Game.State {
+namespace Symphony.Game {
 
 }
