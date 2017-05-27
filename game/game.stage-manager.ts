@@ -11,13 +11,12 @@
 
 namespace Symphony.Game {
 	export class StageManager {
-		private player: Game.Player;
+		protected player: Symphony.Game.Player;
 		private bosses: any[] = [];
 		private enemies: any[] = [];
 		private items: any[] = [];
 		private bullets: any[] = [];
 		private bulletIndex: number;
-
 		private readonly _collections: string[] = ['bosses', 'enemies', 'bullets', 'items'];
 
 		public constructor(player: any) {
@@ -37,9 +36,9 @@ namespace Symphony.Game {
 
 		public draw(data:System.StateData):void {
 			//Draw the player.
-			if (!_.isEmpty(this.player) && this.player.isVisible)
+			if (!_.isEmpty(this.player) /*&& this.player.isVisible*/)
 				this.player.draw(data);
-			debugger;
+
 			//Render the bullets, items, enemies, and bosses.
 			this._collections.forEach((collection) => {
 				this._invoke(this[collection], (o) => o.draw(data), (o) => o.isVisible);
@@ -66,5 +65,4 @@ namespace Symphony.Game {
 			});
 		}
 	}
-
 }

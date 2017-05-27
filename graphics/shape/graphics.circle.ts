@@ -144,7 +144,7 @@ namespace Symphony.Graphics {
 		 * @param color
 		 * @return {Symphony.Graphics.Shape.Circle}
 		 */
-		public setColor(color:Graphics.ColorType):Circle {
+		public setColor(color:Graphics.ColorType|string):Circle {
 			this.color.setColor(color);
 
 			return this;

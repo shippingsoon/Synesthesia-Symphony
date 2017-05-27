@@ -21,19 +21,21 @@ namespace Symphony.Game {
 	declare var Keydown:any;
 	declare let Math:any;
 
-	class _Player extends Symphony.Graphics.CircleShape {
+	export class Player extends System.State {
 		public speed:number;
 		public circle:Graphics.Circle;
 
 		constructor({x = 0, y = 0, r = 10, speed = 10, color = 'red'}:{x?:number, y?:number, r?:number, speed?:number, color?:Graphics.ColorType}) {
-			super({x: x, y: y, r: r});
+			//super({x: x, y: y, r: r});
+			super();
 			this.speed = speed;
 
 			this.circle = new Graphics.Circle({
 				x: x,
 				y: y,
 				r: r,
-				color: color
+				color: color,
+				lineWidth: 0
 			});
 		}
 
@@ -42,47 +44,39 @@ namespace Symphony.Game {
 		}
 
 		public update(o:System.StateData):void {
-			let s = this.speed * (o.dt / 1000.0);
-			console.log(`(${this.x}, ${this.y})`);
+			let s:number = this.speed * (o.dt / 1000.0);
+
+			console.log(`(${this.circle.getX}, ${this.circle.getY})`);
 
 			//The Up key has been pressed.
 			if ((Keydown.up || Keydown.w))
-				this.y = this.y - s;
+				this.circle.subtract({x: 0, y: s});
 
 			//The Down key has been pressed.
 			if ((Keydown.down || Keydown.s))
-				this.y = this.y + s;
+				this.circle.add({x: 0, y: s});
 
 			//The Left key is pressed.
 			if ((Keydown.left || Keydown.a))
-				this.x = this.x - s;
+				this.circle.subtract({x: s, y: 0});
 
 			//The Right key has been pressed.
 			if ((Keydown.right || Keydown.d))
-				this.x = this.x + s;
-
-			//this.circle.setPosition(this.getPosition());
-			this.circle.setPosition = this.getPosition;
+				this.circle.add({x: s, y: 0});
 
 			//console.log(`${Symphony.System.FPS.toFixed(2)} (x: ${this.x.toFixed(2)}, y: ${this.y.toFixed(2)}) ${new Date()}`)
 
 		}
 
 		public draw(o:System.StateData):void {
-			o.ctx.clearRect(0, 0, System.session.canvas.width, System.session.canvas.height);
-			console.log(`(${this.x}, ${this.y})`);
+			//o.ctx.clearRect(0, 0, System.session.canvas.width, System.session.canvas.height);
+			//console.log(`(${this.x}, ${this.y})`);
 			this.circle.draw(o.ctx);
 		}
-	}
 
-	export class Player extends _Player {
-		public constructor(o:any){
-			super(o);
-
-
-		}
-
-
+		public pause():void{}
+		public stop():void{}
+		public play():void{}
 
 	}
 }

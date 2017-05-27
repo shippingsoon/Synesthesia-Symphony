@@ -75,6 +75,20 @@ namespace Symphony.Graphics {
 		 * @return {Symphony.Graphics.Color}
 		 */
 		public setColor(color:Graphics.ColorType|any):Color {
+			//If the argument passed to this method is a string.
+			if (_.isString(arguments[0])) {
+				//Use 3rd party parseCSSColor() function to convert the color name to a rgba value.
+				let parsedColors:number[] = parseCSSColor(arguments[0]);
+
+				if (_.isEmpty(parsedColors))
+					parsedColors = [0, 0, 0, 1];
+				color = new Object();
+				color.r = parsedColors[0];
+				color.g = parsedColors[1];
+				color.b = parsedColors[2];
+				color.a = parsedColors[3];
+			}
+
 			this.r = color.r;
 			this.g = color.g;
 			this.b = color.b;

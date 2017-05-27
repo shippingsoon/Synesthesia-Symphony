@@ -14,15 +14,15 @@ namespace Symphony.System {
 	 */
 	export abstract class State {
 		//Determines if this state is active i.e., if we will invoke the update() method.
-		public _isActive:boolean = true;
+		protected _isActive:boolean = true;
 
 		//Determines if the state is visible i.e., if we will invoke the draw() method.
-		public _isVisible:boolean = true;
+		protected _isVisible:boolean = true;
 
 		/**
 		 * @constructor
 		 */
-		public constructor(){
+		constructor(){
 			this._isActive = true;
 			this._isVisible = true;
 		}
