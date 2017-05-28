@@ -27,33 +27,28 @@ namespace Symphony.Graphics {
 		 * @param {number} a - Alpha.
 		 */
 		public constructor({r = 0, g = 0, b = 0, a = 1}:Graphics.ColorType|any) {
+			//The color we will be uses to set the rgba values.
+			let color:ColorType = {r: r, g: g, b: b, a: a};
+
 			//If the argument passed to this method is a string.
 			if (_.isString(arguments[0])) {
-				//Use 3rd party parseCSSColor() function to convert the color name to a rgba value.
-				let parsedColors:number[] = parseCSSColor(arguments[0]);
-
-				if (_.isEmpty(parsedColors))
-					parsedColors = [0, 0, 0, 1];
-
-				r = parsedColors[0];
-				g = parsedColors[1];
-				b = parsedColors[2];
-				a = parsedColors[3];
+				//Use 3rd party parseCSSColor() function to convert the color name to a rgba object.
+				color = colorNameToObject(<string> arguments[0]);
 			}
 
 			//Set the colors.
-			this.r = r;
-			this.g = g;
-			this.b = b;
-			this.a = a;
+			this.r = color.r;
+			this.g = color.g;
+			this.b = color.b;
+			this.a = color.a;
 
 			//Make sure the values are valid.
-			if (!isValidColor({r: r, g: g, b: b, a: a}))
-				throw `Invalid RGBA colors: rgba(${r}, ${g}, ${b}, ${a})`;
+			if (!isValidColor(color))
+				throw new Error (`Invalid RGBA colors: rgba(${r}, ${g}, ${b}, ${a})`);
 
 			//Store a copy of the color object in hexadecimal and rgba format.
-			this.hexString = buildHex({r: r, g: g, b: b, a: a});
-			this.rgbaString = buildRGBA({r: r, g: g, b: b, a: a});
+			this.hexString = buildHex(color);
+			this.rgbaString = buildRGBA(color);
 		}
 
 		/**
@@ -63,7 +58,7 @@ namespace Symphony.Graphics {
 		public getColor():Graphics.ColorType {
 			return {
 				r: this.r,
-				g: this.b,
+				g: this.g,
 				b: this.b,
 				a: this.a
 			};
@@ -78,15 +73,7 @@ namespace Symphony.Graphics {
 			//If the argument passed to this method is a string.
 			if (_.isString(arguments[0])) {
 				//Use 3rd party parseCSSColor() function to convert the color name to a rgba value.
-				let parsedColors:number[] = parseCSSColor(arguments[0]);
-
-				if (_.isEmpty(parsedColors))
-					parsedColors = [0, 0, 0, 1];
-				color = new Object();
-				color.r = parsedColors[0];
-				color.g = parsedColors[1];
-				color.b = parsedColors[2];
-				color.a = parsedColors[3];
+				color = colorNameToObject(<string> arguments[0]);
 			}
 
 			this.r = color.r;
@@ -96,7 +83,7 @@ namespace Symphony.Graphics {
 
 			//Make sure the values are valid.
 			if (!isValidColor(this.getColor()))
-				throw `Invalid RGBA colors: rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
+				throw new Error(`Invalid RGBA colors: rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`);
 
 			//Store a copy of the color object in hex and rgba format.
 			this.hexString = buildHex(this.getColor());
@@ -139,7 +126,7 @@ namespace Symphony.Graphics {
 
 			//Make sure the values are valid.
 			if (!isValidColor(this.getColor()))
-				throw `Invalid RGBA colors: rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
+				throw new Error(`Invalid RGBA colors: rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`);
 		}
 
 		/**
@@ -245,6 +232,27 @@ namespace Symphony.Graphics {
 			_.inRange(color.b, 0, 256) &&
 			_.inRange(color.a, 0, 2)
 		);
+	}
+
+	/**
+	 * Reads in a W3C color string and uses the 3rd party parseCSSColor() function to convert the color name to an object.
+	 * @param {string} colorName - A W3C color name. See http://www.w3.org/TR/css3-color/
+	 * @return {ColorType}
+	 */
+	export function colorNameToObject(colorName:string):ColorType {
+		//Use 3rd party parseCSSColor() function to convert the color name to a rgba value.
+		let parsedColors:number[] = parseCSSColor(colorName);
+
+		//If the parseCSSColor failed to parse the color we will raise an exception.
+		if (_.isEmpty(parsedColors))
+			throw new Error(`In Color.colorNameToObject(). Failed to set color: ${colorName}`);
+
+		return {
+			r: parsedColors[0],
+			g: parsedColors[1],
+			b: parsedColors[2],
+			a: parsedColors[3]
+		};
 	}
 
 

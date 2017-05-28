@@ -2,6 +2,7 @@
 /node_modules
 /typings
 /typings.json
+/package.json
 /.idea
 .DS_Store
 *.swp

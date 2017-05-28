@@ -3,9 +3,30 @@
 	"module": "commonjs",
 	"target": "es6",
 	"sourceMap": true,
-	"alwaysStrict": true
+	"alwaysStrict": true,
+	"allowJs": true
   },
   "exclude": [
 	"node_modules"
+  ],
+  "scripts": {
+	"test": ""
+  },
+  "files": [
+	"./graphics/graphics.color.ts",
+	"./graphics/shape/graphics.shape.ts",
+	"./graphics/shape/graphics.circle.ts",
+	"./graphics/graphics.vector.ts",
+	"./system/system.ts",
+	"./system/system.state.ts",
+	"./system/system.fsm.ts",
+	"./system/system.session.ts",
+	"./game/game.stage-manager.ts",
+	"./game/character/game.player.ts",
+	"./game/state/game.intro.ts",
+	"./game/state/game.stage.ts",
+	"./game/state/game.menu.ts",
+	"./game/game.stage-manager.ts",
+	"./synesthesia-symphony.ts"
   ]
 }
