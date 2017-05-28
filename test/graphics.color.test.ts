@@ -29,7 +29,6 @@ describe('Graphics.Color Class Unit Test', () => {
 		green = 0;
 		blue = 0;
 		color = new Color({r: red, g: green, b: blue, a: alpha});
-		//color = new Color('red');
 		rgbaString = 'rgba(255, 0, 0, 1)';
 
 		it(`Color.getRGBA should match ${rgbaString}`, (done) => {
