@@ -9,6 +9,9 @@
   "exclude": [
 	"node_modules"
   ],
+  "include": [
+	"synesthesia-symphony/**/*"
+  ],
   "scripts": {
 	"test": ""
   },

@@ -8,7 +8,8 @@
 
 namespace Symphony.Graphics {
 	//Let the TypeScript compiler know we are using the 3rd party parseCSSColor() function.
-	declare let parseCSSColor:Function;
+	declare let parseCSSColor:any;
+	declare let _:any;
 
 	export class Color {
 		private r:number;
@@ -44,7 +45,7 @@ namespace Symphony.Graphics {
 
 			//Make sure the values are valid.
 			if (!isValidColor(color))
-				throw new Error (`Invalid RGBA colors: rgba(${r}, ${g}, ${b}, ${a})`);
+				throw new Error(`Invalid RGBA colors: rgba(${r}, ${g}, ${b}, ${a})`);
 
 			//Store a copy of the color object in hexadecimal and rgba format.
 			this.hexString = buildHex(color);
