@@ -10,6 +10,7 @@
 /// <reference path="./system.fsm.ts" />
 /// <reference path="./system.state.ts" />
 /// <reference path="../game/state/game.intro.ts" />
+/// <reference path="../game/state/game.stage.ts" />
 
 namespace Symphony.System {
 	//Start a new session.
@@ -23,6 +24,8 @@ namespace Symphony.System {
 	 * @return {void}
 	 */
 	export async function main(configURL:string = "/synesthesia-symphony/config.json") {
+		let databaseURL = "";
+
 		//Start a new session.
 		System.session = new System.Session();
 
@@ -30,9 +33,12 @@ namespace Symphony.System {
 			//Load the config.json file into the session instance.
 			//Here we use async await to avoid callback hell.
 			System.session.setConfig = await System.session.load(configURL);
+
+			//Load the game data required to initiate enemies, items and projectile patterns.
+			System.session.setGameData = await System.session.load(System.session.config.DB_URL);
 		}
 		catch (err) {
-			console.error("Session.load() error, make sure the config.json file contains the correct data", err);
+			console.error("Session.load() error, make sure the config.json and offline-data.json files contain the correct data and is valid JSON", err);
 		}
 
 		//Make sure the config data is set.
@@ -44,7 +50,7 @@ namespace Symphony.System {
 		System.session.initResources(System.session.config.RESOLUTIONS);
 
 		//Transition to the Intro state.
-		System.session.FSM.push({state: new Game.Stage(), ctx: System.session.ctx});
+		System.session.FSM.push({state: new Game.Stage(), session: System.session});
 
 		//Start the recursive game loop.
 		gameLoop();
@@ -75,9 +81,9 @@ namespace Symphony.System {
 			dt = System.session.config.TARGETED_FPS;
 
 		//Handle logic in the current state.
-		System.session.FSM.update({ctx: System.session.ctx, dt: dt});
+		System.session.FSM.update({session: System.session, dt: dt});
 
 		//Render the current state.
-		System.session.FSM.draw({ctx: System.session.ctx, dt: dt});
+		System.session.FSM.draw({session: System.session, dt: dt});
 	}
 }

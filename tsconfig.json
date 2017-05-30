@@ -24,12 +24,12 @@
 	"./system/system.state.ts",
 	"./system/system.fsm.ts",
 	"./system/system.session.ts",
-	"./game/game.stage-manager.ts",
+	"./game/game.entity-manager.ts",
 	"./game/character/game.player.ts",
 	"./game/state/game.intro.ts",
 	"./game/state/game.stage.ts",
 	"./game/state/game.menu.ts",
-	"./game/game.stage-manager.ts",
+	"./game/game.entity-manager.ts",
 	"./synesthesia-symphony.ts"
   ]
 }

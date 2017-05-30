@@ -1,0 +1,27 @@
+{
+  "enemies":[
+	{
+	  "x":0,
+	  "y":0,
+	  "r":10,
+	  "speed":10,
+	  "lp": 1,
+	  "mhp":10,
+	  "fillColor":"DarkGreen",
+	  "lineWidth":1,
+	  "lineColor":"black",
+	  "patterns":[
+		{
+		  "position":{"x": null, "y": null},
+		  "offsets":{"x": 0, "y": 0},
+		  "maxProjectiles":10,
+		  "targetType":null,
+		  "speeds":[4],
+		  "fillColors":["DarkGreen"],
+		  "radii":[10],
+		  "isOpens":[false]
+		}
+	  ]
+	}
+  ]
+}

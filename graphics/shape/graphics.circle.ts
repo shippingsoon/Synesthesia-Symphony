@@ -11,26 +11,30 @@
 /// <reference path="../graphics.color.ts" />
 
 
-
+/**
+ * @namespace
+ */
 namespace Symphony.Graphics {
 	declare let Math:any;
 
 	export class CircleShape extends Graphics.Shape {
+		//The circle's radius.
 		protected r:number;
 
 		/**
 		 * Creates a new CircleShape.
 		 * @constructor
-		 * @param {number} x
-		 * @param {number} y
-		 * @param {number} r
+		 * @param {number} x - The x coordinate.
+		 * @param {number} y - The y coordinate.
+		 * @param {number} r - The circle's radius.
+		 * @throws {Error}
 		 */
 		public constructor({x = 0, y = 0, r = 1}:{x:number, y:number, r:number}) {
 			super({x: x, y: y});
 
 			//Make sure the radius is greater than 0.
 			if (_.lte(r, 0))
-				throw `Radius must be greater than zero: ${r} in CircleShape.constructor()`;
+				throw new Error(`Radius must be greater than zero: ${r} in CircleShape.constructor()`);
 
 			this.r = r;
 		}
@@ -46,12 +50,13 @@ namespace Symphony.Graphics {
 		/**
 		 * Sets the circle's radius.
 		 * @param {number} radius
+		 * @throws {Error}
 		 * @return {void}
 		 */
 		public set setRadius(radius:number) {
 			//Make sure the radius is greater than 0.
 			if (_.lte(radius, 0))
-				throw `Radius must be greater than zero: ${radius} in CircleShape.setRadius()`;
+				throw new Error(`Radius must be greater than zero: ${radius} in CircleShape.setRadius()`);
 
 			this.r = radius;
 		}
@@ -68,7 +73,7 @@ namespace Symphony.Graphics {
 
 	export class Circle extends Graphics.CircleShape implements Graphics.Drawable {
 		//The circle's color.
-		private color:Graphics.Color;
+		protected fillColor:Graphics.Color;
 
 		//The width of the circle's border.
 		private lineWidth:number;
@@ -76,25 +81,28 @@ namespace Symphony.Graphics {
 		//The color of the circle's border.
 		private lineColor:Graphics.Color;
 
-		private globalCompositeOperation:string;
+		//Determines if the circle is updated.
+		private _isActive:boolean = true;
+
+		//Determines if the circle is visible.
+		private _isVisible:boolean = true;
 
 		/**
 		 * @constructor
-		 * @param {number} x
-		 * @param {number} y
-		 * @param {number} r
-		 * @param {Symphony.Graphics.ColorType} color
-		 * @param {number} lineWidth
-		 * @param {Symphony.Graphics.ColorType} lineColor -
-		 * @param {any} gco - globalCompositeOperation
+		 * @param {number} x - The circle's x coordinate
+		 * @param {number} y - The circle's y coordinate
+		 * @param {number} r - The circle's radius
+		 * @param {Graphics.ColorType} fillColor - The circle's fill color.
+		 * @param {number} lineWidth - The circle's border width.
+		 * @param {Graphics.ColorType} lineColor - The circle's border color.
 		 */
-		constructor({x = 0, y = 0, r = 0, color = {r:0, b:0, g:255, a:1}, lineWidth = 1, lineColor = {r:0, b:0, g:0, a:1}, gco = null}:{x?:number, y?:number, r?:number, color?:Graphics.ColorType|string, lineWidth?:number, lineColor?:Graphics.ColorType|string, gco?:string}
-		) {
+		constructor({x = 0, y = 0, r = 10, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
+			            {x?:number, y?:number, r?:number, fillColor?:Graphics.ColorType|string, lineWidth?:number, lineColor?:Graphics.ColorType|string})
+		{
 			super({x: x, y: y, r: r});
-			this.color = new Color(color);
+			this.fillColor = new Color(fillColor);
 			this.lineWidth = lineWidth;
 			this.lineColor = new Color(lineColor);
-			this.globalCompositeOperation = gco;
 		}
 
 		/**
@@ -102,21 +110,17 @@ namespace Symphony.Graphics {
 		 * @param {CanvasRenderingContext2D} ctx - The HTML5 2D drawing context.
 		 * return {void}
 		 */
-		public draw(ctx:CanvasRenderingContext2D):void {
+		public render(ctx:CanvasRenderingContext2D):void {
 			if (ctx) {
 				//Save the 2D rendering context's current state. We will restore it back to this state when we are finished with it.
 				ctx.save();
-
-				//Set the composition operation.
-				if (this.globalCompositeOperation)
-					ctx.globalCompositeOperation = this.globalCompositeOperation;
 
 				//Make the shape circular.
 				ctx.beginPath();
 				ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
 
 				//Fill in the circle with the given color.
-				ctx.fillStyle = this.color.getHex;
+				ctx.fillStyle = this.fillColor.getHex;
 				ctx.fill();
 
 				//If a line width is specified stroke an outline around the circle..
@@ -136,7 +140,7 @@ namespace Symphony.Graphics {
 		 * @return {Symphony.Graphics.ColorType}
 		 */
 		public getColor():Graphics.ColorType {
-			return this.color.getColor();
+			return this.fillColor.getColor();
 		}
 
 		/**
@@ -144,8 +148,8 @@ namespace Symphony.Graphics {
 		 * @param color
 		 * @return {Symphony.Graphics.Shape.Circle}
 		 */
-		public setColor(color:Graphics.ColorType|string):Circle {
-			this.color.setColor(color);
+		public setColor(color:Graphics.ColorType|string):this {
+			this.fillColor.setColor(color);
 
 			return this;
 		}
@@ -154,20 +158,32 @@ namespace Symphony.Graphics {
 		 * Get the color of this circle in hexadecimal format.
 		 * @return {string}
 		 */
-		public getHex():string {
-			return this.color.getHex;
+		public get getHex():string {
+			return this.fillColor.getHex;
 		}
 
 		/**
 		 * Get the color of this circle in rgba format.
 		 * @return {string}
 		 */
-		public getRGBA():string {
-			return this.color.getRGBA;
+		public get getRGBA():string {
+			return this.fillColor.getRGBA;
 		}
 
+		/**
+		 * Get isActive state. This will determine if the object is updated.
+		 * @return {boolean}
+		 */
+		public get isActive():boolean {
+			return this._isActive;
+		}
 
+		/**
+		 * Get isActive state. This will determine if the object is updated.
+		 * @return {boolean}
+		 */
+		public get isVisible():boolean {
+			return this._isVisible;
+		}
 	}
-
-
 }

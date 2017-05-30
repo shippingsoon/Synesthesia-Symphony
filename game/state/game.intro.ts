@@ -9,6 +9,9 @@
 /// <reference path="./../../system/system.ts" />
 /// <reference path="./../../system/system.state.ts" />
 
+/**
+ * @namespace
+ */
 namespace Symphony.Game {
 	/*
 	export class Intro implements System.State {

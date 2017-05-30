@@ -6,9 +6,14 @@
  * @demo - https://www.shippingsoon.com/synesthesia-symphony/
  */
 
+/**
+ * @namespace
+ */
 namespace Symphony.Graphics {
-	//Let the TypeScript compiler know we are using the 3rd party parseCSSColor() function.
+	//Let the IDE know we are using the 3rd party parseCSSColor() function.
 	declare let parseCSSColor:any;
+
+	//Let the IDE know we are using the 3rd party LoDash utilities library.
 	declare let _:any;
 
 	export class Color {
@@ -22,16 +27,17 @@ namespace Symphony.Graphics {
 		/**
 		 * Color constructor.
 		 * @constructor
-		 * @param {number} r - Red.
-		 * @param {number} g - Green.
-		 * @param {number} b - Blue.
-		 * @param {number} a - Alpha.
+		 * @param {number} r - Red value ranging from 0 to 255.
+		 * @param {number} g - Green value ranging from 0 to 255.
+		 * @param {number} b - Blue value ranging from 0 to 255.
+		 * @param {number} a - Alpha value ranging from 0 to 1. This determines the transparency.
+		 * @throws {Error}
 		 */
 		public constructor({r = 0, g = 0, b = 0, a = 1}:Graphics.ColorType|any) {
-			//The color we will be uses to set the rgba values.
+			//The color we will be using to set the rgba values.
 			let color:ColorType = {r: r, g: g, b: b, a: a};
 
-			//If the argument passed to this method is a string.
+			//If the argument passed to this method is a string, then it is a color name.
 			if (_.isString(arguments[0])) {
 				//Use 3rd party parseCSSColor() function to convert the color name to a rgba object.
 				color = colorNameToObject(<string> arguments[0]);
@@ -68,6 +74,7 @@ namespace Symphony.Graphics {
 		/**
 		 * Sets the color.
 		 * @param {Symphony.Graphics.ColorType} color
+		 * @throws {Error}
 		 * @return {Symphony.Graphics.Color}
 		 */
 		public setColor(color:Graphics.ColorType|any):Color {
@@ -92,6 +99,8 @@ namespace Symphony.Graphics {
 
 			return this;
 		}
+
+		//#region Getter/Setter Region (Note: regions are collapsible with IntelliJ)
 
 		/**
 		 * Gets the color of this object in hexadecimal format.
@@ -180,6 +189,8 @@ namespace Symphony.Graphics {
 		public set setAlpha(alpha:number) {
 			this.a = alpha;
 		}
+
+		//#endregion
 	}
 
 	/**
@@ -238,6 +249,7 @@ namespace Symphony.Graphics {
 	/**
 	 * Reads in a W3C color string and uses the 3rd party parseCSSColor() function to convert the color name to an object.
 	 * @param {string} colorName - A W3C color name. See http://www.w3.org/TR/css3-color/
+	 * @throws {Error}
 	 * @return {ColorType}
 	 */
 	export function colorNameToObject(colorName:string):ColorType {
@@ -255,6 +267,4 @@ namespace Symphony.Graphics {
 			a: parsedColors[3]
 		};
 	}
-
-
 }

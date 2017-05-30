@@ -27,6 +27,9 @@ namespace Symphony.System {
 		//This variable holds ReadOnly configuration data.
 		private configData:System.ConfigType;
 
+		//This variable holds various data used to initialize enemies, items, and projectile patterns.
+		private gameData:any;
+
 		//Finite state machine.
 		private finiteStateMachine:System.FSM;
 
@@ -152,13 +155,21 @@ namespace Symphony.System {
 		}
 
 		/**
-		 * Initiates a session.
-		 * @param {String} configURL
-		 * @param {Function} callback
+		 * Sets the configData.
+		 * @param {System.ConfigType} config - The readonly configuration data.
 		 * @return {void}
 		 */
-		public set setConfig(config:ConfigType) {
+		public set setConfig(config:System.ConfigType) {
 			this.configData = config;
+		}
+
+		/**
+		 * Sets the game data.
+		 * @param {any} gameData - Various game data used to initialize enemies, items, and projectile patterns.
+		 * @return {void}
+		 */
+		public set setGameData(gameData:any) {
+			this.gameData = gameData;
 		}
 
 		/**
@@ -196,21 +207,37 @@ namespace Symphony.System {
 	 * @interface
 	 */
 	export interface ConfigType {
-		readonly USE_DB:boolean;
+		//Database URL.
+		readonly DB_URL:string;
+		//Determines if debug information will be logged to the console. Setting this to true may (or may not) break things.
 		readonly DEBUG_MODE:boolean;
+		//Determines if MIDI.js library will only use the piano instrument.
 		readonly ONLY_USE_PIANO_INSTRUMENT:boolean;
+		//The targeted FPS. This is no longer supported now that Synesthesia Symphony is using requestAnimationFrame() which defaults to 60 FPS.
 		readonly TARGETED_FPS:number,
+		//The player's initial lives.
 		readonly PLAYER_INITIAL_LIVES:number;
+		//The player's max power.
 		readonly PLAYER_MAX_POWER:number;
+		//The player's initial speed.
 		readonly PLAYER_INITIAL_POWER:number;
+		//The player's speed.
 		readonly PLAYER_SPEED:number;
+		//The player's speed when the SHIFT KEY is pressed.
 		readonly PLAYER_FOCUS_SPEED:number;
+		//The player's hitbox radius.
 		readonly PLAYER_HITBOX_RADIUS:number;
+		//Determines how long in milliseconds the player will be invulnable after taking damage.
 		readonly PLAYER_INVULNERABILITY_TIMEOUT:number;
+		//The path to the MIDI files used by MIDI.js.
 		readonly MIDI_FILE_PATH:string;
-		readonly TITLE:string;
-		readonly DEVELOPER:string;
+		//The game's title.
+		readonly GAME_TITLE:string;
+		//The developer's name.
+		readonly DEVELOPER_NAME:string;
+		//The game's version.
 		readonly VERSION:string;
+		//The canvas' width and height at various resolutions. See System.ResolutionType for more info.
 		readonly RESOLUTIONS:{
 			LOW:ResolutionType,
 			MEDIUM:ResolutionType,

@@ -8,8 +8,19 @@
 
 /// <reference path="../../graphics/graphics.vector.ts" />
 
+/**
+ * @namespace
+ */
 namespace Symphony.Graphics {
 	export abstract class Shape extends Graphics.Vector {
+		/**
+		 * @param {Graphics.VectorType}
+		 * @constructor
+		 */
+		constructor({x = 0, y = 0}:{x?:number, y?:number}) {
+			super({x: 0, y:0});
+		}
+
 		/**
 		 * Returns the area of this shape.
 		 * @return {number}
@@ -22,6 +33,6 @@ namespace Symphony.Graphics {
 	 * @interface
 	 */
 	export interface Drawable {
-		draw(ctx:CanvasRenderingContext2D):void;
+		render(ctx:CanvasRenderingContext2D):void;
 	}
 }

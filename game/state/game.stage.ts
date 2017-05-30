@@ -8,14 +8,17 @@
 
 /// <reference path="./../../system/system.ts" />
 /// <reference path="./../../system/system.state.ts" />
-/// <reference path="./../game.stage-manager.ts" />
+/// <reference path="../game.entity-manager.ts" />
 
+/**
+ * @namespace
+ */
 namespace Symphony.Game {
 	export class Stage extends System.State {
-		private entityManger:Game.StageManager;
+		private entityManger:Game.EntityManager;
 
 		public start(data:System.StateData):void {
-			this.entityManger = new Game.StageManager({x: 0, y: 100, r: 20, speed:500, color: {r:2, g:2, b:2, a:1}});
+			this.entityManger = new Game.EntityManager({x: 0, y: 100, r: 20, speed:500, fillColor: {r:70, g:240, b:82, a:1}});
 		}
 
 		public update(data:System.StateData):void {

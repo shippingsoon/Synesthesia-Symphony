@@ -1,5 +1,5 @@
 {
-  "USE_DB": false,
+  "DB_URL": "/synesthesia-symphony/offline-data.json",
   "DEBUG_MODE": true,
   "ONLY_USE_PIANO_INSTRUMENT": true,
   "TARGETED_FPS": 60,
@@ -11,9 +11,9 @@
   "PLAYER_HITBOX_RADIUS": 5,
   "PLAYER_INVULNERABILITY_TIMEOUT": 2000,
   "MIDI_FILE_PATH": "./midi/",
-  "TITLE": "Synesthesia Symphony",
-  "DEVELOPER": "Shipping Soon",
-  "VERSION": "v0.07",
+  "GAME_TITLE": "Synesthesia Symphony",
+  "DEVELOPER_NAME": "Anonymous",
+  "VERSION": "0.0.1",
   "RESOLUTIONS":{
     "LOW":{"W":640, "H":480, "CANVAS_W":384, "CANVAS_H":448},
     "MEDIUM":{"W":1280, "H":720, "CANVAS_W":768, "CANVAS_H":672},

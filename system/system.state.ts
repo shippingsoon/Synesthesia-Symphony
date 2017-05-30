@@ -114,20 +114,31 @@ namespace Symphony.System {
 	 * @interface
 	 */
 	export interface StateData {
-		//HTML5 2D rendering context.
-		ctx?:CanvasRenderingContext2D;
-
 		//A game state.
 		state?:System.State;
 
 		//System session.
-		session?:System.Session;
+		session:System.Session;
 
 		//Delta time. The time difference from the current and previous game state.
 		dt?:number;
 
 		//Determines if we will pause the state.
 		pause?:boolean;
+
+		manager?:any;
+
+		callback?:Function;
+	}
+
+	/**
+	 *
+	 * @interface
+	 */
+	export interface StateType {
+		start(data:System.StateData):void;
+		update(data:System.StateData):void;
+		draw?(data:System.StateData):void;
 	}
 }
 

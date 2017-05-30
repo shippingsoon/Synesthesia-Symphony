@@ -13,71 +13,95 @@
 /// <reference path="../../graphics/shape/graphics.shape.ts" />
 /// <reference path="../../graphics/shape/graphics.circle.ts" />
 /// <reference path="../../graphics/graphics.vector.ts" />
+/// <reference path="./game.lifeform.ts" />
+/// <reference path="../game.projectile.ts" />
 
+/**
+ * @namespace
+ */
 namespace Symphony.Game {
-	//Import dependencies.
-	import session = System.session;
+	declare let Keydown:any;
 
-	declare var Keydown:any;
-	declare let Math:any;
+	export class Player extends Game.LifeForm implements System.StateType {
+		private primaryColor:Graphics.Color;
+		private secondaryColor:Graphics.Color;
+		private primarySpeed:number;
+		private secondarySpeed:number;
 
-	export class Player extends System.State {
-		public speed:number;
-		public circle:Graphics.Circle;
-
-		constructor({x = 0, y = 0, r = 10, speed = 10, color = 'red'}:{x?:number, y?:number, r?:number, speed?:number, color?:Graphics.ColorType}) {
-			//super({x: x, y: y, r: r});
-			super();
-			this.speed = speed;
-
-			this.circle = new Graphics.Circle({
-				x: x,
-				y: y,
-				r: r,
-				color: color,
-				lineWidth: 0
-			});
+		/**
+		 * @constructor
+		 *
+		 * @param {number} lp - The life points.
+		 * @param {number} hp - The max health points.
+		 * @param {number} speed - The primary speed this object will move at.
+		 * @param {number} x - The object's x coordinate.
+		 * @param {number} y - The object's y coordinate.
+		 * @param {number} r - The object's radius.
+		 * @param {Graphics.ColorType} fillColor - The circle's fill primaryColor.
+		 * @param {number} lineWidth - The circle's border width.
+		 * @param {Graphics.ColorType} lineColor - The circle's border primaryColor.
+		 */
+		public constructor({secondarySpeed = 250, secondaryColor = 'blue', lp = 1, hp = 5, speed = 500, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
+			 {secondarySpeed?:number, secondaryColor?:string|Graphics.Color, lp?:number, hp?:number, speed?:number, x?:number, y?:number, r?:number, fillColor?:Graphics.ColorType|string, lineWidth?:number, lineColor?:Graphics.ColorType|string})
+		{
+			super({lp: lp, hp: hp, speed: speed, x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
+			this.primarySpeed = speed;
+			this.secondarySpeed = secondarySpeed;
+			this.primaryColor = new Graphics.Color(fillColor);
+			this.secondaryColor = new Graphics.Color(secondaryColor);
 		}
 
-		public start(o:System.StateData) {
+		public start(data:System.StateData) {
 
 		}
 
-		public update(o:System.StateData):void {
-			let s:number = this.speed * (o.dt / 1000.0);
+		public update(data:System.StateData):void {
+			//Handle keyboard input.
+			this.handleInput(data);
+		}
 
-			console.log(`(${this.circle.getX}, ${this.circle.getY})`);
+		public draw(data:System.StateData):void {
+			//o.ctx.clearRect(0, 0, System.session.canvas.width, System.session.canvas.height);
+			//console.log(`(${this.x}, ${this.y})`);
+
+			this.render(data.session.ctx);
+		}
+
+		private handleInput(data:System.StateData):void {
+			this.speed = ((Keydown.shift) ? this.secondarySpeed : this.primarySpeed) * (data.dt / 1000.0);
+			this.fillColor = (Keydown.shift) ? this.secondaryColor : this.primaryColor;
+
+			//console.log(`(${this.getX}, ${this.getY}) fps: ${data.session.getFPS.toFixed(2)}, projectiles: ${data.manager.get('projectiles').length}`);
 
 			//The Up key has been pressed.
 			if ((Keydown.up || Keydown.w))
-				this.circle.subtract({x: 0, y: s});
+				this.subtract({x: 0, y: this.speed});
 
 			//The Down key has been pressed.
 			if ((Keydown.down || Keydown.s))
-				this.circle.add({x: 0, y: s});
+				this.add({x: 0, y: this.speed});
 
 			//The Left key is pressed.
 			if ((Keydown.left || Keydown.a))
-				this.circle.subtract({x: s, y: 0});
+				this.subtract({x: this.speed, y: 0});
 
 			//The Right key has been pressed.
 			if ((Keydown.right || Keydown.d))
-				this.circle.add({x: s, y: 0});
+				this.add({x: this.speed, y: 0});
 
-			//console.log(`${Symphony.System.FPS.toFixed(2)} (x: ${this.x.toFixed(2)}, y: ${this.y.toFixed(2)}) ${new Date()}`)
+			//The Right key has been pressed.
+			if ((Keydown.z)) {
+				//debugger;
+				let projectile = new Game.Projectile({x: this.x, y: this.y, r: this.r, fillColor: 'blue', isOpen: true})
+				data.manager.add('projectiles', projectile);
+			}
 
-		}
 
-		public draw(o:System.StateData):void {
-			//o.ctx.clearRect(0, 0, System.session.canvas.width, System.session.canvas.height);
-			//console.log(`(${this.x}, ${this.y})`);
-			this.circle.draw(o.ctx);
 		}
 
 		public pause():void{}
 		public stop():void{}
 		public play():void{}
-
 	}
 }
 

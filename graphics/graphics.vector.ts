@@ -24,6 +24,8 @@ namespace Symphony.Graphics {
 			this.y = y;
 		}
 
+		//#region Getter/Setter Region (Note: regions are collapsible with IntelliJ)
+
 		/**
 		 * Returns the magnitude of the vector.
 		 * @return {number}
@@ -153,6 +155,8 @@ namespace Symphony.Graphics {
 		public set setY(y:number) {
 			this.y = y;
 		}
+
+		//#endregion
 	}
 
 	/**
