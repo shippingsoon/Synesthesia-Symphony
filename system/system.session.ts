@@ -1,17 +1,26 @@
-/*
- * @description - Session management.
- * @copyright - 2014 Shipping Soon
- * @license - GPLv3
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @demo - https://www.shippingsoon.com/synesthesia-symphony/
+/**
+ * @file The session class contains data and methods for managing the session. It contains configuration and game data that is asynchronously loaded.
+ * @copyright 2014 Shipping Soon
+ * @license GPLv3
+ * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
+ * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
 /// <reference path="./system.ts" />
 
+/**
+ * @namespace
+ */
 namespace Symphony.System {
+	"use strict";
+
 	//Tell the TypeScript compiler we are using the jQuery library.
 	declare let jQuery:any;
 
+	/**
+	 * @class
+	 * @classdesc This class contains various configuration and game data.
+	 */
 	export class Session {
 		//HTML5 canvas element.
 		private canvasElement:HTMLCanvasElement;
@@ -37,20 +46,19 @@ namespace Symphony.System {
 		private animationFrameId:number;
 
 		/**
-		 * @constructor
+		 * Constructor
 		 */
 		public constructor() {
-			window.addEventListener("resize", (that) => {
+			//When the user resizes the window, invoke the initResources() method to update the canvas' width and height, among other things.
+			window.addEventListener("resize", () => {
 				this.initResources(this.configData.RESOLUTIONS);
 			});
-
 		}
 
 		/**
 		 * Loads configuration data from a JSON file or remote database.
-		 * @param {string} url - The URL to request data from.
-		 * @param {Function} callback - The callback method that will be invoked on success.
-		 * @return {void}
+		 * @param {string} url - The URL to request data from. See the config.json and offline-data.json files to see what type of data this function handles.
+		 * @return {Promise}
 		 */
 		 public load(url:string):Promise<any> {
 			 return new Promise<void>((resolve, reject) => {
@@ -66,8 +74,8 @@ namespace Symphony.System {
 		/**
 		 * Saves configuration data to a remote database via a RESTful JSON API.
 		 * @param {string} url - The URL of the RESTFul API that we will send data to.
-		 * @param {Symphony.System.ConfigType} config - The configuration data we will be saving.
-		 * @return {void}
+		 * @param {System.ConfigType} config - The configuration data we will be saving.
+		 * @return {Promise}
 		 */
 		public save(url:string, config:object): Promise<void> {
 			return new Promise<void>((resolve, reject) => {
@@ -164,6 +172,14 @@ namespace Symphony.System {
 		}
 
 		/**
+		 * Gets the game data.
+		 * @return {void}
+		 */
+		public get getGameData():any {
+			return this.gameData;
+		}
+
+		/**
 		 * Sets the game data.
 		 * @param {any} gameData - Various game data used to initialize enemies, items, and projectile patterns.
 		 * @return {void}
@@ -173,11 +189,11 @@ namespace Symphony.System {
 		}
 
 		/**
-		 * This method initiates resources such as the System.canvas and System.ctx.
-		 * @param {Symphony.System} system - The System namespace.
+		 * This method initiates resources such as the HTML5 canvas element and 2D drawing context.
+		 * @param {Object} resolutionSettings - Various resolution types. See the System.ResolutionType interface for more details.
 		 * @return {void}
 		 */
-		public initResources(resolutionSettings:{LOW:ResolutionType, MEDIUM:ResolutionType, HIGH:ResolutionType}):void {
+		public initResources(resolutionSettings:{LOW:System.ResolutionType, MEDIUM:System.ResolutionType, HIGH:System.ResolutionType}):void {
 			//Detect the current screen resolution.
 			//The getResolution() method will return a System.Config.RESOLUTIONS object containing the width and height
 			//which we will use to set the canvas' width and height.

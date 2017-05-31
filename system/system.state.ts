@@ -1,16 +1,22 @@
-/*
- * @description - This is an interface for a game state.
- * @copyright - 2014 Shipping Soon
- * @license - GPLv3
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @demo - https://www.shippingsoon.com/synesthesia-symphony/
+/**
+ * @file Here we have an abstract class for game states. Game states are used by the finite state machine design pattern. See the FSM class in system.fsm.ts for more details.
+ * @copyright 2014 Shipping Soon
+ * @license GPLv3
+ * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
+ * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
 /// <reference path="./system.ts" />
 
+/**
+ * @namespace
+ */
 namespace Symphony.System {
+	"use strict";
+
 	/**
-	 * Game state abstract class.
+	 * @class
+	 * @classdesc state abstract class.
 	 */
 	export abstract class State {
 		//Determines if this state is active i.e., if we will invoke the update() method.
@@ -19,13 +25,7 @@ namespace Symphony.System {
 		//Determines if the state is visible i.e., if we will invoke the draw() method.
 		protected _isVisible:boolean = true;
 
-		/**
-		 * @constructor
-		 */
-		constructor(){
-			this._isActive = true;
-			this._isVisible = true;
-		}
+		public constructor(){}
 
 		///#region Polymorphism Region (Note: regions are collapsible with IntelliJ)
 
@@ -72,6 +72,7 @@ namespace Symphony.System {
 		public abstract pause?(data:StateData):void;
 
 		///#endregion
+
 		///#region Getter/Setter Region (Note: regions are collapsible with IntelliJ)
 
 		/**
@@ -132,7 +133,6 @@ namespace Symphony.System {
 	}
 
 	/**
-	 *
 	 * @interface
 	 */
 	export interface StateType {

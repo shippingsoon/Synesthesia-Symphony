@@ -4,7 +4,14 @@
 	"target": "es6",
 	"sourceMap": true,
 	"alwaysStrict": true,
-	"allowJs": true
+	"allowJs": true,
+	"checkJs": true,
+	"charset": "utf8",
+	"noImplicitAny": false,
+	"noImplicitThis": true,
+	"pretty": true,
+	"removeComments": false,
+	"typeRoots":["./typings/", "./node_modules/@types"]
   },
   "exclude": [
 	"node_modules"
@@ -27,8 +34,8 @@
 	"./game/game.entity-manager.ts",
 	"./game/character/game.player.ts",
 	"./game/state/game.intro.ts",
-	"./game/state/game.stage.ts",
-	"./game/state/game.menu.ts",
+	"./game/state/game.stage-state.ts",
+	"./game/state/game.title-menu-state.ts",
 	"./game/game.entity-manager.ts",
 	"./synesthesia-symphony.ts"
   ]

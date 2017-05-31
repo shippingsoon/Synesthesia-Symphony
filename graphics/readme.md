@@ -2,9 +2,10 @@ Graphics Module
 ====================
 The graphics namespace contains various HTML5 drawing routines. This namespace includes:
 <ul>
-	<li>graphics.vector.ts - Lorem Ipsum </li>
-	<li>graphics.color.ts - Lorem Ipsum </li>
-	<li>graphics.shape.ts - Lorem Ipsum</li>
-	<li>graphics.circle.ts - Lorem Ipsum </li>
+	<li>graphics.ts - Contains various HTML5 drawing routines. </li>
+	<li>graphics.vector.ts - Vector math. </li>
+	<li>graphics.color.ts - Class for handling RGBA values. </li>
+	<li>graphics.shape.ts - Abstract class for all shapes. </li>
+	<li>graphics.circle.ts - Circle shape. </li>
 </ul>
 

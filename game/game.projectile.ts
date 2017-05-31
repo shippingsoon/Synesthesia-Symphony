@@ -1,9 +1,9 @@
 /**
- * @description -
- * @copyright - 2014 Shipping Soon
- * @license - GPLv3
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @demo - https://www.shippingsoon.com/synesthesia-symphony/
+ * @file Handles projectiles that are used by the player and enemies.
+ * @copyright 2014 Shipping Soon
+ * @license GPLv3
+ * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
+ * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
 
@@ -14,25 +14,28 @@
  * @namespace
  */
 namespace Symphony.Game {
+	"use strict";
+
+	/**
+	 * @class
+	 * @classdesc Handles projectiles that are used by the player and enemies.
+	 */
 	export class Projectile extends Graphics.Circle implements System.StateType {
 		private projectileIsOpen:boolean;
 
 		/**
-		 * @constructor
-		 * @param {number} lp - The life points
-		 * @param {number} mhp - The max health points
-		 * @param {number} speed - The speed
-		 * @param {number} fireRate - The fire rate
-		 * @param {number} x - The circle's x coordinate
-		 * @param {number} y - The circle's y coordinate
-		 * @param {number} r - The circle's radius
+		 * @param {boolean} isOpen - Determines if the projectile leaves a trail.
+		 * @param {number} x - The object's x coordinate.
+		 * @param {number} y - The object's y coordinate.
+		 * @param {number} r - The object's radius.
 		 * @param {Graphics.ColorType} fillColor - The circle's fill color.
 		 * @param {number} lineWidth - The circle's border width.
 		 * @param {Graphics.ColorType} lineColor - The circle's border color.
-		 * @param {any} gco - The HTML5 canvas globalCompositeOperation.
 		 */
-		public constructor({isOpen = false, x = 0, y = 0, r = 1, fillColor = {r: 0, b: 0, g: 255, a: 1}, lineWidth = 1, lineColor = {r: 0, b: 0, g: 0, a: 1}, gco = null}: { isOpen?: boolean, x?: number, y?: number, r?: number, fillColor?: Graphics.ColorType | string, lineWidth?: number, lineColor?: Graphics.ColorType | string, gco?: string}) {
-			super({x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor, gco: gco});
+		public constructor({isOpen = false, x = 0, y = 0, r = 1, fillColor = {r: 0, b: 0, g: 255, a: 1}, lineWidth = 1, lineColor = {r: 0, b: 0, g: 0, a: 1}}:
+		                   {isOpen?:boolean, x?:number, y?:number, r?:number, fillColor?:Graphics.ColorType|string, lineWidth?:number, lineColor?:Graphics.ColorType|string})
+		{
+			super({x:x, y:y, r:r, fillColor:fillColor, lineWidth:lineWidth, lineColor:lineColor});
 			this.projectileIsOpen = isOpen;
 		}
 

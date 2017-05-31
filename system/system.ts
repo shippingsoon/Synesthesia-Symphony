@@ -1,31 +1,34 @@
-/*
- * @description - The system namespace is the foundation for which every class is built upon.
- * @copyright - 2014 Shipping Soon
- * @license - GPLv3
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @demo - https://www.shippingsoon.com/synesthesia-symphony/
+/**
+ * @file The system namespace is the foundation for which every class is built upon.
+ * @copyright 2014 Shipping Soon
+ * @license GPLv3
+ * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
+ * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
 /// <reference path="./system.session.ts" />
 /// <reference path="./system.fsm.ts" />
 /// <reference path="./system.state.ts" />
 /// <reference path="../game/state/game.intro.ts" />
-/// <reference path="../game/state/game.stage.ts" />
+/// <reference path="../game/state/game.stage-state.ts" />
 
+/**
+ * @namespace
+ */
 namespace Symphony.System {
-	//Start a new session.
+	"use strict";
+
+	//This variable will hold an instance of the session class which contains configuration and gameplay data.
 	export let session:System.Session;
 
 	//The current time. This is used to measure the delta time between two frames.
 	let currentTime:any = Date.now();
 
 	/**
-	 * This is the program's entry point. This method loads a session from a config file, initiates resources, and invokes the game loop.
-	 * @return {void}
+	 * This is the program's entry point. This method loads a session from a config file, initiates various HTML5 resources, and invokes the game loop.
+	 * @return {Promise}
 	 */
-	export async function main(configURL:string = "/synesthesia-symphony/config.json") {
-		let databaseURL = "";
-
+	export async function main(configURL:string = "/synesthesia-symphony/config.json"):Promise<any> {
 		//Start a new session.
 		System.session = new System.Session();
 
@@ -50,7 +53,7 @@ namespace Symphony.System {
 		System.session.initResources(System.session.config.RESOLUTIONS);
 
 		//Transition to the Intro state.
-		System.session.FSM.push({state: new Game.Stage(), session: System.session});
+		System.session.FSM.push({state: new Game.StageState(), session: System.session});
 
 		//Start the recursive game loop.
 		gameLoop();

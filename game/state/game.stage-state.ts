@@ -1,9 +1,9 @@
-/*
- * @description -
- * @copyright - 2014 Shipping Soon
- * @license - GPLv3
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @demo - https://www.shippingsoon.com/synesthesia-symphony/
+/**
+ * @file The stage game state.
+ * @copyright 2014 Shipping Soon
+ * @license GPLv3
+ * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
+ * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
 /// <reference path="./../../system/system.ts" />
@@ -14,11 +14,18 @@
  * @namespace
  */
 namespace Symphony.Game {
-	export class Stage extends System.State {
+	"use strict";
+
+	/**
+	 * @class
+	 * @classdesc The stage game state.
+	 */
+	export class StageState extends System.State {
 		private entityManger:Game.EntityManager;
 
 		public start(data:System.StateData):void {
-			this.entityManger = new Game.EntityManager({x: 0, y: 100, r: 20, speed:500, fillColor: {r:70, g:240, b:82, a:1}});
+
+			this.entityManger = new Game.EntityManager(data.session.getGameData);
 		}
 
 		public update(data:System.StateData):void {

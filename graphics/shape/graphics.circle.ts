@@ -1,9 +1,9 @@
-/*
- * @description -
- * @copyright - 2014 Shipping Soon
- * @license - GPLv3
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @demo - https://www.shippingsoon.com/synesthesia-symphony/
+/**
+ * @file The circle class implements a drawable circle shape.
+ * @copyright 2014 Shipping Soon
+ * @license GPLv3
+ * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
+ * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
 /// <reference path="../graphics.vector.ts" />
@@ -15,15 +15,21 @@
  * @namespace
  */
 namespace Symphony.Graphics {
+	"use strict";
+
+	//Let the IDE know this is defined elsewhere.
 	declare let Math:any;
 
+	/**
+	 * @class
+	 * @classdesc Circle shape.
+	 */
 	export class CircleShape extends Graphics.Shape {
 		//The circle's radius.
 		protected r:number;
 
 		/**
 		 * Creates a new CircleShape.
-		 * @constructor
 		 * @param {number} x - The x coordinate.
 		 * @param {number} y - The y coordinate.
 		 * @param {number} r - The circle's radius.
@@ -71,6 +77,10 @@ namespace Symphony.Graphics {
 
 	}
 
+	/**
+	 * @class
+	 * @classdesc A drawable circle shape.
+	 */
 	export class Circle extends Graphics.CircleShape implements Graphics.Drawable {
 		//The circle's color.
 		protected fillColor:Graphics.Color;
@@ -88,7 +98,6 @@ namespace Symphony.Graphics {
 		private _isVisible:boolean = true;
 
 		/**
-		 * @constructor
 		 * @param {number} x - The circle's x coordinate
 		 * @param {number} y - The circle's y coordinate
 		 * @param {number} r - The circle's radius

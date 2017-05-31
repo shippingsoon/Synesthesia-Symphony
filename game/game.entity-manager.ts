@@ -1,32 +1,54 @@
-/*
- * @description -
- * @copyright - 2014 Shipping Soon
- * @license - GPLv3
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @demo - https://www.shippingsoon.com/synesthesia-symphony/
+/**
+ * @file Invokes the update() and draw() routines for various entities.
+ * @copyright 2014 Shipping Soon
+ * @license GPLv3
+ * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
+ * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
 /// <reference path="./../system/system.state.ts" />
 /// <reference path="./character/game.player.ts" />
+/// <reference path="./character/game.enemy.ts" />
 /// <reference path="../graphics/graphics.ts" />
 
 /**
  * @namespace
  */
 namespace Symphony.Game {
+	"use strict";
 
+	/**
+	 * @class
+	 * @classdesc Invokes the update() and draw() routines for various entities.
+	 */
 	export class EntityManager {
-		protected player: Symphony.Game.Player;
+		protected player:Game.Player;
 		private entities:Game.EntityType;
+		private readonly maxProjectiles:number;
 
-		public constructor(player: any) {
-			this.player = new Game.Player(player);
+		/**
+		 * @param {any} data - The game data.
+		 * @param {number} maxProjectiles
+		 */
+		public constructor(data:any, maxProjectiles:number = 300) {
+
+
+			this.maxProjectiles = maxProjectiles;
+
 			this.entities = {
 				bosses:[],
-				enemies:[],
-				projectiles:[],
+				enemies:new Array(((_.isEmpty(data.enemies)) ? 0 : data.enemies.length)),
+				projectiles:new Array(this.maxProjectiles),
 				items:[]
-			}
+			};
+
+			//Create the player.
+			this.player = new Game.Player(data.player);
+
+			//Create the enemies.
+			data.enemies.forEach((enemyData) => {
+				this.entities.enemies.push(new Game.Enemy(enemyData));
+			});
 		}
 
 		public update(data:System.StateData):void {
@@ -59,14 +81,14 @@ namespace Symphony.Game {
 		public add<T>(key:string, value:T):void {
 			//console.log(this.entities);
 			if (!_.has(this.entities, key))
-				throw new Error(`In Game.EntityManger.add(). The object key: ${key} does not exists`)
+				throw new Error(`In Game.EntityManger.add(). The object key: ${key} does not exists`);
 
 			this.entities[key].push(value);
 		}
 
 		public get<T>(key:string):T[] {
 			if (!_.has(this.entities, key))
-				throw new Error(`In Game.EntityManger.add(). The object key: ${key} does not exists`)
+				throw new Error(`In Game.EntityManger.add(). The object key: ${key} does not exists`);
 
 			return this.entities[key];
 		}

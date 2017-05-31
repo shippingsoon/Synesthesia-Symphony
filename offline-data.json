@@ -1,27 +1,48 @@
 {
-  "enemies":[
+  "enemies": [
 	{
-	  "x":0,
-	  "y":0,
-	  "r":10,
-	  "speed":10,
+	  "x": 200,
+	  "y": 100,
+	  "r": 20,
+	  "speed": 10,
 	  "lp": 1,
-	  "mhp":10,
-	  "fillColor":"DarkGreen",
-	  "lineWidth":1,
-	  "lineColor":"black",
-	  "patterns":[
+	  "hp": 10,
+	  "fillColor": "DarkGreen",
+	  "lineWidth": 1,
+	  "lineColor": "black",
+	  "patterns": [
 		{
-		  "position":{"x": null, "y": null},
-		  "offsets":{"x": 0, "y": 0},
-		  "maxProjectiles":10,
-		  "targetType":null,
-		  "speeds":[4],
-		  "fillColors":["DarkGreen"],
-		  "radii":[10],
-		  "isOpens":[false]
+		  "position": {
+			"x": null,
+			"y": null
+		  },
+		  "offsets": {
+			"x": 0,
+			"y": 0
+		  },
+		  "maxProjectiles": 10,
+		  "targetType": null,
+		  "speeds": [
+			4
+		  ],
+		  "fillColors": [
+			"DarkGreen"
+		  ],
+		  "radii": [
+			10
+		  ],
+		  "isOpens": [
+			false
+		  ]
 		}
 	  ]
 	}
-  ]
+  ],
+  "player": {
+	"x": 200,
+	"y": 400,
+	"r": 15,
+	"speed": 500,
+	"fillColor": "LightGreen"
+  }
 }

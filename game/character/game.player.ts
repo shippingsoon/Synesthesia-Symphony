@@ -1,9 +1,9 @@
-/*
- * @description - The system namespace is the foundation for which every class is built upon.
- * @copyright - 2014 Shipping Soon
- * @license - GPLv3
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @demo - https://www.shippingsoon.com/synesthesia-symphony/
+/**
+ * @file The player class handles user input for the player
+ * @copyright 2014 Shipping Soon
+ * @license GPLv3
+ * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
+ * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
 /// <reference path="../../system/system.ts" />
@@ -20,8 +20,15 @@
  * @namespace
  */
 namespace Symphony.Game {
+	"use strict";
+
+	//Let the IDE know this 3rd party Keydown module is defined elsewhere.
 	declare let Keydown:any;
 
+	/**
+	 * @class
+	 * @classdesc The player class
+	 */
 	export class Player extends Game.LifeForm implements System.StateType {
 		private primaryColor:Graphics.Color;
 		private secondaryColor:Graphics.Color;
@@ -29,8 +36,6 @@ namespace Symphony.Game {
 		private secondarySpeed:number;
 
 		/**
-		 * @constructor
-		 *
 		 * @param {number} lp - The life points.
 		 * @param {number} hp - The max health points.
 		 * @param {number} speed - The primary speed this object will move at.

@@ -1,9 +1,9 @@
-/*
- * @description - The system namespace is the foundation for which every class is built upon.
- * @copyright - 2014 Shipping Soon
- * @license - GPLv3
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @demo - https://www.shippingsoon.com/synesthesia-symphony/
+/**
+ * @file The system namespace is the foundation for which every class is built upon.
+ * @copyright 2014 Shipping Soon
+ * @license GPLv3
+ * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
+ * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
 /// <reference path="../../system/system.ts" />
@@ -15,6 +15,12 @@
 /// <reference path="../../graphics/graphics.vector.ts" />
 
 namespace Symphony.Game {
+	"use strict";
+
+	/**
+	 * @class
+	 * @classdesc The parent class for the Player and Enemy classes.
+	 */
 	export class LifeForm extends Graphics.Circle {
 		protected lifePoints:number;
 		protected healthPoints:number;
@@ -22,7 +28,6 @@ namespace Symphony.Game {
 		protected speed:number;
 
 		/**
-		 * @constructor
 		 * @param {number} lp - The life points
 		 * @param {number} hp - The health points
 		 * @param {number} speed - The speed

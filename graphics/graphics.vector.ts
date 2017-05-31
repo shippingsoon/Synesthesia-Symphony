@@ -1,21 +1,31 @@
-/*
- * @description - Vector constructor
- * @copyright - 2014 Shipping Soon
- * @license - GPLv3
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @demo - https://www.shippingsoon.com/synesthesia-symphony/
+/**
+ * @file Vector math.
+ * @copyright 2014 Shipping Soon
+ * @license GPLv3
+ * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
+ * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
+/**
+ * @namespace
+ */
 namespace Symphony.Graphics {
+	"use strict";
+
+	//Let our IDE know that this object is defined elsewhere.
 	declare let Math:any;
 
+	/**
+	 * @class
+	 * @classdesc Vector math.
+	 */
 	export class Vector {
+		//The x and y coordinates.
 		protected x:number;
 		protected y:number;
 
 		/**
 		 * Vector constructor.
-		 * @constructor
 		 * @param {number} x - The x component of the vector.
 		 * @param {number} y - The y component of the vector.
 		 */

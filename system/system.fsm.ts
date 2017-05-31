@@ -1,21 +1,34 @@
-/*
- * @description - The FSM (Finite State Machine) is a design pattern that allows developers to easily manage game states.
- * @copyright - 2014 Shipping Soon
- * @license - GPLv3
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @demo - https://www.shippingsoon.com/synesthesia-symphony/
+/**
+ * @file The FSM (Finite State Machine) is a design pattern that allows developers to easily manage game states.
+ * @copyright 2014 Shipping Soon
+ * @license GPLv3
+ * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
+ * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
 /// <reference path="./system.ts" />
 /// <reference path="./system.state.ts" />
 
+/**
+ * @namespace
+ */
 namespace Symphony.System {
-	/*
-	 * The FSM (Finite State Machine) is a design pattern that allows developers to easily manage game states.
+	"use strict";
+
+	/**
+	 * @class
+	 * @classdesc The FSM (Finite State Machine) is a design pattern that allows developers to easily manage game states.
 	 */
 	export class FSM {
 		//An array of game states.
 		private states:Array<System.State> = new Array();
+
+		/**
+		 * Constructor
+		 */
+		public constructor() {
+
+		}
 
 		/**
 		 * Handle logic in the current state.
@@ -49,16 +62,16 @@ namespace Symphony.System {
 		 * @param {System.StateData} data - An object containing the 2D drawing context and delta time.
 		 * @return {void}
 		 */
-		public push(game:StateData):void {
+		public push(data:StateData):void {
 			//Pause the current state
 			if (!_.isEmpty(this.states))
-				_.last(this.states).pause(game);
+				_.last(this.states).pause(data);
 
 			//Push a new state and invoke its constructor.
-			this.states.push(game.state);
+			this.states.push(data.state);
 
 			//Initiate the new state.
-			_.last(this.states).start(game);
+			_.last(this.states).start(data);
 		}
 
 		/**
@@ -80,7 +93,5 @@ namespace Symphony.System {
 			}
 		};
 	}
-
-
 }
 

@@ -1,9 +1,9 @@
-/*
- * @description -
- * @copyright - 2014 Shipping Soon
- * @license - GPLv3
- * @source - https://github.com/shippingsoon/Synesthesia-Symphony
- * @demo - https://www.shippingsoon.com/synesthesia-symphony/
+/**
+ * @file An abstract class for 2D shapes.
+ * @copyright 2014 Shipping Soon
+ * @license GPLv3
+ * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
+ * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
 /// <reference path="../../graphics/graphics.vector.ts" />
@@ -12,13 +12,19 @@
  * @namespace
  */
 namespace Symphony.Graphics {
+	"use strict";
+
+	/**
+	 * @class
+	 * @classdesc An abstract class for 2D shapes
+	 */
 	export abstract class Shape extends Graphics.Vector {
 		/**
-		 * @param {Graphics.VectorType}
-		 * @constructor
+		 * @param {number} x - The x coordinate
+		 * @param {number} y - The y coordinate
 		 */
 		constructor({x = 0, y = 0}:{x?:number, y?:number}) {
-			super({x: 0, y:0});
+			super({x:x, y:y});
 		}
 
 		/**
