@@ -45,6 +45,13 @@ namespace Symphony.System {
 		//The request ID that is returned from the requestAnimationFrame() method. This can be used to stop the requestAnimationFrame() loop.
 		private animationFrameId:number;
 
+		//Background music volume level. This determines how loud the music is.
+		private bgmVolumeLevel:number = 127;
+
+		//The sound effects volume level. This determines how loud the sound effects is.
+		private sfxVolumeLevel:number = 127;
+
+
 		/**
 		 * Constructor
 		 */
@@ -189,6 +196,40 @@ namespace Symphony.System {
 		}
 
 		/**
+		 * Sets the background music volume level.
+		 * @param {number} bmgVolumeLevel - How loud we want the music to be.
+		 * @return {void}
+		 */
+		public set setBGMVolume(bmgVolumeLevel:number) {
+			this.bgmVolumeLevel = bmgVolumeLevel;
+		}
+
+		/**
+		 * Gets the background music volume level.
+		 * @return {number}
+		 */
+		public get getBGMVolume() {
+			return this.bgmVolumeLevel;
+		}
+
+		/**
+		 * Sets the sound effects volume level.
+		 * @param {number} sfxVolumeLevel - How loud we want the sfx to be.
+		 * @return {void}
+		 */
+		public set setSFXVolume(sfxVolumeLevel:number) {
+			this.sfxVolumeLevel = sfxVolumeLevel;
+		}
+
+		/**
+		 * Gets the sound effects volume level.
+		 * @return {number}
+		 */
+		public get getSFXVolume() {
+			return this.sfxVolumeLevel;
+		}
+
+		/**
 		 * This method initiates resources such as the HTML5 canvas element and 2D drawing context.
 		 * @param {Object} resolutionSettings - Various resolution types. See the System.ResolutionType interface for more details.
 		 * @return {void}
@@ -246,7 +287,9 @@ namespace Symphony.System {
 		//Determines how long in milliseconds the player will be invulnable after taking damage.
 		readonly PLAYER_INVULNERABILITY_TIMEOUT:number;
 		//The path to the MIDI files used by MIDI.js.
-		readonly MIDI_FILE_PATH:string;
+		readonly MIDI_DIRECTORY:string;
+		//The path to the soundfonts used by MIDI.js
+		readonly SOUNDFONT_DIRECTORY:string;
 		//The game's title.
 		readonly GAME_TITLE:string;
 		//The developer's name.

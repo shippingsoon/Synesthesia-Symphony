@@ -44,5 +44,28 @@
 	"r": 15,
 	"speed": 500,
 	"fillColor": "LightGreen"
-  }
+  },
+  "songs": [{
+	"filename":"intro.mid",
+	"title":"Angel Island Act 1",
+	"series":"Sonic The Hedgehog 3",
+	"composer":"Jun Senoue",
+	"year":"1994",
+	"company":"Sega",
+	"arranger":"",
+	"source":"",
+	"instruments": [
+	  {"channel": 0, "id": 114},
+	  {"channel": 1, "id": 37},
+	  {"channel": 2, "id": 39},
+	  {"channel": 3, "id": 76},
+	  {"channel": 4, "id": 62},
+	  {"channel": 5, "id": 63},
+	  {"channel": 6, "id": 80},
+	  {"channel": 7, "id": 88},
+	  {"channel": 8, "id": 79},
+	  {"channel": 9, "id": 0},
+	  {"channel": 10, "id": 81}
+	]
+  }]
 }

@@ -33,7 +33,7 @@
 	"./system/system.session.ts",
 	"./game/game.entity-manager.ts",
 	"./game/character/game.player.ts",
-	"./game/state/game.intro.ts",
+	"./game/state/game.intro-state.ts",
 	"./game/state/game.stage-state.ts",
 	"./game/state/game.title-menu-state.ts",
 	"./game/game.entity-manager.ts",

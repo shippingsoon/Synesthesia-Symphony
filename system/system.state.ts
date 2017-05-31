@@ -25,7 +25,10 @@ namespace Symphony.System {
 		//Determines if the state is visible i.e., if we will invoke the draw() method.
 		protected _isVisible:boolean = true;
 
-		public constructor(){}
+		public constructor(){
+			this._isActive = true;
+			this._isVisible = true;
+		}
 
 		///#region Polymorphism Region (Note: regions are collapsible with IntelliJ)
 

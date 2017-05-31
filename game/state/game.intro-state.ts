@@ -19,7 +19,7 @@ namespace Symphony.Game {
 	 * @class
 	 * @classdesc The intro state.
 	 */
-	export class IntroState {
+	export class IntroState extends System.State {
 		public start(o:any):void {
 			/*
 			System.bg_canvas.addEventListener("webkitTransitionEnd", function(event) {
@@ -30,11 +30,23 @@ namespace Symphony.Game {
 			*/
 		}
 
-		public update(o:any):void {
+		public update(data:System.StateData):void {
 
 		}
 
-		public draw(o:any):void {
+		public draw(data:System.StateData):void {
+
+		}
+
+		public pause(data:System.StateData):void {
+
+		}
+
+		public play(data:System.StateData):void {
+
+		}
+
+		public stop(data:System.StateData):void {
 
 		}
 	}

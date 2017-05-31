@@ -9,7 +9,8 @@
 /// <reference path="./system.session.ts" />
 /// <reference path="./system.fsm.ts" />
 /// <reference path="./system.state.ts" />
-/// <reference path="../game/state/game.intro.ts" />
+/// <reference path="../game/state/game.load-state.ts" />
+/// <reference path="../game/state/game.intro-state.ts" />
 /// <reference path="../game/state/game.stage-state.ts" />
 
 /**
@@ -52,8 +53,8 @@ namespace Symphony.System {
 		//The Session.initResources() method uses CSS3 media queries to determine the size for the canvas' width and height.
 		System.session.initResources(System.session.config.RESOLUTIONS);
 
-		//Transition to the Intro state.
-		System.session.FSM.push({state: new Game.StageState(), session: System.session});
+		//Transition to the Load state.
+		System.session.FSM.push({state: new Game.LoadState(), session: System.session});
 
 		//Start the recursive game loop.
 		gameLoop();
