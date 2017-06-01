@@ -1,5 +1,5 @@
-/**
- * @file The circle class implements a drawable circle shape.
+/*
+ * @file
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
@@ -22,100 +22,111 @@ namespace Symphony.Graphics {
 
 	/**
 	 * @class
-	 * @classdesc Circle shape.
+	 * @classdesc Square shape.
 	 */
-	export class CircleShape extends Graphics.Shape {
-		//The circle's radius.
-		protected r:number;
+	export class SquareShape extends Graphics.Shape {
+		//The square's width.
+		protected w:number;
+		protected h:number;
 
 		/**
-		 * Creates a new CircleShape.
+		 * Creates a new SquareShape.
 		 * @param {number} x - The x coordinate.
 		 * @param {number} y - The y coordinate.
-		 * @param {number} r - The circle's radius.
-		 * @throws {Error}
+		 * @param {number} w - The square's width.
+		 * @param {number} h - The square's height.
 		 */
-		public constructor({x = 0, y = 0, r = 1}:{x:number, y:number, r:number}) {
+		public constructor({x = 0, y = 0, w = 1, h = 1}:{x:number, y:number, w:number, h:number}) {
 			super({x: x, y: y});
 
-			//Make sure the radius is greater than 0.
-			if (_.lte(r, 0))
-				throw new Error(`Radius must be greater than zero: ${r} in CircleShape.constructor()`);
-
-			this.r = r;
+			this.w = w;
+			this.h = h;
 		}
 
 		/**
-		 * Gets the circle's radius.
+		 * Gets the square's width.
 		 * @return {number}
 		 */
-		public get getRadius():number {
-			return this.r;
+		public get getWidth():number {
+			return this.w;
 		}
 
 		/**
-		 * Sets the circle's radius.
-		 * @param {number} radius
-		 * @throws {Error}
+		 * Gets the square's height.
+		 * @return {number}
+		 */
+		public get getHeight():number {
+			return this.h;
+		}
+
+		/**
+		 * Sets the square's width.
+		 * @param {number} width
 		 * @return {void}
 		 */
-		public set setRadius(radius:number) {
-			//Make sure the radius is greater than 0.
-			if (_.lte(radius, 0))
-				throw new Error(`Radius must be greater than zero: ${radius} in CircleShape.setRadius()`);
-
-			this.r = radius;
+		public set setWidth(width:number) {
+			this.w = width;
 		}
 
 		/**
-		 * Gets the circle's area.
+		 * Sets the square's height.
+		 * @param {number} height
+		 * @return {void}
+		 */
+		public set setHeight(height:number) {
+			this.h = height;
+		}
+
+		/**
+		 * Gets the square's area.
 		 * @return {number}
 		 */
 		public get getArea():number {
-			return Math.PI * (this.r * this.r);
+			return (this.w * this.h);
 		}
 
 	}
 
 	/**
 	 * @class
-	 * @classdesc A drawable circle shape.
+	 * @classdesc A drawable square shape.
 	 */
-	export class Circle extends Graphics.CircleShape implements Graphics.Drawable {
-		//The circle's color.
+	export class Square extends Graphics.SquareShape implements Graphics.Drawable {
+		//The square's color.
 		protected fillColor:Graphics.Color;
 
-		//The width of the circle's border.
+		//The width of the square's border.
 		private lineWidth:number;
 
-		//The color of the circle's border.
+		//The color of the square's border.
 		private lineColor:Graphics.Color;
 
-		//Determines if the circle is updated.
+		//Determines if the square is updated.
 		private _isActive:boolean = true;
 
-		//Determines if the circle is visible.
+		//Determines if the square is visible.
 		private _isVisible:boolean = true;
 
 		/**
-		 * @param {number} x - The circle's x coordinate
-		 * @param {number} y - The circle's y coordinate
-		 * @param {number} r - The circle's radius
-		 * @param {Graphics.ColorType} fillColor - The circle's fill color.
-		 * @param {number} lineWidth - The circle's border width.
-		 * @param {Graphics.ColorType} lineColor - The circle's border color.
+		 * @param {number} x - The square's x coordinate
+		 * @param {number} y - The square's y coordinate
+		 * @param {number} w - The square's width.
+		 * @param {number} h - The square's height.
+		 * @param {Graphics.ColorType} fillColor - The square's fill color.
+		 * @param {number} lineWidth - The square's border width.
+		 * @param {Graphics.ColorType} lineColor - The square's border color.
 		 */
-		constructor({x = 0, y = 0, r = 10, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-			            {x?:number, y?:number, r?:number, fillColor?:Graphics.ColorType|string, lineWidth?:number, lineColor?:Graphics.ColorType|string})
+		constructor({x = 0, y = 0, w = 1, h = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
+			            {x?:number, y?:number, w?:number, h?:number, fillColor?:Graphics.ColorType|string, lineWidth?:number, lineColor?:Graphics.ColorType|string})
 		{
-			super({x: x, y: y, r: r});
+			super({x: x, y: y, w: w, h: h});
 			this.fillColor = new Color(fillColor);
 			this.lineWidth = lineWidth;
 			this.lineColor = new Color(lineColor);
 		}
 
 		/**
-		 * Draws the circle.
+		 * Draws the square.
 		 * @param {CanvasRenderingContext2D} ctx - The HTML5 2D drawing context.
 		 * return {void}
 		 */
@@ -124,18 +135,18 @@ namespace Symphony.Graphics {
 				//Save the 2D rendering context's current state. We will restore it back to this state when we are finished with it.
 				ctx.save();
 
-				//Make the shape circular.
+				//Create a square shape.
 				ctx.beginPath();
-				ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
+				ctx.rect(this.x, this.y, this.w, this.h);
 
 				//Fill in the circle with the given color.
 				ctx.fillStyle = this.fillColor.getRGBA;
 				ctx.fill();
 
-				//If a line width is specified stroke an outline around the circle..
+				//Stroke an outline around the square.
 				if (this.lineWidth) {
+					ctx.strokeStyle = this.lineColor.getRGBA;
 					ctx.lineWidth = this.lineWidth;
-					ctx.strokeStyle = this.lineColor.getHex;
 					ctx.stroke();
 				}
 
@@ -145,7 +156,7 @@ namespace Symphony.Graphics {
 		}
 
 		/**
-		 * Gets the circle's color.
+		 * Gets the square's color.
 		 * @return {Symphony.Graphics.ColorType}
 		 */
 		public getColor():Graphics.ColorType {
@@ -155,7 +166,7 @@ namespace Symphony.Graphics {
 		/**
 		 *
 		 * @param color
-		 * @return {Symphony.Graphics.Shape.Circle}
+		 * @return {Symphony.Graphics.Shape.Square}
 		 */
 		public setColor(color:Graphics.ColorType|string):this {
 			this.fillColor.setColor(color);
@@ -164,7 +175,7 @@ namespace Symphony.Graphics {
 		}
 
 		/**
-		 * Get the color of this circle in hexadecimal format.
+		 * Get the color of this square in hexadecimal format.
 		 * @return {string}
 		 */
 		public get getHex():string {
@@ -172,7 +183,7 @@ namespace Symphony.Graphics {
 		}
 
 		/**
-		 * Get the color of this circle in rgba format.
+		 * Get the color of this square in rgba format.
 		 * @return {string}
 		 */
 		public get getRGBA():string {

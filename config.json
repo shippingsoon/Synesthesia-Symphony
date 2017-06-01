@@ -1,7 +1,7 @@
 {
   "DB_URL": "/synesthesia-symphony/offline-data.json",
   "DEBUG_MODE": true,
-  "ONLY_USE_PIANO_INSTRUMENT": false,
+  "ONLY_USE_PIANO_INSTRUMENT": true,
   "TARGETED_FPS": 60,
   "PLAYER_INITIAL_LIVES": 2,
   "PLAYER_MAX_POWER": 4,

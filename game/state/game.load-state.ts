@@ -36,7 +36,7 @@ namespace Symphony.Game {
 		 */
 		public start(data:System.StateData):void {
 			//An array of MIDI instrument IDs.
-			let instruments = Audio.getAllInstruments(data.session.getGameData.songs);
+			let instruments = Audio.getAllInstruments(data.session.getGameData.songs, MIDI);
 
 			//The MIDI.js loader widget shows the progress of the MIDI.loadPlugin() function.
 			MIDI.loader = new widgets.Loader;

@@ -54,7 +54,7 @@ namespace Symphony.System {
 		System.session.initResources(System.session.config.RESOLUTIONS);
 
 		//Transition to the Load state.
-		System.session.FSM.push({state: new Game.LoadState(), session: System.session});
+		System.session.FSM.push({state: new Game.StageState(), session: System.session});
 
 		//Start the recursive game loop.
 		gameLoop();

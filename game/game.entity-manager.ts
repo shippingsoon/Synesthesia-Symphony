@@ -124,6 +124,12 @@ namespace Symphony.Game {
 		items:object[]
 	}
 
+	const enum ENTITY {
+		BOSS = 0,
+		ENEMYDOWN,
+		PROJECTILE,
+		ITEM
+	}
 
 
 }

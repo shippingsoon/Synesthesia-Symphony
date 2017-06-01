@@ -67,5 +67,45 @@
 	  {"channel": 9, "id": 0},
 	  {"channel": 10, "id": 81}
 	]
-  }]
+  }, {
+	"filename":"fairy-mountain.mid",
+	"title":"Great Fairy Mountain",
+	"series":"Legend of Zelda: Ocarina of Time",
+	"composer":"Koji Kondo",
+	"year":"1998",
+	"company":"Nintendo",
+	"arranger":"",
+	"instruments":[
+	{"channel": 0, "id": 1},
+	{"channel": 1, "id": 46},
+	{"channel": 2, "id": 2},
+	{"channel": 3, "id": 24},
+	{"channel": 4, "id": 50},
+	{"channel": 5, "id": 89},
+	{"channel": 6, "id": 24}
+	]}, {
+	  "filename": "sky-chase-zone.mid",
+	  "title": "Sky Chase Zone",
+	  "series": "Sonic The Hedgehog 2",
+	  "composer": "Masato Nakamura",
+	  "year": "1992",
+	  "company": "Sega",
+	  "arranger": "",
+	  "instruments": [
+	{"channel": 0, "id": 33},
+	{"channel": 1, "id": 18},
+	{"channel": 2, "id": 18},
+	{"channel": 3, "id": 94},
+	{"channel": 4, "id": 58},
+	{"channel": 5, "id": 60},
+	{"channel": 6, "id": 49},
+	{"channel": 7, "id": 15},
+	{"channel": 8, "id": 95},
+	{"channel": 9, "id": 116},
+	{"channel": 10, "id": 58},
+	{"channel": 11, "id": 5},
+	{"channel": 12, "id": 78},
+	{"channel": 13, "id": 15}
+	  ]}
+  ]
 }
