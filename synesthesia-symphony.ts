@@ -1,19 +1,19 @@
 /**
- * @file The main function is invoked in this file.
+ * @file The program entry point.
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-/// <reference path="./system/system.ts" />
+import * as System from './system/system';
 
 /**
  * Program entry point.
  * @namespace
  */
-namespace Symphony {
-	"use strict";
+namespace SynesthesiaSymphony {
+	'use strict';
 
 	//Initiate the main game loop.
 	System.main();

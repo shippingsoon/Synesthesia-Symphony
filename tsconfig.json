@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-	"module": "commonjs",
+	"module": "system",
 	"target": "es6",
 	"sourceMap": true,
 	"alwaysStrict": true,
@@ -11,32 +11,16 @@
 	"noImplicitThis": true,
 	"pretty": true,
 	"removeComments": false,
-	"typeRoots":["./typings/", "./node_modules/@types"]
+	"diagnostics": true,
+	"noEmitOnError": true
   },
   "exclude": [
-	"node_modules"
+	"node_modules", "typings"
   ],
   "include": [
-	"synesthesia-symphony/**/*"
+	"./**/*"
   ],
   "scripts": {
 	"test": ""
-  },
-  "files": [
-	"./graphics/graphics.color.ts",
-	"./graphics/shape/graphics.shape.ts",
-	"./graphics/shape/graphics.circle.ts",
-	"./graphics/graphics.vector.ts",
-	"./system/system.ts",
-	"./system/system.state.ts",
-	"./system/system.fsm.ts",
-	"./system/system.session.ts",
-	"./game/game.entity-manager.ts",
-	"./game/character/game.player.ts",
-	"./game/state/game.intro-state.ts",
-	"./game/state/game.stage-state.ts",
-	"./game/state/game.title-menu-state.ts",
-	"./game/game.entity-manager.ts",
-	"./synesthesia-symphony.ts"
-  ]
+  }
 }

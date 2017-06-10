@@ -6,46 +6,43 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-/// <reference path="./../../system/system.ts" />
-/// <reference path="./../../system/system.state.ts" />
-/// <reference path="../game.entity-manager.ts" />
+'use strict';
+
+import { StateData } from './../../system/system';
+import { State } from './../../system/system.state';
+import { EntityManager } from './../game.entity-manager';
+
+
 
 /**
- * @namespace
+ * @class
+ * @classdesc The stage game state.
  */
-namespace Symphony.Game {
-	"use strict";
+export class StageState extends State {
+	private entityManger:EntityManager;
 
-	/**
-	 * @class
-	 * @classdesc The stage game state.
-	 */
-	export class StageState extends System.State {
-		private entityManger:Game.EntityManager;
+	public start(data:StateData):void {
 
-		public start(data:System.StateData):void {
+		this.entityManger = new EntityManager(data.session.getGameData);
+	}
 
-			this.entityManger = new Game.EntityManager(data.session.getGameData);
-		}
+	public update(data:StateData):void {
+		this.entityManger.update(data);
+	}
 
-		public update(data:System.StateData):void {
-			this.entityManger.update(data);
-		}
+	public draw(data:StateData):void {
+		this.entityManger.draw(data);
+	}
 
-		public draw(data:System.StateData):void {
-			this.entityManger.draw(data);
-		}
+	public pause(data:StateData):void {
 
-		public pause(data:System.StateData):void {
+	}
 
-		}
+	public play(data:StateData):void {
 
-		public play(data:System.StateData):void {
+	}
 
-		}
+	public stop(data:StateData):void {
 
-		public stop(data:System.StateData):void {
-
-		}
 	}
 }

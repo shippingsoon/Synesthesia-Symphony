@@ -12,14 +12,13 @@
 /**
  * @namespace
  */
-namespace Symphony.Game {
-	"use strict";
 
-	/**
-	 * @class
-	 * @classdesc The title menu state.
-	 */
-	export class TitleMenuState {
+"use strict";
 
-	}
+/**
+ * @class
+ * @classdesc The title menu state.
+ */
+export class TitleMenuState {
+
 }

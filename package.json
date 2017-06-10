@@ -1,32 +1,31 @@
 {
   "name": "synesthesia-symphony",
   "version": "0.0.1",
-  "description": "Synesthesia Symphony ====================",
+  "description": "Synesthesia Symphony",
   "main": "synesthesia-symphony.js",
   "dependencies": {
+    "@types/lodash": "^4.14.65",
+    "@types/should": "^8.3.0",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "@types/chai": "^3.5.2",
     "@types/mocha": "^2.2.41",
-    "chai": "^4.0.0",
+    "@types/should": "^8.3.0",
     "mocha": "^3.4.2",
-    "should": "^11.2.1",
-    "ts-node": "^3.0.4",
-    "typescript-require": "^0.2.9-1",
-    "typings": "^2.1.1"
+    "should": "^11.2.1"
   },
   "scripts": {
-    "test": "mocha -r ts-node/register ./test/test.ts"
+    "test": "mocha test",
+    "lint": "tslint ./**/*.ts -t verbose"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shippingsoon/Synesthesia-Symphony.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/shippingsoon/Synesthesia-Symphony/issues"
   },
-  "homepage": "https://github.com/shippingsoon/Synesthesia-Symphony#readme"
+  "homepage": "https://shippingsoon.com:3000"
 }

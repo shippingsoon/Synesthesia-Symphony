@@ -6,39 +6,26 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-/// <reference path="../../graphics/graphics.vector.ts" />
+
+'use strict';
+import { Vector } from './../graphics.vector';
 
 /**
- * @namespace
+ * @class
+ * @classdesc An abstract class for 2D shapes
  */
-namespace Symphony.Graphics {
-	"use strict";
-
+export abstract class Shape extends Vector {
 	/**
-	 * @class
-	 * @classdesc An abstract class for 2D shapes
+	 * @param {number} x - The x coordinate
+	 * @param {number} y - The y coordinate
 	 */
-	export abstract class Shape extends Graphics.Vector {
-		/**
-		 * @param {number} x - The x coordinate
-		 * @param {number} y - The y coordinate
-		 */
-		constructor({x = 0, y = 0}:{x?:number, y?:number}) {
-			super({x:x, y:y});
-		}
-
-		/**
-		 * Returns the area of this shape.
-		 * @return {number}
-		 */
-		public abstract get getArea():number;
+	constructor({x = 0, y = 0}:{x?:number, y?:number}) {
+		super({x:x, y:y});
 	}
 
 	/**
-	 * Defines classes that can be drawn to the screen.
-	 * @interface
+	 * Returns the area of this shape.
+	 * @return {number}
 	 */
-	export interface Drawable {
-		render(ctx:CanvasRenderingContext2D):void;
-	}
+	public abstract get getArea():number;
 }

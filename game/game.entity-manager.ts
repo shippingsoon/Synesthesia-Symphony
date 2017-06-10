@@ -11,125 +11,111 @@
 /// <reference path="./character/game.enemy.ts" />
 /// <reference path="../graphics/graphics.ts" />
 
+
+'use strict';
+import { Player } from './character/game.player';
+import { Enemy } from './character/game.enemy';
+import { StateData } from './../system/system';
+import { clearCanvas } from './../graphics/graphics';
+//import * as _ from 'lodash';
+declare let _:any;
 /**
- * @namespace
+ * @class
+ * @classdesc Invokes the update() and draw() routines for various entities.
  */
-namespace Symphony.Game {
-	"use strict";
+export class EntityManager {
+	protected player:Player;
+	private entities:EntityType;
+	private readonly maxProjectiles:number;
 
 	/**
-	 * @class
-	 * @classdesc Invokes the update() and draw() routines for various entities.
+	 * @param {any} data - The game data.
+	 * @param {number} maxProjectiles
 	 */
-	export class EntityManager {
-		protected player:Game.Player;
-		private entities:Game.EntityType;
-		private readonly maxProjectiles:number;
+	public constructor(data:any, maxProjectiles:number = 300) {
+		this.maxProjectiles = maxProjectiles;
 
-		/**
-		 * @param {any} data - The game data.
-		 * @param {number} maxProjectiles
-		 */
-		public constructor(data:any, maxProjectiles:number = 300) {
+		this.entities = {
+			bosses:[],
+			enemies:new Array(((_.isEmpty(data.enemies)) ? 0 : data.enemies.length)),
+			projectiles:[],
+			items:[]
+		};
 
+		//Create the player.
+		this.player = new Player(data.player);
 
-			this.maxProjectiles = maxProjectiles;
+		//Create the enemies.
+		data.enemies.forEach((enemyData) => {
+			this.entities.enemies.push(new Enemy(enemyData));
+		});
+	}
 
-			this.entities = {
-				bosses:[],
-				enemies:new Array(((_.isEmpty(data.enemies)) ? 0 : data.enemies.length)),
-				projectiles:new Array(this.maxProjectiles),
-				items:[]
-			};
+	public update(data:StateData):void {
+		data.manager = this;
 
-			//Create the player.
-			this.player = new Game.Player(data.player);
+		//Handle logic for the bullets, items, enemies, and bosses.
+		_.each(this.entities, (entity) => {
+			this._invokeAll(entity, (o) => o.update(data), (o) => o.isActive);
+		});
 
-			//Create the enemies.
-			data.enemies.forEach((enemyData) => {
-				this.entities.enemies.push(new Game.Enemy(enemyData));
-			});
-		}
+		//Handle logic for the player.
+		if (!_.isEmpty(this.player) /*&& this.player.isActive*/)
+			this.player.update(data);
+	}
 
-		public update(data:System.StateData):void {
-			data.manager = this;
+	public draw(data:StateData):void {
+		clearCanvas(data.session.ctx, data.session.canvas);
 
-			//Handle logic for the bullets, items, enemies, and bosses.
-			_.each(this.entities, (entity) => {
-				this._invokeAll(entity, (o) => o.update(data), (o) => o.isActive);
-			});
+		//Render the bullets, items, enemies, and bosses.
+		_.each(this.entities, (entity) => {
+			this._invokeAll(entity, (o) => o.draw(data), (o) => o.isVisible);
+		});
 
-			//Handle logic for the player.
-			if (!_.isEmpty(this.player) /*&& this.player.isActive*/)
-				this.player.update(data);
-		}
+		//Draw the player.
+		if (!_.isEmpty(this.player) /*&& this.player.isVisible*/)
+			this.player.draw(data);
+	}
 
-		public draw(data:System.StateData):void {
-			Graphics.clearCanvas(data.session.ctx, data.session.canvas);
+	public add<T>(key:EntityKeys, value:T):void {
+		this.entities[key].push(value);
+	}
 
-			//Render the bullets, items, enemies, and bosses.
-			_.each(this.entities, (entity) => {
-				this._invokeAll(entity, (o) => o.draw(data), (o) => o.isVisible);
-			});
+	public get<T>(key:EntityKeys):T[] {
+		return this.entities[key];
+	}
 
-			//Draw the player.
-			if (!_.isEmpty(this.player) /*&& this.player.isVisible*/)
-				this.player.draw(data);
-
-		}
-
-		public add<T>(key:string, value:T):void {
-			//console.log(this.entities);
-			if (!_.has(this.entities, key))
-				throw new Error(`In Game.EntityManger.add(). The object key: ${key} does not exists`);
-
-			this.entities[key].push(value);
-		}
-
-		public get<T>(key:string):T[] {
-			if (!_.has(this.entities, key))
-				throw new Error(`In Game.EntityManger.add(). The object key: ${key} does not exists`);
-
-			return this.entities[key];
-		}
-
-		public get getPlayer():Game.Player {
-			return this.player;
-		}
-
-		/**
-		 * This method is a good example of Functional programming.
-		 * @param {Object} collections -
-		 * @param {Function} command - The command to run.
-		 * @param {Function} [condition=null] - The condition to check.
-		 * @return {void}
-		 */
-		private _invokeAll<T>(collections:T[], command:Function, condition:Function = null):void {
-			collections.forEach((entity) => {
-
-				if (!_.isEmpty(entity) && (condition === null || condition(entity))) {
-					command(entity);
-				}
-			});
-		}
+	public get getPlayer():Player {
+		return this.player;
 	}
 
 	/**
-	 * @interface
+	 * This method is a good example of Functional programming.
+	 * @param {Object} collections -
+	 * @param {Function} command - The command to run.
+	 * @param {Function} [condition=null] - The condition to check.
+	 * @return {void}
 	 */
-	export interface EntityType {
-		bosses:object[];
-		enemies:object[],
-		projectiles:object[],
-		items:object[]
+	private _invokeAll<T>(collections:T[], command:Function, condition:Function = null):void {
+		collections.forEach((entity) => {
+
+			if (!_.isEmpty(entity) && (condition === null || condition(entity))) {
+				command(entity);
+			}
+		});
 	}
-
-	const enum ENTITY {
-		BOSS = 0,
-		ENEMYDOWN,
-		PROJECTILE,
-		ITEM
-	}
-
-
 }
+
+/**
+ * @interface
+ */
+export interface EntityType {
+	bosses:any[];
+	enemies:any[],
+	projectiles:any[],
+	items:any[]
+}
+
+type EntityKeys = "bosses" | "enemies" | "projectiles" | "items";
+
+

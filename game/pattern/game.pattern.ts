@@ -6,17 +6,12 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony/} for online demo
  */
 
+'use strict';
+
 /**
- * @namespace
+ * @class
+ * @classdesc The bullet patterns (a.k.a Danmaku).
  */
-namespace Symphony.Game {
-	"use strict";
+export class Pattern {
 
-	/**
-	 * @class
-	 * @classdesc The bullet patterns (a.k.a Danmaku).
-	 */
-	class Pattern {
-
-	}
 }
