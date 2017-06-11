@@ -11,7 +11,6 @@ import { LifeForm } from './game.lifeform';
 import { StateData, StateType } from './../../system/system';
 import { ColorType } from './../../graphics/graphics';
 
-
 /**
  * @class
  * @classdesc The enemy class.

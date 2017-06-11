@@ -9,6 +9,7 @@
 'use strict';
 import { State } from './system.state';
 import { Session } from './system.session';
+import { LoadState } from './../game/state/game.load-state';
 import { StageState } from './../game/state/game.stage-state';
 //import * as _ from 'lodash';
 declare let _:any;
@@ -42,13 +43,14 @@ export async function main(configURL: string = '/synesthesia-symphony/config.jso
 	if (_.isEmpty(session.config.RESOLUTIONS)) {
 		throw new Error ('Make sure the config.json file is valid JSON and implements the ConfigType interface found in Session.ts');
 	}
+
 	//Initiate resources such as canvas width.
 	//The Session.initResources() method uses CSS3 media queries to determine the size for the canvas' width and height.
 	session.initResources(session.config.RESOLUTIONS);
 
 	//Transition to the Load state.
 	session.FSM.push({state: new StageState(), session: session});
-	console.log("here");
+
 	//Start the recursive game loop.
 	gameLoop();
 }

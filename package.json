@@ -11,12 +11,15 @@
   "devDependencies": {
     "@types/mocha": "^2.2.41",
     "@types/should": "^8.3.0",
+    "lite-server": "^2.3.0",
     "mocha": "^3.4.2",
-    "should": "^11.2.1"
+    "should": "^11.2.1",
+    "systemjs": "^0.20.13"
   },
   "scripts": {
-    "test": "mocha test",
-    "lint": "tslint ./**/*.ts -t verbose"
+    "test": "mocha --compilers ts:ts-node/register ./**/*.test.js",
+    "lint": "tslint ./**/*.ts -t verbose",
+    "dev": "lite-server -c ./resource/js/bs-config.json"
   },
   "repository": {
     "type": "git",
