@@ -6,18 +6,16 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-"use strict";
+'use strict';
 
-import { StateData } from './../../system/system';
-import { State } from './../../system/system.state';
+import { StateData } from '../../system/system';
+import { State } from '../../system/system.state';
 import * as Audio from './../../audio/audio';
-import { IntroState } from './../state/game.intro-state';
-
-
+import { IntroState } from '../state/game.intro-state';
 
 //Let the IDE know this 3rd party MIDI.js module is defined elsewhere.
-declare let MIDI:any;
-declare let widgets:any;
+declare const MIDI: any;
+declare const widgets: any;
 
 /**
  * @class
@@ -27,21 +25,22 @@ export class LoadState extends State {
 	/**
 	 *
 	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
-	 * @requires module:Symphony.Audio
 	 * @return {void}
 	 */
-	public start(data:StateData):void {
+	public start(data: StateData): void {
 		//An array of MIDI instrument IDs.
 		let instruments = Audio.getAllInstruments(data.session.getGameData.songs, MIDI);
 
 		//The MIDI.js loader widget shows the progress of the MIDI.loadPlugin() function.
 		MIDI.loader = new widgets.Loader;
 
+		const that = this;
+
 		//Load the soundfont data.
 		MIDI.loadPlugin({
-			targetFormat: "mp3",
+			targetFormat: 'mp3',
 			soundfontUrl: data.session.config.SOUNDFONT_DIRECTORY,
-			instruments: data.session.config.ONLY_USE_PIANO_INSTRUMENT ? ["acoustic_grand_piano"] : instruments,
+			instruments: data.session.config.ONLY_USE_PIANO_INSTRUMENT ? ['acoustic_grand_piano'] : instruments,
 			callback: () => {
 				//Set the volume.
 				MIDI.setVolume(0, data.session.getBGMVolume);
@@ -51,30 +50,31 @@ export class LoadState extends State {
 
 				//Remove the loading widget.
 				MIDI.loader.stop();
-
+				console.log('logging');
 				//Use the finite state machine to transition to the Intro state. See system.fsm.ts for more details.
-				data.session.FSM.push({state: new IntroState(), session: data.session});
+				//data.session.FSM.push({state: new IntroState(), session: data.session});
+				that.changeState(new IntroState(), data.session);
 			}
 		});
 	}
 
-	public update(data:StateData):void {
+	public update(data: StateData): void {
 
 	}
 
-	public draw(data:StateData):void {
+	public draw(data: StateData): void {
 
 	}
 
-	public pause(data:StateData):void {
+	public pause(data: StateData): void {
 
 	}
 
-	public play(data:StateData):void {
+	public play(data: StateData): void {
 
 	}
 
-	public stop(data:StateData):void {
+	public stop(data: StateData): void {
 
 	}
 }

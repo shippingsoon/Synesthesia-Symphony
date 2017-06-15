@@ -8,10 +8,8 @@
 
 'use strict';
 
-//import * as _ from 'lodash';
-declare let _:any;
+import _ from 'lodash';
 import {ColorType, colorNameToObject, buildHex, buildRGBA, isValidColor} from './graphics';
-
 
 /**
  * @class
@@ -34,14 +32,11 @@ export class Color {
 	 * @throws {Error}
 	 */
 	public constructor({r = 0, g = 0, b = 0, a = 1}: ColorType|any) {
-		//The color we will be using to set the rgba values.
-		let color: ColorType = {r: r, g: g, b: b, a: a};
-
 		//If the argument passed to this method is a string, then it is a color name.
-		if (_.isString(arguments[0])) {
-			//Use 3rd party parseCSSColor() function to convert the color name to a rgba object.
-			color = colorNameToObject(<string> arguments[0]);
-		}
+		//Use the 3rd party parseCSSColor() function to convert the color name to a rgba object.
+		const color: ColorType = (_.isString(arguments[0]))
+			? colorNameToObject(<string> arguments[0])
+			: {r: r, g: g, b: b, a: a};
 
 		//Set the colors.
 		this.r = color.r;
@@ -61,7 +56,7 @@ export class Color {
 
 	/**
 	 * Gets the red, green, blue and alpha color components.
-	 * @return {Symphony.ColorType}
+	 * @return {ColorType}
 	 */
 	public getColor(): ColorType {
 		return {
@@ -74,10 +69,10 @@ export class Color {
 
 	/**
 	 * Sets the color.
-	 * @param {Symphony.Graphics.ColorType} color
+	 * @param {ColorType} color
 	 * @throws {Error}
 	 * @requires module: Symphony.Graphics.colorNameToObject
-	 * @return {Symphony.Graphics.Color}
+	 * @return {Color}
 	 */
 	public setColor(color: ColorType|any): Color {
 		//If the argument passed to this method is a string.
@@ -132,6 +127,7 @@ export class Color {
 	/**
 	 * Sets the red component.
 	 * @param {number} red - A number between 0-255.
+	 * @throws {Error}
 	 * @return {void}
 	 */
 	public set setRed(red: number) {

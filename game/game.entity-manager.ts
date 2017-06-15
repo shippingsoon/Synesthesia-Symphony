@@ -6,40 +6,32 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-/// <reference path="./../system/system.state.ts" />
-/// <reference path="./character/game.player.ts" />
-/// <reference path="./character/game.enemy.ts" />
-/// <reference path="../graphics/graphics.ts" />
-
-
 'use strict';
+
 import { Player } from './character/game.player';
 import { Enemy } from './character/game.enemy';
-import { StateData } from './../system/system';
-import { clearCanvas } from './../graphics/graphics';
-//import * as _ from 'lodash';
-declare let _:any;
+import { StateData } from '../system/system';
+import { clearCanvas } from '../graphics/graphics';
+import _  from 'lodash';
+
 /**
  * @class
  * @classdesc Invokes the update() and draw() routines for various entities.
  */
 export class EntityManager {
-	protected player:Player;
-	private entities:EntityType;
-	private readonly maxProjectiles:number;
+	protected readonly player: Player;
+	private entities: EntityType;
+	private readonly maxProjectiles: number;
 
 	/**
 	 * @param {any} data - The game data.
-	 * @param {number} maxProjectiles
 	 */
-	public constructor(data:any, maxProjectiles:number = 300) {
-		this.maxProjectiles = maxProjectiles;
-
+	public constructor(data: any) {
 		this.entities = {
-			bosses:[],
-			enemies:new Array(((_.isEmpty(data.enemies)) ? 0 : data.enemies.length)),
-			projectiles:[],
-			items:[]
+			bosses: [],
+			enemies: new Array(((_.isEmpty(data.enemies)) ? 0 : data.enemies.length)),
+			projectiles: [],
+			items: []
 		};
 
 		//Create the player.
@@ -51,8 +43,8 @@ export class EntityManager {
 		});
 	}
 
-	public update(data:StateData):void {
-		data.manager = this;
+	public update(data: StateData): void {
+		//data.manager = this;
 
 		//Handle logic for the bullets, items, enemies, and bosses.
 		_.each(this.entities, (entity) => {
@@ -60,11 +52,12 @@ export class EntityManager {
 		});
 
 		//Handle logic for the player.
-		if (!_.isEmpty(this.player) /*&& this.player.isActive*/)
+		if (!_.isEmpty(this.player) /*&& this.player.isActive*/) {
 			this.player.update(data);
+		}
 	}
 
-	public draw(data:StateData):void {
+	public draw(data: StateData): void {
 		clearCanvas(data.session.ctx, data.session.canvas);
 
 		//Render the bullets, items, enemies, and bosses.
@@ -73,19 +66,20 @@ export class EntityManager {
 		});
 
 		//Draw the player.
-		if (!_.isEmpty(this.player) /*&& this.player.isVisible*/)
+		if (!_.isEmpty(this.player) /*&& this.player.isVisible*/) {
 			this.player.draw(data);
+		}
 	}
 
-	public add<T>(key:EntityKeys, value:T):void {
+	public add<T>(key: EntityKeys, value: T): void {
 		this.entities[key].push(value);
 	}
 
-	public get<T>(key:EntityKeys):T[] {
+	public get<T>(key: EntityKeys): T[] {
 		return this.entities[key];
 	}
 
-	public get getPlayer():Player {
+	public get getPlayer(): Player {
 		return this.player;
 	}
 
@@ -96,7 +90,7 @@ export class EntityManager {
 	 * @param {Function} [condition=null] - The condition to check.
 	 * @return {void}
 	 */
-	private _invokeAll<T>(collections:T[], command:Function, condition:Function = null):void {
+	private _invokeAll<T>(collections: T[], command: Function, condition: Function = null): void {
 		collections.forEach((entity) => {
 
 			if (!_.isEmpty(entity) && (condition === null || condition(entity))) {
@@ -110,12 +104,18 @@ export class EntityManager {
  * @interface
  */
 export interface EntityType {
-	bosses:any[];
-	enemies:any[],
-	projectiles:any[],
-	items:any[]
+	readonly bosses: any[];
+	readonly enemies: any[],
+	readonly projectiles: any[],
+	readonly items: any[]
 }
 
-type EntityKeys = "bosses" | "enemies" | "projectiles" | "items";
+/**
+ * @interface
+ */
+export interface EntityData {
+	readonly manager: EntityManager;
+	readonly dt: number;
+}
 
-
+type EntityKeys = 'bosses' | 'enemies' | 'projectiles' | 'items';

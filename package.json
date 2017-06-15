@@ -4,7 +4,7 @@
   "description": "Synesthesia Symphony",
   "main": "synesthesia-symphony.js",
   "dependencies": {
-    "@types/lodash": "^4.14.65",
+    "@types/lodash": "^4.14.66",
     "@types/should": "^8.3.0",
     "lodash": "^4.17.4"
   },
@@ -19,7 +19,8 @@
   "scripts": {
     "test": "mocha --compilers ts:ts-node/register ./**/*.test.js",
     "lint": "tslint ./**/*.ts -t verbose",
-    "dev": "lite-server -c ./resource/js/bs-config.json"
+    "dev": "lite-server -c ./resource/js/bs-config.json",
+    "start": "lite-server -c ./resource/js/bs-config.json"
   },
   "repository": {
     "type": "git",

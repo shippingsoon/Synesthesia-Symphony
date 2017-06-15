@@ -6,7 +6,7 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import * as System from './system/system';
+import { main } from './system/system';
 
 /**
  * Program entry point.
@@ -16,5 +16,7 @@ namespace SynesthesiaSymphony {
 	'use strict';
 
 	//Initiate the main game loop.
-	System.main();
+	main().catch(err => {
+		console.error(err);
+	});
 }

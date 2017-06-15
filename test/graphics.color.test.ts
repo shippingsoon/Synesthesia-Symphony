@@ -11,6 +11,7 @@ import 'should';
 import * as _ from 'lodash';
 import {ColorType} from './../graphics/graphics';
 import {Color} from './../graphics/graphics.color';
+//
 //#endregion
 
 //#region Color class unit test. (Note: regions are collapsible with IntelliJ)

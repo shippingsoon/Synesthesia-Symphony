@@ -7,25 +7,25 @@
  */
 
 'use strict';
-import { StateType, StateData } from './../../system/system';
+
+import { StateType, StateData } from '../../system/system';
 import { LifeForm } from './game.lifeform';
 import { ColorType } from '../../graphics/graphics';
 import { Color } from '../../graphics/graphics.color';
-import { Projectile } from './../game.projectile';
-
+import { Projectile } from '../game.projectile';
 
 //Let the IDE know this 3rd party Keydown module is defined elsewhere.
-declare let Keydown:any;
+declare const Keydown: any;
 
 /**
  * @class
  * @classdesc The player class
  */
 export class Player extends LifeForm implements StateType {
-	private primaryColor:Color;
-	private secondaryColor:Color;
-	private primarySpeed:number;
-	private secondarySpeed:number;
+	private primaryColor: Color;
+	private secondaryColor: Color;
+	private primarySpeed: number;
+	private secondarySpeed: number;
 
 	/**
 	 * @param {number} lp - The life points.
@@ -37,10 +37,11 @@ export class Player extends LifeForm implements StateType {
 	 * @param {ColorType} fillColor - The circle's fill primaryColor.
 	 * @param {number} lineWidth - The circle's border width.
 	 * @param {ColorType} lineColor - The circle's border primaryColor.
+	 * @param {number} secondarySpeed
+	 * @param {ColorType} secondaryColor
 	 */
 	public constructor({secondarySpeed = 250, secondaryColor = 'blue', lp = 1, hp = 5, speed = 500, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-		 {secondarySpeed?:number, secondaryColor?:string|Color, lp?:number, hp?:number, speed?:number, x?:number, y?:number, r?:number, fillColor?:ColorType|string, lineWidth?:number, lineColor?:ColorType|string})
-	{
+	{secondarySpeed?: number, secondaryColor?: string|Color, lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: ColorType|string, lineWidth?: number, lineColor?: ColorType|string}) {
 		super({lp: lp, hp: hp, speed: speed, x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 		this.primarySpeed = speed;
 		this.secondarySpeed = secondarySpeed;
@@ -48,57 +49,59 @@ export class Player extends LifeForm implements StateType {
 		this.secondaryColor = new Color(secondaryColor);
 	}
 
-	public start(data:StateData) {
+	public start(data: StateData) {
 
 	}
 
-	public update(data:StateData):void {
+	public update(data: StateData): void {
 		//Handle keyboard input.
 		this.handleInput(data);
 	}
 
-	public draw(data:StateData):void {
+	public draw(data: StateData): void {
 		//o.ctx.clearRect(0, 0, session.canvas.width, session.canvas.height);
 		//console.log(`(${this.x}, ${this.y})`);
 
 		this.render(data.session.ctx);
 	}
 
-	private handleInput(data:StateData):void {
+	private handleInput(data: StateData): void {
 		this.speed = ((Keydown.shift) ? this.secondarySpeed : this.primarySpeed) * (data.dt / 1000.0);
 		this.fillColor = (Keydown.shift) ? this.secondaryColor : this.primaryColor;
 
 		//console.log(`(${this.getX}, ${this.getY}) fps: ${data.session.getFPS.toFixed(2)}, projectiles: ${data.manager.get('projectiles').length}`);
 
 		//The Up key has been pressed.
-		if ((Keydown.up || Keydown.w))
+		if ((Keydown.up || Keydown.w)) {
 			this.subtract({x: 0, y: this.speed});
+		}
 
 		//The Down key has been pressed.
-		if ((Keydown.down || Keydown.s))
+		if ((Keydown.down || Keydown.s)) {
 			this.add({x: 0, y: this.speed});
+		}
 
 		//The Left key is pressed.
-		if ((Keydown.left || Keydown.a))
+		if ((Keydown.left || Keydown.a)) {
 			this.subtract({x: this.speed, y: 0});
+		}
 
 		//The Right key has been pressed.
-		if ((Keydown.right || Keydown.d))
+		if ((Keydown.right || Keydown.d)) {
 			this.add({x: this.speed, y: 0});
+		}
 
 		//The Right key has been pressed.
 		if ((Keydown.z)) {
 			//debugger;
-			let projectile = new Projectile({x: this.x, y: this.y, r: this.r, fillColor: 'blue', isOpen: true})
+			const projectile = new Projectile({x: this.x, y: this.y, r: this.r, fillColor: 'blue', isOpen: true});
 			data.manager.add('projectiles', projectile);
 		}
-
-
 	}
 
-	public pause():void{}
-	public stop():void{}
-	public play():void{}
+	public pause(): void {}
+	public stop(): void {}
+	public play(): void {}
 }
 
 

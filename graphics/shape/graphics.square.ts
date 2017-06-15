@@ -6,15 +6,14 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
+'use strict';
+
 import { Shape } from './graphics.shape';
 import { Drawable, ColorType } from './../graphics';
 import { Color } from './../graphics.color';
 
-
-"use strict";
-
 //Let the IDE know this is defined elsewhere.
-declare let Math:any;
+declare const Math: any;
 
 /**
  * @class
@@ -22,8 +21,8 @@ declare let Math:any;
  */
 export class SquareShape extends Shape {
 	//The square's width.
-	protected w:number;
-	protected h:number;
+	protected w: number;
+	protected h: number;
 
 	/**
 	 * Creates a new SquareShape.
@@ -32,7 +31,7 @@ export class SquareShape extends Shape {
 	 * @param {number} w - The square's width.
 	 * @param {number} h - The square's height.
 	 */
-	public constructor({x = 0, y = 0, w = 1, h = 1}:{x:number, y:number, w:number, h:number}) {
+	public constructor({x = 0, y = 0, w = 1, h = 1}: {x: number, y: number, w: number, h: number}) {
 		super({x: x, y: y});
 
 		this.w = w;
@@ -43,7 +42,7 @@ export class SquareShape extends Shape {
 	 * Gets the square's width.
 	 * @return {number}
 	 */
-	public get getWidth():number {
+	public get getWidth(): number {
 		return this.w;
 	}
 
@@ -51,7 +50,7 @@ export class SquareShape extends Shape {
 	 * Gets the square's height.
 	 * @return {number}
 	 */
-	public get getHeight():number {
+	public get getHeight(): number {
 		return this.h;
 	}
 
@@ -60,7 +59,7 @@ export class SquareShape extends Shape {
 	 * @param {number} width
 	 * @return {void}
 	 */
-	public set setWidth(width:number) {
+	public set setWidth(width: number) {
 		this.w = width;
 	}
 
@@ -69,7 +68,7 @@ export class SquareShape extends Shape {
 	 * @param {number} height
 	 * @return {void}
 	 */
-	public set setHeight(height:number) {
+	public set setHeight(height: number) {
 		this.h = height;
 	}
 
@@ -77,10 +76,9 @@ export class SquareShape extends Shape {
 	 * Gets the square's area.
 	 * @return {number}
 	 */
-	public get getArea():number {
+	public get getArea(): number {
 		return (this.w * this.h);
 	}
-
 }
 
 /**
@@ -89,19 +87,19 @@ export class SquareShape extends Shape {
  */
 export class Square extends SquareShape implements Drawable {
 	//The square's color.
-	protected fillColor:Color;
+	protected fillColor: Color;
 
 	//The width of the square's border.
-	private lineWidth:number;
+	private lineWidth: number;
 
 	//The color of the square's border.
-	private lineColor:Color;
+	private lineColor: Color;
 
 	//Determines if the square is updated.
-	private _isActive:boolean = true;
+	private _isActive: boolean = true;
 
 	//Determines if the square is visible.
-	private _isVisible:boolean = true;
+	private _isVisible: boolean = true;
 
 	/**
 	 * @param {number} x - The square's x coordinate
@@ -113,8 +111,7 @@ export class Square extends SquareShape implements Drawable {
 	 * @param {ColorType} lineColor - The square's border color.
 	 */
 	constructor({x = 0, y = 0, w = 1, h = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-		            {x?:number, y?:number, w?:number, h?:number, fillColor?:ColorType|string, lineWidth?:number, lineColor?:ColorType|string})
-	{
+	{x?: number, y?: number, w?: number, h?: number, fillColor?: ColorType|string, lineWidth?: number, lineColor?: ColorType|string}) {
 		super({x: x, y: y, w: w, h: h});
 		this.fillColor = new Color(fillColor);
 		this.lineWidth = lineWidth;
@@ -126,7 +123,7 @@ export class Square extends SquareShape implements Drawable {
 	 * @param {CanvasRenderingContext2D} ctx - The HTML5 2D drawing context.
 	 * return {void}
 	 */
-	public render(ctx:CanvasRenderingContext2D):void {
+	public render(ctx: CanvasRenderingContext2D): void {
 		if (ctx) {
 			//Save the 2D rendering context's current state. We will restore it back to this state when we are finished with it.
 			ctx.save();
@@ -153,18 +150,18 @@ export class Square extends SquareShape implements Drawable {
 
 	/**
 	 * Gets the square's color.
-	 * @return {Symphony.ColorType}
+	 * @return {ColorType}
 	 */
-	public getColor():ColorType {
+	public getColor(): ColorType {
 		return this.fillColor.getColor();
 	}
 
 	/**
 	 *
 	 * @param color
-	 * @return {Symphony.Shape.Square}
+	 * @return {Square}
 	 */
-	public setColor(color:ColorType|string):this {
+	public setColor(color: ColorType|string): this {
 		this.fillColor.setColor(color);
 
 		return this;
@@ -174,7 +171,7 @@ export class Square extends SquareShape implements Drawable {
 	 * Get the color of this square in hexadecimal format.
 	 * @return {string}
 	 */
-	public get getHex():string {
+	public get getHex(): string {
 		return this.fillColor.getHex;
 	}
 
@@ -182,7 +179,7 @@ export class Square extends SquareShape implements Drawable {
 	 * Get the color of this square in rgba format.
 	 * @return {string}
 	 */
-	public get getRGBA():string {
+	public get getRGBA(): string {
 		return this.fillColor.getRGBA;
 	}
 
@@ -190,7 +187,7 @@ export class Square extends SquareShape implements Drawable {
 	 * Get isActive state. This will determine if the object is updated.
 	 * @return {boolean}
 	 */
-	public get isActive():boolean {
+	public get isActive(): boolean {
 		return this._isActive;
 	}
 
@@ -198,7 +195,7 @@ export class Square extends SquareShape implements Drawable {
 	 * Get isActive state. This will determine if the object is updated.
 	 * @return {boolean}
 	 */
-	public get isVisible():boolean {
+	public get isVisible(): boolean {
 		return this._isVisible;
 	}
 }

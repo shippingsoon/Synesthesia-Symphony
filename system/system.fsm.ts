@@ -7,10 +7,12 @@
  */
 
 'use strict';
+
 import { StateData } from './system';
 import { State } from './system.state';
-//import * as _ from 'lodash';
-declare let _:any;
+import _ from 'lodash';
+
+declare let window: any;
 
 /**
  * @class
@@ -18,7 +20,9 @@ declare let _:any;
  */
 export class FSM {
 	//An array of game states.
-	private states:Array<State> = new Array();
+	private readonly states: Array<State> = new Array();
+	private readonly onPushState: Event = new Event('onPushState');
+	private readonly onPopState: Event = new Event('onPopState');
 
 	/**
 	 * Constructor
@@ -32,7 +36,7 @@ export class FSM {
 	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public update(data:StateData):void {
+	public update(data: StateData): void {
 		//If the games states array is not empty.
 		if (!_.isEmpty(this.states)) {
 			//Use Lodash to grab the last element in the array.
@@ -46,7 +50,7 @@ export class FSM {
 	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public draw(data:StateData):void {
+	public draw(data: StateData): void {
 		//NOTE: Might want to consider removing this IF statement, it is an edge case.
 		if (!_.isEmpty(this.states)) {
 			//Handle drawing routines for the current state.
@@ -59,10 +63,14 @@ export class FSM {
 	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public push(data:StateData):void {
+	public push(data: StateData): void {
+		//Dispatch the 'onPushState' event.
+		window.dispatchEvent(this.onPushState);
+
 		//Pause the current state
-		if (!_.isEmpty(this.states))
+		if (!_.isEmpty(this.states)) {
 			_.last(this.states).pause(data);
+		}
 
 		//Push a new state and invoke its constructor.
 		this.states.push(data.state);
@@ -74,13 +82,18 @@ export class FSM {
 	/**
 	 * Pops a state from the stack and optionally suspends the state.
 	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
+	 * @throws {Error}
 	 * @return {void}
 	 */
-	public pop(data:StateData):void {
-		if (!_.isEmpty(this.states)) {
+	public pop(data: StateData): void {
+		if (this.states.length > 1) {
+			//Dispatch the 'onPopState' event.
+			window.dispatchEvent(this.onPopState);
+
 			//Determine if we will pause the current state.
-			if (data.pause)
+			if (data.pause) {
 				_.last(this.states).stop(data);
+			}
 
 			//Pop the current state.
 			this.states.pop();
@@ -88,7 +101,8 @@ export class FSM {
 			//Resume the previous state.
 			_.last(this.states).play(data);
 		}
-	};
+		else {
+			throw new Error('In FSM.pop(). Attempting to remove the last state from the stack. At least one state should be on the stack at all times');
+		}
+	}
 }
-
-

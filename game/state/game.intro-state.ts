@@ -6,23 +6,23 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
+'use strict';
 
-import { StateData } from './../../system/system';
-import { State } from './../../system/system.state';
+import { StateData } from '../../system/system';
+import { State } from '../../system/system.state';
 import * as Audio from './../../audio/audio';
 
-"use strict";
-
 //Let the IDE know this 3rd party MIDI.js module is defined elsewhere.
-declare let MIDI:any;
+declare const MIDI: any;
 
 /**
  * @class
  * @classdesc The intro state.
  */
 export class IntroState extends State {
-	public start(data:StateData):void {
-		Audio.playSong(data.session.getGameData.songs[2], MIDI, data.session.config);
+	public start(data: StateData): void {
+		Audio.playSong(data.session.getGameData.songs[3], MIDI, data.session.config);
+		console.log('intro state');
 
 		/*
 		bg_canvas.addEventListener("webkitTransitionEnd", function(event) {
@@ -33,23 +33,23 @@ export class IntroState extends State {
 		*/
 	}
 
-	public update(data:StateData):void {
+	public update(data: StateData): void {
 
 	}
 
-	public draw(data:StateData):void {
+	public draw(data: StateData): void {
 
 	}
 
-	public pause(data:StateData):void {
+	public pause(data: StateData): void {
 
 	}
 
-	public play(data:StateData):void {
+	public play(data: StateData): void {
 
 	}
 
-	public stop(data:StateData):void {
+	public stop(data: StateData): void {
 
 	}
 }

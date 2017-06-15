@@ -6,20 +6,20 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-
 'use strict';
-import { Circle } from './../../graphics/shape/graphics.circle';
-import { ColorType } from './../../graphics/graphics';
+
+import { Circle } from '../../graphics/shape/graphics.circle';
+import { ColorType } from '../../graphics/graphics';
 
 /**
  * @class
  * @classdesc The parent class for the Player and Enemy classes.
  */
 export class LifeForm extends Circle {
-	protected lifePoints:number;
-	protected healthPoints:number;
-	protected maxHealthPoints:number;
-	protected speed:number;
+	protected lifePoints: number;
+	protected healthPoints: number;
+	protected readonly maxHealthPoints: number;
+	protected speed: number;
 
 	/**
 	 * @param {number} lp - The life points
@@ -28,13 +28,12 @@ export class LifeForm extends Circle {
 	 * @param {number} x - The circle's x coordinate
 	 * @param {number} y - The circle's y coordinate
 	 * @param {number} r - The circle's radius
-	 * @param {Graphics.ColorType} fillColor - The circle's fill color.
+	 * @param {ColorType} fillColor - The circle's fill color.
 	 * @param {number} lineWidth - The circle's border width.
-	 * @param {Graphics.ColorType} lineColor - The circle's border color.
+	 * @param {ColorType} lineColor - The circle's border color.
 	 */
 	public constructor({lp = 1, hp = 5, speed = 10, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-                    {lp?:number, hp?:number, speed?:number, x?:number, y?:number, r?:number, fillColor?:ColorType|string, lineWidth?:number, lineColor?: ColorType|string})
-	{
+	{lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: ColorType|string, lineWidth?: number, lineColor?: ColorType|string}) {
 		super({x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 		this.lifePoints = lp;
 		this.healthPoints = hp;
@@ -78,5 +77,4 @@ export class LifeForm extends Circle {
 		this.healthPoints = hp;
 	}
 	//#endregion
-
 }

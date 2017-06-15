@@ -7,9 +7,10 @@
  */
 
 'use strict';
+
 import { LifeForm } from './game.lifeform';
-import { StateData, StateType } from './../../system/system';
-import { ColorType } from './../../graphics/graphics';
+import { StateData, StateType } from '../../system/system';
+import { ColorType } from '../../graphics/graphics';
 
 /**
  * @class
@@ -23,31 +24,28 @@ export class Enemy extends LifeForm implements StateType {
 	 * @param {number} x - The object's x coordinate.
 	 * @param {number} y - The object's y coordinate.
 	 * @param {number} r - The object's radius.
-	 * @param {Graphics.ColorType} fillColor - The circle's fill primaryColor.
+	 * @param {ColorType} fillColor - The circle's fill primaryColor.
 	 * @param {number} lineWidth - The circle's border width.
-	 * @param {Graphics.ColorType} lineColor - The circle's border primaryColor.
+	 * @param {ColorType} lineColor - The circle's border primaryColor.
 	 */
 	public constructor({lp = 1, hp = 5, speed = 500, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-		 {lp?:number, hp?:number, speed?:number, x?:number, y?:number, r?:number, fillColor?:ColorType|string, lineWidth?:number, lineColor?:ColorType|string})
-	{
-		super({lp:lp, hp:hp, speed:speed, x:x, y:y, r:r, fillColor:fillColor, lineWidth:lineWidth, lineColor:lineColor});
+	{lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: ColorType|string, lineWidth?: number, lineColor?: ColorType|string}) {
+		super({lp: lp, hp: hp, speed: speed, x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 	}
 
-	public start(data:StateData) {
-
-	}
-
-	public update(data:StateData):void {
+	public start(data: StateData) {
 
 	}
 
-	public draw(data:StateData):void {
+	public update(data: StateData): void {
+
+	}
+
+	public draw(data: StateData): void {
 		this.render(data.session.ctx);
 	}
 
-	public pause():void{}
-	public stop():void{}
-	public play():void{}
+	public pause(): void {}
+	public stop(): void {}
+	public play(): void {}
 }
-
-

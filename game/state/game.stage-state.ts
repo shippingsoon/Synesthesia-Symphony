@@ -8,41 +8,38 @@
 
 'use strict';
 
-import { StateData } from './../../system/system';
-import { State } from './../../system/system.state';
-import { EntityManager } from './../game.entity-manager';
-
-
+import { StateData } from '../../system/system';
+import { State } from '../../system/system.state';
+import { EntityManager } from '../game.entity-manager';
 
 /**
  * @class
  * @classdesc The stage game state.
  */
 export class StageState extends State {
-	private entityManger:EntityManager;
+	private entityManger: EntityManager;
 
-	public start(data:StateData):void {
-
+	public start(data: StateData): void {
 		this.entityManger = new EntityManager(data.session.getGameData);
 	}
 
-	public update(data:StateData):void {
+	public update(data: StateData): void {
 		this.entityManger.update(data);
 	}
 
-	public draw(data:StateData):void {
+	public draw(data: StateData): void {
 		this.entityManger.draw(data);
 	}
 
-	public pause(data:StateData):void {
+	public pause(data: StateData): void {
 
 	}
 
-	public play(data:StateData):void {
+	public play(data: StateData): void {
 
 	}
 
-	public stop(data:StateData):void {
+	public stop(data: StateData): void {
 
 	}
 }

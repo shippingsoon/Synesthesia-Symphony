@@ -9,7 +9,7 @@
 'use strict';
 
 //Let our IDE know that this object is defined elsewhere.
-declare let Math:any;
+declare const Math: any;
 
 /**
  * @class
@@ -17,15 +17,15 @@ declare let Math:any;
  */
 export class Vector {
 	//The x and y coordinates.
-	protected x:number;
-	protected y:number;
+	protected x: number;
+	protected y: number;
 
 	/**
 	 * Vector constructor.
 	 * @param {number} x - The x component of the vector.
 	 * @param {number} y - The y component of the vector.
 	 */
-	constructor({x = 0, y = 0}:VectorType) {
+	constructor({x = 0, y = 0}: VectorType) {
 		this.x = x;
 		this.y = y;
 	}
@@ -36,17 +36,19 @@ export class Vector {
 	 * Returns the magnitude of the vector.
 	 * @return {number}
 	 */
-	public get getMagnitude():number {
+	public get getMagnitude(): number {
 		return Math.sqrt((this.x * this.x) + (this.y * this.y));
 	}
 
 	/**
 	 * Returns the angle of this vector
+	 * @throws {Error}
 	 * @return {number}
 	 */
-	public get getAngle():number {
-		if (this.x === 0)
-			throw 'Division by zero in Vector->angle()';
+	public get getAngle(): number {
+		if (this.x === 0) {
+			throw new Error('Division by zero in Vector->angle()');
+		}
 
 		return Math.atan2(this.y / this.x);
 	}
@@ -55,16 +57,16 @@ export class Vector {
 	 * Returns the length of the vector squared. This method can be used to cheaply find the nearest object.
 	 * @return {number}
 	 */
-	public get getLengthSquared():number {
+	public get getLengthSquared(): number {
 		return ((this.x * this.x) + (this.y * this.y));
 	}
 
 	/**
 	 * Adds two vectors.
-	 * @param {Symphony.Graphics.VectorType} vector - The vector that will be added to this vector instance.
-	 * @return {Symphony.Graphics.Vector}
+	 * @param {VectorType} vector - The vector that will be added to this vector instance.
+	 * @return {Vector}
 	 */
-	public add(vector:VectorType):this {
+	public add(vector: VectorType): this {
 		this.x += vector.x;
 		this.y += vector.y;
 
@@ -73,10 +75,10 @@ export class Vector {
 
 	/**
 	 * Subtracts two vectors.
-	 * @param {Symphony.Graphics.VectorType} vector - The vector that will be subtracted from this vector instance.
-	 * @return {Symphony.Graphics.Vector}
+	 * @param {VectorType} vector - The vector that will be subtracted from this vector instance.
+	 * @return {Vector}
 	 */
-	public subtract(vector:VectorType):this {
+	public subtract(vector: VectorType): this {
 		this.x -= vector.x;
 		this.y -= vector.y;
 
@@ -85,10 +87,10 @@ export class Vector {
 
 	/**
 	 * Multiplies two vectors.
-	 * @param {Symphony.Graphics.VectorType} vector - The vector that will be multiplied by this vector instance.
-	 * @return {Symphony.Graphics.Vector}
+	 * @param {VectorType} vector - The vector that will be multiplied by this vector instance.
+	 * @return {Vector}
 	 */
-	public multiply(vector:VectorType):this {
+	public multiply(vector: VectorType): this {
 		this.x *= vector.x;
 		this.y *= vector.y;
 
@@ -97,12 +99,14 @@ export class Vector {
 
 	/**
 	 *
-	 * @param {Symphony.Graphics.VectorType} vector - The vector that will divide this vector instance.
-	 * @return {Symphony.Graphics.Vector}
+	 * @param {VectorType} vector - The vector that will divide this vector instance.
+	 * @throws {Error}
+	 * @return {Vector}
 	 */
-	public divide(vector:VectorType):this {
-		if (this.y === 0)
-			throw 'Division by zero in Vector.divide()';
+	public divide(vector: VectorType): this {
+		if (this.y === 0) {
+			throw new Error('Division by zero in Vector.divide()');
+		}
 
 		this.x /= vector.x;
 		this.y /= vector.y;
@@ -112,18 +116,18 @@ export class Vector {
 
 	/**
 	 * Retrieves the vector's location
-	 * @return {Symphony.Graphics.VectorType}
+	 * @return {VectorType}
 	 */
-	public get getPosition():VectorType {
+	public get getPosition(): VectorType {
 		return {x: this.x, y: this.y};
 	}
 
 	/**
 	 *
-	 * @param {Symphony.Graphics.VectorType} vector - The vector that we will use to set the position.
-	 * @return {Symphony.Graphics.Vector}
+	 * @param {VectorType} vector - The vector that we will use to set the position.
+	 * @return {Vector}
 	 */
-	public set setPosition(vector:VectorType) {
+	public set setPosition(vector: VectorType) {
 		this.x = vector.x;
 		this.y = vector.y;
 	}
@@ -132,7 +136,7 @@ export class Vector {
 	 * Gets the x component of this vector.
 	 * @return {number}
 	 */
-	public get getX():number {
+	public get getX(): number {
 		return this.x;
 	}
 
@@ -141,7 +145,7 @@ export class Vector {
 	 * @param {number} x - The number we will use to set the x component of the vector.
 	 * @return {void}
 	 */
-	public set setX(x:number) {
+	public set setX(x: number) {
 		this.x = x;
 	}
 
@@ -149,7 +153,7 @@ export class Vector {
 	 * Gets the y component of this vector.
 	 * @return {number}
 	 */
-	public get getY():number {
+	public get getY(): number {
 		return this.y;
 	}
 
@@ -158,7 +162,7 @@ export class Vector {
 	 * @param {number} y - The number we will use to set the y component of the vector.
 	 * @return {void}
 	 */
-	public set setY(y:number) {
+	public set setY(y: number) {
 		this.y = y;
 	}
 
@@ -168,8 +172,9 @@ export class Vector {
 /**
  * Defines a vector.
  * @interface
+ * @const
  */
 export interface VectorType {
-	readonly x:number;
-	readonly y:number;
+	readonly x: number;
+	readonly y: number;
 }

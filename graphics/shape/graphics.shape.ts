@@ -6,8 +6,8 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-
 'use strict';
+
 import { Vector } from './../graphics.vector';
 
 /**
@@ -19,13 +19,13 @@ export abstract class Shape extends Vector {
 	 * @param {number} x - The x coordinate
 	 * @param {number} y - The y coordinate
 	 */
-	constructor({x = 0, y = 0}:{x?:number, y?:number}) {
-		super({x:x, y:y});
+	constructor({x = 0, y = 0}: {x?: number, y?: number}) {
+		super({x: x, y: y});
 	}
 
 	/**
 	 * Returns the area of this shape.
 	 * @return {number}
 	 */
-	public abstract get getArea():number;
+	public abstract get getArea(): number;
 }

@@ -11,10 +11,10 @@
 import { Shape } from './graphics.shape';
 import { Drawable, ColorType } from './../graphics';
 import { Color } from './../graphics.color';
-//import * as _ from 'lodash';
-declare let _:any;
+import _ from 'lodash';
+
 //Let the IDE know this is defined elsewhere.
-declare let Math:any;
+declare const Math: any;
 
 /**
  * @class
@@ -22,7 +22,7 @@ declare let Math:any;
  */
 export class CircleShape extends Shape {
 	//The circle's radius.
-	protected r:number;
+	protected r: number;
 
 	/**
 	 * Creates a new CircleShape.
@@ -31,12 +31,13 @@ export class CircleShape extends Shape {
 	 * @param {number} r - The circle's radius.
 	 * @throws {Error}
 	 */
-	public constructor({x = 0, y = 0, r = 1}:{x:number, y:number, r:number}) {
+	public constructor({x = 0, y = 0, r = 1}: {x: number, y: number, r: number}) {
 		super({x: x, y: y});
 
 		//Make sure the radius is greater than 0.
-		if (_.lte(r, 0))
+		if (_.lte(r, 0)) {
 			throw new Error(`Radius must be greater than zero: ${r} in CircleShape.constructor()`);
+		}
 
 		this.r = r;
 	}
@@ -45,7 +46,7 @@ export class CircleShape extends Shape {
 	 * Gets the circle's radius.
 	 * @return {number}
 	 */
-	public get getRadius():number {
+	public get getRadius(): number {
 		return this.r;
 	}
 
@@ -55,10 +56,11 @@ export class CircleShape extends Shape {
 	 * @throws {Error}
 	 * @return {void}
 	 */
-	public set setRadius(radius:number) {
+	public set setRadius(radius: number) {
 		//Make sure the radius is greater than 0.
-		if (_.lte(radius, 0))
+		if (_.lte(radius, 0)) {
 			throw new Error(`Radius must be greater than zero: ${radius} in CircleShape.setRadius()`);
+		}
 
 		this.r = radius;
 	}
@@ -67,10 +69,9 @@ export class CircleShape extends Shape {
 	 * Gets the circle's area.
 	 * @return {number}
 	 */
-	public get getArea():number {
+	public get getArea(): number {
 		return Math.PI * (this.r * this.r);
 	}
-
 }
 
 /**
@@ -79,19 +80,19 @@ export class CircleShape extends Shape {
  */
 export class Circle extends CircleShape implements Drawable {
 	//The circle's color.
-	protected fillColor:Color;
+	protected fillColor: Color;
 
 	//The width of the circle's border.
-	private lineWidth:number;
+	private lineWidth: number;
 
 	//The color of the circle's border.
-	private lineColor:Color;
+	private lineColor: Color;
 
 	//Determines if the circle is updated.
-	private _isActive:boolean = true;
+	private _isActive: boolean = true;
 
 	//Determines if the circle is visible.
-	private _isVisible:boolean = true;
+	private _isVisible: boolean = true;
 
 	/**
 	 * @param {number} x - The circle's x coordinate
@@ -102,8 +103,7 @@ export class Circle extends CircleShape implements Drawable {
 	 * @param {ColorType} lineColor - The circle's border color.
 	 */
 	constructor({x = 0, y = 0, r = 10, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-		            {x?:number, y?:number, r?:number, fillColor?:ColorType|string, lineWidth?:number, lineColor?:ColorType|string})
-	{
+	{x?: number, y?: number, r?: number, fillColor?: ColorType|string, lineWidth?: number, lineColor?: ColorType|string}) {
 		super({x: x, y: y, r: r});
 		this.fillColor = new Color(fillColor);
 		this.lineWidth = lineWidth;
@@ -115,7 +115,7 @@ export class Circle extends CircleShape implements Drawable {
 	 * @param {CanvasRenderingContext2D} ctx - The HTML5 2D drawing context.
 	 * return {void}
 	 */
-	public render(ctx:CanvasRenderingContext2D):void {
+	public render(ctx: CanvasRenderingContext2D): void {
 		if (ctx) {
 			//Save the 2D rendering context's current state. We will restore it back to this state when we are finished with it.
 			ctx.save();
@@ -142,18 +142,18 @@ export class Circle extends CircleShape implements Drawable {
 
 	/**
 	 * Gets the circle's color.
-	 * @return {Symphony.ColorType}
+	 * @return {ColorType}
 	 */
-	public getColor():ColorType {
+	public getColor(): ColorType {
 		return this.fillColor.getColor();
 	}
 
 	/**
 	 *
 	 * @param color
-	 * @return {Symphony.Shape.Circle}
+	 * @return {Circle}
 	 */
-	public setColor(color:ColorType|string):this {
+	public setColor(color: ColorType|string): this {
 		this.fillColor.setColor(color);
 
 		return this;
@@ -163,7 +163,7 @@ export class Circle extends CircleShape implements Drawable {
 	 * Get the color of this circle in hexadecimal format.
 	 * @return {string}
 	 */
-	public get getHex():string {
+	public get getHex(): string {
 		return this.fillColor.getHex;
 	}
 
@@ -171,7 +171,7 @@ export class Circle extends CircleShape implements Drawable {
 	 * Get the color of this circle in rgba format.
 	 * @return {string}
 	 */
-	public get getRGBA():string {
+	public get getRGBA(): string {
 		return this.fillColor.getRGBA;
 	}
 
@@ -179,7 +179,7 @@ export class Circle extends CircleShape implements Drawable {
 	 * Get isActive state. This will determine if the object is updated.
 	 * @return {boolean}
 	 */
-	public get isActive():boolean {
+	public get isActive(): boolean {
 		return this._isActive;
 	}
 
@@ -187,7 +187,7 @@ export class Circle extends CircleShape implements Drawable {
 	 * Get isActive state. This will determine if the object is updated.
 	 * @return {boolean}
 	 */
-	public get isVisible():boolean {
+	public get isVisible(): boolean {
 		return this._isVisible;
 	}
 }

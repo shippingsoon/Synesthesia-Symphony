@@ -6,14 +6,7 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-/// <reference path="./../../system/system.ts" />
-/// <reference path="./../../system/system.state.ts" />
-
-/**
- * @namespace
- */
-
-"use strict";
+'use strict';
 
 /**
  * @class

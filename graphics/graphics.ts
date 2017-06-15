@@ -7,26 +7,28 @@
  */
 
 'use strict';
+
 //Let the IDE know we are using the 3rd party parseCSSColor() function.
-declare let parseCSSColor:any;
+declare const parseCSSColor: any;
 
 //Let the IDE know we are using the 3rd party LoDash utilities library.
-declare let _:any;
+import _ from 'lodash';
 
 /**
  * Interface for classes that represent a color.
  * @interface
+ * @const
  */
 export interface ColorType {
-	r: number;
-	g: number;
-	b: number;
-	a: number;
+	readonly r: number;
+	readonly g: number;
+	readonly b: number;
+	readonly a: number;
 }
 
 /**
  * Converts a color object to a hexadecimal string.
- * @param {Graphics.ColorType} color - The color object containing rgb colors that will be converted to hex.
+ * @param {ColorType} color - The color object containing rgb colors that will be converted to hex.
  * @return {string}
  */
 export function buildHex(color: ColorType): string {
@@ -44,7 +46,7 @@ export function buildHex(color: ColorType): string {
 
 /**
  * Converts a color object to a hexadecimal string.
- * @param {Graphics.ColorType} color - The color object containing rgb colors that will be converted to hex.
+ * @param {ColorType} color - The color object containing rgb colors that will be converted to hex.
  * @return {string}
  */
 export function buildRGBA(color: ColorType): string {
@@ -54,7 +56,7 @@ export function buildRGBA(color: ColorType): string {
 
 /**
  * This method makes sure the colors are in the 0-255 range and it also makes sure the alpha value is between 0-1.
- * @param {Graphics.ColorType} color - The color to be checked.
+ * @param {ColorType} color - The color to be checked.
  * return {boolean}
  */
 export function isValidColor(color: ColorType): boolean {
@@ -74,7 +76,7 @@ export function isValidColor(color: ColorType): boolean {
  */
 export function colorNameToObject(colorName: string): ColorType {
 	//Use 3rd party parseCSSColor() function to convert the color name to a rgba value.
-	let parsedColors: number[] = parseCSSColor(colorName);
+	const parsedColors: number[] = parseCSSColor(colorName);
 
 	//If the parseCSSColor failed to parse the color we will raise an exception.
 	if (_.isEmpty(parsedColors)) {
@@ -104,5 +106,5 @@ export function clearCanvas(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasEle
  * @interface
  */
 export interface Drawable {
-	render(ctx:CanvasRenderingContext2D):void;
+	render(ctx: CanvasRenderingContext2D): void;
 }
