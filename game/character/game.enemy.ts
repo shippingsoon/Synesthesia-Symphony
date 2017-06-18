@@ -9,14 +9,15 @@
 'use strict';
 
 import { LifeForm } from './game.lifeform';
-import { StateData, StateType } from '../../system/system';
-import { ColorType } from '../../graphics/graphics';
+import { StateData, IState } from '../../system/system.types';
+import { ColorType, ColorName } from '../../graphics/graphics.types';
+import { IEntity } from '../game.types';
 
 /**
  * @class
  * @classdesc The enemy class.
  */
-export class Enemy extends LifeForm implements StateType {
+export class Enemy extends LifeForm implements IState, IEntity {
 	/**
 	 * @param {number} lp - The life points.
 	 * @param {number} hp - The max health points.
@@ -29,7 +30,7 @@ export class Enemy extends LifeForm implements StateType {
 	 * @param {ColorType} lineColor - The circle's border primaryColor.
 	 */
 	public constructor({lp = 1, hp = 5, speed = 500, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-	{lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: ColorType|string, lineWidth?: number, lineColor?: ColorType|string}) {
+	{lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: ColorType|ColorName, lineWidth?: number, lineColor?: ColorType|ColorName}) {
 		super({lp: lp, hp: hp, speed: speed, x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 	}
 

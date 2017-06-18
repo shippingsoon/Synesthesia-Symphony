@@ -117,18 +117,18 @@
 	"instruments": [
 	  {"channel": 0, "id": 1},
 	  {"channel": 1, "id": 2},
-	  {"channel": 2, "id": 18},
-	  {"channel": 3, "id": 94},
-	  {"channel": 4, "id": 58},
-	  {"channel": 5, "id": 60},
-	  {"channel": 6, "id": 49},
-	  {"channel": 7, "id": 15},
-	  {"channel": 8, "id": 95},
-	  {"channel": 9, "id": 116},
-	  {"channel": 10, "id": 58},
-	  {"channel": 11, "id": 5},
-	  {"channel": 12, "id": 78},
-	  {"channel": 13, "id": 15}
+	  {"channel": 2, "id": 4},
+	  {"channel": 3, "id": 5},
+	  {"channel": 4, "id": 77},
+	  {"channel": 5, "id": 67},
+	  {"channel": 6, "id": 54},
+	  {"channel": 7, "id": 2},
+	  {"channel": 8, "id": 33},
+	  {"channel": 9, "id": 42},
+	  {"channel": 10, "id": 10},
+	  {"channel": 11, "id": 32},
+	  {"channel": 12, "id": 44},
+	  {"channel": 13, "id": 76}
 	]}
   ]
 }

@@ -12,7 +12,7 @@
 	"pretty": true,
 	"removeComments": false,
 	"diagnostics": true,
-	"noEmitOnError": true
+	"noEmitOnError": false
   },
   "exclude": [
 	"node_modules", "typings"
@@ -23,5 +23,9 @@
   "scripts": {
 	"test": ""
   },
-  "files": ["./node_modules/systemjs/system.js"]
+  "files": [
+	"node_modules/systemjs/dist/system.js",
+	"graphics/graphics.types.ts",
+	"graphics/graphics.color.ts"
+  ]
 }

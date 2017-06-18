@@ -9,7 +9,7 @@
 'use strict';
 
 import { Circle } from '../../graphics/shape/graphics.circle';
-import { ColorType } from '../../graphics/graphics';
+import { ColorType, ColorName } from '../../graphics/graphics.types';
 
 /**
  * @class
@@ -33,7 +33,7 @@ export class LifeForm extends Circle {
 	 * @param {ColorType} lineColor - The circle's border color.
 	 */
 	public constructor({lp = 1, hp = 5, speed = 10, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-	{lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: ColorType|string, lineWidth?: number, lineColor?: ColorType|string}) {
+	{lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: ColorType|ColorName, lineWidth?: number, lineColor?: ColorType|ColorName}) {
 		super({x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 		this.lifePoints = lp;
 		this.healthPoints = hp;

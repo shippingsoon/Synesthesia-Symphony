@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { StateData } from '../../system/system';
+import { StateData } from '../../system/system.types';
 import { State } from '../../system/system.state';
 import { EntityManager } from '../game.entity-manager';
 
@@ -18,6 +18,10 @@ import { EntityManager } from '../game.entity-manager';
  */
 export class StageState extends State {
 	private entityManger: EntityManager;
+
+	public constructor() {
+		super();
+	}
 
 	public start(data: StateData): void {
 		this.entityManger = new EntityManager(data.session.getGameData);

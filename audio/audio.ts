@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { ConfigType } from '../system/system';
+import { ConfigType } from '../system/system.types';
 import _ from 'lodash';
 
 //Let the IDE know this 3rd party MIDI.js module is defined elsewhere.

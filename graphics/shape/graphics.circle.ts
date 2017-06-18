@@ -9,9 +9,8 @@
 'use strict';
 
 import { Shape } from './graphics.shape';
-import { Drawable, ColorType } from './../graphics';
-import { Color } from './../graphics.color';
-import _ from 'lodash';
+import { Drawable, ColorType, ColorName } from '../graphics.types';
+import { Color } from '../graphics.color';
 
 //Let the IDE know this is defined elsewhere.
 declare const Math: any;
@@ -21,6 +20,8 @@ declare const Math: any;
  * @classdesc Circle shape.
  */
 export class CircleShape extends Shape {
+	private static readonly error: Error = new Error(`Radius must be greater than zero: in CircleShape.constructor()`);
+
 	//The circle's radius.
 	protected r: number;
 
@@ -35,8 +36,8 @@ export class CircleShape extends Shape {
 		super({x: x, y: y});
 
 		//Make sure the radius is greater than 0.
-		if (_.lte(r, 0)) {
-			throw new Error(`Radius must be greater than zero: ${r} in CircleShape.constructor()`);
+		if (r <= 0) {
+			throw CircleShape.error;
 		}
 
 		this.r = r;
@@ -58,8 +59,8 @@ export class CircleShape extends Shape {
 	 */
 	public set setRadius(radius: number) {
 		//Make sure the radius is greater than 0.
-		if (_.lte(radius, 0)) {
-			throw new Error(`Radius must be greater than zero: ${radius} in CircleShape.setRadius()`);
+		if (radius <= 0) {
+			throw CircleShape.error;
 		}
 
 		this.r = radius;
@@ -103,7 +104,7 @@ export class Circle extends CircleShape implements Drawable {
 	 * @param {ColorType} lineColor - The circle's border color.
 	 */
 	constructor({x = 0, y = 0, r = 10, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-	{x?: number, y?: number, r?: number, fillColor?: ColorType|string, lineWidth?: number, lineColor?: ColorType|string}) {
+	{x?: number, y?: number, r?: number, fillColor?: ColorType|ColorName, lineWidth?: number, lineColor?: ColorType|ColorName}) {
 		super({x: x, y: y, r: r});
 		this.fillColor = new Color(fillColor);
 		this.lineWidth = lineWidth;
@@ -153,7 +154,7 @@ export class Circle extends CircleShape implements Drawable {
 	 * @param color
 	 * @return {Circle}
 	 */
-	public setColor(color: ColorType|string): this {
+	public setColor(color: ColorType|ColorName): this {
 		this.fillColor.setColor(color);
 
 		return this;

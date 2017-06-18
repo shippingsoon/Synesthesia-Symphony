@@ -8,18 +8,20 @@
 
 'use strict';
 
-import { StateType, StateData } from '../system/system';
+import { IState, StateData } from '../system/system.types';
 import { Circle } from '../graphics/shape/graphics.circle';
-import { ColorType } from '../graphics/graphics';
+import { ColorType, ColorName } from '../graphics/graphics.types';
 
 /**
  * @class
  * @classdesc Handles projectiles that are used by the player and enemies.
  */
-export class Projectile extends Circle implements StateType {
+export class Projectile extends Circle implements IState {
 	private projectileIsOpen: boolean;
 
 	/**
+	 * @public
+	 * @constructor
 	 * @param {boolean} isOpen - Determines if the projectile leaves a trail.
 	 * @param {number} x - The object's x coordinate.
 	 * @param {number} y - The object's y coordinate.
@@ -29,7 +31,7 @@ export class Projectile extends Circle implements StateType {
 	 * @param {ColorType} lineColor - The circle's border color.
 	 */
 	public constructor({isOpen = false, x = 0, y = 0, r = 1, fillColor = {r: 0, b: 0, g: 255, a: 1}, lineWidth = 1, lineColor = {r: 0, b: 0, g: 0, a: 1}}:
-	{isOpen?: boolean, x?: number, y?: number, r?: number, fillColor?: ColorType|string, lineWidth?: number, lineColor?: ColorType|string}) {
+	{isOpen?: boolean, x?: number, y?: number, r?: number, fillColor?: ColorType|ColorName, lineWidth?: number, lineColor?: ColorType|ColorName}) {
 		super({x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 		this.projectileIsOpen = isOpen;
 	}

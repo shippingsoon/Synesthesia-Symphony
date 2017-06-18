@@ -8,11 +8,12 @@
 
 'use strict';
 
-import { StateType, StateData } from '../../system/system';
+import { IState, StateData } from '../../system/system.types';
 import { LifeForm } from './game.lifeform';
-import { ColorType } from '../../graphics/graphics';
+import { ColorType, ColorName } from '../../graphics/graphics.types';
 import { Color } from '../../graphics/graphics.color';
 import { Projectile } from '../game.projectile';
+import { IEntity } from '../game.types';
 
 //Let the IDE know this 3rd party Keydown module is defined elsewhere.
 declare const Keydown: any;
@@ -21,7 +22,7 @@ declare const Keydown: any;
  * @class
  * @classdesc The player class
  */
-export class Player extends LifeForm implements StateType {
+export class Player extends LifeForm implements IState, IEntity {
 	private primaryColor: Color;
 	private secondaryColor: Color;
 	private primarySpeed: number;
@@ -41,7 +42,7 @@ export class Player extends LifeForm implements StateType {
 	 * @param {ColorType} secondaryColor
 	 */
 	public constructor({secondarySpeed = 250, secondaryColor = 'blue', lp = 1, hp = 5, speed = 500, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-	{secondarySpeed?: number, secondaryColor?: string|Color, lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: ColorType|string, lineWidth?: number, lineColor?: ColorType|string}) {
+	{secondarySpeed?: number, secondaryColor?: ColorName|ColorType, lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: ColorType|ColorName, lineWidth?: number, lineColor?: ColorType|ColorName}) {
 		super({lp: lp, hp: hp, speed: speed, x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 		this.primarySpeed = speed;
 		this.secondarySpeed = secondarySpeed;

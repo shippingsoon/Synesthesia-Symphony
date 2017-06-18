@@ -1,5 +1,5 @@
 /**
- * @file The program entry point.
+ * @file The application's entry point.
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
@@ -9,7 +9,7 @@
 import { main } from './system/system';
 
 /**
- * Program entry point.
+ * The application's entry point.
  * @namespace
  */
 namespace SynesthesiaSymphony {

@@ -10,8 +10,9 @@
 
 import { Player } from './character/game.player';
 import { Enemy } from './character/game.enemy';
-import { StateData } from '../system/system';
+import { StateData } from '../system/system.types';
 import { clearCanvas } from '../graphics/graphics';
+import { IEntity, EntityType, EntityKeys } from 'game.types';
 import _  from 'lodash';
 
 /**
@@ -21,7 +22,6 @@ import _  from 'lodash';
 export class EntityManager {
 	protected readonly player: Player;
 	private entities: EntityType;
-	private readonly maxProjectiles: number;
 
 	/**
 	 * @param {any} data - The game data.
@@ -29,7 +29,7 @@ export class EntityManager {
 	public constructor(data: any) {
 		this.entities = {
 			bosses: [],
-			enemies: new Array(((_.isEmpty(data.enemies)) ? 0 : data.enemies.length)),
+			enemies: [],
 			projectiles: [],
 			items: []
 		};
@@ -71,15 +71,15 @@ export class EntityManager {
 		}
 	}
 
-	public add<T>(key: EntityKeys, value: T): void {
+	public add(key: EntityKeys, value: IEntity): void {
 		this.entities[key].push(value);
 	}
 
-	public get<T>(key: EntityKeys): T[] {
+	public get(key: EntityKeys): IEntity[] {
 		return this.entities[key];
 	}
 
-	public get getPlayer(): Player {
+	public get getPlayer(): IEntity {
 		return this.player;
 	}
 
@@ -99,23 +99,3 @@ export class EntityManager {
 		});
 	}
 }
-
-/**
- * @interface
- */
-export interface EntityType {
-	readonly bosses: any[];
-	readonly enemies: any[],
-	readonly projectiles: any[],
-	readonly items: any[]
-}
-
-/**
- * @interface
- */
-export interface EntityData {
-	readonly manager: EntityManager;
-	readonly dt: number;
-}
-
-type EntityKeys = 'bosses' | 'enemies' | 'projectiles' | 'items';

@@ -9,8 +9,8 @@
 'use strict';
 
 import { Shape } from './graphics.shape';
-import { Drawable, ColorType } from './../graphics';
-import { Color } from './../graphics.color';
+import { Drawable, ColorType, ColorName } from '../graphics.types';
+import { Color } from '../graphics.color';
 
 //Let the IDE know this is defined elsewhere.
 declare const Math: any;
@@ -111,7 +111,7 @@ export class Square extends SquareShape implements Drawable {
 	 * @param {ColorType} lineColor - The square's border color.
 	 */
 	constructor({x = 0, y = 0, w = 1, h = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-	{x?: number, y?: number, w?: number, h?: number, fillColor?: ColorType|string, lineWidth?: number, lineColor?: ColorType|string}) {
+	{x?: number, y?: number, w?: number, h?: number, fillColor?: ColorType|ColorName, lineWidth?: number, lineColor?: ColorType|ColorName}) {
 		super({x: x, y: y, w: w, h: h});
 		this.fillColor = new Color(fillColor);
 		this.lineWidth = lineWidth;
@@ -161,7 +161,7 @@ export class Square extends SquareShape implements Drawable {
 	 * @param color
 	 * @return {Square}
 	 */
-	public setColor(color: ColorType|string): this {
+	public setColor(color: ColorType|ColorName): this {
 		this.fillColor.setColor(color);
 
 		return this;

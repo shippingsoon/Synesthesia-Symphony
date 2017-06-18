@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { StateData } from '../../system/system';
+import { StateData } from '../../system/system.types';
 import { State } from '../../system/system.state';
 import * as Audio from './../../audio/audio';
 

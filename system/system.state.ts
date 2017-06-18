@@ -8,21 +8,44 @@
 
 'use strict';
 
-import { StateData } from './system';
+import { StateData, IState, FSMEvent } from './system.types';
 import { Session } from './system.session';
 
 /**
  * @class
  * @classdesc state abstract class.
+ * @abstract
+ * @module State
  */
-export abstract class State {
-	//Determines if this state is active i.e., if we will invoke the update() method.
+export abstract class State implements IState {
+	/**
+	 * Determines if this state is active i.e., if we will invoke the update() method.
+	 * @protected
+	 */
 	protected _isActive: boolean = true;
 
-	//Determines if the state is visible i.e., if we will invoke the draw() method.
+	/**
+	 * Determines if the state is visible i.e., if we will invoke the draw() method.
+	 * @protected
+	 */
 	protected _isVisible: boolean = true;
 
-	public constructor() {
+	/**
+	 * Dispatches a custom event.
+	 * @protected
+	 * @event emit
+	 * @param {object} detail
+	 * @return {void}
+	 */
+	public static emit(eventName: FSMEvent, detail: {readonly state?: IState, readonly session?: Session}, __window: any = window): void {
+		__window.dispatchEvent(new CustomEvent(eventName, {'detail': detail}));
+	}
+
+	/**
+	 * If the constructor is protected it cannot be instantiated outside of the class body, but it can be extended.
+	 * @protected
+	 */
+	protected constructor(private _window: any = window) {
 		this._isActive = true;
 		this._isVisible = true;
 	}
@@ -31,6 +54,8 @@ export abstract class State {
 
 	/**
 	 * Handles logic for the state.
+	 * @public
+	 * @abstract
 	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
@@ -38,6 +63,8 @@ export abstract class State {
 
 	/**
 	 * Renders the state.
+	 * @public
+	 * @abstract
 	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
@@ -45,6 +72,8 @@ export abstract class State {
 
 	/**
 	 * This method contains logic that is invoked when the state is pushed on the FSM stack. It can be thought of as a constructor.
+	 * @public
+	 * @abstract
 	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
@@ -52,6 +81,8 @@ export abstract class State {
 
 	/**
 	 * This method contains logic that is invoked when the state is popped from the FSM stack. It can be thought of as a destructor.
+	 * @public
+	 * @abstract
 	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
@@ -59,6 +90,8 @@ export abstract class State {
 
 	/**
 	 * Resumes the state.
+	 * @public
+	 * @abstract
 	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
@@ -66,30 +99,20 @@ export abstract class State {
 
 	/**
 	 * Suspends the state but does not remove from the FSM stack.
+	 * @public
+	 * @abstract
 	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
 	public abstract pause?(data: StateData): void;
 
-	/**
-	 * Changes the state.
-	 * @param {State} state
-	 * @param {Session} session
-	 */
-	protected changeState(state: State, session: Session): void {
-		window.dispatchEvent(new CustomEvent('pushState', {
-			'detail': {
-				state: state,
-				session: session
-			}
-		}));
-	}
 	///#endregion
 
 	///#region Getter/Setter Region (Note: regions are collapsible with IntelliJ)
 
 	/**
 	 * Gets the isActive status.
+	 * @public
 	 * @return {boolean}
 	 */
 	public get isActive() {
@@ -98,7 +121,9 @@ export abstract class State {
 
 	/**
 	 * Gets the isActive status.
+	 * @public
 	 * @param _isActive
+	 * @return {void}
 	 */
 	public set isActive(_isActive: boolean) {
 		this._isActive = _isActive;
@@ -106,6 +131,7 @@ export abstract class State {
 
 	/**
 	 * Gets the isActive status.
+	 * @public
 	 * @return {boolean}
 	 */
 	public get isVisible() {
@@ -114,11 +140,12 @@ export abstract class State {
 
 	/**
 	 * Gets the isVisible status.
+	 * @public
 	 * @param _isVisible
+	 * @return {void}
 	 */
 	public set isVisible(_isVisible: boolean) {
 		this._isVisible = _isVisible;
 	}
-
 	///#endregion
 }

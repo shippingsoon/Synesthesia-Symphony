@@ -31,13 +31,13 @@ vi node_modules/server_settings/server_settings.js
 
 ```sh
 #Run the program
-nodejs synesthesia-symphony.js
+nodejs app.js
 
 #Using forever.js
-forever start synesthesia-symphony.js
+forever start app.js
 
 #For development
-nodemon synesthesia-symphony.js
+nodemon app.js
 ```
 
 #### Play it here:
