@@ -104,5 +104,3 @@ export class Player extends LifeForm implements IState, IEntity {
 	public stop(): void {}
 	public play(): void {}
 }
-
-

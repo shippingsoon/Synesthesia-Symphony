@@ -87,7 +87,6 @@ export function isVector(vector: VectorType | any): vector is VectorType {
 	return typeof vector.x !== 'undefined' && typeof vector.y !== 'undefined';
 }
 
-
 /**
  * Defines a vector.
  * @interface

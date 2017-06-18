@@ -91,8 +91,6 @@ export class LoadState extends State {
 			}
 		});
 		*/
-
-
 	}
 
 	public update(data: StateData): void {

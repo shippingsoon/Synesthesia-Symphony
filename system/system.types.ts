@@ -98,5 +98,3 @@ export interface ResolutionType {
  * @type
  */
 export type FSMEvent = 'pushState' | 'popState';
-
-

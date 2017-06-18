@@ -68,7 +68,6 @@ class SynesthesisaSymphony {
 		//this._window.removeEventListener('popState', this.__popState, false);
 	}
 
-
 	/**
 	 * We are setting the construtor to private to prevent this class from being instantiated outside the class body or extended.
 	 * @constructor
