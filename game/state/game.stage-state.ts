@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { StateData } from '../../system/system.types';
+import { IStateData } from '../../system/system.types';
 import { State } from '../../system/system.state';
 import { EntityManager } from '../game.entity-manager';
 
@@ -23,27 +23,27 @@ export class StageState extends State {
 		super();
 	}
 
-	public start(data: StateData): void {
+	public start(data: IStateData): void {
 		this.entityManger = new EntityManager(data.session.getGameData);
 	}
 
-	public update(data: StateData): void {
+	public update(data: IStateData): void {
 		this.entityManger.update(data);
 	}
 
-	public draw(data: StateData): void {
+	public draw(data: IStateData): void {
 		this.entityManger.draw(data);
 	}
 
-	public pause(data: StateData): void {
+	public pause(data: IStateData): void {
 
 	}
 
-	public play(data: StateData): void {
+	public play(data: IStateData): void {
 
 	}
 
-	public stop(data: StateData): void {
+	public stop(data: IStateData): void {
 
 	}
 }

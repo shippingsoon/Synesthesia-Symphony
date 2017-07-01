@@ -9,7 +9,7 @@
 'use strict';
 
 import { Circle } from '../../graphics/shape/graphics.circle';
-import { ColorType, ColorName } from '../../graphics/graphics.types';
+import { IColor, ColorName } from '../../graphics/graphics.types';
 
 /**
  * @class
@@ -28,12 +28,12 @@ export class LifeForm extends Circle {
 	 * @param {number} x - The circle's x coordinate
 	 * @param {number} y - The circle's y coordinate
 	 * @param {number} r - The circle's radius
-	 * @param {ColorType} fillColor - The circle's fill color.
+	 * @param {IColor} fillColor - The circle's fill color.
 	 * @param {number} lineWidth - The circle's border width.
-	 * @param {ColorType} lineColor - The circle's border color.
+	 * @param {IColor} lineColor - The circle's border color.
 	 */
 	public constructor({lp = 1, hp = 5, speed = 10, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-	{lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: ColorType|ColorName, lineWidth?: number, lineColor?: ColorType|ColorName}) {
+	{lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: IColor|ColorName, lineWidth?: number, lineColor?: IColor|ColorName}) {
 		super({x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 		this.lifePoints = lp;
 		this.healthPoints = hp;

@@ -10,6 +10,7 @@
 import { FSM } from '../system/system.fsm';
 import { Session } from '../system/system.session';
 import _ from 'lodash';
+import { StateStack} from '../system/system.state-stack';
 
 /**
  * @class
@@ -32,7 +33,7 @@ class SynesthesisaSymphony {
 	public static getInstance(): SynesthesisaSymphony {
 		//Create an instance if it does not exists.
 		if (!SynesthesisaSymphony._instance) {
-			SynesthesisaSymphony._instance = new SynesthesisaSymphony(new FSM(_), new Session(), window);
+			SynesthesisaSymphony._instance = new SynesthesisaSymphony(new FSM(new StateStack()), new Session(), window);
 		}
 
 		return SynesthesisaSymphony._instance;
@@ -40,7 +41,7 @@ class SynesthesisaSymphony {
 
 	/**
 	 * Handles pushState events.
-	 * @param {StateData} event - Event data.
+	 * @param {IStateData} event - Event data.
 	 * @return {void}
 	 */
 	private __pushState(event: CustomEventInit): void {
@@ -50,7 +51,7 @@ class SynesthesisaSymphony {
 
 	/**
 	 * Handles popState events.
-	 * @param {StateData} event - Event data.
+	 * @param {IStateData} event - Event data.
 	 * @return {void}
 	 */
 	private __popState(event: CustomEventInit): void {

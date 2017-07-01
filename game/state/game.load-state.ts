@@ -8,8 +8,7 @@
 
 'use strict';
 
-import { gameLoop } from '../../system/system';
-import { StateData } from '../../system/system.types';
+import { IStateData, IFSM } from '../../system/system.types';
 import { State } from '../../system/system.state';
 import * as Audio from './../../audio/audio';
 import { IntroState } from '../state/game.intro-state';
@@ -32,12 +31,13 @@ export class LoadState extends State {
 
 	/**
 	 *
-	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
+	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public async start(data: StateData): Promise<void> {
-		const λ = singleton.getInstance();
+	public async start(data: IStateData): Promise<void> {
+		//const λ = singleton.getInstance();
 
+		/*
 		try {
 			//Load the CONFIG.json file into the session instance.
 			//Here we use async await to avoid callback hell.
@@ -51,7 +51,7 @@ export class LoadState extends State {
 
 		//Make sure the CONFIG data is set.
 		if (_.isEmpty(data.session.CONFIG.RESOLUTIONS)) {
-			throw new Error('Make sure the CONFIG.json file is valid JSON and implements the ConfigType interface found in Session.ts');
+			throw new Error('Make sure the CONFIG.json file is valid JSON and implements the IConfig interface found in Session.ts');
 		}
 
 		//Initiate resources such as canvas width. The Session.initResources() method uses CSS3 media queries to determine the size for the canvas' width and height.
@@ -63,9 +63,9 @@ export class LoadState extends State {
 		//The MIDI.js loader widget shows the progress of the MIDI.loadPlugin() function.
 		MIDI.loader = new widgets.Loader;
 
-		λ.fsm.push({state: new StageState(), session: data.session});
+		fsm.push({state: new StageState(), session: data.session});
 
-		gameLoop();
+		*/
 		/*
 		//Load the soundfont data.
 		MIDI.loadPlugin({
@@ -93,23 +93,23 @@ export class LoadState extends State {
 		*/
 	}
 
-	public update(data: StateData): void {
+	public update(data: IStateData): void {
 
 	}
 
-	public draw(data: StateData): void {
+	public draw(data: IStateData): void {
 
 	}
 
-	public pause(data: StateData): void {
+	public pause(data: IStateData): void {
 
 	}
 
-	public play(data: StateData): void {
+	public play(data: IStateData): void {
 
 	}
 
-	public stop(data: StateData): void {
+	public stop(data: IStateData): void {
 
 	}
 }

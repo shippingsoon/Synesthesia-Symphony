@@ -6,7 +6,10 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { main } from './system/system';
+import { Game } from './game/game';
+import { FSM } from './system/system.fsm'
+import { LoadState } from './game/state/game.load-state';
+import { StateStack } from './system/system.state-stack';
 
 /**
  * The application's entry point.
@@ -15,8 +18,6 @@ import { main } from './system/system';
 namespace SynesthesiaSymphony {
 	'use strict';
 
-	//Initiate the main game loop.
-	main().catch(err => {
-		console.error(err);
-	});
+	const game = Game.getInstance(new FSM(new StateStack()), new LoadState());
+	game.main();
 }

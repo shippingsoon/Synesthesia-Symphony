@@ -9,7 +9,7 @@
 'use strict';
 
 import { Shape } from './graphics.shape';
-import { Drawable, ColorType, ColorName } from '../graphics.types';
+import { Drawable, IColor, ColorName } from '../graphics.types';
 import { Color } from '../graphics.color';
 
 //Let the IDE know this is defined elsewhere.
@@ -106,12 +106,12 @@ export class Square extends SquareShape implements Drawable {
 	 * @param {number} y - The square's y coordinate
 	 * @param {number} w - The square's width.
 	 * @param {number} h - The square's height.
-	 * @param {ColorType} fillColor - The square's fill color.
+	 * @param {IColor} fillColor - The square's fill color.
 	 * @param {number} lineWidth - The square's border width.
-	 * @param {ColorType} lineColor - The square's border color.
+	 * @param {IColor} lineColor - The square's border color.
 	 */
 	constructor({x = 0, y = 0, w = 1, h = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-	{x?: number, y?: number, w?: number, h?: number, fillColor?: ColorType|ColorName, lineWidth?: number, lineColor?: ColorType|ColorName}) {
+	{x?: number, y?: number, w?: number, h?: number, fillColor?: IColor|ColorName, lineWidth?: number, lineColor?: IColor|ColorName}) {
 		super({x: x, y: y, w: w, h: h});
 		this.fillColor = new Color(fillColor);
 		this.lineWidth = lineWidth;
@@ -150,9 +150,9 @@ export class Square extends SquareShape implements Drawable {
 
 	/**
 	 * Gets the square's color.
-	 * @return {ColorType}
+	 * @return {IColor}
 	 */
-	public getColor(): ColorType {
+	public getColor(): IColor {
 		return this.fillColor.getColor();
 	}
 
@@ -161,7 +161,7 @@ export class Square extends SquareShape implements Drawable {
 	 * @param color
 	 * @return {Square}
 	 */
-	public setColor(color: ColorType|ColorName): this {
+	public setColor(color: IColor|ColorName): this {
 		this.fillColor.setColor(color);
 
 		return this;

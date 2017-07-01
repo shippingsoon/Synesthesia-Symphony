@@ -9,7 +9,7 @@
 'use strict';
 
 import { Shape } from './graphics.shape';
-import { Drawable, ColorType, ColorName } from '../graphics.types';
+import { Drawable, IColor, ColorName } from '../graphics.types';
 import { Color } from '../graphics.color';
 
 //Let the IDE know this is defined elsewhere.
@@ -99,12 +99,12 @@ export class Circle extends CircleShape implements Drawable {
 	 * @param {number} x - The circle's x coordinate
 	 * @param {number} y - The circle's y coordinate
 	 * @param {number} r - The circle's radius
-	 * @param {ColorType} fillColor - The circle's fill color.
+	 * @param {IColor} fillColor - The circle's fill color.
 	 * @param {number} lineWidth - The circle's border width.
-	 * @param {ColorType} lineColor - The circle's border color.
+	 * @param {IColor} lineColor - The circle's border color.
 	 */
 	constructor({x = 0, y = 0, r = 10, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-	{x?: number, y?: number, r?: number, fillColor?: ColorType|ColorName, lineWidth?: number, lineColor?: ColorType|ColorName}) {
+	{x?: number, y?: number, r?: number, fillColor?: IColor|ColorName, lineWidth?: number, lineColor?: IColor|ColorName}) {
 		super({x: x, y: y, r: r});
 		this.fillColor = new Color(fillColor);
 		this.lineWidth = lineWidth;
@@ -143,9 +143,9 @@ export class Circle extends CircleShape implements Drawable {
 
 	/**
 	 * Gets the circle's color.
-	 * @return {ColorType}
+	 * @return {IColor}
 	 */
-	public getColor(): ColorType {
+	public getColor(): IColor {
 		return this.fillColor.getColor();
 	}
 
@@ -154,7 +154,7 @@ export class Circle extends CircleShape implements Drawable {
 	 * @param color
 	 * @return {Circle}
 	 */
-	public setColor(color: ColorType|ColorName): this {
+	public setColor(color: IColor|ColorName): this {
 		this.fillColor.setColor(color);
 
 		return this;

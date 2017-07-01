@@ -9,8 +9,8 @@
 'use strict';
 
 import { LifeForm } from './game.lifeform';
-import { StateData, IState } from '../../system/system.types';
-import { ColorType, ColorName } from '../../graphics/graphics.types';
+import { IStateData, IState } from '../../system/system.types';
+import { IColor, ColorName } from '../../graphics/graphics.types';
 import { IEntity } from '../game.types';
 
 /**
@@ -25,24 +25,24 @@ export class Enemy extends LifeForm implements IState, IEntity {
 	 * @param {number} x - The object's x coordinate.
 	 * @param {number} y - The object's y coordinate.
 	 * @param {number} r - The object's radius.
-	 * @param {ColorType} fillColor - The circle's fill primaryColor.
+	 * @param {IColor} fillColor - The circle's fill primaryColor.
 	 * @param {number} lineWidth - The circle's border width.
-	 * @param {ColorType} lineColor - The circle's border primaryColor.
+	 * @param {IColor} lineColor - The circle's border primaryColor.
 	 */
 	public constructor({lp = 1, hp = 5, speed = 500, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-	{lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: ColorType|ColorName, lineWidth?: number, lineColor?: ColorType|ColorName}) {
+	{lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: IColor|ColorName, lineWidth?: number, lineColor?: IColor|ColorName}) {
 		super({lp: lp, hp: hp, speed: speed, x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 	}
 
-	public start(data: StateData) {
+	public start(data: IStateData) {
 
 	}
 
-	public update(data: StateData): void {
+	public update(data: IStateData): void {
 
 	}
 
-	public draw(data: StateData): void {
+	public draw(data: IStateData): void {
 		this.render(data.session.ctx);
 	}
 

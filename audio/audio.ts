@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { ConfigType } from '../system/system.types';
+import { IConfig } from '../system/system.types';
 import _ from 'lodash';
 
 //Let the IDE know this 3rd party MIDI.js module is defined elsewhere.
@@ -60,11 +60,11 @@ export function programChange(instruments: {channel: number, id: number}[], MIDI
  * Plays a MIDI song.
  * @param {Object} song - An object containing a filename and instruments property. See the 'audio' property in offline-data.json for more details.
  * @param {any} MIDIJS - MIDI.js module.
- * @param {ConfigType} config - System configuration data. See System.ConfigType for more details.
+ * @param {IConfig} config - Game configuration data. See Game.IConfig for more details.
  * @param {Function} eventListener - A callback that is passed to the MIDI.loadFile method.
  * @return {void}
  */
-export function playSong(song: any, MIDIJS: any, config: ConfigType, eventListener: Function = null): void {
+export function playSong(song: any, MIDIJS: any, config: IConfig, eventListener: Function = null): void {
 	//Set the full path to the MIDI song that will be loaded.
 	const midiFilePath: string = config.MIDI_DIRECTORY + (_.endsWith(config.MIDI_DIRECTORY, '/') ? '' : '/') + song.filename;
 

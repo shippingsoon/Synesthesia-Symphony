@@ -8,9 +8,9 @@
 
 'use strict';
 
-import { IState, StateData } from '../system/system.types';
+import { IState, IStateData } from '../system/system.types';
 import { Circle } from '../graphics/shape/graphics.circle';
-import { ColorType, ColorName } from '../graphics/graphics.types';
+import { IColor, ColorName } from '../graphics/graphics.types';
 
 /**
  * @class
@@ -26,28 +26,28 @@ export class Projectile extends Circle implements IState {
 	 * @param {number} x - The object's x coordinate.
 	 * @param {number} y - The object's y coordinate.
 	 * @param {number} r - The object's radius.
-	 * @param {ColorType} fillColor - The circle's fill color.
+	 * @param {IColor} fillColor - The circle's fill color.
 	 * @param {number} lineWidth - The circle's border width.
-	 * @param {ColorType} lineColor - The circle's border color.
+	 * @param {IColor} lineColor - The circle's border color.
 	 */
 	public constructor({isOpen = false, x = 0, y = 0, r = 1, fillColor = {r: 0, b: 0, g: 255, a: 1}, lineWidth = 1, lineColor = {r: 0, b: 0, g: 0, a: 1}}:
-	{isOpen?: boolean, x?: number, y?: number, r?: number, fillColor?: ColorType|ColorName, lineWidth?: number, lineColor?: ColorType|ColorName}) {
+	{isOpen?: boolean, x?: number, y?: number, r?: number, fillColor?: IColor|ColorName, lineWidth?: number, lineColor?: IColor|ColorName}) {
 		super({x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 		this.projectileIsOpen = isOpen;
 	}
 
-	public start(data: StateData): void {
+	public start(data: IStateData): void {
 
 	}
 
-	public update(data: StateData): void {
+	public update(data: IStateData): void {
 		if (this.projectileIsOpen) {
 			this.createPaintTrail(data);
 		}
 
 		this.setY = this.getY + 10;
 	}
-	public draw(data: StateData): void {
+	public draw(data: IStateData): void {
 		//console.log('drawing')
 		this.render(data.session.ctx);
 	}
@@ -56,8 +56,8 @@ export class Projectile extends Circle implements IState {
 		return this.projectileIsOpen;
 	}
 
-	private createPaintTrail(data: StateData): void {
+	private createPaintTrail(data: IStateData): void {
 		const projectile = new Projectile({x: this.x, y: this.y, fillColor: this.fillColor.getColor(), lineWidth: 0, isOpen: false});
-		data.manager.add('projectiles', projectile);
+		//data.manager.add('projectiles', projectile);
 	}
 }

@@ -6,14 +6,15 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { StateData } from '../system/system.types';
+import { IStateData } from '../system/system.types';
+import { IColor } from '../graphics/graphics.types';
 
 /**
  * @interface
  */
 export interface IEntity {
-	draw(data: StateData): void;
-	update(data: StateData): void;
+	draw(data: IStateData): void;
+	update(data: IStateData): void;
 }
 
 /**
@@ -38,3 +39,24 @@ export interface EntityData {
  * @type EntityKeys
  */
 export type EntityKeys = 'bosses' | 'enemies' | 'projectiles' | 'items';
+
+/**
+ * Placeholder test interface
+ * @interface
+ */
+export interface ILifeform {
+	x: number;
+	y: number;
+	radius: number;
+	fillColor?: IColor;
+	borderColor?: IColor;
+	borderWidth?: number;
+}
+
+/**
+ * @interface
+ */
+export interface IItem {
+	x: number;
+	y: number;
+}

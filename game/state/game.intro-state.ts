@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { StateData } from '../../system/system.types';
+import { IStateData } from '../../system/system.types';
 import { State } from '../../system/system.state';
 import * as Audio from './../../audio/audio';
 
@@ -20,7 +20,7 @@ declare const MIDI: any;
  * @classdesc The intro state.
  */
 export class IntroState extends State {
-	public start(data: StateData): void {
+	public start(data: IStateData): void {
 		Audio.playSong(data.session.getGameData.songs[3], MIDI, data.session.config);
 		console.log('intro state');
 
@@ -33,23 +33,23 @@ export class IntroState extends State {
 		*/
 	}
 
-	public update(data: StateData): void {
+	public update(data: IStateData): void {
 
 	}
 
-	public draw(data: StateData): void {
+	public draw(data: IStateData): void {
 
 	}
 
-	public pause(data: StateData): void {
+	public pause(data: IStateData): void {
 
 	}
 
-	public play(data: StateData): void {
+	public play(data: IStateData): void {
 
 	}
 
-	public stop(data: StateData): void {
+	public stop(data: IStateData): void {
 
 	}
 }

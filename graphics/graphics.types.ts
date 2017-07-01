@@ -11,7 +11,7 @@
  * @interface
  * @const
  */
-export interface ColorType {
+export interface IColor {
 	readonly r: number;
 	readonly g?: number;
 	readonly b?: number;
@@ -74,7 +74,7 @@ export type ColorName =
  * @param colorName
  * @return {boolean}
  */
-export function isColorName(colorName: ColorName | ColorType | {r?: number, g?: number, b?: number, a?: number}): colorName is ColorName {
+export function isColorName(colorName: ColorName | IColor | {r?: number, g?: number, b?: number, a?: number}): colorName is ColorName {
 	return typeof colorName === 'string';
 }
 

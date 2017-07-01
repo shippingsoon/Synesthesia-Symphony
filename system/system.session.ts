@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { ConfigType, ResolutionType } from './system.types';
+import { IConfig, IResolution } from './system.types';
 
 //Tell the TypeScript compiler we are using the jQuery library.
 declare const jQuery: any;
@@ -42,7 +42,7 @@ export class Session {
 	 * This variable holds ReadOnly configuration data.
 	 * @private
 	 */
-	private configData: ConfigType;
+	private configData: IConfig;
 
 	/**
 	 * This variable holds various data used to initialize enemies, items, and projectile patterns.
@@ -101,10 +101,10 @@ export class Session {
 	 * Saves configuration data to a remote database via a RESTful JSON API.
 	 * @public
 	 * @param {string} url - The URL of the RESTFul API that we will send data to.
-	 * @param {ConfigType} config - The configuration data we will be saving.
+	 * @param {IConfig} config - The configuration data we will be saving.
 	 * @return {Promise<void>}
 	 */
-	public save(url: string, config: ConfigType): Promise<void> {
+	public save(url: string, config: IConfig): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
 			jQuery.ajax({
 				dataType: 'json',
@@ -174,9 +174,9 @@ export class Session {
 	/**
 	 * Get the CONFIG data.
 	 * @public
-	 * @return {ConfigType}
+	 * @return {IConfig}
 	 */
-	public get CONFIG(): ConfigType {
+	public get CONFIG(): IConfig {
 		return this.configData;
 	}
 
@@ -193,10 +193,10 @@ export class Session {
 	/**
 	 * Sets the configData.
 	 * @public
-	 * @param {ConfigType} config - The readonly configuration data.
+	 * @param {IConfig} config - The readonly configuration data.
 	 * @return {void}
 	 */
-	public set setConfig(config: ConfigType) {
+	public set setConfig(config: IConfig) {
 		this.configData = config;
 	}
 
@@ -260,14 +260,14 @@ export class Session {
 	/**
 	 * This method initiates resources such as the HTML5 canvas element and 2D drawing context.
 	 * @public
-	 * @param {Object} resolutionSettings - Various resolution types. See the ResolutionType interface for more details.
+	 * @param {Object} resolutionSettings - Various resolution types. See the IResolution interface for more details.
 	 * @return {void}
 	 */
-	public initResources(resolutionSettings: {readonly LOW: ResolutionType, readonly MEDIUM: ResolutionType, readonly HIGH: ResolutionType}): void {
+	public initResources(resolutionSettings: {readonly LOW: IResolution, readonly MEDIUM: IResolution, readonly HIGH: IResolution}): void {
 		//Detect the current screen resolution.
 		//The getResolution() method will return a Config.RESOLUTIONS object containing the width and height
 		//which we will use to set the canvas' width and height.
-		const resolution: ResolutionType = getResolution(resolutionSettings);
+		const resolution: IResolution = getResolution(resolutionSettings);
 
 		//Set the canvas.
 		this.canvasElement = <HTMLCanvasElement> document.querySelector('#canvas-layer');
@@ -287,10 +287,10 @@ export class Session {
 
 /**
  * This method tries to detect the screen resolution. It returns an object containing a width and height.
- * @param {ResolutionType} resolutions - The screen resolutions.
- * @return {ResolutionType}
+ * @param {IResolution} resolutions - The screen resolutions.
+ * @return {IResolution}
  */
-export function getResolution(resolutions: {LOW: ResolutionType, MEDIUM: ResolutionType, HIGH: ResolutionType}): ResolutionType {
+export function getResolution(resolutions: {LOW: IResolution, MEDIUM: IResolution, HIGH: IResolution}): IResolution {
 	//Check to see if this is a medium screen resolution.
 	if (window.matchMedia(`(min-width:${resolutions['MEDIUM'].W}px)`).matches) {
 		return resolutions['MEDIUM'];

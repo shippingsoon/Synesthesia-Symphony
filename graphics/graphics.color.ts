@@ -9,10 +9,10 @@
 
 'use strict';
 
-import { ColorType, ColorName, isColorName } from './graphics.types';
+import { IColor, ColorName, isColorName } from './graphics.types';
 import { LoDashStatic } from '../node_modules/@types/lodash/index';
 import _ from 'lodash';
-import parseCSSColor from '../resource/js/css-color-parser/csscolorparser';
+//import parseCSSColor from '../resource/js/css-color-parser/csscolorparser';
 
 /**
  * @class
@@ -39,11 +39,11 @@ export class Color {
 	 * Converts a color object to a hexadecimal string.
 	 * @public
 	 * @static
-	 * @param {ColorType} color - The color object containing rgb colors that will be converted to hex.
+	 * @param {IColor} color - The color object containing rgb colors that will be converted to hex.
 	 * @param {LoDashStatic} __ - Lodash
 	 * @return {string}
 	 */
-	public static buildHex(color: ColorType, __: LoDashStatic = _): string {
+	public static buildHex(color: IColor, __: LoDashStatic = _): string {
 		let hexString: string = '#';
 
 		//Here we append the red, green and blue component to the output variable.
@@ -60,11 +60,11 @@ export class Color {
 	 * Converts a color object to a hexadecimal string.
 	 * @public
 	 * @static
-	 * @param {ColorType} color - The color object containing rgb colors that will be converted to hex.
+	 * @param {IColor} color - The color object containing rgb colors that will be converted to hex.
 	 * @param {LoDashStatic} __ - Lodash
 	 * @return {string}
 	 */
-	public static buildRGBA(color: ColorType, __: LoDashStatic = _): string {
+	public static buildRGBA(color: IColor, __: LoDashStatic = _): string {
 		//Use LoDash' join() method to concat the rgba colors. The array input values will be comma delimited i.e., rgba(0,0,0,1).
 		return `rgba(${__.join([color.r, color.g, color.b, color.a], ', ')})`;
 	}
@@ -73,11 +73,11 @@ export class Color {
 	 * This method makes sure the colors are in the 0-255 range and it also makes sure the alpha value is between 0-1.
 	 * @public
 	 * @static
-	 * @param {ColorType} color - The color to be checked.
+	 * @param {IColor} color - The color to be checked.
 	 * @param {LoDashStatic} __ - Lodash
 	 * return {boolean}
 	 */
-	public static isValidColor(color: ColorType, __: LoDashStatic = _): boolean {
+	public static isValidColor(color: IColor, __: LoDashStatic = _): boolean {
 		return (
 			__.inRange(color.r, 0, 256) &&
 			__.inRange(color.g, 0, 256) &&
@@ -94,12 +94,12 @@ export class Color {
 	 * @param {LoDashStatic} __ - Lodash
 	 * @param {Function} parseColor - A method for parsing CSS color names to an array.
 	 * @throws {Error}
-	 * @return {ColorType}
+	 * @return {IColor}
 	 */
-	public static colorNameToObject(colorName: ColorName, __: LoDashStatic = _, parseColor: Function = parseCSSColor): ColorType {
+	public static colorNameToObject(colorName: ColorName, __: LoDashStatic = _, parseColor: Function = null): IColor {
 		//Use 3rd party parseCSSColor() function to convert the color name to a rgba value.
-		const parsedColors: number[] = parseColor(colorName);
-
+		//const parsedColors: number[] = parseColor(colorName);
+		const parsedColors: number[] =  [0, 0, 0, 0];
 		//If the parseCSSColor failed to parse the color we will raise an exception.
 		if (__.isEmpty(parsedColors)) {
 			throw new Error(`In Color.colorNameToObject(). Failed to set color: ${colorName}`);
@@ -119,13 +119,13 @@ export class Color {
 	 * @constructor
 	 * @requires module:_
 	 * @requires module:parseCSSColor
-	 * @param {ColorType|ColorName} color - Can either be a name of a color such as 'red' or an object containing rgba values.
+	 * @param {IColor|ColorName} color - Can either be a name of a color such as 'red' or an object containing rgba values.
 	 * @param {Function} parseColor - A method for parsing CSS color names to an array.
 	 * @param {LoDashStatic} __ - Lodash
 	 * @throws {Error}
 	 */
-	public constructor(color: ColorType|ColorName, private parseColor: Function = parseCSSColor, private __: LoDashStatic = _) {
-	//public constructor(color: ColorName|ColorType) {
+	public constructor(color: IColor|ColorName, private parseColor: Function = null, private __: LoDashStatic = _) {
+	//public constructor(color: ColorName|IColor) {
 		//If the argument passed to this method is a string, then it is a color name.
 		//Use the 3rd party parseCSSColor() function to convert the color name to a rgba object.
 		const {r = 0, g = 0, b = 0, a = 1} = {...((isColorName(color)) ? Color.colorNameToObject(color, __, parseColor) : color)};
@@ -149,9 +149,9 @@ export class Color {
 	/**
 	 * Gets the red, green, blue and alpha color components.
 	 * @public
-	 * @return {ColorType}
+	 * @return {IColor}
 	 */
-	public getColor(): ColorType {
+	public getColor(): IColor {
 		return {
 			r: this.r,
 			g: this.g,
@@ -163,11 +163,11 @@ export class Color {
 	/**
 	 * Sets the color.
 	 * @public
-	 * @param {ColorType|ColorName} color
+	 * @param {IColor|ColorName} color
 	 * @throws {Error}
 	 * @return {Color}
 	 */
-	public setColor(color: ColorType|ColorName): this {
+	public setColor(color: IColor|ColorName): this {
 		//If the argument passed to this method is a string.
 		//If the argument passed to this method is a string, then it is a color name.
 		//Use the 3rd party parseCSSColor() function to convert the color name to a rgba object.

@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { StateData, IState, FSMEvent } from './system.types';
+import { IStateData, IState, FSMEvents } from './system.types';
 import { Session } from './system.session';
 
 /**
@@ -37,7 +37,7 @@ export abstract class State implements IState {
 	 * @param {object} detail
 	 * @return {void}
 	 */
-	public static emit(eventName: FSMEvent, detail: {readonly state?: IState, readonly session?: Session}, __window: any = window): void {
+	public static emit(eventName: FSMEvents, detail: {readonly state?: IState, readonly session?: Session}, __window: any = window): void {
 		__window.dispatchEvent(new CustomEvent(eventName, {'detail': detail}));
 	}
 
@@ -56,55 +56,55 @@ export abstract class State implements IState {
 	 * Handles logic for the state.
 	 * @public
 	 * @abstract
-	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
+	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public abstract update(data: StateData): void;
+	public abstract update(data: IStateData): void;
 
 	/**
 	 * Renders the state.
 	 * @public
 	 * @abstract
-	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
+	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public abstract draw(data: StateData): void;
+	public abstract draw(data: IStateData): void;
 
 	/**
 	 * This method contains logic that is invoked when the state is pushed on the FSM stack. It can be thought of as a constructor.
 	 * @public
 	 * @abstract
-	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
+	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public abstract start(data: StateData): void;
+	public abstract start(data: IStateData): void;
 
 	/**
 	 * This method contains logic that is invoked when the state is popped from the FSM stack. It can be thought of as a destructor.
 	 * @public
 	 * @abstract
-	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
+	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public abstract stop?(data: StateData): void;
+	public abstract stop?(data: IStateData): void;
 
 	/**
 	 * Resumes the state.
 	 * @public
 	 * @abstract
-	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
+	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public abstract play?(data: StateData): void;
+	public abstract play?(data: IStateData): void;
 
 	/**
 	 * Suspends the state but does not remove from the FSM stack.
 	 * @public
 	 * @abstract
-	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
+	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public abstract pause?(data: StateData): void;
+	public abstract pause?(data: IStateData): void;
 
 	///#endregion
 

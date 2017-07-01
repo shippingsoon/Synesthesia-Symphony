@@ -10,7 +10,7 @@
 
 import { Player } from './character/game.player';
 import { Enemy } from './character/game.enemy';
-import { StateData } from '../system/system.types';
+import { IStateData } from '../system/system.types';
 import { clearCanvas } from '../graphics/graphics';
 import { IEntity, EntityType, EntityKeys } from 'game.types';
 import _  from 'lodash';
@@ -43,7 +43,7 @@ export class EntityManager {
 		});
 	}
 
-	public update(data: StateData): void {
+	public update(data: IStateData): void {
 		//data.manager = this;
 
 		//Handle logic for the bullets, items, enemies, and bosses.
@@ -57,7 +57,7 @@ export class EntityManager {
 		}
 	}
 
-	public draw(data: StateData): void {
+	public draw(data: IStateData): void {
 		clearCanvas(data.session.ctx, data.session.canvas);
 
 		//Render the bullets, items, enemies, and bosses.

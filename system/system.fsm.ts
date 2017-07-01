@@ -8,21 +8,13 @@
 
 'use strict';
 
-import { StateData, IState } from './system.types';
-import {LoDashStatic} from '../node_modules/@types/lodash/index';
+import {IStateData, IFSM, IStateStack, IState} from './system.types';
 
 /**
  * @class
  * @classdesc The FSM (Finite State Machine) is a design pattern that allows developers to easily manage game states.
  */
-export class FSM {
-	/**
-	 * An array of game states.
-	 * @const
-	 * @private
-	 */
-	private readonly states: Array<IState> = [];
-
+export class FSM implements IFSM {
 	/**
 	 * Events.
 	 * @const
@@ -33,88 +25,87 @@ export class FSM {
 
 	/**
 	 * @constructor
-	 * @requires module:Lodash
+	 * @param {IStateStack} - An array data structure of game states.
+	 * @param {object} _window
 	 */
-	public constructor(private _: LoDashStatic, private _window: any = window) {
-
-	}
+	public constructor(private states: IStateStack, private _window: any = window) {}
 
 	/**
 	 * Handle logic in the current state.
 	 * @public
-	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
+	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public update(data: StateData): void {
+	public update(data: IStateData): void {
 		//If the games states array is not empty.
-		if (!this._.isEmpty(this.states)) {
+		if (!this.states.isEmpty()) {
 			//Use Lodash to grab the last element in the array.
 			//Handle logic in the current state.
-			this._.last(this.states).update(data);
+			this.states.peek().update(data);
 		}
 	}
 
 	/**
 	 * Render the current state.
 	 * @public
-	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
+	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public draw(data: StateData): void {
+	public draw(data: IStateData): void {
 		//NOTE: Might want to consider removing this IF statement, it is an edge case.
-		if (!this._.isEmpty(this.states)) {
+		if (!this.states.isEmpty()) {
 			//Handle drawing routines for the current state.
-			this._.last(this.states).draw(data);
+			this.states.peek().draw(data);
 		}
 	}
 
 	/**
 	 * Pushes a new state on to the stack.
 	 * @public
-	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
+	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public push(data: StateData): void {
+	public push(state: IState): void {
 		//Dispatch the 'onPushState' event.
 		this._window.dispatchEvent(this.onPushState);
 
 		//Pause the current state
-		if (!this._.isEmpty(this.states)) {
-			this._.last(this.states).pause(data);
+		if (!this.states.isEmpty()) {
+			//this.states.peek().pause(data);
 		}
 
-		//Push a new state and invoke its constructor.
-		this.states.push(data.state);
+		//Push a new state on to the stack.
+		this.states.push(state);
 
 		//Initiate the new state.
-		this._.last(this.states).start(data);
+		this.states.peek().start({state: state});
 	}
 
 	/**
 	 * Pops a state from the stack and optionally suspends the state.
 	 * @public
-	 * @param {StateData} data - An object containing the 2D drawing context and delta time.
+	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @throws {Error}
 	 * @return {void}
 	 */
-	public pop(data: StateData): void {
+	public pop(data: IStateData): void {
 		if (this.states.length > 1) {
 			//Dispatch the 'onPopState' event.
 			this._window.dispatchEvent(this.onPopState);
 
 			//Determine if we will pause the current state.
 			if (data.pause) {
-				this._.last(this.states).stop(data);
+				this.states.peek().stop(data);
 			}
 
 			//Pop the current state.
 			this.states.pop();
 
 			//Resume the previous state.
-			this._.last(this.states).play(data);
+			this.states.peek().play(data);
 		}
 		else {
-			throw new Error('In FSM.pop(). Attempting to remove the last state from the stack. At least one state should be on the stack at all times');
+			throw new Error('In FSM.popState(). Attempting to remove the last state from the stack. At least one state should be on the stack at all times');
 		}
 	}
 }

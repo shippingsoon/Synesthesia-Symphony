@@ -8,9 +8,9 @@
 
 'use strict';
 
-import { IState, StateData } from '../../system/system.types';
+import { IState, IStateData } from '../../system/system.types';
 import { LifeForm } from './game.lifeform';
-import { ColorType, ColorName } from '../../graphics/graphics.types';
+import { IColor, ColorName } from '../../graphics/graphics.types';
 import { Color } from '../../graphics/graphics.color';
 import { Projectile } from '../game.projectile';
 import { IEntity } from '../game.types';
@@ -35,14 +35,14 @@ export class Player extends LifeForm implements IState, IEntity {
 	 * @param {number} x - The object's x coordinate.
 	 * @param {number} y - The object's y coordinate.
 	 * @param {number} r - The object's radius.
-	 * @param {ColorType} fillColor - The circle's fill primaryColor.
+	 * @param {IColor} fillColor - The circle's fill primaryColor.
 	 * @param {number} lineWidth - The circle's border width.
-	 * @param {ColorType} lineColor - The circle's border primaryColor.
+	 * @param {IColor} lineColor - The circle's border primaryColor.
 	 * @param {number} secondarySpeed
-	 * @param {ColorType} secondaryColor
+	 * @param {IColor} secondaryColor
 	 */
 	public constructor({secondarySpeed = 250, secondaryColor = 'blue', lp = 1, hp = 5, speed = 500, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-	{secondarySpeed?: number, secondaryColor?: ColorName|ColorType, lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: ColorType|ColorName, lineWidth?: number, lineColor?: ColorType|ColorName}) {
+	{secondarySpeed?: number, secondaryColor?: ColorName|IColor, lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: IColor|ColorName, lineWidth?: number, lineColor?: IColor|ColorName}) {
 		super({lp: lp, hp: hp, speed: speed, x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 		this.primarySpeed = speed;
 		this.secondarySpeed = secondarySpeed;
@@ -50,23 +50,23 @@ export class Player extends LifeForm implements IState, IEntity {
 		this.secondaryColor = new Color(secondaryColor);
 	}
 
-	public start(data: StateData) {
+	public start(data: IStateData) {
 
 	}
 
-	public update(data: StateData): void {
+	public update(data: IStateData): void {
 		//Handle keyboard input.
 		this.handleInput(data);
 	}
 
-	public draw(data: StateData): void {
+	public draw(data: IStateData): void {
 		//o.ctx.clearRect(0, 0, session.canvas.width, session.canvas.height);
 		//console.log(`(${this.x}, ${this.y})`);
 
 		this.render(data.session.ctx);
 	}
 
-	private handleInput(data: StateData): void {
+	private handleInput(data: IStateData): void {
 		this.speed = ((Keydown.shift) ? this.secondarySpeed : this.primarySpeed) * (data.dt / 1000.0);
 		this.fillColor = (Keydown.shift) ? this.secondaryColor : this.primaryColor;
 
@@ -96,7 +96,7 @@ export class Player extends LifeForm implements IState, IEntity {
 		if ((Keydown.z)) {
 			//debugger;
 			const projectile = new Projectile({x: this.x, y: this.y, r: this.r, fillColor: 'blue', isOpen: true});
-			data.manager.add('projectiles', projectile);
+			//data.manager.add('projectiles', projectile);
 		}
 	}
 
