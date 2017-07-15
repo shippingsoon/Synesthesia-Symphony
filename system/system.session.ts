@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { IConfig, IResolution } from './system.types';
+//import { IConfig, IResolution } from './system.types';
 
 //Tell the TypeScript compiler we are using the jQuery library.
 declare const jQuery: any;
@@ -33,30 +33,6 @@ export class Session {
 	private backgroundContext: CanvasRenderingContext2D;
 
 	/**
-	 * The instantaneous frames per second.
-	 * @private
-	 */
-	private framesPerSecond: number;
-
-	/**
-	 * This variable holds ReadOnly configuration data.
-	 * @private
-	 */
-	private configData: IConfig;
-
-	/**
-	 * This variable holds various data used to initialize enemies, items, and projectile patterns.
-	 * @private
-	 */
-	private gameData: any;
-
-	/**
-	 * The request ID that is returned from the requestAnimationFrame() method. This can be used to stop the requestAnimationFrame() loop.
-	 * @private
-	 */
-	private animationFrameId: number;
-
-	/**
 	 * Background music volume level. This determines how loud the music is.
 	 * @private
 	 */
@@ -73,12 +49,15 @@ export class Session {
 	 * @public
 	 * @param {any} _window
 	 */
+	/*
 	public constructor(private _window: any = window) {
+		this._window = _window;
+
 		//When the user resizes the window, invoke the initResources() method to update the canvas' width and height, among other things.
 		this._window.addEventListener('resize', () => {
 			this.initResources(this.configData.RESOLUTIONS);
 		});
-	}
+	}*/
 
 	/**
 	 * Loads configuration data from a JSON file or remote database.
@@ -104,6 +83,7 @@ export class Session {
 	 * @param {IConfig} config - The configuration data we will be saving.
 	 * @return {Promise<void>}
 	 */
+	/*
 	public save(url: string, config: IConfig): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
 			jQuery.ajax({
@@ -116,6 +96,7 @@ export class Session {
 			});
 		});
 	}
+	*/
 
 	/**
 	 * Get the canvas element.
@@ -154,41 +135,15 @@ export class Session {
 	}
 
 	/**
-	 * Set the instantaneous frames per second counter.
-	 * @public
-	 * @param {number} fps
-	 */
-	public set setFPS(fps: number) {
-		this.framesPerSecond = fps;
-	}
-
-	/**
-	 * Get the instantaneous frames per second.
-	 * @public
-	 * @return {number}
-	 */
-	public get getFPS(): number {
-		return this.framesPerSecond;
-	}
-
-	/**
 	 * Get the CONFIG data.
 	 * @public
 	 * @return {IConfig}
 	 */
+	/*
 	public get CONFIG(): IConfig {
 		return this.configData;
 	}
-
-	/**
-	 * Get the animationFrameId.
-	 * @public
-	 * @param {number} animationFrameId
-	 * @return {void}
-	 */
-	public set setAnimationFrameId(animationFrameId: number) {
-		this.animationFrameId = animationFrameId;
-	}
+	*/
 
 	/**
 	 * Sets the configData.
@@ -196,18 +151,22 @@ export class Session {
 	 * @param {IConfig} config - The readonly configuration data.
 	 * @return {void}
 	 */
+	/*
 	public set setConfig(config: IConfig) {
 		this.configData = config;
 	}
+	*/
 
 	/**
 	 * Gets the game data.
 	 * @public
 	 * @return {any}
 	 */
+	/*
 	public get getGameData(): any {
 		return this.gameData;
 	}
+	*/
 
 	/**
 	 * Sets the game data.
@@ -215,9 +174,11 @@ export class Session {
 	 * @param {any} gameData - Various game data used to initialize enemies, items, and projectile patterns.
 	 * @return {void}
 	 */
+	/*
 	public set setGameData(gameData: any) {
 		this.gameData = gameData;
 	}
+	*/
 
 	/**
 	 * Sets the background music volume level.
@@ -263,6 +224,7 @@ export class Session {
 	 * @param {Object} resolutionSettings - Various resolution types. See the IResolution interface for more details.
 	 * @return {void}
 	 */
+	/*
 	public initResources(resolutionSettings: {readonly LOW: IResolution, readonly MEDIUM: IResolution, readonly HIGH: IResolution}): void {
 		//Detect the current screen resolution.
 		//The getResolution() method will return a Config.RESOLUTIONS object containing the width and height
@@ -283,6 +245,7 @@ export class Session {
 		this.context = this.canvasElement.getContext('2d');
 		this.backgroundContext = this.backgroundCanvasElement.getContext('2d');
 	}
+	*/
 }
 
 /**
@@ -290,6 +253,7 @@ export class Session {
  * @param {IResolution} resolutions - The screen resolutions.
  * @return {IResolution}
  */
+/*
 export function getResolution(resolutions: {LOW: IResolution, MEDIUM: IResolution, HIGH: IResolution}): IResolution {
 	//Check to see if this is a medium screen resolution.
 	if (window.matchMedia(`(min-width:${resolutions['MEDIUM'].W}px)`).matches) {
@@ -303,3 +267,4 @@ export function getResolution(resolutions: {LOW: IResolution, MEDIUM: IResolutio
 	//Return the low resolution.
 	return resolutions['LOW'];
 }
+*/

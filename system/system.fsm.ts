@@ -8,7 +8,8 @@
 
 'use strict';
 
-import {IStateData, IFSM, IStateStack, IState} from './system.types';
+import { IStateData, IFSM, IStateStack, IState } from './system.types';
+import { IConfig, IResource } from '../game/game.types';
 
 /**
  * @class
@@ -17,14 +18,15 @@ import {IStateData, IFSM, IStateStack, IState} from './system.types';
 export class FSM implements IFSM {
 	/**
 	 * Events.
-	 * @const
 	 * @private
+	 * @const
 	 */
 	private readonly onPushState: Event = new Event('onPushState');
 	private readonly onPopState: Event = new Event('onPopState');
 
 	/**
 	 * @constructor
+	 * @public
 	 * @param {IStateStack} - An array data structure of game states.
 	 * @param {object} _window
 	 */
@@ -36,12 +38,12 @@ export class FSM implements IFSM {
 	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public update(data: IStateData): void {
+	public update(dt: number): void {
 		//If the games states array is not empty.
 		if (!this.states.isEmpty()) {
 			//Use Lodash to grab the last element in the array.
 			//Handle logic in the current state.
-			this.states.peek().update(data);
+			this.states.peek().update(dt);
 		}
 	}
 
@@ -51,11 +53,11 @@ export class FSM implements IFSM {
 	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
-	public draw(data: IStateData): void {
+	public draw(resource: IResource): void {
 		//NOTE: Might want to consider removing this IF statement, it is an edge case.
 		if (!this.states.isEmpty()) {
 			//Handle drawing routines for the current state.
-			this.states.peek().draw(data);
+			this.states.peek().draw(resource);
 		}
 	}
 
@@ -84,8 +86,8 @@ export class FSM implements IFSM {
 	/**
 	 * Pops a state from the stack and optionally suspends the state.
 	 * @public
-	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @throws {Error}
+	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
 	 * @return {void}
 	 */
 	public pop(data: IStateData): void {
@@ -102,7 +104,7 @@ export class FSM implements IFSM {
 			this.states.pop();
 
 			//Resume the previous state.
-			this.states.peek().play(data);
+			//this.states.peek().play(data);
 		}
 		else {
 			throw new Error('In FSM.popState(). Attempting to remove the last state from the stack. At least one state should be on the stack at all times');

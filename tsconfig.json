@@ -12,7 +12,9 @@
 	"pretty": true,
 	"removeComments": false,
 	"diagnostics": true,
-	"noEmitOnError": true
+	"noEmitOnError": true,
+	"experimentalDecorators": true,
+	"emitDecoratorMetadata": true
   },
   "exclude": [
 	"node_modules", "typings"

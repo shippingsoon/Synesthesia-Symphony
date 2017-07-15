@@ -9,6 +9,7 @@
 'use strict';
 
 import { IFSM, IState } from '../system/system.types';
+import { IConfig, IResource } from './game.types';
 
 /**
  * @class
@@ -18,11 +19,18 @@ import { IFSM, IState } from '../system/system.types';
  */
 export class Game {
 	/**
+	 * @private
+	 * @static
+	 */
+	private static resource: IResource;
+	private static config: IConfig;
+
+	/**
 	 * An instance of this Game class.
 	 * @private
 	 * @static
 	 */
-	private static _instance: Game = null;
+	private static _instance: Game;
 
 	/**
 	 * The current Unix timestamp in milliseconds. This is used to measure the delta time between two frames.
@@ -45,13 +53,13 @@ export class Game {
 	private readonly fsm: IFSM;
 
 	/**
-	 * Returns an instance of this class.
+	 * This method returns an instance of the Game class.
 	 * @public
 	 * @static
 	 * @throws {Error}
 	 * @param {IFSM} fsm - Finite state machine
 	 * @param {IState} initialState - Initial game state.
-	 * @return {Game}
+	 * @return {Game} Returns an instance of the Game class.
 	 */
 	public static getInstance(fsm: IFSM = null, initialState: IState = null): Game {
 		if (!Game._instance && fsm !== null && initialState !== null) {
@@ -92,7 +100,7 @@ export class Game {
 		}
 
 		//Here we use the requestAnimationFrame() method to recursively invoke the main() method.
-		Game.requestAnimationId = requestAnimationFrame(Game._instance.main);
+		Game.requestAnimationId = requestAnimationFrame(this.main);
 
 		//Limit the frame rate.
 		if (dt > targetFps) {
@@ -100,10 +108,10 @@ export class Game {
 		}
 
 		//Handle logic in the current state.
-		Game._instance.fsm.update({dt: dt});
+		Game._instance.fsm.update(dt);
 
 		//Render the current state.
-		Game._instance.fsm.draw({dt: dt});
+		Game._instance.fsm.draw(Game.resource);
 	}
 
 	/**
@@ -112,8 +120,9 @@ export class Game {
 	 * @private
 	 * @param {IFSM} fsm - Finite state machine.
 	 * @param {IState} initialState - This can be any game state.
+	 *
 	 */
-	private constructor(fsm: IFSM, initialState: IState) {
+	private constructor(fsm: IFSM, initialState: IState, resource: IResource = null, config: IConfig = null) {
 		//Set the finite state machine.
 		this.fsm = fsm;
 

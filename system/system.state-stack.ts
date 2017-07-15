@@ -15,6 +15,7 @@ import { IState, IStateStack } from './system.types';
 export class StateStack extends Array<IState> implements IStateStack {
 	/**
 	 * @constructor
+	 * @public
 	 */
 	public constructor() {
 		super();

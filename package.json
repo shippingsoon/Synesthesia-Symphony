@@ -7,7 +7,7 @@
     "@types/lodash": "^4.14.66",
     "@types/node": "^8.0.6",
     "@types/should": "^8.3.0",
-    "inversify": "^4.1.1",
+    "inversify": "^4.2.0",
     "lodash": "^4.17.4",
     "reflect-metadata": "^0.1.10"
   },
