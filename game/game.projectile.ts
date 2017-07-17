@@ -16,7 +16,7 @@ import { IColor, ColorName } from '../graphics/graphics.types';
  * @class
  * @classdesc Handles projectiles that are used by the player and enemies.
  */
-export class Projectile extends Circle implements IState {
+export class Projectile {
 	private projectileIsOpen: boolean;
 
 	/**
@@ -32,7 +32,6 @@ export class Projectile extends Circle implements IState {
 	 */
 	public constructor({isOpen = false, x = 0, y = 0, r = 1, fillColor = {r: 0, b: 0, g: 255, a: 1}, lineWidth = 1, lineColor = {r: 0, b: 0, g: 0, a: 1}}:
 	{isOpen?: boolean, x?: number, y?: number, r?: number, fillColor?: IColor|ColorName, lineWidth?: number, lineColor?: IColor|ColorName}) {
-		super({x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 		this.projectileIsOpen = isOpen;
 	}
 
@@ -45,11 +44,11 @@ export class Projectile extends Circle implements IState {
 			this.createPaintTrail(data);
 		}
 
-		this.setY = this.getY + 10;
+		//this.y = this.y + 10;
 	}
 	public draw(data: IStateData): void {
 		//console.log('drawing')
-		this.render(data.session.ctx);
+		//this.render(data.session.ctx);
 	}
 
 	public get isOpen(): boolean {
@@ -57,7 +56,7 @@ export class Projectile extends Circle implements IState {
 	}
 
 	private createPaintTrail(data: IStateData): void {
-		const projectile = new Projectile({x: this.x, y: this.y, fillColor: this.fillColor.getColor(), lineWidth: 0, isOpen: false});
+		//const projectile = new Projectile({x: this.x, y: this.y, fillColor: this.fillColor.getColor(), lineWidth: 0, isOpen: false});
 		//data.manager.add('projectiles', projectile);
 	}
 }

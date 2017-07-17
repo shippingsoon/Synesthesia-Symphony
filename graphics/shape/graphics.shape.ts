@@ -9,14 +9,19 @@
 
 'use strict';
 
+import { IShape } from '../graphics.types';
 import { Vector } from '../graphics.vector';
+//import { injectable } from '../../node_modules/inversify/es/inversify';
+import { injectable, inject } from 'inversify';
+import 'reflect-metadata';
 
 /**
  * @class
  * @classdesc An abstract class for 2D shapes
  * @abstract
  */
-export abstract class Shape extends Vector {
+@injectable()
+export abstract class Shape extends Vector implements IShape {
 	/**
 	 * @public
 	 * @constructor

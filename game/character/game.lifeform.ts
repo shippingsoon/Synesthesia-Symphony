@@ -9,12 +9,16 @@
 'use strict';
 
 import { Circle } from '../../graphics/shape/graphics.circle';
-import { IColor, ColorName } from '../../graphics/graphics.types';
+import { IColor, ColorName, ICssColor } from '../../graphics/graphics.types';
+import { injectable, inject } from 'inversify';
+import { TYPES } from '../../bootstrap/bootstrap.types';
+//import 'reflect-metadata';
 
 /**
  * @class
  * @classdesc The parent class for the Player and Enemy classes.
  */
+@injectable()
 export class LifeForm extends Circle {
 	protected lifePoints: number;
 	protected healthPoints: number;
@@ -32,13 +36,12 @@ export class LifeForm extends Circle {
 	 * @param {number} lineWidth - The circle's border width.
 	 * @param {IColor} lineColor - The circle's border color.
 	 */
-	public constructor({lp = 1, hp = 5, speed = 10, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-	{lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: IColor|ColorName, lineWidth?: number, lineColor?: IColor|ColorName}) {
-		super({x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
-		this.lifePoints = lp;
-		this.healthPoints = hp;
-		this.maxHealthPoints = hp;
-		this.speed = speed;
+	public constructor({x = 0, y = 0, r = 10, lineWidth = 1}: {x?: number, y?: number, r?: number, lineWidth?: number}, @inject(TYPES.CssColor) fillColor: ICssColor, @inject(TYPES.CssColor) lineColor: ICssColor) {
+		super({x: x, y: y, r: r, lineWidth: lineWidth}, fillColor, lineColor);
+		//this.lifePoints = lp;
+		//this.healthPoints = hp;
+		//this.maxHealthPoints = hp;
+		//this.speed = speed;
 	}
 
 	//#region Getter/Setter Region (Note: regions are collapsible with IntelliJ)

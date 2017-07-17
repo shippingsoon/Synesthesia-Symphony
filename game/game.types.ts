@@ -108,6 +108,8 @@ export interface IConfig {
 export interface ISession {
 	readonly bgmVolumeLevel: number;
 	readonly sfxVolumeLevel: number;
+	config: IConfig;
+	data: any;//Interface TBA
 }
 
 /**

@@ -12,7 +12,7 @@ import { Player } from './character/game.player';
 import { Enemy } from './character/game.enemy';
 import { IStateData } from '../system/system.types';
 import { clearCanvas } from '../graphics/graphics';
-import { IEntity, EntityType, EntityKeys } from 'game.types';
+import { IEntity, EntityType, EntityKeys } from './game.types';
 import _  from 'lodash';
 
 /**

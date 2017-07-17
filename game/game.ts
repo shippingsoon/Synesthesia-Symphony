@@ -8,70 +8,59 @@
 
 'use strict';
 
-import { IFSM, IState } from '../system/system.types';
-import { IConfig, IResource } from './game.types';
+import { ICanvasResource, IFsm, IState, IWindow } from '../system/system.types';
+import { injectable, inject } from 'inversify';
+import { TYPES } from '../bootstrap/bootstrap.types';
+import 'reflect-metadata';
 
 /**
  * @class
  * @classdesc Singleton Game class.
- * @requires IFSM
+ * @requires IFsm
  * @requires IState
+ * @requires ICanvasResource
  */
+@injectable()
 export class Game {
-	/**
-	 * @private
-	 * @static
-	 */
-	private static resource: IResource;
-	private static config: IConfig;
-
-	/**
-	 * An instance of this Game class.
-	 * @private
-	 * @static
-	 */
-	private static _instance: Game;
-
 	/**
 	 * The current Unix timestamp in milliseconds. This is used to measure the delta time between two frames.
 	 * @private
-	 * @static
 	 */
-	private static currentTime: number = Date.now();
+	private currentTime: number = Date.now();
 
 	/**
-	 * The long integer request ID which is returned by requestAnimationFrame() method. It can be used to break out from the game loop.
-	 * @private
-	 * @static
-	 */
-	private static requestAnimationId: number;
-
-	/**
-	 * Finite state machine.
+	 * The long integer request ID which is returned by requestAnimationFrame() method. It can be used to break out of the game loop.
 	 * @private
 	 */
-	private readonly fsm: IFSM;
+	private requestAnimationId: number;
 
 	/**
-	 * This method returns an instance of the Game class.
+	 * The target frames per second. By default the requestAnimationFrame() runs at 60 FPS. Note: (1000 / 60) = 16.666666666666668.
+	 * @private
+	 */
+	private readonly targetFps: number = 16.666666666666668;
+
+	/**
+	 * A data structure containing an HTML5 canvas element and 2D drawing context.
+	 * @private
+	 */
+	@inject(TYPES.CanvasResource)
+	private readonly canvasResource: ICanvasResource;
+
+	/**
+	 * We are setting the constructor to private to prevent this class from being instantiated outside the class body or extended.
 	 * @public
-	 * @static
-	 * @throws {Error}
-	 * @param {IFSM} fsm - Finite state machine
-	 * @param {IState} initialState - Initial game state.
-	 * @return {Game} Returns an instance of the Game class.
+	 * @constructor
 	 */
-	public static getInstance(fsm: IFSM = null, initialState: IState = null): Game {
-		if (!Game._instance && fsm !== null && initialState !== null) {
-			Game._instance = new Game(fsm, initialState);
-		}
+	public constructor(@inject(TYPES.Fsm) private readonly fsm: IFsm, @inject(TYPES.LoadState) private readonly initialState: IState, private _window: IWindow = window) {
+		//Transition to the initial game state.
+		this.fsm.push(this.initialState);
 
-		//Make sure an instance of this class was created.
-		if (!Game._instance) {
-			throw new Error('Game class was not initiated');
-		}
+		//When the 'pushState' event is triggered.
+		this._window.addEventListener('pushState', this.__pushState);
 
-		return Game._instance;
+		//When the 'popState' event is triggered.
+		this._window.addEventListener('popState', this.__popState);
 	}
 
 	/**
@@ -81,16 +70,13 @@ export class Game {
 	 */
 	public main(): void {
 		//This variable holds the time that was stored in the previous frame.
-		const previousTime: number = Game.currentTime;
-
-		//The target frames per second. By default the requestAnimationFrame() runs at 60 FPS. Note: (1000 / 60) = 16.666666666666668.
-		const targetFps: number = 16.666666666666668;
+		const previousTime: number = this.currentTime;
 
 		//Update the current time.
-		Game.currentTime = Date.now();
+		this.currentTime = Date.now();
 
 		//Delta time is the time difference between the current and previous frames.
-		let dt: number = Game.currentTime - previousTime;
+		let dt: number = this.currentTime - previousTime;
 
 		//Check to see if the delta time is zero.
 		if (dt === 0) {
@@ -100,33 +86,39 @@ export class Game {
 		}
 
 		//Here we use the requestAnimationFrame() method to recursively invoke the main() method.
-		Game.requestAnimationId = requestAnimationFrame(this.main);
+		this.requestAnimationId = requestAnimationFrame(() => this.main());
 
 		//Limit the frame rate.
-		if (dt > targetFps) {
-			dt = targetFps;
+		if (dt > this.targetFps) {
+			dt = this.targetFps;
 		}
 
 		//Handle logic in the current state.
-		Game._instance.fsm.update(dt);
+		this.fsm.update(dt);
 
 		//Render the current state.
-		Game._instance.fsm.draw(Game.resource);
+		this.fsm.draw(this.canvasResource);
 	}
 
 	/**
-	 * We are setting the constructor to private to prevent this class from being instantiated outside the class body or extended.
-	 * @constructor
+	 * Handles pushState events.
 	 * @private
-	 * @param {IFSM} fsm - Finite state machine.
-	 * @param {IState} initialState - This can be any game state.
-	 *
+	 * @param {CustomEventInit} event - Event data.
+	 * @return {void}
 	 */
-	private constructor(fsm: IFSM, initialState: IState, resource: IResource = null, config: IConfig = null) {
-		//Set the finite state machine.
-		this.fsm = fsm;
+	private __pushState(event: CustomEventInit): void {
+		//Push another state on to the stack.
+		this.fsm.push(event.detail);
+	}
 
-		//Transition to the initial game state.
-		this.fsm.push(initialState);
+	/**
+	 * Handles popState events.
+	 * @private
+	 * @param {CustomEventInit} event - Event data.
+	 * @return {void}
+	 */
+	private __popState(event: CustomEventInit): void {
+		//Pop a state from the stack
+		this.fsm.pop(event.detail);
 	}
 }

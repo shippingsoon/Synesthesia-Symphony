@@ -8,73 +8,82 @@
 
 'use strict';
 
-import { IStateData, IFSM } from '../../system/system.types';
-import { State } from '../../system/system.state';
-import * as Audio from './../../audio/audio';
-import { IntroState } from '../state/game.intro-state';
-import { StageState } from '../state/game.stage-state';
-import { singleton } from '../synesthesia-symphony';
-import _ from 'lodash';
+import { ICanvasResource } from '../../system/system.types';
+import { injectable, inject } from 'inversify';
+import { TYPES } from '../../bootstrap/bootstrap.types';
+import { EventState } from '../../system/system.event-state';
+import {IConfig, ISession} from '../game.types';
 
 //Let the IDE know this 3rd party MIDI.js module is defined elsewhere.
 declare const MIDI: any;
 declare const widgets: any;
+declare const jQuery: any;
 
 /**
  * @class
  * @classdesc The load state
  */
-export class LoadState extends State {
-	public constructor() {
+@injectable()
+export class LoadState extends EventState {
+	public constructor(@inject(TYPES.Session) private session: ISession, private $: any = jQuery, private midiJs: any = MIDI) {
 		super();
 	}
-
 	/**
-	 *
-	 * @param {IStateData} data - An object containing the 2D drawing context and delta time.
+	 * @public
 	 * @return {void}
 	 */
-	public async start(data: IStateData): Promise<void> {
-		//const λ = singleton.getInstance();
+	public start(): void {
+		console.log('hi');
+		this.loadConfig()
+			.then(() => {
+			});
+	}
 
-		/*
+	private load<T>(url: string): Promise<T> {
+		return new Promise<T>((resolve, reject) => {
+			this.$.ajax({
+				dataType: 'json',
+				url: url,
+				success: (json) => { resolve(json); },
+				error: (err) => { reject(err); }
+			});
+		});
+	}
+
+	public async loadConfig(): Promise<any> {
 		try {
 			//Load the CONFIG.json file into the session instance.
 			//Here we use async await to avoid callback hell.
-			data.session.setConfig = await data.session.load('/synesthesia-symphony/CONFIG.json');
+			this.session.config = await this.load<IConfig>('/synesthesia-symphony/config.json');
 
 			//Load the game data required to initiate enemies, items and projectile patterns.
-			data.session.setGameData = await data.session.load(data.session.CONFIG.DB_URL);
+			this.session.data = await this.load(this.session.config.DB_URL);
 		} catch (err) {
-			console.error('Session.load() error, make sure the CONFIG.json and offline-data.json files contain the correct data and is valid JSON', err);
+			console.error('CanvasResource.load() error, make sure the CONFIG.json and offline-data.json files contain the correct data and is valid JSON', err);
 		}
 
 		//Make sure the CONFIG data is set.
-		if (_.isEmpty(data.session.CONFIG.RESOLUTIONS)) {
-			throw new Error('Make sure the CONFIG.json file is valid JSON and implements the IConfig interface found in Session.ts');
+		if (typeof (this.session.config.RESOLUTIONS) === 'undefined') {
+			throw new Error('Make sure the CONFIG.json file is valid JSON and implements the IConfig interface found in CanvasResource.ts');
 		}
 
-		//Initiate resources such as canvas width. The Session.initResources() method uses CSS3 media queries to determine the size for the canvas' width and height.
-		data.session.initResources(data.session.CONFIG.RESOLUTIONS);
+		//Initiate resources such as canvas width. The CanvasResource.initResources() method uses CSS3 media queries to determine the size for the canvas' width and height.
+		//this.session.initResources(data.session.CONFIG.RESOLUTIONS);
 
 		//An array of MIDI instrument IDs.
-		const instruments = Audio.getAllInstruments(data.session.getGameData.songs, MIDI);
+		const instruments: Array<string> = []; //Audio.getAllInstruments(data.session.getGameData.songs, MIDI);
 
 		//The MIDI.js loader widget shows the progress of the MIDI.loadPlugin() function.
 		MIDI.loader = new widgets.Loader;
 
-		fsm.push({state: new StageState(), session: data.session});
-
-		*/
-		/*
 		//Load the soundfont data.
 		MIDI.loadPlugin({
 			targetFormat: 'mp3',
-			soundfontUrl: λ.session.CONFIG.SOUNDFONT_DIRECTORY,
-			instruments: λ.session.CONFIG.ONLY_USE_PIANO_INSTRUMENT ? ['acoustic_grand_piano'] : instruments,
+			soundfontUrl: this.session.config.SOUNDFONT_DIRECTORY,
+			instruments: this.session.config.ONLY_USE_PIANO_INSTRUMENT ? ['acoustic_grand_piano'] : instruments,
 			callback: () => {
 				//Set the volume.
-				MIDI.setVolume(0, λ.session.getBGMVolume);
+				MIDI.setVolume(0, this.session.bgmVolumeLevel);
 
 				//The speed the songs are played at.
 				MIDI.Player.timeWarp = 1;
@@ -83,33 +92,15 @@ export class LoadState extends State {
 				MIDI.loader.stop();
 				console.log('logging');
 				//Use the finite state machine to transition to the Intro state. See system.fsm.ts for more details.
-		        λ.fsm.push({state: new IntroState(), session: λ.session});
-				that.changeState(new IntroState(), λ.session);
-
-				//Start the recursive game loop.
-				gameLoop();
+				//λ.fsm.push({state: new IntroState(), session: λ.session});
+				//that.changeState(new IntroState(), λ.session);
 			}
 		});
-		*/
 	}
 
-	public update(data: IStateData): void {
-
-	}
-
-	public draw(data: IStateData): void {
-
-	}
-
-	public pause(data: IStateData): void {
-
-	}
-
-	public play(data: IStateData): void {
-
-	}
-
-	public stop(data: IStateData): void {
-
-	}
+	public update(dt: number): void {}
+	public draw(resource: ICanvasResource): void {}
+	public pause(): void {}
+	public play(): void {}
+	public stop(): void {}
 }

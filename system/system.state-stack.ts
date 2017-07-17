@@ -7,12 +7,15 @@
  */
 
 import { IState, IStateStack } from './system.types';
+import { injectable } from 'inversify';
+import 'reflect-metadata';
 
 /**
  * @class
  * @classdesc StateStack
  */
-export class StateStack extends Array<IState> implements IStateStack {
+//@injectable()
+export class StateStack extends Array<IState> {
 	/**
 	 * @constructor
 	 * @public

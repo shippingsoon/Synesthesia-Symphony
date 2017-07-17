@@ -17,7 +17,7 @@ import { IEntity } from '../game.types';
  * @class
  * @classdesc The enemy class.
  */
-export class Enemy extends LifeForm implements IState, IEntity {
+export class Enemy {
 	/**
 	 * @param {number} lp - The life points.
 	 * @param {number} hp - The max health points.
@@ -31,7 +31,7 @@ export class Enemy extends LifeForm implements IState, IEntity {
 	 */
 	public constructor({lp = 1, hp = 5, speed = 500, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
 	{lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: IColor|ColorName, lineWidth?: number, lineColor?: IColor|ColorName}) {
-		super({lp: lp, hp: hp, speed: speed, x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
+
 	}
 
 	public start(data: IStateData) {
@@ -43,7 +43,7 @@ export class Enemy extends LifeForm implements IState, IEntity {
 	}
 
 	public draw(data: IStateData): void {
-		this.render(data.session.ctx);
+		//this.render(data.session.ctx);
 	}
 
 	public pause(): void {}

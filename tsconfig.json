@@ -8,13 +8,16 @@
 	"checkJs": true,
 	"charset": "utf8",
 	"noImplicitAny": false,
-	"noImplicitThis": true,
+	"noImplicitThis": false,
 	"pretty": true,
 	"removeComments": false,
 	"diagnostics": true,
 	"noEmitOnError": true,
 	"experimentalDecorators": true,
-	"emitDecoratorMetadata": true
+	"emitDecoratorMetadata": true,
+	"lib": ["es6", "dom"],
+	"types": ["reflect-metadata"],
+	"moduleResolution": "node"
   },
   "exclude": [
 	"node_modules", "typings"

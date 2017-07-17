@@ -6,7 +6,6 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IResource } from '../game/game.types';
 /**
  * The data structure we will pass to the finite state machine.
  * @interface
@@ -23,34 +22,39 @@ export interface IStateData {
 
 	//Determines if we will pause the state.
 	readonly pause?: boolean;
-
-	//Entity manager
-	//readonly manager?: any;
 }
 
 /**
  * @interface
  */
 export interface IState {
-	start(data: {state: IState}): void;
-	stop?(data: IStateData): void;
+	start(): void;
 	update(dt: number): void;
-	draw(resource: IResource): void;
-	play?(data: IStateData): void;
-	pause?(data: IStateData): void;
+	draw(resource: ICanvasResource): void;
+	stop(): void;
+	play(): void;
+	pause(): void;
 }
 
 /**
- * @type FSMEvents
+ * @type FsmEvents
  */
-export type FSMEvents = 'pushState' | 'popState';
+export type FsmEvents = 'pushState' | 'popState';
 
 /**
  * @interface
  */
-export interface IFSM {
+export interface ICustomEventData {
+	readonly state?: IState;
+	readonly resource?: ICanvasResource;
+}
+
+/**
+ * @interface
+ */
+export interface IFsm {
 	update(dt: number): void;
-	draw(resource: IResource): void;
+	draw(resource: ICanvasResource): void;
 	push(state: IState): void;
 	pop(data: IStateData): void;
 }
@@ -66,8 +70,21 @@ export interface IStateStack {
 	pop(): IState;
 }
 
-/*
-start(config, session)
-draw(resource)
-	update(dt)
-*/
+/**
+ * @interface
+ */
+export interface IWindow {
+	addEventListener(type: string, listener: EventListener, useCapture?: boolean);
+	removeEventListener(type: string, listener: EventListener, useCapture?: boolean);
+	dispatchEvent(evt: Event): boolean;
+}
+
+/**
+ * @interface
+ */
+export interface ICanvasResource {
+	ctx: CanvasRenderingContext2D;
+	bgCtx: CanvasRenderingContext2D;
+	canvas: HTMLCanvasElement;
+	bgCanvas: HTMLCanvasElement;
+}

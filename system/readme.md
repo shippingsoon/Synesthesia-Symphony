@@ -4,6 +4,6 @@ The system namespace is the foundation for which every class is built upon. This
 <ul>
 	<li>system.fsm.ts - Finite State Machine class</li>
 	<li>system.state.ts - Game State interface</li>
-	<li>system.session.ts - Session management</li>
+	<li>system.session.ts - CanvasResource management</li>
 </ul>
 

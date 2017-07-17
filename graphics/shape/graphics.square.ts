@@ -1,5 +1,5 @@
-/*
- * @file
+/**
+ * @file Square class
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
@@ -8,194 +8,43 @@
 
 'use strict';
 
-import { Shape } from './graphics.shape';
-import { Drawable, IColor, ColorName } from '../graphics.types';
-import { Color } from '../graphics.color';
-
-//Let the IDE know this is defined elsewhere.
-declare const Math: any;
-
-/**
- * @class
- * @classdesc Square shape.
- */
-export class SquareShape extends Shape {
-	//The square's width.
-	protected w: number;
-	protected h: number;
-
-	/**
-	 * Creates a new SquareShape.
-	 * @param {number} x - The x coordinate.
-	 * @param {number} y - The y coordinate.
-	 * @param {number} w - The square's width.
-	 * @param {number} h - The square's height.
-	 */
-	public constructor({x = 0, y = 0, w = 1, h = 1}: {x: number, y: number, w: number, h: number}) {
-		super({x: x, y: y});
-
-		this.w = w;
-		this.h = h;
-	}
-
-	/**
-	 * Gets the square's width.
-	 * @return {number}
-	 */
-	public get getWidth(): number {
-		return this.w;
-	}
-
-	/**
-	 * Gets the square's height.
-	 * @return {number}
-	 */
-	public get getHeight(): number {
-		return this.h;
-	}
-
-	/**
-	 * Sets the square's width.
-	 * @param {number} width
-	 * @return {void}
-	 */
-	public set setWidth(width: number) {
-		this.w = width;
-	}
-
-	/**
-	 * Sets the square's height.
-	 * @param {number} height
-	 * @return {void}
-	 */
-	public set setHeight(height: number) {
-		this.h = height;
-	}
-
-	/**
-	 * Gets the square's area.
-	 * @return {number}
-	 */
-	public get getArea(): number {
-		return (this.w * this.h);
-	}
-}
+import { TYPES } from '../../bootstrap/bootstrap.types';
+import { ICssColor } from '../graphics.types';
+import { SquareShape } from './graphics.square-shape';
+//import { injectable, inject } from '../../node_modules/inversify/es/inversify';
+import { injectable, inject } from 'inversify';
+import 'reflect-metadata';
 
 /**
  * @class
  * @classdesc A drawable square shape.
  */
-export class Square extends SquareShape implements Drawable {
-	//The square's color.
-	protected fillColor: Color;
-
-	//The width of the square's border.
+@injectable()
+export class Square extends SquareShape {
+	//The width of the shape's border.
 	private lineWidth: number;
 
-	//The color of the square's border.
-	private lineColor: Color;
+	//The shape's fill color.
+	protected fillColor: ICssColor;
 
-	//Determines if the square is updated.
-	private _isActive: boolean = true;
-
-	//Determines if the square is visible.
-	private _isVisible: boolean = true;
+	//The color of the shape's border.
+	private lineColor: ICssColor;
 
 	/**
-	 * @param {number} x - The square's x coordinate
-	 * @param {number} y - The square's y coordinate
-	 * @param {number} w - The square's width.
-	 * @param {number} h - The square's height.
-	 * @param {IColor} fillColor - The square's fill color.
-	 * @param {number} lineWidth - The square's border width.
-	 * @param {IColor} lineColor - The square's border color.
+	 * @public
+	 * @constructor
+	 * @param {number} x - The shape's x coordinate
+	 * @param {number} y - The shape's y coordinate
+	 * @param {number} w - The shape's width
+	 * @param {number} h - The shape's height
+	 * @param {number} lineWidth - The circle's border width.
+	 * @param {ICssColor} fillColor - The circle's fill color.
+	 * @param {ICssColor} lineColor - The circle's border color.
 	 */
-	constructor({x = 0, y = 0, w = 1, h = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
-	{x?: number, y?: number, w?: number, h?: number, fillColor?: IColor|ColorName, lineWidth?: number, lineColor?: IColor|ColorName}) {
+	public constructor({x = 0, y = 0, w = 10, h = 10, lineWidth = 1}: {x?: number, y?: number, w?: number, h?: number, lineWidth?: number}, @inject(TYPES.CssColor) fillColor: ICssColor, @inject(TYPES.CssColor) lineColor: ICssColor) {
 		super({x: x, y: y, w: w, h: h});
-		this.fillColor = new Color(fillColor);
 		this.lineWidth = lineWidth;
-		this.lineColor = new Color(lineColor);
-	}
-
-	/**
-	 * Draws the square.
-	 * @param {CanvasRenderingContext2D} ctx - The HTML5 2D drawing context.
-	 * return {void}
-	 */
-	public render(ctx: CanvasRenderingContext2D): void {
-		if (ctx) {
-			//Save the 2D rendering context's current state. We will restore it back to this state when we are finished with it.
-			ctx.save();
-
-			//Create a square shape.
-			ctx.beginPath();
-			ctx.rect(this.x, this.y, this.w, this.h);
-
-			//Fill in the circle with the given color.
-			ctx.fillStyle = this.fillColor.getRGBA;
-			ctx.fill();
-
-			//Stroke an outline around the square.
-			if (this.lineWidth) {
-				ctx.strokeStyle = this.lineColor.getRGBA;
-				ctx.lineWidth = this.lineWidth;
-				ctx.stroke();
-			}
-
-			//Restore the 2D rendering context back to its previous state.
-			ctx.restore();
-		}
-	}
-
-	/**
-	 * Gets the square's color.
-	 * @return {IColor}
-	 */
-	public getColor(): IColor {
-		return this.fillColor.getColor();
-	}
-
-	/**
-	 *
-	 * @param color
-	 * @return {Square}
-	 */
-	public setColor(color: IColor|ColorName): this {
-		this.fillColor.setColor(color);
-
-		return this;
-	}
-
-	/**
-	 * Get the color of this square in hexadecimal format.
-	 * @return {string}
-	 */
-	public get getHex(): string {
-		return this.fillColor.getHex;
-	}
-
-	/**
-	 * Get the color of this square in rgba format.
-	 * @return {string}
-	 */
-	public get getRGBA(): string {
-		return this.fillColor.getRGBA;
-	}
-
-	/**
-	 * Get isActive state. This will determine if the object is updated.
-	 * @return {boolean}
-	 */
-	public get isActive(): boolean {
-		return this._isActive;
-	}
-
-	/**
-	 * Get isActive state. This will determine if the object is updated.
-	 * @return {boolean}
-	 */
-	public get isVisible(): boolean {
-		return this._isVisible;
+		this.fillColor = fillColor;
+		this.lineColor = lineColor;
 	}
 }

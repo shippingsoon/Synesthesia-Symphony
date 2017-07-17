@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { IConfig } from '../system/system.types';
+import { IConfig } from '../game/game.types';
 import _ from 'lodash';
 
 //Let the IDE know this 3rd party MIDI.js module is defined elsewhere.

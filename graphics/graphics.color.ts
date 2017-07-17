@@ -9,229 +9,95 @@
 
 'use strict';
 
-import { IColor, ColorName, isColorName } from './graphics.types';
-import { LoDashStatic } from '../node_modules/@types/lodash/index';
-import _ from 'lodash';
-//import parseCSSColor from '../resource/js/css-color-parser/csscolorparser';
+import { IColor } from './graphics.types';
+//import { injectable } from '../node_modules/inversify/es/inversify';
+import { injectable, inject } from 'inversify';
+import 'reflect-metadata';
 
 /**
  * @class
  * @classdesc Creates an object containing RGBA components.
  */
-export class Color {
+@injectable()
+export class Color implements IColor {
 	/**
-	 * Numerical RGBA color values
+	 * The red value of this color.
 	 * @private
 	 */
-	private r: number;
-	private g: number;
-	private b: number;
-	private a: number;
+	protected _r: number;
 
 	/**
-	 * The color in hex and rgba format.
+	 * The green value of this color.
 	 * @private
 	 */
-	private hexString: string;
-	private rgbaString: string;
+	protected _g: number;
 
 	/**
-	 * Converts a color object to a hexadecimal string.
-	 * @public
-	 * @static
-	 * @param {IColor} color - The color object containing rgb colors that will be converted to hex.
-	 * @param {LoDashStatic} __ - Lodash
-	 * @return {string}
+	 * The blue value of this color.
+	 * @private
 	 */
-	public static buildHex(color: IColor, __: LoDashStatic = _): string {
-		let hexString: string = '#';
-
-		//Here we append the red, green and blue component to the output variable.
-		//First we use the toString(16) method to convert the color to hexadecimal format
-		//and we use LoDash's pad() method to pad the number with '0' if it is less than 2 digits.
-		hexString += __.pad(color.r.toString(16), 2, '0');
-		hexString += __.pad(color.g.toString(16), 2, '0');
-		hexString += __.pad(color.b.toString(16), 2, '0');
-
-		return hexString;
-	}
+	protected _b: number;
 
 	/**
-	 * Converts a color object to a hexadecimal string.
-	 * @public
-	 * @static
-	 * @param {IColor} color - The color object containing rgb colors that will be converted to hex.
-	 * @param {LoDashStatic} __ - Lodash
-	 * @return {string}
+	 * The transparency of this color.
+	 * @private
 	 */
-	public static buildRGBA(color: IColor, __: LoDashStatic = _): string {
-		//Use LoDash' join() method to concat the rgba colors. The array input values will be comma delimited i.e., rgba(0,0,0,1).
-		return `rgba(${__.join([color.r, color.g, color.b, color.a], ', ')})`;
-	}
+	protected _a: number;
 
 	/**
 	 * This method makes sure the colors are in the 0-255 range and it also makes sure the alpha value is between 0-1.
 	 * @public
 	 * @static
 	 * @param {IColor} color - The color to be checked.
-	 * @param {LoDashStatic} __ - Lodash
 	 * return {boolean}
 	 */
-	public static isValidColor(color: IColor, __: LoDashStatic = _): boolean {
+	public static isValidColor(color: IColor): boolean {
 		return (
-			__.inRange(color.r, 0, 256) &&
-			__.inRange(color.g, 0, 256) &&
-			__.inRange(color.b, 0, 256) &&
-			__.inRange(color.a, 0, 2)
+			[color.r, color.g, color.b].filter(rgb => rgb >= 0 && rgb <= 255).length === 3 &&
+			color.a >= 0 && color.a <= 255
 		);
-	}
-
-	/**
-	 * Reads in a W3C color string and uses the 3rd party parseCSSColor() function to convert the color name to an object.
-	 * @public
-	 * @static
-	 * @param {string} colorName - A W3C color name. See http://www.w3.org/TR/css3-color/
-	 * @param {LoDashStatic} __ - Lodash
-	 * @param {Function} parseColor - A method for parsing CSS color names to an array.
-	 * @throws {Error}
-	 * @return {IColor}
-	 */
-	public static colorNameToObject(colorName: ColorName, __: LoDashStatic = _, parseColor: Function = null): IColor {
-		//Use 3rd party parseCSSColor() function to convert the color name to a rgba value.
-		//const parsedColors: number[] = parseColor(colorName);
-		const parsedColors: number[] =  [0, 0, 0, 0];
-		//If the parseCSSColor failed to parse the color we will raise an exception.
-		if (__.isEmpty(parsedColors)) {
-			throw new Error(`In Color.colorNameToObject(). Failed to set color: ${colorName}`);
-		}
-
-		return {
-			r: parsedColors[0],
-			g: parsedColors[1],
-			b: parsedColors[2],
-			a: parsedColors[3]
-		};
 	}
 
 	/**
 	 * Color constructor.
 	 * @public
 	 * @constructor
-	 * @requires module:_
-	 * @requires module:parseCSSColor
-	 * @param {IColor|ColorName} color - Can either be a name of a color such as 'red' or an object containing rgba values.
-	 * @param {Function} parseColor - A method for parsing CSS color names to an array.
-	 * @param {LoDashStatic} __ - Lodash
+	 * @param {number} r - A numerical representation of the red value. This number must be between 0-255.
+	 * @param {number} g - A numerical representation of the green value. This number must be between 0-255.
+	 * @param {number} b - A numerical representation of the blue value. This number must be between 0-255.
+	 * @param {number} a - Determines the transparency of the color. This number must be between 0-1.
 	 * @throws {Error}
 	 */
-	public constructor(color: IColor|ColorName, private parseColor: Function = null, private __: LoDashStatic = _) {
-	//public constructor(color: ColorName|IColor) {
-		//If the argument passed to this method is a string, then it is a color name.
-		//Use the 3rd party parseCSSColor() function to convert the color name to a rgba object.
-		const {r = 0, g = 0, b = 0, a = 1} = {...((isColorName(color)) ? Color.colorNameToObject(color, __, parseColor) : color)};
-
+	public constructor({r = 0, g = 0, b = 0, a = 1}: {readonly r?: number, readonly g?: number, readonly b?: number, readonly a?: number}) {
 		//Set the colors.
 		this.r = r;
 		this.g = g;
 		this.b = b;
 		this.a = a;
 
-		//Make sure the values are valid.
-		if (!Color.isValidColor({r: r, g: g, b: b, a: a}, __)) {
-			throw new Error(`Invalid RGBA colors:  rgba(${r}, ${g}, ${b}, ${a})`);
+		if (!Color.isValidColor({r: r, g: g, b: b, a: a})) {
+			throw new Error(`Invalid RGBA colors: rgba(${r}, ${g}, ${b}, ${a})`)
 		}
-
-		//Store a copy of the color object in hexadecimal and rgba format.
-		this.hexString = Color.buildHex({r: r, g: g, b: b, a: a}, __);
-		this.rgbaString = Color.buildRGBA({r: r, g: g, b: b, a: a}, __);
 	}
 
-	/**
-	 * Gets the red, green, blue and alpha color components.
-	 * @public
-	 * @return {IColor}
-	 */
-	public getColor(): IColor {
-		return {
-			r: this.r,
-			g: this.g,
-			b: this.b,
-			a: this.a
-		};
-	}
-
-	/**
-	 * Sets the color.
-	 * @public
-	 * @param {IColor|ColorName} color
-	 * @throws {Error}
-	 * @return {Color}
-	 */
-	public setColor(color: IColor|ColorName): this {
-		//If the argument passed to this method is a string.
-		//If the argument passed to this method is a string, then it is a color name.
-		//Use the 3rd party parseCSSColor() function to convert the color name to a rgba object.
-		const {r = 0, g = 0, b = 0, a = 1} = {...((isColorName(color)) ? Color.colorNameToObject(color, this.__, this.parseColor) : color)};
-
-		this.r = r;
-		this.g = g;
-		this.b = b;
-		this.a = a;
-
-		//Make sure the values are valid.
-		if (!Color.isValidColor(this.getColor(), this.__)) {
-			throw new Error(`Invalid RGBA colors: rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`);
-		}
-
-		//Store a copy of the color object in hex and rgba format.
-		this.hexString = Color.buildHex(this.getColor(), this.__);
-		this.rgbaString = Color.buildRGBA(this.getColor(), this.__);
-
-		return this;
-	}
-
-	//#region Getter/Setter Region (Note: regions are collapsible with IntelliJ)
-	/**
-	 * Gets the color of this object in hexadecimal format.
-	 * @public
-	 * @return {string}
-	 */
-	public get getHex(): string {
-		return this.hexString;
-	}
-
-	/**
-	 * Gets the color of this object in rgba format.
-	 * @public
-	 * @return {string}
-	 */
-	public get getRGBA(): string {
-		return this.rgbaString;
-	}
-
+	//#region Mutator Region (Note: regions are collapsible with IntelliJ IDEA)
 	/**
 	 * Gets the red component.
 	 * @public
 	 * @return {number}
 	 */
-	public get getRed(): number {
-		return this.r;
+	public get r(): number {
+		return this._r;
 	}
 
 	/**
 	 * Sets the red component.
 	 * @public
-	 * @param {number} red - A number between 0-255.
-	 * @throws {Error}
+	 * @param {number} red - A numerical representation of the red value. This number must be between 0-255.
 	 * @return {void}
 	 */
-	public set setRed(red: number) {
-		this.r = red;
-
-		//Make sure the values are valid.
-		if (!Color.isValidColor(this.getColor(), this.__)) {
-			throw new Error(`Invalid RGBA colors: rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`);
-		}
+	public set r(red: number) {
+		this._r = red;
 	}
 
 	/**
@@ -239,18 +105,18 @@ export class Color {
 	 * @public
 	 * @return {number}
 	 */
-	public get getGreen(): number {
-		return this.g;
+	public get g(): number {
+		return this._g;
 	}
 
 	/**
 	 * Sets the green component.
 	 * @public
-	 * @param {number} green - A number between 0-255.
+	 * @param {number} green - A numerical representation of the green value. This number must be between 0-255.
 	 * @return {void}
 	 */
-	public set setGreen(green: number) {
-		this.g = green;
+	public set g(green: number) {
+		this._g = green;
 	}
 
 	/**
@@ -258,18 +124,18 @@ export class Color {
 	 * @public
 	 * @return {number}
 	 */
-	public get getBlue(): number {
-		return this.b;
+	public get b(): number {
+		return this._b;
 	}
 
 	/**
 	 * Sets the blue component.
 	 * @public
-	 * @param {number} blue - A number between 0-255.
+	 * @param {number} blue - A numerical representation of the blue value. This number must be between 0-255.
 	 * @return {void}
 	 */
-	public set setBlue(blue: number) {
-		this.b = blue;
+	public set b(blue: number) {
+		this._b = blue;
 	}
 
 	/**
@@ -277,18 +143,18 @@ export class Color {
 	 * @public
 	 * @return {number}
 	 */
-	public get getAlpha(): number {
-		return this.a;
+	public get a(): number {
+		return this._a;
 	}
 
 	/**
 	 * Sets the alpha component.
 	 * @public
-	 * @param {number} alpha - A number between 0-255.
+	 * @param {number} alpha - Determines the transparency of the color. This number must be between 0-1.
 	 * @return {void}
 	 */
-	public set setAlpha(alpha: number) {
-		this.a = alpha;
+	public set a(alpha: number) {
+		this._a = alpha;
 	}
 	//#endregion
 }

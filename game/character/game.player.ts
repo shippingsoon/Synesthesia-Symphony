@@ -22,7 +22,7 @@ declare const Keydown: any;
  * @class
  * @classdesc The player class
  */
-export class Player extends LifeForm implements IState, IEntity {
+export class Player {
 	private primaryColor: Color;
 	private secondaryColor: Color;
 	private primarySpeed: number;
@@ -43,7 +43,7 @@ export class Player extends LifeForm implements IState, IEntity {
 	 */
 	public constructor({secondarySpeed = 250, secondaryColor = 'blue', lp = 1, hp = 5, speed = 500, x = 0, y = 0, r = 1, fillColor = 'green', lineWidth = 1, lineColor = 'black'}:
 	{secondarySpeed?: number, secondaryColor?: ColorName|IColor, lp?: number, hp?: number, speed?: number, x?: number, y?: number, r?: number, fillColor?: IColor|ColorName, lineWidth?: number, lineColor?: IColor|ColorName}) {
-		super({lp: lp, hp: hp, speed: speed, x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
+		//super({lp: lp, hp: hp, speed: speed, x: x, y: y, r: r, fillColor: fillColor, lineWidth: lineWidth, lineColor: lineColor});
 		this.primarySpeed = speed;
 		this.secondarySpeed = secondarySpeed;
 		this.primaryColor = new Color(fillColor);
@@ -63,39 +63,39 @@ export class Player extends LifeForm implements IState, IEntity {
 		//o.ctx.clearRect(0, 0, session.canvas.width, session.canvas.height);
 		//console.log(`(${this.x}, ${this.y})`);
 
-		this.render(data.session.ctx);
+		//this.render(data.session.ctx);
 	}
 
 	private handleInput(data: IStateData): void {
-		this.speed = ((Keydown.shift) ? this.secondarySpeed : this.primarySpeed) * (data.dt / 1000.0);
-		this.fillColor = (Keydown.shift) ? this.secondaryColor : this.primaryColor;
+		//this.speed = ((Keydown.shift) ? this.secondarySpeed : this.primarySpeed) * (data.dt / 1000.0);
+		//this.fillColor = (Keydown.shift) ? this.secondaryColor : this.primaryColor;
 
-		//console.log(`(${this.getX}, ${this.getY}) fps: ${data.session.getFPS.toFixed(2)}, projectiles: ${data.manager.get('projectiles').length}`);
+		//console.log(`(${this.x}, ${this.y}) fps: ${data.session.getFPS.toFixed(2)}, projectiles: ${data.manager.get('projectiles').length}`);
 
 		//The Up key has been pressed.
 		if ((Keydown.up || Keydown.w)) {
-			this.subtract({x: 0, y: this.speed});
+			//this.subtract({x: 0, y: this.speed});
 		}
 
 		//The Down key has been pressed.
 		if ((Keydown.down || Keydown.s)) {
-			this.add({x: 0, y: this.speed});
+			//this.add({x: 0, y: this.speed});
 		}
 
 		//The Left key is pressed.
 		if ((Keydown.left || Keydown.a)) {
-			this.subtract({x: this.speed, y: 0});
+			//this.subtract({x: this.speed, y: 0});
 		}
 
 		//The Right key has been pressed.
 		if ((Keydown.right || Keydown.d)) {
-			this.add({x: this.speed, y: 0});
+			//this.add({x: this.speed, y: 0});
 		}
 
 		//The Right key has been pressed.
 		if ((Keydown.z)) {
 			//debugger;
-			const projectile = new Projectile({x: this.x, y: this.y, r: this.r, fillColor: 'blue', isOpen: true});
+			//const projectile = new Projectile({x: this.x, y: this.y, r: this.r, fillColor: 'blue', isOpen: true});
 			//data.manager.add('projectiles', projectile);
 		}
 	}
