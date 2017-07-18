@@ -6,6 +6,8 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
+import * as _ from 'lodash';
+
 const TYPES = {
 	//System
 	StateStack: Symbol('StateStack'),
@@ -28,7 +30,12 @@ const TYPES = {
 	//Game
 	Game: Symbol('Game'),
 	LoadState: Symbol('LoadState'),
-	MIDI: Symbol('MIDI')
+	MIDI: Symbol('MIDI'),
+
+	//3rd Party.
+	Lodash: Symbol('Lodash')
 };
 
-export { TYPES };
+type Lodash = typeof _;
+
+export { TYPES, Lodash };

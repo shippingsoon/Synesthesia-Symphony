@@ -7,24 +7,6 @@
  */
 
 /**
- * The data structure we will pass to the finite state machine.
- * @interface
- */
-export interface IStateData {
-	//A game state.
-	readonly state?: IState;
-
-	//Game session.
-	readonly session?: any;
-
-	//Delta time. The time difference from the current and previous game state.
-	readonly dt?: number;
-
-	//Determines if we will pause the state.
-	readonly pause?: boolean;
-}
-
-/**
  * @interface
  */
 export interface IState {
@@ -45,8 +27,7 @@ export type FsmEvents = 'pushState' | 'popState';
  * @interface
  */
 export interface ICustomEventData {
-	readonly state?: IState;
-	readonly resource?: ICanvasResource;
+	readonly state: IState;
 }
 
 /**
@@ -56,14 +37,14 @@ export interface IFsm {
 	update(dt: number): void;
 	draw(resource: ICanvasResource): void;
 	push(state: IState): void;
-	pop(data: IStateData): void;
+	pop(stopCurrentState: boolean): void;
 }
 
 /**
  * @interface
  */
 export interface IStateStack {
-	length: number;
+	readonly length: number;
 	isEmpty(): boolean;
 	peek(): IState;
 	push(state: IState): void;
@@ -83,8 +64,8 @@ export interface IWindow {
  * @interface
  */
 export interface ICanvasResource {
-	ctx: CanvasRenderingContext2D;
-	bgCtx: CanvasRenderingContext2D;
-	canvas: HTMLCanvasElement;
-	bgCanvas: HTMLCanvasElement;
+	readonly ctx: CanvasRenderingContext2D;
+	readonly bgCtx: CanvasRenderingContext2D;
+	readonly canvas: HTMLCanvasElement;
+	readonly bgCanvas: HTMLCanvasElement;
 }

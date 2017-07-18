@@ -8,13 +8,10 @@
 
 'use strict';
 
-import { TYPES } from '../bootstrap/bootstrap.types';
-import { IStateData, IFsm, IStateStack, IState, IWindow, ICanvasResource } from './system.types';
+import { IFsm, IStateStack, IState, ICanvasResource } from './system.types';
 import { StateStack } from './system.state-stack';
-import { IResource } from '../game/game.types';
-//import { injectable, inject } from '../node_modules/inversify/es/inversify';
 import { injectable, inject } from 'inversify';
-import 'reflect-metadata';
+import { TYPES } from '../bootstrap/bootstrap.types';
 
 /**
  * @class
@@ -23,24 +20,13 @@ import 'reflect-metadata';
 @injectable()
 export class Fsm implements IFsm {
 	/**
-	 * Events.
-	 * @private
-	 * @const
-	 */
-	private readonly onPushState: Event = new Event('onPushState');
-	private readonly onPopState: Event = new Event('onPopState');
-
-	/**
-	 * @public
 	 * @constructor
-	 * @param {IStateStack} - An array data structure of game states.
-	 * @param {object} _window
+	 * @param {IStateStack} states - An array data structure of game states.
 	 */
-	public constructor(/*@inject(TYPES.StateStack)*/ private states: IStateStack = new StateStack(), private _window: IWindow = window) {}
+	public constructor(@inject(TYPES.StateStack) private states: IStateStack = new StateStack()) {}
 
 	/**
 	 * Handle logic in the current state.
-	 * @public
 	 * @param {number} dt - The delta time between the current and previous frames.
 	 * @return {void}
 	 */
@@ -54,7 +40,6 @@ export class Fsm implements IFsm {
 
 	/**
 	 * Render the current state.
-	 * @public
 	 * @param {ICanvasResource} resource - An object containing the 2D drawing context and HTML5 canvas element.
 	 * @return {void}
 	 */
@@ -68,14 +53,10 @@ export class Fsm implements IFsm {
 
 	/**
 	 * Pushes a new state on to the stack.
-	 * @public
 	 * @param {IState} state - A game state.
 	 * @return {void}
 	 */
 	public push(state: IState): void {
-		//Dispatch the 'onPushState' event.
-		this._window.dispatchEvent(this.onPushState);
-
 		//Pause the current state
 		if (!this.states.isEmpty()) {
 			this.states.peek().pause();
@@ -90,16 +71,12 @@ export class Fsm implements IFsm {
 
 	/**
 	 * Pops a state from the stack and optionally suspends the state.
-	 * @public
-	 * @param {boolean} stopCurrentState - Determines if we will stop the state.
+	 * @param {boolean} stopCurrentState - Determines if we will suspend the state before removing it.
 	 * @throws {Error}
 	 * @return {void}
 	 */
 	public pop(stopCurrentState: boolean = false): void {
 		if (this.states.length > 1) {
-			//Dispatch the 'onPopState' event.
-			this._window.dispatchEvent(this.onPopState);
-
 			//Determine if we will stop the current state before removing it.
 			if (stopCurrentState) {
 				this.states.peek().stop();

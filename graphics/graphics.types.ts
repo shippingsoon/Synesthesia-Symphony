@@ -15,7 +15,6 @@ export interface IColor {
 	readonly g: number;
 	readonly b: number;
 	readonly a: number;
-	isValidColor?(IColor): boolean;
 }
 
 /**

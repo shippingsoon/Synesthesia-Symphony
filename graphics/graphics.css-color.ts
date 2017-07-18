@@ -13,6 +13,7 @@ import { Color } from './graphics.color';
 //import { injectable } from '../node_modules/inversify/es/inversify';
 import { injectable, inject } from 'inversify';
 import 'reflect-metadata';
+import {Lodash, TYPES} from "../bootstrap/bootstrap.types";
 
 /**
  * @class
@@ -59,13 +60,12 @@ export class CssColor extends Color {
 
 	/**
 	 * Color constructor.
-	 * @public
 	 * @constructor
 	 * @param {IColor|ColorName} color - Can either be a name of a color such as 'red' or an object containing rgba values.
 	 * @throws {Error}
 	 */
-	public constructor(color: IColor|ColorName) {
-		super(isColorName(color) ? COLORS[<string>color] : color);
+	public constructor(color: IColor|ColorName, @inject(TYPES.Lodash) _: Lodash) {
+		super(isColorName(color) ? COLORS[<string>color] : color, _);
 
 		this._hex = CssColor.colorToHex(this.getColor());
 		this._rgba = CssColor.colorToRgba(this.getColor());
@@ -79,10 +79,6 @@ export class CssColor extends Color {
 	 */
 	public setColor(color: IColor|ColorName): this {
 		const {r = 1, g = 1, b = 1, a = 0} = {...isColorName(color) ? COLORS[<string>color] : color};
-
-		if (!CssColor.isValidColor({r: r, g: g, b: b, a: a})) {
-			throw new Error(`Invalid RGBA colors: rgba(${r}, ${g}, ${b}, ${a})`)
-		}
 
 		this.r = r;
 		this.g = g;

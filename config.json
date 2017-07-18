@@ -11,12 +11,10 @@
   "PLAYER_INVULNERABILITY_TIMEOUT": 2000,
   "MIDI_DIRECTORY": "/synesthesia-symphony/resource/midi/",
   "SOUNDFONT_DIRECTORY": "/synesthesia-symphony/resource/soundfont/",
-  "GAME_TITLE": "Synesthesia Symphony",
   "DEVELOPER_NAME": "Anonymous",
-  "VERSION": "0.0.1",
-  "RESOLUTIONS":{
-    "LOW":{"W":640, "H":480, "CANVAS_W":384, "CANVAS_H":448},
-    "MEDIUM":{"W":1280, "H":720, "CANVAS_W":768, "CANVAS_H":672},
-    "HIGH":{"W":1920, "H":1080, "CANVAS_W":1152, "CANVAS_H":1008}
+  "RESOLUTIONS": {
+    "LOW": {"W": 640, "H": 480, "CANVAS_W": 384, "CANVAS_H": 448},
+    "MEDIUM": {"W": 1280, "H": 720, "CANVAS_W": 768, "CANVAS_H": 672},
+    "HIGH": {"W": 1920, "H": 1080, "CANVAS_W": 1152, "CANVAS_H": 1008}
   }
 }

@@ -11,7 +11,7 @@
 import { ICanvasResource } from '../../system/system.types';
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../../bootstrap/bootstrap.types';
-import { EventState } from '../../system/system.event-state';
+import { State } from '../../system/system.state';
 import {IConfig, ISession} from '../game.types';
 
 //Let the IDE know this 3rd party MIDI.js module is defined elsewhere.
@@ -24,7 +24,7 @@ declare const jQuery: any;
  * @classdesc The load state
  */
 @injectable()
-export class LoadState extends EventState {
+export class LoadState extends State {
 	public constructor(@inject(TYPES.Session) private session: ISession, private $: any = jQuery, private midiJs: any = MIDI) {
 		super();
 	}

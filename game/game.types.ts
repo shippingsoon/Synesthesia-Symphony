@@ -1,20 +1,19 @@
 /**
- * @file
+ * @file Game types
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IStateData } from '../system/system.types';
 import { IColor } from '../graphics/graphics.types';
 
 /**
  * @interface
  */
 export interface IEntity {
-	draw(data: IStateData): void;
-	update(data: IStateData): void;
+	draw(): void;
+	update(): void;
 }
 
 /**
@@ -82,10 +81,6 @@ export interface IConfig {
 		readonly MEDIUM: IResolution,
 		readonly HIGH: IResolution
 	};
-	//The game's title.
-	readonly GAME_TITLE: string;
-	//The game's version.
-	readonly VERSION: string;
 	//The player's initial lives.
 	readonly PLAYER_INITIAL_LIVES: number;
 	//The player's max power.

@@ -6,36 +6,44 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
+'use strict';
+
 import { IState, IStateStack } from './system.types';
-import { injectable } from 'inversify';
-import 'reflect-metadata';
+import { injectable, decorate, unmanaged } from 'inversify';
+
+//Here we decorate the 3rd party object.
+decorate(injectable(), Array);
+decorate(unmanaged(), Array, 0);
 
 /**
  * @class
- * @classdesc StateStack
+ * @classdesc StateStack class.
  */
-//@injectable()
-export class StateStack extends Array<IState> {
+@injectable()
+export class StateStack extends Array<IState> implements IStateStack {
 	/**
 	 * @constructor
-	 * @public
+	 * @param {IState} state : IState
 	 */
-	public constructor() {
-		super();
+	public constructor(@unmanaged() state?: IState) {
+		if (typeof state !== 'undefined') {
+			super(state);
+		}
+		else {
+			super();
+		}
 	}
 
 	/**
 	 * Checks to see if there are any states in the stack.
-	 * @public
 	 * @return {boolean}
 	 */
 	public isEmpty(): boolean {
-		return this.length === 0;
+		return (this.length === 0);
 	}
 
 	/**
 	 * Retrieves current state.
-	 * @public
 	 * @throws {Error}
 	 * @return {IState}
 	 */

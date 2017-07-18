@@ -11,7 +11,6 @@
 import { ICanvasResource, IFsm, IState, IWindow } from '../system/system.types';
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../bootstrap/bootstrap.types';
-import 'reflect-metadata';
 
 /**
  * @class
@@ -22,35 +21,23 @@ import 'reflect-metadata';
  */
 @injectable()
 export class Game {
-	/**
-	 * The current Unix timestamp in milliseconds. This is used to measure the delta time between two frames.
-	 * @private
-	 */
+	//The current Unix timestamp in milliseconds. This is used to measure the delta time between two frames.
 	private currentTime: number = Date.now();
 
-	/**
-	 * The long integer request ID which is returned by requestAnimationFrame() method. It can be used to break out of the game loop.
-	 * @private
-	 */
+	//The long integer request ID which is returned by requestAnimationFrame() method. It can be used to break out of the game loop.
 	private requestAnimationId: number;
 
-	/**
-	 * The target frames per second. By default the requestAnimationFrame() runs at 60 FPS. Note: (1000 / 60) = 16.666666666666668.
-	 * @private
-	 */
+	///The target frames per second. By default the requestAnimationFrame() runs at 60 FPS. Note: (1000 / 60) = 16.666666666666668.
 	private readonly targetFps: number = 16.666666666666668;
 
-	/**
-	 * A data structure containing an HTML5 canvas element and 2D drawing context.
-	 * @private
-	 */
-	@inject(TYPES.CanvasResource)
-	private readonly canvasResource: ICanvasResource;
+	//A data structure containing HTML5 canvas elements and 2D drawing contexts.
+	@inject(TYPES.CanvasResource) private readonly canvasResource: ICanvasResource;
 
 	/**
-	 * We are setting the constructor to private to prevent this class from being instantiated outside the class body or extended.
-	 * @public
 	 * @constructor
+	 * @param {IFsm} fsm - Finite state machine.
+	 * @param {IState} initialState - The initial game state.
+	 * @param {IWindow} _window
 	 */
 	public constructor(@inject(TYPES.Fsm) private readonly fsm: IFsm, @inject(TYPES.LoadState) private readonly initialState: IState, private _window: IWindow = window) {
 		//Transition to the initial game state.
@@ -65,7 +52,6 @@ export class Game {
 
 	/**
 	 * This is the program's entry point. This method is recursively invoked via the requestAnimationFrame() method.
-	 * @public
 	 * @return {void}
 	 */
 	public main(): void {
@@ -102,7 +88,6 @@ export class Game {
 
 	/**
 	 * Handles pushState events.
-	 * @private
 	 * @param {CustomEventInit} event - Event data.
 	 * @return {void}
 	 */
@@ -113,7 +98,6 @@ export class Game {
 
 	/**
 	 * Handles popState events.
-	 * @private
 	 * @param {CustomEventInit} event - Event data.
 	 * @return {void}
 	 */

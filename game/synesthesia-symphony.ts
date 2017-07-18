@@ -10,7 +10,7 @@
 import { TYPES } from '../bootstrap/bootstrap.types';
 import { IFsm, IWindow } from '../system/system.types';
 import { Fsm } from '../system/system.fsm';
-import { CanvasResource } from '../system/system.canvas-resource';
+import { CanvasResource } from './system.canvas-resource';
 import { StateStack} from '../system/system.state-stack';
 //import { injectable, inject } from '../node_modules/inversify/es/inversify';
 import { injectable, inject } from 'inversify';

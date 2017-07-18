@@ -1,5 +1,5 @@
 /**
- * @file Abstract game states class. Game states are used by the finite state machine design pattern. See the FSM class in system.fsm.ts for more details.
+ * @file Abstract game states class. Game states are used by the finite state machine. See the FSM class in system.fsm.ts for more details.
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
@@ -8,32 +8,24 @@
 
 'use strict';
 
-import { IStateData, IState, ICanvasResource } from './system.types';
+import { IState, ICanvasResource, IWindow, ICustomEventData, FsmEvents } from './system.types';
 import { injectable } from 'inversify';
-import 'reflect-metadata';
+import { Mixin } from './system.mixin';
+import { Emitable } from './system.mixin-traits';
 
 /**
  * @class
- * @classdesc state abstract class.
+ * @classdesc Abstract State class.
  * @abstract
  */
+@Mixin([Emitable])
 @injectable()
-export abstract class State implements IState {
-	/**
-	 * Determines if this state is active i.e., if we will invoke the update() method.
-	 * @protected
-	 */
-	protected _isActive: boolean = true;
+export abstract class State implements IState, Emitable {
+	//Mixin.
+	public emit: (eventName: FsmEvents, detail: ICustomEventData, _window: IWindow) => void;
 
 	/**
-	 * Determines if the state is visible i.e., if we will invoke the draw() method.
-	 * @protected
-	 */
-	protected _isVisible: boolean = true;
-
-	/**
-	 * If the constructor is protected it cannot be instantiated outside of the class body, but it can be extended.
-	 * @protected
+	 * DevNote: If the constructor is protected it cannot be instantiated outside of the class body, but it can be extended.
 	 * @constructor
 	 */
 	protected constructor() {}
@@ -41,7 +33,6 @@ export abstract class State implements IState {
 	//#region Polymorphism Region (Note: regions are collapsible with IntelliJ)
 	/**
 	 * Handles logic for the state.
-	 * @public
 	 * @abstract
 	 * @param {IStateData} dt - The delta time between the current and previous frame.
 	 * @return {void}
@@ -50,7 +41,6 @@ export abstract class State implements IState {
 
 	/**
 	 * Renders the state.
-	 * @public
 	 * @abstract
 	 * @param {ICanvasResource} resource - An object containing the 2D drawing context and delta time.
 	 * @return {void}
@@ -59,7 +49,6 @@ export abstract class State implements IState {
 
 	/**
 	 * This method contains logic that is invoked when the state is pushed on the Fsm stack. It can be thought of as a constructor.
-	 * @public
 	 * @abstract
 	 * @return {void}
 	 */
@@ -67,7 +56,6 @@ export abstract class State implements IState {
 
 	/**
 	 * This method contains logic that is invoked when the state is popped from the Fsm stack. It can be thought of as a destructor.
-	 * @public
 	 * @abstract
 	 * @return {void}
 	 */
@@ -75,7 +63,6 @@ export abstract class State implements IState {
 
 	/**
 	 * Resumes the state.
-	 * @public
 	 * @abstract
 	 * @return {void}
 	 */
@@ -83,51 +70,9 @@ export abstract class State implements IState {
 
 	/**
 	 * Suspends the state but does not remove from the Fsm stack.
-	 * @public
 	 * @abstract
 	 * @return {void}
 	 */
 	public abstract pause(): void;
-
-	///#endregion
-
-	//#region Mutator Region (Note: regions are collapsible with IntelliJ)
-	/**
-	 * Gets the isActive status.
-	 * @public
-	 * @return {boolean}
-	 */
-	public get isActive() {
-		return this._isActive;
-	}
-
-	/**
-	 * Gets the isActive status.
-	 * @public
-	 * @param isActive
-	 * @return {void}
-	 */
-	public set isActive(isActive: boolean) {
-		this._isActive = isActive;
-	}
-
-	/**
-	 * Gets the isActive status.
-	 * @public
-	 * @return {boolean}
-	 */
-	public get isVisible() {
-		return this._isVisible;
-	}
-
-	/**
-	 * Gets the isVisible status.
-	 * @public
-	 * @param isVisible
-	 * @return {void}
-	 */
-	public set isVisible(isVisible: boolean) {
-		this._isVisible = isVisible;
-	}
 	///#endregion
 }
