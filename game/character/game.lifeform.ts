@@ -11,7 +11,7 @@
 import { Circle } from '../../graphics/shape/graphics.circle';
 import { IColor, ColorName, ICssColor } from '../../graphics/graphics.types';
 import { injectable, inject } from 'inversify';
-import { TYPES } from '../../bootstrap/bootstrap.types';
+import { TYPES } from '../../bootstrap/inversify.types';
 //import 'reflect-metadata';
 
 /**

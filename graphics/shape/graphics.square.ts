@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { TYPES } from '../../bootstrap/bootstrap.types';
+import { TYPES } from '../../bootstrap/inversify.types';
 import { ICssColor } from '../graphics.types';
 import { SquareShape } from './graphics.square-shape';
 //import { injectable, inject } from '../../node_modules/inversify/es/inversify';

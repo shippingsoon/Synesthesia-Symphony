@@ -6,29 +6,23 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-'use strict';
-
-import { IFsm, IStateStack, IState, ICanvasResource } from './system.types';
-import { StateStack } from './system.state-stack';
+import { IFsm, IStack, IState, ICanvasResource } from './system.types';
 import { injectable, inject } from 'inversify';
-import { TYPES } from '../bootstrap/bootstrap.types';
+import { TYPES } from '../bootstrap/inversify.types';
 
 /**
- * @class
  * @classdesc The Fsm (Finite State Machine) is a design pattern that allows developers to easily manage game states.
  */
 @injectable()
 export class Fsm implements IFsm {
 	/**
-	 * @constructor
-	 * @param {IStateStack} states - An array data structure of game states.
+	 * @param states - An array data structure of game states.
 	 */
-	public constructor(@inject(TYPES.StateStack) private states: IStateStack = new StateStack()) {}
+	public constructor(@inject(TYPES.Stack) private states: IStack<IState>) {}
 
 	/**
 	 * Handle logic in the current state.
-	 * @param {number} dt - The delta time between the current and previous frames.
-	 * @return {void}
+	 * @param dt - The delta time between the current and previous frames.
 	 */
 	public update(dt: number): void {
 		//If the games states array is not empty.
@@ -40,8 +34,7 @@ export class Fsm implements IFsm {
 
 	/**
 	 * Render the current state.
-	 * @param {ICanvasResource} resource - An object containing the 2D drawing context and HTML5 canvas element.
-	 * @return {void}
+	 * @param resource - An object containing the 2D drawing context and HTML5 canvas element.
 	 */
 	public draw(resource: ICanvasResource): void {
 		//TODO: Might want to consider removing this IF statement, it is an edge case.
@@ -53,8 +46,7 @@ export class Fsm implements IFsm {
 
 	/**
 	 * Pushes a new state on to the stack.
-	 * @param {IState} state - A game state.
-	 * @return {void}
+	 * @param state - A game state.
 	 */
 	public push(state: IState): void {
 		//Pause the current state
@@ -71,9 +63,8 @@ export class Fsm implements IFsm {
 
 	/**
 	 * Pops a state from the stack and optionally suspends the state.
-	 * @param {boolean} stopCurrentState - Determines if we will suspend the state before removing it.
+	 * @param stopCurrentState - Determines if we will suspend the state before removing it.
 	 * @throws {Error}
-	 * @return {void}
 	 */
 	public pop(stopCurrentState: boolean = false): void {
 		if (this.states.length > 1) {

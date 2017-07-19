@@ -9,7 +9,7 @@
 'use strict';
 
 import { LifeForm } from './game.lifeform';
-import { IStateData, IState } from '../../system/system.types';
+import { IState } from '../../system/system.types';
 import { IColor, ColorName } from '../../graphics/graphics.types';
 import { IEntity } from '../game.types';
 
@@ -34,15 +34,15 @@ export class Enemy {
 
 	}
 
-	public start(data: IStateData) {
+	public start() {
 
 	}
 
-	public update(data: IStateData): void {
+	public update(): void {
 
 	}
 
-	public draw(data: IStateData): void {
+	public draw(): void {
 		//this.render(data.session.ctx);
 	}
 

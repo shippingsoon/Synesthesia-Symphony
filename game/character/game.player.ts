@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { IState, IStateData } from '../../system/system.types';
+import { IState } from '../../system/system.types';
 import { LifeForm } from './game.lifeform';
 import { IColor, ColorName } from '../../graphics/graphics.types';
 import { Color } from '../../graphics/graphics.color';
@@ -50,23 +50,23 @@ export class Player {
 		this.secondaryColor = new Color(secondaryColor);
 	}
 
-	public start(data: IStateData) {
+	public start() {
 
 	}
 
-	public update(data: IStateData): void {
+	public update(): void {
 		//Handle keyboard input.
-		this.handleInput(data);
+		//this.handleInput(data);
 	}
 
-	public draw(data: IStateData): void {
+	public draw(): void {
 		//o.ctx.clearRect(0, 0, session.canvas.width, session.canvas.height);
 		//console.log(`(${this.x}, ${this.y})`);
 
 		//this.render(data.session.ctx);
 	}
 
-	private handleInput(data: IStateData): void {
+	private handleInput(): void {
 		//this.speed = ((Keydown.shift) ? this.secondarySpeed : this.primarySpeed) * (data.dt / 1000.0);
 		//this.fillColor = (Keydown.shift) ? this.secondaryColor : this.primaryColor;
 

@@ -6,21 +6,20 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-'use strict';
-
 import { ICanvasResource, IFsm, IState, IWindow } from '../system/system.types';
 import { injectable, inject } from 'inversify';
-import { TYPES } from '../bootstrap/bootstrap.types';
+import { TYPES } from '../bootstrap/inversify.types';
+import { IGame } from './game.types';
 
 /**
- * @class
- * @classdesc Singleton Game class.
+ * Game class.
+ * @classdec This class was originally a singleton but was refactored to use InversifyJs' singleton scope.
  * @requires IFsm
  * @requires IState
  * @requires ICanvasResource
  */
 @injectable()
-export class Game {
+export class Game implements IGame {
 	//The current Unix timestamp in milliseconds. This is used to measure the delta time between two frames.
 	private currentTime: number = Date.now();
 
@@ -28,16 +27,15 @@ export class Game {
 	private requestAnimationId: number;
 
 	///The target frames per second. By default the requestAnimationFrame() runs at 60 FPS. Note: (1000 / 60) = 16.666666666666668.
-	private readonly targetFps: number = 16.666666666666668;
+	private readonly targetFps: number = (1000.0 / 60.0);
 
 	//A data structure containing HTML5 canvas elements and 2D drawing contexts.
 	@inject(TYPES.CanvasResource) private readonly canvasResource: ICanvasResource;
 
 	/**
-	 * @constructor
-	 * @param {IFsm} fsm - Finite state machine.
-	 * @param {IState} initialState - The initial game state.
-	 * @param {IWindow} _window
+	 * @param fsm - Finite state machine.
+	 * @param initialState - The initial game state.
+	 * @param _window
 	 */
 	public constructor(@inject(TYPES.Fsm) private readonly fsm: IFsm, @inject(TYPES.LoadState) private readonly initialState: IState, private _window: IWindow = window) {
 		//Transition to the initial game state.
@@ -51,8 +49,7 @@ export class Game {
 	}
 
 	/**
-	 * This is the program's entry point. This method is recursively invoked via the requestAnimationFrame() method.
-	 * @return {void}
+	 * The main game loop. This method is recursively invoked via the requestAnimationFrame() method which runs at 60 FPS.
 	 */
 	public main(): void {
 		//This variable holds the time that was stored in the previous frame.
@@ -88,7 +85,7 @@ export class Game {
 
 	/**
 	 * Handles pushState events.
-	 * @param {CustomEventInit} event - Event data.
+	 * @param event - Event data.
 	 * @return {void}
 	 */
 	private __pushState(event: CustomEventInit): void {
@@ -98,7 +95,7 @@ export class Game {
 
 	/**
 	 * Handles popState events.
-	 * @param {CustomEventInit} event - Event data.
+	 * @param event - Event data.
 	 * @return {void}
 	 */
 	private __popState(event: CustomEventInit): void {

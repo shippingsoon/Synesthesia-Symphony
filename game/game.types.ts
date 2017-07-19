@@ -115,6 +115,7 @@ export interface IResource {
 	readonly backgroundCanvas: HTMLCanvasElement;
 	readonly context: CanvasRenderingContext2D;
 	readonly backgroundContext: CanvasRenderingContext2D;
+	readonly foo?: number;
 }
 
 /**
@@ -126,4 +127,11 @@ export interface IResolution {
 	readonly H: number;
 	readonly CANVAS_W: number;
 	readonly CANVAS_H: number;
+}
+
+/**
+ * @interface
+ */
+export interface IGame {
+	main(): void;
 }

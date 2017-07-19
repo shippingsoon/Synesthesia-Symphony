@@ -1,5 +1,5 @@
 /**
- * @file Mixin Traits
+ * @file Mixins traits
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
@@ -7,23 +7,39 @@
  */
 
 import { FsmEvents, ICustomEventData, IWindow } from './system.types';
+import { inject, injectable } from 'inversify';
+import { TYPES } from '../bootstrap/inversify.types';
 
 /**
- * @class
- * @classdesc Emitable class.
+ * @classdesc Emitable class mixin.
  */
+@injectable()
 class Emitable {
 	/**
 	 * Dispatches a custom event.
 	 * @event CustomEvent
-	 * @param {FsmEvents} eventName
-	 * @param {ICustomEventData} detail
-	 * @param {IWindow} _window
-	 * @return {void}
+	 * @param eventName
+	 * @param detail
+	 * @param element
 	 */
-	public emit(eventName: FsmEvents, detail: ICustomEventData, _window: IWindow = window): void {
-		_window.dispatchEvent(new CustomEvent(eventName, {'detail': detail}));
+	public emit(eventName: FsmEvents, detail: ICustomEventData, element: IWindow = window): void {
+		element.dispatchEvent(new CustomEvent(eventName, {'detail': detail}));
 	}
 }
 
-export { Emitable };
+@injectable()
+class Loader {
+	constructor(@inject(TYPES.jQuery) public $: any) {}
+
+	public load<T>(url: string, dataType: string = 'json'): Promise<T> {
+		return new Promise<T>((resolve, reject) => {
+			this.$.ajax({
+				dataType: dataType,
+				url: url,
+				success: (json) => { resolve(json); },
+				error: (err) => { reject(err); }
+			});
+		});
+	}
+}
+export { Emitable, Loader };

@@ -43,12 +43,12 @@ export interface IFsm {
 /**
  * @interface
  */
-export interface IStateStack {
+export interface IStack<T> {
 	readonly length: number;
 	isEmpty(): boolean;
-	peek(): IState;
-	push(state: IState): void;
-	pop(): IState;
+	peek(): T;
+	push(value: T): void;
+	pop(): T;
 }
 
 /**

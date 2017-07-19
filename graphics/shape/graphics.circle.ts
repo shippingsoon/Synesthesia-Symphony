@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { TYPES } from '../../bootstrap/bootstrap.types';
+import { TYPES } from '../../bootstrap/inversify.types';
 import { Drawable, ICssColor } from '../graphics.types';
 import { CircleShape } from './graphics.circle-shape';
 //import { injectable, inject } from '../../node_modules/inversify/es/inversify';
@@ -61,7 +61,7 @@ export class Circle extends CircleShape implements Drawable {
 
 			//Make the shape circular.
 			ctx.beginPath();
-			ctx.arc(this.x, this.y, this.r, 0, 2 * this._Math.PI, false);
+			ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
 
 			//Fill in the circle with the given color.
 			ctx.fillStyle = this.fillColor.rgba;

@@ -8,7 +8,7 @@
 
 'use strict';
 
-import { IState, IStateData } from '../system/system.types';
+import { IState } from '../system/system.types';
 import { Circle } from '../graphics/shape/graphics.circle';
 import { IColor, ColorName } from '../graphics/graphics.types';
 
@@ -35,18 +35,18 @@ export class Projectile {
 		this.projectileIsOpen = isOpen;
 	}
 
-	public start(data: IStateData): void {
+	public start(): void {
 
 	}
 
-	public update(data: IStateData): void {
+	public update(): void {
 		if (this.projectileIsOpen) {
-			this.createPaintTrail(data);
+			//this.createPaintTrail(data);
 		}
 
 		//this.y = this.y + 10;
 	}
-	public draw(data: IStateData): void {
+	public draw(): void {
 		//console.log('drawing')
 		//this.render(data.session.ctx);
 	}
@@ -55,7 +55,7 @@ export class Projectile {
 		return this.projectileIsOpen;
 	}
 
-	private createPaintTrail(data: IStateData): void {
+	private createPaintTrail(): void {
 		//const projectile = new Projectile({x: this.x, y: this.y, fillColor: this.fillColor.getColor(), lineWidth: 0, isOpen: false});
 		//data.manager.add('projectiles', projectile);
 	}

@@ -72,7 +72,7 @@ export class CircleShape extends Shape implements ICircle {
 	 * @return {number}
 	 */
 	public get getArea(): number {
-		return this._Math.PI * (this.r * this.r);
+		return Math.PI * (this.r * this.r);
 	}
 	//#endregion
 }

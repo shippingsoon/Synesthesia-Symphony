@@ -6,8 +6,6 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-'use strict';
-
 import { IConfig, ISession } from '../game/game.types';
 import { injectable } from 'inversify';
 
@@ -17,19 +15,10 @@ import { injectable } from 'inversify';
  */
 @injectable()
 export class Session implements ISession {
-	private static _instance: ISession;
 	private _bgmVolumeLevel: number;
 	private _sfxVolumeLevel: number;
 	private _config: IConfig;
 	private _data: any;
-
-	public static getInstance(): ISession {
-		if (!Session._instance) {
-			Session._instance = new Session();
-		}
-
-		return Session._instance;
-	}
 
 	public get bgmVolumeLevel(): number {return this._bgmVolumeLevel;}
 	public set bgmVolumeLevel(bgmVolumeLevel: number) {this._bgmVolumeLevel = bgmVolumeLevel;}
@@ -38,5 +27,5 @@ export class Session implements ISession {
 	public get config(): IConfig {return this._config;}
 	public set config(config: IConfig) {this._config = config;}
 	public get data(): any {return this._data;}
-	private constructor() {}
+	public constructor() {}
 }

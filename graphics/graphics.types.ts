@@ -20,15 +20,10 @@ export interface IColor {
 /**
  * @interface
  */
-export interface ICssColor {
-	readonly r: number;
-	readonly g: number;
-	readonly b: number;
-	readonly a: number;
+export interface ICssColor extends IColor {
 	readonly rgba: string;
 	readonly hex: string;
 	setColor?(IColor): ICssColor;
-	getColor?(): IColor;
 }
 
 /**
@@ -285,8 +280,6 @@ export interface IShape {
 /**
  * @interface
  */
-export interface ICircle {
-	readonly x: number;
-	readonly y: number;
+export interface ICircle extends IShape {
 	readonly r: number;
 }

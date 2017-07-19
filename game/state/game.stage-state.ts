@@ -6,9 +6,6 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-'use strict';
-
-import { IStateData } from '../../system/system.types';
 import { State } from '../../system/system.state';
 import { EntityManager } from '../game.entity-manager';
 
@@ -16,34 +13,34 @@ import { EntityManager } from '../game.entity-manager';
  * @class
  * @classdesc The stage game state.
  */
-export class StageState extends State {
+export class StageState  {
 	private entityManger: EntityManager;
 
 	public constructor() {
-		super();
+		//super();
 	}
 
-	public start(data: IStateData): void {
+	public start(data: any): void {
 		this.entityManger = new EntityManager(data.session.getGameData);
 	}
 
-	public update(data: IStateData): void {
+	public update(data: any): void {
 		this.entityManger.update(data);
 	}
 
-	public draw(data: IStateData): void {
+	public draw(data: any): void {
 		this.entityManger.draw(data);
 	}
 
-	public pause(data: IStateData): void {
+	public pause(data: any): void {
 
 	}
 
-	public play(data: IStateData): void {
+	public play(data: any): void {
 
 	}
 
-	public stop(data: IStateData): void {
+	public stop(data: any): void {
 
 	}
 }

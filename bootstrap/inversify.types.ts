@@ -1,5 +1,5 @@
 /**
- * @file Types for Inversify's IoC container.
+ * @file Symbols for InversifyJS' Inversion of Control container.
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
@@ -10,12 +10,13 @@ import * as _ from 'lodash';
 
 const TYPES = {
 	//System
-	StateStack: Symbol('StateStack'),
+	Stack: Symbol('Stack'),
 	Array: Symbol('Array'),
 	State: Symbol('State'),
 	Session: Symbol('Session'),
 	Fsm: Symbol('Fsm'),
 	CanvasResource: Symbol('CanvasResource'),
+	Window: Symbol('Window'),
 
 	//Graphics
 	Color: Symbol('Color'),
@@ -30,10 +31,11 @@ const TYPES = {
 	//Game
 	Game: Symbol('Game'),
 	LoadState: Symbol('LoadState'),
-	MIDI: Symbol('MIDI'),
 
 	//3rd Party.
-	Lodash: Symbol('Lodash')
+	Lodash: Symbol('Lodash'),
+	MIDI: Symbol('MIDI'),
+	jQuery: Symbol('jQuery')
 };
 
 type Lodash = typeof _;

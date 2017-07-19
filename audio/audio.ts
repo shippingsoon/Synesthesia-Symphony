@@ -6,8 +6,6 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-'use strict';
-
 import { IConfig } from '../game/game.types';
 import _ from 'lodash';
 
@@ -96,7 +94,7 @@ export function playSong(song: any, MIDIJS: any, config: IConfig, eventListener:
 
 /**
  * Stops a MIDI song.
- * @param {any} midiPlayer - The MIDI.Player object.
+ * @param midiPlayer - The MIDI.Player object.
  * @return {void}
  */
 export function stopSong(midiPlayer: any): void {

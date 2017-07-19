@@ -8,10 +8,10 @@
 
 /**
  * Mixin class decorator.
- * @param {Function[]} traits
+ * @param traits
  * @return {Function}
  */
-export function Mixin(traits: Function[]): Function {
+export function Mixin(...traits: Function[]): Function {
 	return function (target: Function) {
 		traits.forEach(trait => {
 			Object.getOwnPropertyNames(trait.prototype).forEach(name => {

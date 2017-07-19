@@ -1,52 +1,40 @@
 /**
- * @file Vector math.
+ * @file Vector class.
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-'use strict';
-
 import { IVector, isVector, IMath } from './graphics.types';
-//import { injectable } from '../node_modules/inversify/es/inversify';
-import { injectable, inject } from 'inversify';
-//import 'reflect-metadata';
+import { injectable } from 'inversify';
 
 //Let our compiler know that this object is defined elsewhere.
 declare const Math: IMath;
 
 /**
- * @class
- * @classdesc Vector math.
+ * @classdesc Vector class.
  */
 @injectable()
 export class Vector implements IVector {
-	/**
-	 * The x and y coordinates.
-	 * @protected
-	 */
+	//The x and y coordinates.
 	protected _x: number;
 	protected _y: number;
 
 	/**
 	 * Vector constructor.
-	 * @public
-	 * @constructor
-	 * @param {number} x - The x component of the vector.
-	 * @param {number} y - The y component of the vector.
-	 * @param {IMath} _Math - Math library.
+	 * @param x - The x component of the vector.
+	 * @param y - The y component of the vector.
 	 */
-	public constructor({x = 0, y = 0}: IVector, protected _Math: IMath = Math) {
+	public constructor({x = 0, y = 0}: IVector) {
 		this._x = x;
 		this._y = y;
 	}
 
 	/**
 	 * Adds two vectors.
-	 * @public
-	 * @param {IVector} vector - The vector that will be added to this vector instance.
-	 * @return {Vector}
+	 * @param vector - The vector that will be added to this vector instance.
+	 * @return {IVector}
 	 */
 	public add(vector: IVector|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
@@ -59,9 +47,8 @@ export class Vector implements IVector {
 
 	/**
 	 * Subtracts two vectors.
-	 * @public
-	 * @param {IVector|number} vector - The vector that will be subtracted from this vector instance.
-	 * @return {Vector}
+	 * @param vector - The value that will be subtracted from this vector instance.
+	 * @return {IVector}
 	 */
 	public subtract(vector: IVector|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
@@ -74,9 +61,8 @@ export class Vector implements IVector {
 
 	/**
 	 * Multiplies two vectors.
-	 * @public
-	 * @param {IVector|number} vector - The vector that will be multiplied by this vector instance.
-	 * @return {Vector}
+	 * @param vector - The value that will be multiplied by this vector instance.
+	 * @return {IVector}
 	 */
 	public multiply(vector: IVector|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
@@ -89,10 +75,9 @@ export class Vector implements IVector {
 
 	/**
 	 * Divides two vectors.
-	 * @public
-	 * @param {IVector|number} vector - The vector that will divide this vector instance.
+	 * @param vector - The value that will be used to divide this vector instance.
 	 * @throws {Error}
-	 * @return {Vector}
+	 * @return {IVector}
 	 */
 	public divide(vector: IVector|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
@@ -110,7 +95,6 @@ export class Vector implements IVector {
 
 	/**
 	 * Retrieves the vector's location
-	 * @public
 	 * @return {IVector}
 	 */
 	public getPosition(): IVector {
@@ -119,9 +103,8 @@ export class Vector implements IVector {
 
 	/**
 	 * Sets the position
-	 * @public
-	 * @param {IVector|number} vector - The vector that we will use to set the position.
-	 * @return {Vector}
+	 * @param vector - The value that will be used to set the position of this vector instance.
+	 * @return {IVector}
 	 */
 	public setPosition(vector: IVector|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
@@ -135,7 +118,6 @@ export class Vector implements IVector {
 	//#region Mutator Region (Note: regions are collapsible with IntelliJ)
 	/**
 	 * Gets the x component of this vector.
-	 * @public
 	 * @return {number}
 	 */
 	public get x(): number {
@@ -144,8 +126,7 @@ export class Vector implements IVector {
 
 	/**
 	 * Sets the x component of this vector.
-	 * @public
-	 * @param {number} x - The number we will use to set the x component of the vector.
+	 * @param x - The number we will use to set the x component of the vector.
 	 * @return {void}
 	 */
 	public set x(x: number) {
@@ -154,7 +135,6 @@ export class Vector implements IVector {
 
 	/**
 	 * Gets the y component of this vector.
-	 * @public
 	 * @return {number}
 	 */
 	public get y(): number {
@@ -163,8 +143,7 @@ export class Vector implements IVector {
 
 	/**
 	 * Sets the y component of this vector.
-	 * @public
-	 * @param {number} y - The number we will use to set the y component of the vector.
+	 * @param y - The number we will use to set the y component of the vector.
 	 * @return {void}
 	 */
 	public set y(y: number) {
@@ -173,16 +152,14 @@ export class Vector implements IVector {
 
 	/**
 	 * Returns the magnitude of the vector.
-	 * @public
 	 * @return {number}
 	 */
 	public get magnitude(): number {
-		return this._Math.sqrt((this.x * this.x) + (this.y * this.y));
+		return Math.sqrt((this.x * this.x) + (this.y * this.y));
 	}
 
 	/**
 	 * Returns the angle of this vector
-	 * @public
 	 * @throws {Error}
 	 * @return {number}
 	 */
@@ -191,12 +168,11 @@ export class Vector implements IVector {
 			throw new Error('Division by zero in Vector.angle');
 		}
 
-		return this._Math.atan2(this.y / this.x);
+		return Math.atan2(this.y / this.x);
 	}
 
 	/**
 	 * Returns the length of the vector squared. This method can be used to cheaply find the nearest object.
-	 * @public
 	 * @return {number}
 	 */
 	public get lengthSquared(): number {

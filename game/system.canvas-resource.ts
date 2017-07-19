@@ -6,20 +6,14 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-'use strict';
-
-import { injectable } from 'inversify';
+import { injectable, unmanaged } from 'inversify';
 import { ICanvasResource } from '../system/system.types';
 
 /**
- * @class
  * @classdesc This class contains various configuration and game data.
  */
 @injectable()
 export class CanvasResource implements ICanvasResource {
-	//An instance of this class.
-	private static _instance: ICanvasResource;
-
 	//HTML5 canvas element.
 	private readonly _canvas: HTMLCanvasElement;
 	private readonly _bgCanvas: HTMLCanvasElement;
@@ -28,28 +22,18 @@ export class CanvasResource implements ICanvasResource {
 	private readonly _ctx: CanvasRenderingContext2D;
 	private readonly _bgCtx: CanvasRenderingContext2D;
 
-	/**
-	 * @param {HTMLCanvasElement} canvas
-	 * @param {HTMLCanvasElement} bgCanvas
-	 * @return {ICanvasResource}
-	 */
-	public static getInstance(canvas?: HTMLCanvasElement, bgCanvas?: HTMLCanvasElement): ICanvasResource {
-		if (!CanvasResource._instance) {
-			CanvasResource._instance = new CanvasResource(canvas, bgCanvas);
-		}
-		return CanvasResource._instance;
-	}
+	public foo: number;
 
 	/**
-	 * @constructor
-	 * @param {HTMLCanvasElement} canvas
-	 * @param {HTMLCanvasElement} bgCanvas
+	 * @param canvas
+	 * @param bgCanvas
 	 */
-	private constructor(canvas?: HTMLCanvasElement, bgCanvas?: HTMLCanvasElement) {
+	public constructor(@unmanaged() canvas?: HTMLCanvasElement, @unmanaged() bgCanvas?: HTMLCanvasElement) {
 		this._canvas = canvas ? canvas : <HTMLCanvasElement> document.getElementById('canvas-layer');
 		this._bgCanvas = bgCanvas ? canvas : <HTMLCanvasElement> document.getElementById('background-layer');
 		this._ctx = this.canvas.getContext('2d');
 		this._bgCtx = this.bgCanvas.getContext('2d');
+		this.foo = 0;
 	}
 
 	//#region Mutator Region (Note: regions are collapsible with IntelliJ)
