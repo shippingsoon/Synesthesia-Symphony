@@ -135,3 +135,9 @@ export interface IResolution {
 export interface IGame {
 	main(): void;
 }
+
+export interface IGameData {d
+	enemies: Array<any>;
+	player: object;
+	songs: Array<any>;
+}

@@ -1,5 +1,5 @@
 {
-  "DB_URL": "/synesthesia-symphony/offline-data.json",
+  "DB_URL": "offline-data.json",
   "DEBUG_MODE": true,
   "ONLY_USE_PIANO_INSTRUMENT": true,
   "PLAYER_INITIAL_LIVES": 2,

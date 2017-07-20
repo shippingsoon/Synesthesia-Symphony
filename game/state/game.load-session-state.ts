@@ -10,7 +10,7 @@ import { ICanvasResource, IState } from '../../system/system.types';
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../../bootstrap/inversify.types';
 import { State } from '../../system/system.state';
-import { IConfig, ISession } from '../game.types';
+import { IConfig, IGameData, ISession } from '../game.types';
 import { Loader } from '../../system/system.mixin-traits';
 import { Mixin } from '../../system/system.mixin';
 
@@ -49,12 +49,17 @@ export class LoadSessionState extends State implements Loader {
 				//Load the CONFIG.json file into the session instance.
 				//Here we use async await to avoid callback hell.
 				this.session.config = await this.load<IConfig>(url);
-
-				//Load the game data required to initiate enemies, items and projectile patterns.
-				this.session.data = await this.load<any>(this.session.config.DB_URL);
 			}
 			catch (err) {
-				console.error('Error loading the config.json file. Make sure the config.json and offline-data.json files contain the correct data and is valid JSON', err);
+				console.error('Error loading the config.json file. Make sure the file contains the correct data and is valid JSON', err);
+			}
+
+			try {
+				//Load the game data required to initiate enemies, items and projectile patterns.
+				this.session.data = await this.load<IGameData>(this.session.config.DB_URL);
+			}
+			catch (err) {
+				console.error('Error loading the offline-data.json files. Make sure the file contains the correct data and is valid JSON', err);
 			}
 		});
 	}
