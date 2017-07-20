@@ -24,7 +24,7 @@ export class CssColor extends Color {
 	/**
 	 * Converts a color object to a hexadecimal string.
 	 * @param color - The color object containing rgb colors that will be converted to hex.
-	 * @return {string}
+	 * @return {string} The color in hex format e.g., #FFBBAA.
 	 */
 	public static colorToHex(color: IColor): string {
 		return [color.r, color.g, color.b].reduce(
@@ -36,7 +36,7 @@ export class CssColor extends Color {
 	/**
 	 * Converts a color object to a hexadecimal string.
 	 * @param color - The color object containing rgb colors that will be converted to hex.
-	 * @return {string}
+	 * @return {string} The color in RGBA format e.g., rgba(255, 0, 50).
 	 */
 	public static colorToRgba(color: IColor): string {
 		return `rgba(${[color.r, color.g, color.b, color.a].join(', ')})`;
@@ -44,7 +44,7 @@ export class CssColor extends Color {
 
 	/**
 	 * Color constructor.
-	 * @param {IColor|ColorName} color - Can either be a name of a color such as 'red' or an object containing rgba values.
+	 * @param color - Can either be a name of a color such as 'red' or an object containing rgba values.
 	 * @throws {Error}
 	 */
 	public constructor(@unmanaged() color: IColor|ColorName) {
@@ -56,8 +56,9 @@ export class CssColor extends Color {
 
 	/**
 	 * Set the color.
-	 * @param {IColor|ColorName} color - Can either be a name of a color such as 'red' or an object containing rgba values.
+	 * @param color - Can either be a name of a color such as 'red' or an object containing rgba values.
 	 * @throws {Error}
+	 * @returns {IColor} An instance of this class.
 	 */
 	public setColor(color: IColor|ColorName): this {
 		const {r = 1, g = 1, b = 1, a = 0} = {...isColorName(color) ? COLORS[<string>color] : color};

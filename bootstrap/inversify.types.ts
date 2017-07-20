@@ -6,8 +6,6 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import * as _ from 'lodash';
-
 const TYPES = {
 	//System
 	Stack: Symbol('Stack'),
@@ -41,6 +39,4 @@ const TYPES = {
 	jQuery: Symbol('jQuery')
 };
 
-type Lodash = typeof _;
-
-export { TYPES, Lodash };
+export { TYPES };

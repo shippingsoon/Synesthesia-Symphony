@@ -27,10 +27,18 @@ class Emitable {
 	}
 }
 
+/**
+ * @classdesc Loader class mixin.
+ * @requires jQuery
+ */
 @injectable()
 class Loader {
-	constructor(@inject(TYPES.jQuery) public $: any) {}
-
+	/**
+	 * Loads data from a remote server.
+	 * @param url - The URL.
+	 * @param dataType - The type of data.
+	 * @return {Promise<T>}
+	 */
 	public load<T>(url: string, dataType: string = 'json'): Promise<T> {
 		return new Promise<T>((resolve, reject) => {
 			this.$.ajax({
@@ -41,5 +49,11 @@ class Loader {
 			});
 		});
 	}
+
+	/**
+	 * @param $ - The jQuery library.
+	 */
+	constructor(@inject(TYPES.jQuery) public $: any) {}
 }
+
 export { Emitable, Loader };

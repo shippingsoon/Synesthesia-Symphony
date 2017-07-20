@@ -94,14 +94,6 @@ export class Vector implements IVector {
 	}
 
 	/**
-	 * Retrieves the vector's location
-	 * @return {IVector}
-	 */
-	public getPosition(): IVector {
-		return {x: this.x, y: this.y};
-	}
-
-	/**
 	 * Sets the position
 	 * @param vector - The value that will be used to set the position of this vector instance.
 	 * @return {IVector}

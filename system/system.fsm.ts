@@ -12,13 +12,14 @@ import { TYPES } from '../bootstrap/inversify.types';
 
 /**
  * @classdesc The Fsm (Finite State Machine) is a design pattern that allows developers to easily manage game states.
+ * @requires IStack
  */
 @injectable()
 export class Fsm implements IFsm {
 	/**
 	 * @param states - An array data structure of game states.
 	 */
-	public constructor(@inject(TYPES.Stack) private states: IStack<IState>) {}
+	public constructor(@inject(TYPES.Stack) private readonly states: IStack<IState>) {}
 
 	/**
 	 * Handle logic in the current state.

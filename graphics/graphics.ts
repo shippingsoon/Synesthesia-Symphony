@@ -1,5 +1,5 @@
 /**
- * @file The graphics namespace contains various drawing routines.
+ * @file Graphics
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
