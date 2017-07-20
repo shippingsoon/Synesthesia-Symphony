@@ -6,7 +6,7 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { Container, ContainerModule } from 'inversify';
+import { Container, ContainerModule, interfaces } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from './inversify.types';
 import { Color } from '../graphics/graphics.color';
@@ -20,9 +20,11 @@ import { SquareShape } from '../graphics/shape/graphics.square-shape';
 import { Square } from '../graphics/shape/graphics.square';
 import { CanvasResource } from '../game/system.canvas-resource';
 import { Game } from '../game/game';
-import { LoadState } from '../game/state/game.load-state';
+import { LoadSessionState } from '../game/state/game.load-session-state';
+import { LoadAudioState } from '../game/state/game.load-audio-state';
+import { IntroState } from '../game/state/game.intro-state';
 import { IColor, ICssColor, IVector } from '../graphics/graphics.types';
-import { ICanvasResource, IFsm, IStack, IState, IWindow } from '../system/system.types';
+import { ICanvasResource, IFsm, IStack, IState } from '../system/system.types';
 import { IGame, ISession } from '../game/game.types';
 import * as _ from 'lodash';
 import { Session } from '../system/system.session';
@@ -30,12 +32,14 @@ import { Session } from '../system/system.session';
 //Let the IDE know this 3rd party MIDI.js module is defined elsewhere.
 declare const MIDI: any;
 declare const jQuery: any;
+declare const widgets: any;
 
 //3rd party dependencies go here.
 const thirdPartyDependencies = new ContainerModule((bind) => {
 	bind<Array<any>>(TYPES.Array).to(Array);
 	bind<typeof _>(TYPES.Lodash).toConstantValue(_);
 	bind<typeof MIDI>(TYPES.MIDI).toConstantValue(MIDI);
+	bind<typeof widgets>(TYPES.Widgets).toConstantValue(widgets);
 	bind<typeof jQuery>(TYPES.jQuery).toConstantValue(jQuery);
 });
 
@@ -46,7 +50,6 @@ const applicationDependencies = new ContainerModule((bind) => {
 	bind<IStack<IState>>(TYPES.Stack).to(Stack);
 	bind<ICanvasResource>(TYPES.CanvasResource).to(CanvasResource).inSingletonScope();
 	bind<ISession>(TYPES.Session).to(Session).inSingletonScope();
-	//bind<IWindow>(TYPES.Window).toConstantValue(window);
 
 	//Graphics
 	bind<IColor>(TYPES.Color).to(Color);
@@ -59,7 +62,9 @@ const applicationDependencies = new ContainerModule((bind) => {
 
 	//Game
 	bind<IGame>(TYPES.Game).to(Game).inSingletonScope();
-	bind<LoadState>(TYPES.LoadState).to(LoadState);
+	bind<IState>(TYPES.LoadSessionState).to(LoadSessionState);
+	bind<IState>(TYPES.LoadAudioState).to(LoadAudioState);
+	bind<IState>(TYPES.IntroState).to(IntroState);
 });
 
 const container = new Container();

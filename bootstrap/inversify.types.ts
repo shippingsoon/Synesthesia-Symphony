@@ -30,11 +30,14 @@ const TYPES = {
 
 	//Game
 	Game: Symbol('Game'),
-	LoadState: Symbol('LoadState'),
+	LoadSessionState: Symbol('LoadSessionState'),
+	LoadAudioState: Symbol('LoadAudioState'),
+	IntroState: Symbol('IntroState'),
 
 	//3rd Party.
 	Lodash: Symbol('Lodash'),
 	MIDI: Symbol('MIDI'),
+	Widgets: Symbol('Widgets'),
 	jQuery: Symbol('jQuery')
 };
 

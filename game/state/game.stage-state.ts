@@ -8,39 +8,34 @@
 
 import { State } from '../../system/system.state';
 import { EntityManager } from '../game.entity-manager';
+import { inject, injectable } from 'inversify';
+import { ICanvasResource } from '../../system/system.types';
+import { ISession } from '../game.types';
+import { TYPES } from '../../bootstrap/inversify.types';
 
 /**
  * @class
  * @classdesc The stage game state.
  */
-export class StageState  {
+@injectable()
+export class StageState implements State {
 	private entityManger: EntityManager;
 
-	public constructor() {
-		//super();
+	public constructor(@inject(TYPES.Session) private session: ISession) {}
+
+	public start(): void {
+		this.entityManger = new EntityManager(this.session.data);
 	}
 
-	public start(data: any): void {
-		this.entityManger = new EntityManager(data.session.getGameData);
+	public update(dt: number): void {
+		//this.entityManger.update(data);
 	}
 
-	public update(data: any): void {
-		this.entityManger.update(data);
+	public draw(resource: ICanvasResource): void {
+		//this.entityManger.draw(data);
 	}
 
-	public draw(data: any): void {
-		this.entityManger.draw(data);
-	}
-
-	public pause(data: any): void {
-
-	}
-
-	public play(data: any): void {
-
-	}
-
-	public stop(data: any): void {
-
-	}
+	public pause(): void {}
+	public play(): void {}
+	public stop(): void {}
 }

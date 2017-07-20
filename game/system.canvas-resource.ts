@@ -22,8 +22,6 @@ export class CanvasResource implements ICanvasResource {
 	private readonly _ctx: CanvasRenderingContext2D;
 	private readonly _bgCtx: CanvasRenderingContext2D;
 
-	public foo: number;
-
 	/**
 	 * @param canvas
 	 * @param bgCanvas
@@ -33,7 +31,6 @@ export class CanvasResource implements ICanvasResource {
 		this._bgCanvas = bgCanvas ? canvas : <HTMLCanvasElement> document.getElementById('background-layer');
 		this._ctx = this.canvas.getContext('2d');
 		this._bgCtx = this.bgCanvas.getContext('2d');
-		this.foo = 0;
 	}
 
 	//#region Mutator Region (Note: regions are collapsible with IntelliJ)

@@ -6,22 +6,22 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-'use strict';
-
-import { IStateData } from '../../system/system.types';
+import { ICanvasResource } from '../../system/system.types';
 import { State } from '../../system/system.state';
-import * as Audio from './../../audio/audio';
-
-//Let the IDE know this 3rd party MIDI.js module is defined elsewhere.
-declare const MIDI: any;
+import { injectable } from 'inversify';
 
 /**
  * @class
  * @classdesc The intro state.
  */
+@injectable()
 export class IntroState extends State {
-	public start(data: IStateData): void {
-		Audio.playSong(data.session.getGameData.songs[3], MIDI, data.session.config);
+	public constructor() {
+		super();
+	}
+
+	public start(): void {
+		//Audio.playSong(data.session.getGameData.songs[3], MIDI, data.session.config);
 		console.log('intro state');
 
 		/*
@@ -33,23 +33,9 @@ export class IntroState extends State {
 		*/
 	}
 
-	public update(data: IStateData): void {
-
-	}
-
-	public draw(data: IStateData): void {
-
-	}
-
-	public pause(data: IStateData): void {
-
-	}
-
-	public play(data: IStateData): void {
-
-	}
-
-	public stop(data: IStateData): void {
-
-	}
+	public update(dt: number): void {}
+	public draw(resource: ICanvasResource): void {}
+	public pause(): void {}
+	public play(): void {}
+	public stop(): void {}
 }

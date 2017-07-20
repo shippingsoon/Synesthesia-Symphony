@@ -12,18 +12,62 @@ import { IGame } from './game/game.types';
 import { Loader } from './system/system.mixin-traits';
 import { Mixin } from './system/system.mixin';
 
-@Mixin(Loader)
-class Shape implements Loader {
-	public x: number;
-	public y: number;
-	load: <T> () => Promise<T>;
-	constructor(public $) {}
+function Enumarable(isEnumarable: boolean = true): Function {
+	return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
+		descriptor.enumerable = isEnumarable;
+		return descriptor;
+	};
+}
+
+function Writable(isWritable: boolean = true): Function {
+	return (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
+		descriptor.writable = isWritable;
+		return descriptor;
+	};
+}
+
+function Configurable(isConfigurable: boolean = true): Function {
+	return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
+		descriptor.configurable = isConfigurable;
+		return descriptor;
+	};
+}
+
+function Value(value: any) {
+	return (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
+		descriptor.value = value;
+		return descriptor;
+	};
+}
+
+@ClassDec(666)
+class Shape {
+	//@Value(false)
+	public get x() {return this._x;}
+	public get y() {return this._y;}
+	constructor(private _x: number = 0, private _y: number = 0) {}
 }
 declare const jQuery: any;
 
+function Foo() {
+	this.x = 2;
+	this.y = 8;
+}
+
+function ClassDec(value: number) {
+	return (target: Function) => {
+		Reflect.defineMetadata(TYPES.Circle, value, target);
+	};
+}
+
 namespace SynesthesiaSymphony {
-	//const test = new Shape(jQuery);
-	//debugger;
+	/*
+	const shape: Shape = new Shape();
+	const f: number = 2;
+	const res = Reflect.getMetadata(TYPES.Circle, shape.constructor);
+
+	debugger;
+	*/
 
 	//Here we use InversifyJS' Inversion of Control container to resolve dependencies.
 	const game: IGame = container.get<IGame>(TYPES.Game);

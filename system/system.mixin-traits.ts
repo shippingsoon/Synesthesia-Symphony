@@ -22,7 +22,7 @@ class Emitable {
 	 * @param detail
 	 * @param element
 	 */
-	public emit(eventName: FsmEvents, detail: ICustomEventData, element: IWindow = window): void {
+	public emit?(eventName: FsmEvents, detail: ICustomEventData, element: IWindow = window): void {
 		element.dispatchEvent(new CustomEvent(eventName, {'detail': detail}));
 	}
 }

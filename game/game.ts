@@ -37,7 +37,7 @@ export class Game implements IGame {
 	 * @param initialState - The initial game state.
 	 * @param _window
 	 */
-	public constructor(@inject(TYPES.Fsm) private readonly fsm: IFsm, @inject(TYPES.LoadState) private readonly initialState: IState, private _window: IWindow = window) {
+	public constructor(@inject(TYPES.Fsm) private readonly fsm: IFsm, @inject(TYPES.LoadSessionState) private readonly initialState: IState, private _window: IWindow = window) {
 		//Transition to the initial game state.
 		this.fsm.push(this.initialState);
 

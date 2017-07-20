@@ -18,7 +18,7 @@ import { Emitable } from './system.mixin-traits';
 @injectable()
 export abstract class State implements IState, Emitable {
 	//Mixin. See the class for description.
-	public emit: (eventName: FsmEvents, detail: ICustomEventData, _window: IWindow) => void;
+	public emit?: (eventName: FsmEvents, detail: ICustomEventData, _window?: IWindow) => void;
 
 	/**
 	 * DevNote: If the constructor is protected it cannot be instantiated outside of the class body, but it can be extended.
