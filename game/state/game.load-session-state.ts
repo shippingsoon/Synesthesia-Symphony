@@ -34,12 +34,10 @@ export class LoadSessionState extends State implements Loader {
 		super();
 	}
 
-	/**
-	 * @return {void}
-	 */
-	public start() {
+	public start(): void {
+		console.log('LoadSessionState');
 		this.loadSession().then(() => {
-			this.emit('pushState', {state: this.nextState});
+			//this.emit('pushState', {state: this.nextState});
 		});
 	};
 

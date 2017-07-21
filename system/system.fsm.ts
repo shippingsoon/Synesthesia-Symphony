@@ -19,7 +19,7 @@ export class Fsm implements IFsm {
 	/**
 	 * @param states - An array data structure of game states.
 	 */
-	public constructor(@inject(TYPES.Stack) private readonly states: IStack<IState>) {}
+	public constructor(@inject(TYPES.Stack) private states: IStack<IState>) {}
 
 	/**
 	 * Handle logic in the current state.

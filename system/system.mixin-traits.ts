@@ -6,7 +6,7 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { FsmEvents, ICustomEventData, IWindow } from './system.types';
+import {FsmEvents, ICustomEventData, IFsm, IWindow} from './system.types';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../bootstrap/inversify.types';
 
@@ -14,7 +14,7 @@ import { TYPES } from '../bootstrap/inversify.types';
  * @classdesc Emitable class mixin.
  */
 @injectable()
-class Emitable {
+export class Emitable {
 	/**
 	 * Dispatches a custom event.
 	 * @event CustomEvent
@@ -32,7 +32,12 @@ class Emitable {
  * @requires jQuery
  */
 @injectable()
-class Loader {
+export class Loader {
+	/**
+	 * @param $ - The jQuery library.
+	 */
+	constructor(@inject(TYPES.jQuery) public $: any) {}
+
 	/**
 	 * Loads data from a remote server.
 	 * @param url - The URL.
@@ -49,11 +54,33 @@ class Loader {
 			});
 		});
 	}
-
-	/**
-	 * @param $ - The jQuery library.
-	 */
-	constructor(@inject(TYPES.jQuery) public $: any) {}
 }
 
-export { Emitable, Loader };
+/**
+ * @classdesc FsmEvent class mixin.
+ * @requires IFsm
+ */
+export class FsmEvent {
+	/**
+	 * @param fsm - Finite state machine.
+	 */
+	constructor(@inject(TYPES.Fsm) public fsm: IFsm) {}
+
+	/**
+	 * Handles pushState events.
+	 * @param event - Event data that will be passed to the Fsm.push() method.
+	 */
+	public pushState(event: CustomEventInit): void {
+		//Push another state on to the stack.
+		this.fsm.push(event.detail);
+	}
+
+	/**
+	 * Handles popState events.
+	 * @param event - Event data that will be passed to the Fsm.pop() method.
+	 */
+	public popState(event: CustomEventInit): void {
+		//Pop a state from the stack
+		this.fsm.pop(event.detail);
+	}
+}

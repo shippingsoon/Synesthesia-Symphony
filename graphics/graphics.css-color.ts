@@ -76,7 +76,7 @@ export class CssColor extends Color {
 	//#region Mutator Region (Note: regions are collapsible with IntelliJ IDEA)
 	/**
 	 * Gets the color of this object in hexadecimal format.
-	 * @return {string}
+	 * @return {string} The color in hex format e.g., #FFBBAA.
 	 */
 	public get hex(): string {
 		return this._hex;
@@ -84,7 +84,7 @@ export class CssColor extends Color {
 
 	/**
 	 * Gets the color of this object in RGBA format.
-	 * @return {string}
+	 * @return {string} The color in RGBA format e.g., rgba(255, 0, 2).
 	 */
 	public get rgba(): string {
 		return this._rgba;

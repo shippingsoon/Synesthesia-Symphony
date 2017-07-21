@@ -27,14 +27,14 @@ export class Vector implements IVector {
 	 * @param y - The y component of the vector.
 	 */
 	public constructor({x = 0, y = 0}: IVector) {
-		this._x = x;
-		this._y = y;
+		this.x = x;
+		this.y = y;
 	}
 
 	/**
 	 * Adds two vectors.
 	 * @param vector - The vector that will be added to this vector instance.
-	 * @return {IVector}
+	 * @return {IVector} An instance of this class for method chaining.
 	 */
 	public add(vector: IVector|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
@@ -62,7 +62,7 @@ export class Vector implements IVector {
 	/**
 	 * Multiplies two vectors.
 	 * @param vector - The value that will be multiplied by this vector instance.
-	 * @return {IVector}
+	 * @return {IVector} An instance of this class for method chaining.
 	 */
 	public multiply(vector: IVector|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
@@ -77,7 +77,7 @@ export class Vector implements IVector {
 	 * Divides two vectors.
 	 * @param vector - The value that will be used to divide this vector instance.
 	 * @throws {Error}
-	 * @return {IVector}
+	 * @return {IVector} An instance of this class for method chaining.
 	 */
 	public divide(vector: IVector|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
@@ -96,7 +96,7 @@ export class Vector implements IVector {
 	/**
 	 * Sets the position
 	 * @param vector - The value that will be used to set the position of this vector instance.
-	 * @return {IVector}
+	 * @return {IVector} An instance of this class for method chaining.
 	 */
 	public setPosition(vector: IVector|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
@@ -119,7 +119,6 @@ export class Vector implements IVector {
 	/**
 	 * Sets the x component of this vector.
 	 * @param x - The number we will use to set the x component of the vector.
-	 * @return {void}
 	 */
 	public set x(x: number) {
 		this._x = x;
@@ -136,7 +135,6 @@ export class Vector implements IVector {
 	/**
 	 * Sets the y component of this vector.
 	 * @param y - The number we will use to set the y component of the vector.
-	 * @return {void}
 	 */
 	public set y(y: number) {
 		this._y = y;
@@ -144,7 +142,7 @@ export class Vector implements IVector {
 
 	/**
 	 * Returns the magnitude of the vector.
-	 * @return {number}
+	 * @return {number} Magnitude of the vector
 	 */
 	public get magnitude(): number {
 		return Math.sqrt((this.x * this.x) + (this.y * this.y));

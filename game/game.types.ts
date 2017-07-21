@@ -133,7 +133,7 @@ export interface IResolution {
  * @interface
  */
 export interface IGame {
-	main(): void;
+	main(timestamp: number): void;
 }
 
 export interface IGameData {d

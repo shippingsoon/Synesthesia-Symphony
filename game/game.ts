@@ -6,22 +6,25 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { ICanvasResource, IFsm, IState, IWindow } from '../system/system.types';
+import { ICanvasResource, IFsm, IState } from '../system/system.types';
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../bootstrap/inversify.types';
 import { IGame } from './game.types';
+import { FsmEvent } from '../system/system.mixin-traits';
+import { Mixin } from '../system/system.mixin';
 
 /**
  * Game class.
- * @classdec This class was originally a singleton but was refactored to use InversifyJs' singleton scope.
+ * @classdec This class contains the main game loop. It was originally a singleton but was refactored to use InversifyJS' singleton scope.
  * @requires IFsm
  * @requires IState
  * @requires ICanvasResource
  */
+@Mixin(FsmEvent)
 @injectable()
-export class Game implements IGame {
+export class Game implements IGame, FsmEvent {
 	//The current Unix timestamp in milliseconds. This is used to measure the delta time between two frames.
-	private currentTime: number = Date.now();
+	private currentTime: number;
 
 	//The long integer request ID which is returned by requestAnimationFrame() method. It can be used to break out of the game loop.
 	private requestAnimationId: number;
@@ -29,77 +32,52 @@ export class Game implements IGame {
 	///The target frames per second. By default the requestAnimationFrame() runs at 60 FPS. Note: (1000 / 60) = 16.666666666666668.
 	private readonly targetFps: number = (1000.0 / 60.0);
 
-	//A data structure containing HTML5 canvas elements and 2D drawing contexts.
-	@inject(TYPES.CanvasResource) private readonly canvasResource: ICanvasResource;
+	//Mixins.
+	//See FsmEvent class mixin for more details.
+	public pushState: (event: CustomEventInit) => void;
+	public popState: (event: CustomEventInit) => void;
 
 	/**
 	 * @param fsm - Finite state machine.
 	 * @param initialState - The initial game state.
-	 * @param _window
+	 * @param resource - A data structure containing an HTML5 canvas element and 2D drawing context.
 	 */
-	public constructor(@inject(TYPES.Fsm) private readonly fsm: IFsm, @inject(TYPES.LoadSessionState) private readonly initialState: IState, private _window: IWindow = window) {
+	public constructor(@inject(TYPES.Fsm) public readonly fsm: IFsm, @inject(TYPES.LoadSessionState) private readonly initialState: IState, @inject(TYPES.CanvasResource) private readonly resource: ICanvasResource) {
 		//Transition to the initial game state.
 		this.fsm.push(this.initialState);
 
+		//Set the current time. DevNote: This originally used Date.now() but the performance API is more precise.
+		this.currentTime =  performance.now() + performance.timing.navigationStart;
+
 		//When the 'pushState' event is triggered.
-		this._window.addEventListener('pushState', this.__pushState);
+		this.resource.canvas.addEventListener('pushState', this.pushState);
 
 		//When the 'popState' event is triggered.
-		this._window.addEventListener('popState', this.__popState);
+		this.resource.canvas.addEventListener('popState', this.popState);
 	}
 
 	/**
 	 * The main game loop. This method is recursively invoked via the requestAnimationFrame() method which runs at 60 FPS.
+	 * @param timestamp - The elapsed time from when the requestAnimationFrame() was invoked.
 	 */
-	public main(): void {
+	public main(timestamp: number): void {
 		//This variable holds the time that was stored in the previous frame.
 		const previousTime: number = this.currentTime;
 
 		//Update the current time.
-		this.currentTime = Date.now();
+		this.currentTime = performance.now() + performance.timing.navigationStart;
 
-		//Delta time is the time difference between the current and previous frames.
-		let dt: number = this.currentTime - previousTime;
-
-		//Check to see if the delta time is zero.
-		if (dt === 0) {
-			//throw new Error('Delta time is zero');
-			//console.log('Delta is zero');
-			dt = 0.1;
-		}
-
-		//Here we use the requestAnimationFrame() method to recursively invoke the main() method.
-		this.requestAnimationId = requestAnimationFrame(() => this.main());
-
-		//Limit the frame rate.
-		if (dt > this.targetFps) {
-			dt = this.targetFps;
-		}
+		//Delta time is the time difference between the current and previous frames. If dt is 0 we set a fallback value of 0.01.
+		const dt: number = (this.currentTime - previousTime) || 0.01;
 
 		//Handle logic in the current state.
-		this.fsm.update(dt);
+		//If dt is greater than our target FPS we cap it off by substituting it with the target FPS value.
+		this.fsm.update((dt > this.targetFps) ? this.targetFps : dt);
 
 		//Render the current state.
-		this.fsm.draw(this.canvasResource);
-	}
+		this.fsm.draw(this.resource);
 
-	/**
-	 * Handles pushState events.
-	 * @param event - Event data.
-	 * @return {void}
-	 */
-	private __pushState(event: CustomEventInit): void {
-		//Push another state on to the stack.
-		this.fsm.push(event.detail);
-	}
-
-	/**
-	 * Handles popState events.
-	 * @param event - Event data.
-	 * @return {void}
-	 */
-	private __popState(event: CustomEventInit): void {
-		//Pop a state from the stack
-		this.fsm.pop(event.detail);
+		//Here we use the requestAnimationFrame() method to recursively invoke the main() method.
+		this.requestAnimationId = requestAnimationFrame((time: number): void => this.main(time));
 	}
 }

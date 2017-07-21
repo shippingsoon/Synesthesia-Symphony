@@ -22,7 +22,7 @@ export class Stack<T> extends Array<T> implements IStack<T> {
 	 * @template T
 	 * @param {T} value - The value to be pushed on the stack.
 	 */
-	public constructor(@unmanaged() value?: T) {
+	public constructor(@unmanaged() value: T) {
 		if (typeof value !== 'undefined') {
 			super(value);
 		}
@@ -32,7 +32,7 @@ export class Stack<T> extends Array<T> implements IStack<T> {
 	}
 
 	/**
-	 * Checks to see if there are any states in the stack.
+	 * Checks to see if the stack is empty.
 	 * @return {boolean}
 	 */
 	public isEmpty(): boolean {
@@ -40,14 +40,14 @@ export class Stack<T> extends Array<T> implements IStack<T> {
 	}
 
 	/**
-	 * Retrieves current state.
+	 * Retrieves the most recently added value in the stack. Unlike Array.pop() this method does not remove the value from the array.
 	 * @template T
 	 * @throws {Error}
 	 * @return {T}
 	 */
 	public peek(): T {
 		if (this.isEmpty()) {
-			throw new Error('The Stack is empty');
+			throw new Error('The Stack is empty in Stack.peek()');
 		}
 
 		return this[this.length - 1];

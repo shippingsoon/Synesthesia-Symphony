@@ -10,9 +10,7 @@
 
 import { ICircle } from '../graphics.types';
 import { Shape } from './graphics.shape';
-//import { injectable } from '../../node_modules/inversify/es/inversify';
-import { injectable, inject } from 'inversify';
-import 'reflect-metadata';
+import { injectable } from 'inversify';
 
 /**
  * @class

@@ -1,5 +1,5 @@
 /**
- * @file Session class
+ * @file Session class.
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
@@ -10,7 +10,7 @@ import {IConfig, IGameData, ISession} from '../game/game.types';
 import { injectable } from 'inversify';
 
 /**
- * @classdesc Session class. This was originally a singleton class.
+ * @classdesc Session class. This was originally a singleton class but was refactored to use InversifyJS' singleton scope.
  */
 @injectable()
 export class Session implements ISession {

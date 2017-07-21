@@ -1,5 +1,5 @@
-/*
- * @file Audio state
+/**
+ * @file Load Audio state
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
@@ -28,6 +28,7 @@ export class LoadAudioState extends State {
 	 * @return {void}
 	 */
 	public start() {
+		console.log('LoadAudioState');
 		this.loadAudio(() => {
 			//Set the volume.
 			this.midiJs.setVolume(0, this.session.bgmVolumeLevel);
@@ -39,7 +40,7 @@ export class LoadAudioState extends State {
 			this.midiJs.loader.stop();
 
 			//Use the finite state machine to transition to the Intro state. See system.fsm.ts for more details.
-			this.emit('pushState', {state: this.nextState});
+			//this.emit('pushState', {state: this.nextState});
 		});
 	};
 

@@ -15,5 +15,5 @@ namespace SynesthesiaSymphony {
 	const game: IGame = container.get<IGame>(TYPES.Game);
 
 	//Start the game loop.
-	game.main();
+	const requestAnimationID: number = requestAnimationFrame((timestamp: number) => game.main(timestamp));
 }
