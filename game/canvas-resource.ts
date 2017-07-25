@@ -7,7 +7,7 @@
  */
 
 import { injectable, unmanaged } from 'inversify';
-import { ICanvasResource } from '../system/system.types';
+import { ICanvasResource } from '../system/types';
 
 /**
  * @classdesc This class contains various configuration and game data.
@@ -27,8 +27,8 @@ export class CanvasResource implements ICanvasResource {
 	 * @param bgCanvas
 	 */
 	public constructor(@unmanaged() canvas?: HTMLCanvasElement, @unmanaged() bgCanvas?: HTMLCanvasElement) {
-		this._canvas = canvas ? canvas : <HTMLCanvasElement> document.getElementById('canvas-layer');
-		this._bgCanvas = bgCanvas ? canvas : <HTMLCanvasElement> document.getElementById('background-layer');
+		this._canvas = canvas ? canvas : <HTMLCanvasElement> document.querySelector('#canvas-layer');
+		this._bgCanvas = bgCanvas ? canvas : <HTMLCanvasElement> document.querySelector('#background-layer');
 		this._ctx = this.canvas.getContext('2d');
 		this._bgCtx = this.bgCanvas.getContext('2d');
 	}

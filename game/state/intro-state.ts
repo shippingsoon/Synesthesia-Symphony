@@ -6,9 +6,10 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { ICanvasResource } from '../../system/system.types';
-import { State } from '../../system/system.state';
-import { injectable } from 'inversify';
+import { ICanvasResource, IState } from '../../system/types';
+import { State } from '../../system/state';
+import { inject, injectable } from 'inversify';
+import { TYPES } from '../../bootstrap/inversify.types';
 
 /**
  * @class
@@ -16,14 +17,14 @@ import { injectable } from 'inversify';
  */
 @injectable()
 export class IntroState extends State {
-	public constructor() {
+	public constructor(@inject(TYPES.StageState) private nextState: IState) {
 		super();
 	}
 
 	public start(): void {
-		//Audio.playSong(data.session.getGameData.songs[3], MIDI, data.session.config);
-		console.log('intro state');
-
+		console.log('IntroState');
+		this.emit('pushState', {state: this.nextState});
+		//debugger;
 		/*
 		bg_canvas.addEventListener("webkitTransitionEnd", function(event) {
 			o.fsm.push({state: new Game.State.Menu});

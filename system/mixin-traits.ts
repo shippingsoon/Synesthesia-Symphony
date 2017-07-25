@@ -6,7 +6,7 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import {FsmEvents, ICustomEventData, IFsm, IWindow} from './system.types';
+import { FsmEvents, ICustomEventData, IFsm, IWindow } from './types';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../bootstrap/inversify.types';
 
@@ -64,23 +64,23 @@ export class FsmEvent {
 	/**
 	 * @param fsm - Finite state machine.
 	 */
-	constructor(@inject(TYPES.Fsm) public fsm: IFsm) {}
+	//public constructor(@inject(TYPES.Fsm) public fsm: IFsm) {}
 
 	/**
 	 * Handles pushState events.
 	 * @param event - Event data that will be passed to the Fsm.push() method.
 	 */
-	public pushState(event: CustomEventInit): void {
+	public pushState(fsm: IFsm, event: CustomEventInit): void {
 		//Push another state on to the stack.
-		this.fsm.push(event.detail);
+		fsm.push(event.detail.state);
 	}
 
 	/**
 	 * Handles popState events.
 	 * @param event - Event data that will be passed to the Fsm.pop() method.
 	 */
-	public popState(event: CustomEventInit): void {
+	public popState(fsm: IFsm, event: CustomEventInit): void {
 		//Pop a state from the stack
-		this.fsm.pop(event.detail);
+		fsm.pop(event.detail.state);
 	}
 }

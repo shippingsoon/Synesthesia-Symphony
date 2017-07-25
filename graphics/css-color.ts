@@ -6,8 +6,8 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IColor, ColorName, isColorName, COLORS } from './graphics.types';
-import { Color } from './graphics.color';
+import { IColor, ColorName, isColorName, COLORS } from './types';
+import { Color } from './color';
 import { injectable, unmanaged } from 'inversify';
 
 /**
@@ -61,7 +61,7 @@ export class CssColor extends Color {
 	 * @returns {IColor} An instance of this class.
 	 */
 	public setColor(color: IColor|ColorName): this {
-		const {r = 1, g = 1, b = 1, a = 0} = {...isColorName(color) ? COLORS[<string>color] : color};
+		const {r = 0, g = 0, b = 0, a = 1} = {...isColorName(color) ? COLORS[<string>color] : color};
 
 		this.r = r;
 		this.g = g;

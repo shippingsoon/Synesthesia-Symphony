@@ -1,5 +1,5 @@
 /**
- * @file This file contains configuration for InversifyJS' IoC container.
+ * @file This file contains configuration for InversifyJs' IoC container.
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
@@ -9,38 +9,43 @@
 import { Container, ContainerModule, interfaces } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from './inversify.types';
-import { Color } from '../graphics/graphics.color';
-import { CssColor } from '../graphics/graphics.css-color';
-import { Fsm } from '../system/system.fsm';
-import { Stack } from '../system/system.stack';
-import { Vector } from '../graphics/graphics.vector';
-import { CircleShape } from '../graphics/shape/graphics.circle-shape';
-import { Circle } from '../graphics/shape/graphics.circle';
-import { SquareShape } from '../graphics/shape/graphics.square-shape';
-import { Square } from '../graphics/shape/graphics.square';
-import { CanvasResource } from '../game/system.canvas-resource';
+import { Color } from '../graphics/color';
+import { CssColor } from '../graphics/css-color';
+import { Fsm } from '../system/fsm';
+import { Stack } from '../system/stack';
+import { Vector2d } from '../graphics/vector-2d';
+import { DrawCircle } from '../graphics/shape/draw-circle';
+import { Circle } from '../graphics/shape/circle';
+import { CanvasResource } from '../game/canvas-resource';
 import { Game } from '../game/game';
-import { LoadSessionState } from '../game/state/game.load-session-state';
-import { LoadAudioState } from '../game/state/game.load-audio-state';
-import { IntroState } from '../game/state/game.intro-state';
-import { IColor, ICssColor, IVector } from '../graphics/graphics.types';
-import { ICanvasResource, IFsm, IStack, IState } from '../system/system.types';
-import { IGame, ISession } from '../game/game.types';
-import * as _ from 'lodash';
-import { Session } from '../system/system.session';
+import { LoadSessionState } from '../game/state/load-session-state';
+import { LoadAudioState } from '../game/state/load-audio-state';
+import { IntroState } from '../game/state/intro-state';
+import { IColor, ICssColor, IVector2d } from '../graphics/types';
+import { ICanvasResource, IFsm, IStack, IState } from '../system/types';
+import { IGame, ISession } from '../game/types';
+import _ from 'lodash';
+import { Session } from '../system/session';
+import { Vector2dMath } from '../graphics/vector-2d-math';
+import { Audio } from '../audio/audio';
+import { StageState } from '../game/state/stage-state';
+import { EntityManager } from '../game/entity-manager';
+import { Player } from '../game/character/player';
 
-//Let the IDE know this 3rd party MIDI.js module is defined elsewhere.
+//Let the IDE know this 3rd party MidiJs.js module is defined elsewhere.
 declare const MIDI: any;
 declare const jQuery: any;
 declare const widgets: any;
+declare const Keydown: any;
 
-//3rd party dependencies go here.
+//3rd party dependencies go here. DevNote: InversifyJs' .toConstant() method uses singleton scope by default.
 const thirdPartyDependencies = new ContainerModule((bind) => {
 	bind<Array<any>>(TYPES.Array).to(Array);
 	bind<typeof _>(TYPES.Lodash).toConstantValue(_);
-	bind<typeof MIDI>(TYPES.MIDI).toConstantValue(MIDI);
+	bind<typeof MIDI>(TYPES.MidiJs).toConstantValue(MIDI);
 	bind<typeof widgets>(TYPES.Widgets).toConstantValue(widgets);
 	bind<typeof jQuery>(TYPES.jQuery).toConstantValue(jQuery);
+	bind<typeof Keydown>(TYPES.Keydown).toConstantValue(Keydown);
 });
 
 //1st party dependencies go here.
@@ -54,17 +59,22 @@ const applicationDependencies = new ContainerModule((bind) => {
 	//Graphics
 	bind<IColor>(TYPES.Color).to(Color);
 	bind<ICssColor>(TYPES.CssColor).to(CssColor);
-	bind<IVector>(TYPES.Vector).to(Vector);
-	bind<CircleShape>(TYPES.CircleShape).to(CircleShape);
+	bind<IVector2d>(TYPES.Vector2d).to(Vector2d);
+	bind<IVector2d>(TYPES.Vector2dMath).to(Vector2dMath);
+	bind<DrawCircle>(TYPES.DrawCircle).to(DrawCircle);
 	bind<Circle>(TYPES.Circle).to(Circle);
-	bind<SquareShape>(TYPES.SquareShape).to(SquareShape);
-	bind<Square>(TYPES.Square).to(Square);
 
 	//Game
 	bind<IGame>(TYPES.Game).to(Game).inSingletonScope();
-	bind<IState>(TYPES.LoadSessionState).to(LoadSessionState);
-	bind<IState>(TYPES.LoadAudioState).to(LoadAudioState);
-	bind<IState>(TYPES.IntroState).to(IntroState);
+	bind<LoadSessionState>(TYPES.LoadSessionState).to(LoadSessionState);
+	bind<LoadAudioState>(TYPES.LoadAudioState).to(LoadAudioState);
+	bind<IntroState>(TYPES.IntroState).to(IntroState);
+	bind<StageState>(TYPES.StageState).to(StageState);
+	bind<EntityManager>(TYPES.EntityManager).to(EntityManager).inSingletonScope();
+	bind<Player>(TYPES.Player).to(Player).inSingletonScope();
+
+	//Audio
+	bind<Audio>(TYPES.Audio).to(Audio).inSingletonScope();
 });
 
 const container = new Container();

@@ -6,7 +6,7 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IColor } from './graphics.types';
+import { IColor } from './types';
 import { injectable, unmanaged } from 'inversify';
 
 /**
@@ -62,7 +62,7 @@ export class Color implements IColor {
 			throw new Error('Red value must be between 0-255');
 		}
 
-		this._r = red;
+		this._r = Math.round(red);
 	}
 
 	/**
@@ -84,7 +84,7 @@ export class Color implements IColor {
 			throw new Error('Green value must be between 0-255');
 		}
 
-		this._g = green;
+		this._g = Math.round(green);
 	}
 
 	/**
@@ -106,7 +106,7 @@ export class Color implements IColor {
 			throw new Error('Blue value must be between 0-255');
 		}
 
-		this._b = blue;
+		this._b = Math.round(blue);
 	}
 
 	/**

@@ -8,10 +8,10 @@
 
 import { container } from './bootstrap/inversify.config';
 import { TYPES } from './bootstrap/inversify.types';
-import { IGame } from './game/game.types';
+import { IGame } from './game/types';
 
 namespace SynesthesiaSymphony {
-	//Here we use InversifyJS' Inversion of Control container to resolve dependencies.
+	//Here we use InversifyJs' Inversion of Control container to resolve dependencies.
 	const game: IGame = container.get<IGame>(TYPES.Game);
 
 	//Start the game loop.

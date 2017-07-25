@@ -6,7 +6,7 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IFsm, IStack, IState, ICanvasResource } from './system.types';
+import { IFsm, IStack, IState, ICanvasResource } from './types';
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../bootstrap/inversify.types';
 

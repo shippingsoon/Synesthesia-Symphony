@@ -30,7 +30,7 @@ export interface ICssColor extends IColor {
  * Defines classes that can be drawn to the screen.
  * @interface
  */
-export interface Drawable {
+export interface IDrawable {
 	render(ctx: CanvasRenderingContext2D): void;
 }
 
@@ -91,18 +91,30 @@ export function isColorName(colorName: ColorName | IColor | {r?: number, g?: num
  * @param vector
  * @return {boolean}
  */
-export function isVector(vector: IVector | any): vector is IVector {
+export function isVector(vector: IVector2d | any): vector is IVector2d {
 	return typeof vector.x !== 'undefined' && typeof vector.y !== 'undefined';
 }
 
 /**
- * Defines a vector.
+ * Defines a 2D vector.
  * @interface
- * @const
  */
-export interface IVector {
-	readonly x: number;
-	readonly y: number;
+export interface IVector2d {
+	x: number;
+	y: number;
+}
+
+/**
+ * @interface
+ */
+export interface IVector2dMath extends IVector2d {
+	readonly magnitude: number;
+	readonly angle: number;
+	readonly lengthSquared: number;
+	add(vector: IVector2d|number): IVector2dMath;
+	subtract(vector: IVector2d|number): IVector2dMath;
+	multiply(vector: IVector2d|number): IVector2dMath;
+	divide(vector: IVector2d|number): IVector2dMath;
 }
 
 /**
@@ -273,8 +285,8 @@ export interface IMath {
  * @interface
  */
 export interface IShape {
-	readonly x: number;
-	readonly y: number;
+	position: IVector2d;
+	getArea: number;
 }
 
 /**

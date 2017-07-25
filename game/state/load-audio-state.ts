@@ -6,42 +6,47 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import {ICanvasResource, IState} from '../../system/system.types';
+import { ICanvasResource, IState } from '../../system/types';
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../../bootstrap/inversify.types';
-import { State } from '../../system/system.state';
-import { IConfig, ISession } from '../game.types';
+import { State } from '../../system/state';
+import { ISession } from '../types';
 
 /**
  * @classdesc The load state
+ * @requires ISession
+ * @requires IState
+ * @requires Audio
  */
 @injectable()
 export class LoadAudioState extends State {
-	@inject(TYPES.Widgets) private widgets: any;
-	@inject(TYPES.MIDI) private readonly midiJs: any;
-
-	public constructor(@inject(TYPES.Session) private session: ISession, @inject(TYPES.IntroState) private readonly nextState: IState) {
+	/**
+	 * @param session
+	 * @param nextState
+	 * @param audio
+	 */
+	public constructor(@inject(TYPES.Session) private readonly session: ISession, @inject(TYPES.IntroState) private readonly nextState: IState, @inject(TYPES.Audio) private readonly audio) {
 		super();
 	}
 
-	/**
-	 * @return {void}
-	 */
 	public start() {
 		console.log('LoadAudioState');
+		this.emit('pushState', {state: this.nextState});
+		/*
 		this.loadAudio(() => {
 			//Set the volume.
-			this.midiJs.setVolume(0, this.session.bgmVolumeLevel);
+			this.audio.midiJs.setVolume(0, this.session.bgmVolumeLevel);
 
 			//The speed the songs are played at.
-			this.midiJs.Player.timeWarp = 1;
+			this.audio.midiJs.Player.timeWarp = 1;
 
 			//Remove the loading widget.
-			this.midiJs.loader.stop();
+			this.audio.midiJs.loader.stop();
 
-			//Use the finite state machine to transition to the Intro state. See system.fsm.ts for more details.
-			//this.emit('pushState', {state: this.nextState});
+			//Use the finite state machine to transition to the Intro state. See fsm.ts for more details.
+			this.emit('pushState', {state: this.nextState});
 		});
+		*/
 	};
 
 	public update(dt: number): void {}
@@ -51,14 +56,14 @@ export class LoadAudioState extends State {
 	public stop(): void {}
 
 	private loadAudio(callback: Function) {
-		//The MIDI.js loader widget shows the progress of the MIDI.loadPlugin() function.
-		this.midiJs.loader = this.widgets;
+		//An array of MidiJs instrument IDs.
+		const instruments: Array<string> = this.audio.getAllInstruments(this.session.data.songs);
 
-		//An array of MIDI instrument IDs.
-		const instruments: Array<string> = []; //Audio.getAllInstruments(data.session.getGameData.songs, MIDI);
+		//This shouldn't happen.
+		console.assert(instruments && instruments.length !== 0, 'Instruments not loaded');
 
 		//Load the soundfont data.
-		this.midiJs.loadPlugin({
+		this.audio.midiJs.loadPlugin({
 			targetFormat: 'mp3',
 			soundfontUrl: this.session.config.SOUNDFONT_DIRECTORY,
 			instruments: this.session.config.ONLY_USE_PIANO_INSTRUMENT ? ['acoustic_grand_piano'] : instruments,

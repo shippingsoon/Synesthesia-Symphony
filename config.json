@@ -9,8 +9,8 @@
   "PLAYER_FOCUS_SPEED": 5,
   "PLAYER_HITBOX_RADIUS": 5,
   "PLAYER_INVULNERABILITY_TIMEOUT": 2000,
-  "MIDI_DIRECTORY": "/synesthesia-symphony/resource/midi/",
-  "SOUNDFONT_DIRECTORY": "/synesthesia-symphony/resource/soundfont/",
+  "MIDI_DIRECTORY": "/resource/midi/",
+  "SOUNDFONT_DIRECTORY": "/resource/soundfont/",
   "DEVELOPER_NAME": "Anonymous",
   "RESOLUTIONS": {
     "LOW": {"W": 640, "H": 480, "CANVAS_W": 384, "CANVAS_H": 448},

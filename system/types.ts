@@ -64,8 +64,8 @@ export interface IWindow {
  * @interface
  */
 export interface ICanvasResource {
-	readonly ctx: CanvasRenderingContext2D;
-	readonly bgCtx: CanvasRenderingContext2D;
-	readonly canvas: HTMLCanvasElement;
-	readonly bgCanvas: HTMLCanvasElement;
+	ctx: CanvasRenderingContext2D;
+	bgCtx: CanvasRenderingContext2D;
+	canvas: HTMLCanvasElement;
+	bgCanvas: HTMLCanvasElement;
 }

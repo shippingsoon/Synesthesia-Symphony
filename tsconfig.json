@@ -30,7 +30,7 @@
   },
   "files": [
 	"node_modules/systemjs/dist/system.js",
-	"graphics/graphics.types.ts",
-	"graphics/graphics.color.ts"
+	"graphics/types.ts",
+	"graphics/color.ts"
   ]
 }

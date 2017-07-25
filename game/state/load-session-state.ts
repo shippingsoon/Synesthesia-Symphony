@@ -6,17 +6,13 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { ICanvasResource, IState } from '../../system/system.types';
+import { ICanvasResource, IState } from '../../system/types';
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../../bootstrap/inversify.types';
-import { State } from '../../system/system.state';
-import { IConfig, IGameData, ISession } from '../game.types';
-import { Loader } from '../../system/system.mixin-traits';
-import { Mixin } from '../../system/system.mixin';
-
-//Let the IDE know this 3rd party MIDI.js module is defined elsewhere.
-declare const widgets: any;
-declare const jQuery: any;
+import { State } from '../../system/state';
+import { IConfig, IGameData, ISession } from '../types';
+import { Loader } from '../../system/mixin-traits';
+import { Mixin } from '../../system/mixin';
 
 /**
  * @classdesc The load state
@@ -24,20 +20,52 @@ declare const jQuery: any;
 @Mixin(Loader)
 @injectable()
 export class LoadSessionState extends State implements Loader {
-	//Mixin
+	/**
+	 * Mixins
+	 */
 	public load: <T>(url: string, dataType?: string) => Promise<T>;
 
-	@inject(TYPES.MIDI) private readonly midiJs: any;
+	//jQuery. This is a placeholder.
 	@inject(TYPES.jQuery) public readonly $: any;
 
-	public constructor(@inject(TYPES.Session) private session: ISession, @inject(TYPES.LoadAudioState) private readonly nextState: IState) {
+	/**
+	 * @param session
+	 * @param nextState
+	 * @param resource
+	 */
+	public constructor(
+		@inject(TYPES.Session) private readonly session: ISession,
+		@inject(TYPES.LoadAudioState) private readonly nextState: IState,
+		@inject(TYPES.CanvasResource) private readonly resource: ICanvasResource
+	) {
 		super();
+
+		//Initiate the canvas resource.
+		if (!this.resource.canvas) {
+			this.resource.canvas = <HTMLCanvasElement> document.querySelector('#canvas-layer');
+			this.resource.ctx = this.resource.canvas.getContext('2d');
+		}
+
+		//Initiate the background canvas resource.
+		if (!this.resource.bgCanvas) {
+			this.resource.bgCanvas = <HTMLCanvasElement> document.querySelector('#background-layer');
+			this.resource.bgCtx = this.resource.bgCanvas.getContext('2d');
+		}
 	}
 
 	public start(): void {
 		console.log('LoadSessionState');
 		this.loadSession().then(() => {
-			//this.emit('pushState', {state: this.nextState});
+			if (this.session.config) {
+				//Set the width and height for the canvas elements.
+				this.resource.canvas.width = this.session.config.RESOLUTIONS.MEDIUM.CANVAS_W;
+				this.resource.canvas.height = this.session.config.RESOLUTIONS.MEDIUM.CANVAS_H;
+				this.resource.bgCanvas.width = this.session.config.RESOLUTIONS.MEDIUM.W;
+				this.resource.bgCanvas.height = this.session.config.RESOLUTIONS.MEDIUM.H;
+			}
+
+			//Transition to the next game state.
+			this.emit('pushState', {state: this.nextState});
 		});
 	};
 
@@ -59,6 +87,8 @@ export class LoadSessionState extends State implements Loader {
 			catch (err) {
 				console.error('Error loading the offline-data.json files. Make sure the file contains the correct data and is valid JSON', err);
 			}
+
+			resolve();
 		});
 	}
 

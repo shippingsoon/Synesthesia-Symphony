@@ -1,42 +1,37 @@
 /**
- * @file Vector class.
+ * @file Vector2dMath class.
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IVector, isVector, IMath } from './graphics.types';
+import { IVector2d, isVector, IMath } from './types';
 import { injectable } from 'inversify';
+import { Vector2d } from './vector-2d';
 
 //Let our compiler know that this object is defined elsewhere.
 declare const Math: IMath;
 
 /**
- * @classdesc Vector class.
+ * @classdesc Vector2dMath class.
  */
 @injectable()
-export class Vector implements IVector {
-	//The x and y coordinates.
-	protected _x: number;
-	protected _y: number;
-
+export class Vector2dMath extends Vector2d {
 	/**
-	 * Vector constructor.
 	 * @param x - The x component of the vector.
 	 * @param y - The y component of the vector.
 	 */
-	public constructor({x = 0, y = 0}: IVector) {
-		this.x = x;
-		this.y = y;
+	public constructor({x = 0, y = 0}: IVector2d) {
+		super({x: x, y: y});
 	}
 
 	/**
 	 * Adds two vectors.
 	 * @param vector - The vector that will be added to this vector instance.
-	 * @return {IVector} An instance of this class for method chaining.
+	 * @return {IVector2d} An instance of this class for method chaining.
 	 */
-	public add(vector: IVector|number): this {
+	public add(vector: IVector2d|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
 
 		this.x += x;
@@ -48,9 +43,9 @@ export class Vector implements IVector {
 	/**
 	 * Subtracts two vectors.
 	 * @param vector - The value that will be subtracted from this vector instance.
-	 * @return {IVector}
+	 * @return {IVector2d}
 	 */
-	public subtract(vector: IVector|number): this {
+	public subtract(vector: IVector2d|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
 
 		this.x -= x;
@@ -62,9 +57,9 @@ export class Vector implements IVector {
 	/**
 	 * Multiplies two vectors.
 	 * @param vector - The value that will be multiplied by this vector instance.
-	 * @return {IVector} An instance of this class for method chaining.
+	 * @return {IVector2d} An instance of this class for method chaining.
 	 */
-	public multiply(vector: IVector|number): this {
+	public multiply(vector: IVector2d|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
 
 		this.x *= x;
@@ -77,14 +72,14 @@ export class Vector implements IVector {
 	 * Divides two vectors.
 	 * @param vector - The value that will be used to divide this vector instance.
 	 * @throws {Error}
-	 * @return {IVector} An instance of this class for method chaining.
+	 * @return {IVector2d} An instance of this class for method chaining.
 	 */
-	public divide(vector: IVector|number): this {
+	public divide(vector: IVector2d|number): this {
 		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
 
 		//Check for division by zero.
 		if (x === 0 || y === 0) {
-			throw new Error('Division by zero in Vector.divide()');
+			throw new Error('Division by zero in Vector2d.divide()');
 		}
 
 		this.x /= x;
@@ -93,53 +88,7 @@ export class Vector implements IVector {
 		return this;
 	}
 
-	/**
-	 * Sets the position
-	 * @param vector - The value that will be used to set the position of this vector instance.
-	 * @return {IVector} An instance of this class for method chaining.
-	 */
-	public setPosition(vector: IVector|number): this {
-		const {x = 0, y = 0} = {...isVector(vector) ? vector : [vector, vector]};
-
-		this.x = x;
-		this.y = y;
-
-		return this;
-	}
-
 	//#region Mutator Region (Note: regions are collapsible with IntelliJ)
-	/**
-	 * Gets the x component of this vector.
-	 * @return {number}
-	 */
-	public get x(): number {
-		return this._x;
-	}
-
-	/**
-	 * Sets the x component of this vector.
-	 * @param x - The number we will use to set the x component of the vector.
-	 */
-	public set x(x: number) {
-		this._x = x;
-	}
-
-	/**
-	 * Gets the y component of this vector.
-	 * @return {number}
-	 */
-	public get y(): number {
-		return this._y;
-	}
-
-	/**
-	 * Sets the y component of this vector.
-	 * @param y - The number we will use to set the y component of the vector.
-	 */
-	public set y(y: number) {
-		this._y = y;
-	}
-
 	/**
 	 * Returns the magnitude of the vector.
 	 * @return {number} Magnitude of the vector
@@ -155,7 +104,7 @@ export class Vector implements IVector {
 	 */
 	public get angle(): number {
 		if (this.x === 0) {
-			throw new Error('Division by zero in Vector.angle');
+			throw new Error('Division by zero in Vector2d.angle');
 		}
 
 		return Math.atan2(this.y / this.x);

@@ -6,10 +6,10 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IState, ICanvasResource, IWindow, ICustomEventData, FsmEvents } from './system.types';
+import { IState, ICanvasResource, IWindow, ICustomEventData, FsmEvents } from './types';
 import { injectable } from 'inversify';
-import { Mixin } from './system.mixin';
-import { Emitable } from './system.mixin-traits';
+import { Mixin } from './mixin';
+import { Emitable } from './mixin-traits';
 
 /**
  * @classdesc Abstract State class.

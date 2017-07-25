@@ -10,7 +10,7 @@
 import 'should';
 import * as _ from 'lodash';
 import {ColorType} from './../graphics/graphics';
-import {Color} from './../graphics/graphics.color';
+import {Color} from '../graphics/color';
 //
 //#endregion
 

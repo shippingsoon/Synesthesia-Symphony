@@ -6,7 +6,7 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IColor } from '../graphics/graphics.types';
+import { IColor } from '../graphics/types';
 
 /**
  * @interface
@@ -69,11 +69,11 @@ export interface IConfig {
 	readonly DB_URL: string;
 	//Determines if debug information will be logged to the console. Setting this to true may (or may not) break things.
 	readonly DEBUG_MODE: boolean;
-	//Determines if MIDI.js library will only use the piano instrument.
+	//Determines if MidiJs.js library will only use the piano instrument.
 	readonly ONLY_USE_PIANO_INSTRUMENT: boolean;
-	//The path to the MIDI files used by MIDI.js.
+	//The path to the MidiJs files used by MidiJs.js.
 	readonly MIDI_DIRECTORY: string;
-	//The path to the soundfonts used by MIDI.js
+	//The path to the soundfonts used by MidiJs.js
 	readonly SOUNDFONT_DIRECTORY: string;
 	//The canvas' width and height at various resolutions. See IResolution for more info.
 	readonly RESOLUTIONS: {
@@ -136,8 +136,22 @@ export interface IGame {
 	main(timestamp: number): void;
 }
 
+/**
+ * @interface
+ */
 export interface IGameData {d
 	enemies: Array<any>;
 	player: object;
 	songs: Array<any>;
+}
+
+/**
+ * @interface
+ */
+export interface IMidiJs {
+	Soundfont: any;
+	GeneralMIDI: any;
+	Player: any;
+	loader: any;
+	programChange(channel: number, program: number): void;
 }

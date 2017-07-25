@@ -8,9 +8,9 @@
 
 'use strict';
 
-import { IState } from '../system/system.types';
-import { Circle } from '../graphics/shape/graphics.circle';
-import { IColor, ColorName } from '../graphics/graphics.types';
+import { IState } from '../system/types';
+import { Circle } from '../graphics/shape/circle';
+import { IColor, ColorName } from '../graphics/types';
 
 /**
  * @class

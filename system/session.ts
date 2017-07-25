@@ -6,11 +6,11 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import {IConfig, IGameData, ISession} from '../game/game.types';
-import { injectable } from 'inversify';
+import {IConfig, IGameData, ISession} from '../game/types';
+import {injectable, unmanaged} from 'inversify';
 
 /**
- * @classdesc Session class. This was originally a singleton class but was refactored to use InversifyJS' singleton scope.
+ * @classdesc Session class. This was originally a singleton class but was refactored to use InversifyJs' singleton scope.
  */
 @injectable()
 export class Session implements ISession {

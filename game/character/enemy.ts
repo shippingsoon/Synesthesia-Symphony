@@ -8,10 +8,10 @@
 
 'use strict';
 
-import { LifeForm } from './game.lifeform';
-import { IState } from '../../system/system.types';
-import { IColor, ColorName } from '../../graphics/graphics.types';
-import { IEntity } from '../game.types';
+import { LifeForm } from './lifeform';
+import { IState } from '../../system/types';
+import { IColor, ColorName } from '../../graphics/types';
+import { IEntity } from '../types';
 
 /**
  * @class

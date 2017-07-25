@@ -6,12 +6,13 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { State } from '../../system/system.state';
-import { EntityManager } from '../game.entity-manager';
+import { State } from '../../system/state';
+import { EntityManager } from '../entity-manager';
 import { inject, injectable } from 'inversify';
-import { ICanvasResource } from '../../system/system.types';
-import { ISession } from '../game.types';
+import { ICanvasResource } from '../../system/types';
+import { ISession } from '../types';
 import { TYPES } from '../../bootstrap/inversify.types';
+import _ from 'lodash';
 
 /**
  * @class
@@ -24,15 +25,16 @@ export class StageState implements State {
 	public constructor(@inject(TYPES.Session) private session: ISession) {}
 
 	public start(): void {
-		this.entityManger = new EntityManager(this.session.data);
+		console.log('StageState');
+		this.entityManger = new EntityManager(this.session.data, _);
 	}
 
 	public update(dt: number): void {
-		//this.entityManger.update(data);
+		this.entityManger.update(dt);
 	}
 
 	public draw(resource: ICanvasResource): void {
-		//this.entityManger.draw(data);
+		this.entityManger.draw(resource);
 	}
 
 	public pause(): void {}

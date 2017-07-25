@@ -1,5 +1,5 @@
 /**
- * @file Symbols for InversifyJS' Inversion of Control container.
+ * @file Symbols for InversifyJs' Inversion of Control container.
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
@@ -19,24 +19,30 @@ const TYPES = {
 	//Graphics
 	Color: Symbol('Color'),
 	CssColor: Symbol('CssColor'),
-	Vector: Symbol('Vector'),
+	Vector2d: Symbol('Vector2d'),
+	Vector2dMath: Symbol('Vector2dMath'),
 	Shape: Symbol('Shape'),
-	CircleShape: Symbol('CircleShape'),
+	DrawCircle: Symbol('DrawCircle'),
 	Circle: Symbol('Circle'),
-	SquareShape: Symbol('SquareShape'),
-	Square: Symbol('Square'),
 
 	//Game
 	Game: Symbol('Game'),
 	LoadSessionState: Symbol('LoadSessionState'),
 	LoadAudioState: Symbol('LoadAudioState'),
 	IntroState: Symbol('IntroState'),
+	StageState: Symbol('StageState'),
+	EntityManager: Symbol('EntityManager'),
+	Player: Symbol('Player'),
+
+	//Audio
+	Audio: Symbol('Audio'),
 
 	//3rd Party.
+	MidiJs: Symbol('MidiJs'),
 	Lodash: Symbol('Lodash'),
-	MIDI: Symbol('MIDI'),
 	Widgets: Symbol('Widgets'),
-	jQuery: Symbol('jQuery')
+	jQuery: Symbol('jQuery'),
+	Keydown: Symbol('Keydown')
 };
 
 export { TYPES };

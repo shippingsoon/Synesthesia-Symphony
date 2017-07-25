@@ -6,7 +6,7 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IStack } from './system.types';
+import { IStack } from './types';
 import { injectable, decorate, unmanaged } from 'inversify';
 
 //Here we decorate the 3rd party object.
