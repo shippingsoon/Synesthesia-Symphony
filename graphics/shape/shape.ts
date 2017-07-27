@@ -7,7 +7,7 @@
  * @module Shape
  */
 
-import {IShape, IVector2d, IVector2dMath} from '../types';
+import {IShape, IVector2dMath} from '../types';
 import { injectable, unmanaged } from 'inversify';
 
 /**

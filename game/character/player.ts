@@ -7,68 +7,76 @@
  */
 
 import { LifeForm } from './lifeform';
-import { ICssColor, IVector2dMath } from '../../graphics/types';
+import {IColor, ICssColor, IVector2d, IVector2dMath} from '../../graphics/types';
 import { unmanaged } from 'inversify';
+import {CssColor} from '../../graphics/css-color';
+import {Vector2dMath} from '../../graphics/vector-2d-math';
+
+declare const Keydown: any;
 
 /**
  * @classdesc The player class
  */
 export class Player extends LifeForm {
-	private _primaryColor;
+	private _primaryColor: ICssColor;
 
 	/**
-	 * @param position - The position.
-	 * @param r - The circle's radius. This value must be positive.
-	 * @param fillColor - The fill color.
+	 * @param _fillColor - The fill color.
+	 * @param _position - The entity's position.
+	 * @param _r - The entity's radius. This value must be positive.
 	 * @param _speed - The speed.
 	 * @param _lifePoints - The life points.
 	 * @param _healthPoints - The health points.
 	 * @param maxHealthPoints - The max health points.
-	 * @param Keydown - 3rd party user input module.
+	 * @param _pattern - To be announced.
+	 * @param keydown - 3rd party user input module.
 	 * @param _secondaryColor -
+	 * @param secondarySpeed
 	 */
 	public constructor(
-		@unmanaged() position: IVector2dMath,
-		@unmanaged() r: number = 1,
-		@unmanaged() fillColor: ICssColor = null,
-		@unmanaged() _speed: number = 10,
+		@unmanaged() _fillColor: ICssColor = new CssColor('green'),
+		@unmanaged() _position: IVector2dMath = new Vector2dMath({x: 0, y: 0}),
+		@unmanaged() _r: number = 30,
+		@unmanaged() _speed: number = 700,
 		@unmanaged() _lifePoints: number = 1,
 		@unmanaged() _healthPoints: number = 1,
-		@unmanaged() maxHealthPoints: number = 1,
-		@unmanaged() private Keydown,
-		@unmanaged() private _secondaryColor,
-		@unmanaged() private secondarySpeed = 10
+		@unmanaged() readonly maxHealthPoints: number = 1,
+		@unmanaged() readonly _pattern: void = null,
+		@unmanaged() private readonly keydown: any = Keydown,
+		@unmanaged() private _secondaryColor: ICssColor = new CssColor({r: 255, g: 200, b: 23, a: 1}),
+		@unmanaged() private readonly secondarySpeed: number = _speed / 2
 	) {
-		super(position, r, fillColor, _speed, _lifePoints, _healthPoints, maxHealthPoints);
-		this._primaryColor = fillColor;
+		super(_fillColor, _position, _r, _speed, _lifePoints, _healthPoints, maxHealthPoints, _pattern);
+		this._primaryColor = _fillColor;
 	}
 
 	public handleInput(dt: number): void {
-		const speed = (this.Keydown.shift ? this.secondarySpeed : this.speed) * (dt / 1000.0);
-		console.log('time', new Date(), 'speed', speed.toFixed(2));
+		const speed = (this.keydown.shift ? this.secondarySpeed : this.speed) * (dt / 1000.0);
+		//this.fillColor.setColor(this.keydown.shift ? this.secondaryColor : this.primaryColor);
+		//console.log(new Date(), speed.toFixed(2), `(${this.position.x.toFixed(2)}, ${this.position.y.toFixed(2)})`);
 
 		//The Up key has been pressed.
-		if ((this.Keydown.up || this.Keydown.w)) {
+		if ((this.keydown.up || this.keydown.w)) {
 			this.position.subtract({x: 0, y: speed});
 		}
 
 		//The Down key has been pressed.
-		if ((this.Keydown.down || this.Keydown.s)) {
+		if ((this.keydown.down || this.keydown.s)) {
 			this.position.add({x: 0, y: speed});
 		}
 
 		//The Left key is pressed.
-		if ((this.Keydown.left || this.Keydown.a)) {
+		if ((this.keydown.left || this.keydown.a)) {
 			this.position.subtract({x: speed, y: 0});
 		}
 
 		//The Right key has been pressed.
-		if ((this.Keydown.right || this.Keydown.d)) {
+		if ((this.keydown.right || this.keydown.d)) {
 			this.position.add({x: speed, y: 0});
 		}
 
 		//The Right key has been pressed.
-		if ((this.Keydown.z)) {}
+		if ((this.keydown.z)) {}
 	}
 
 	/**

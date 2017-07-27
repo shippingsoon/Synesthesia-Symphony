@@ -8,14 +8,23 @@
 
 /**
  * Mixin class decorator.
- * @param traits
+ * @param traits - The base class
  * @return {Function}
  */
 export function Mixin(...traits: Function[]): Function {
 	return function (target: Function) {
 		traits.forEach(trait => {
-			Object.getOwnPropertyNames(trait.prototype).forEach(name => {
-				target.prototype[name] = trait.prototype[name];
+			Object.getOwnPropertyNames(trait.prototype).forEach(key => {
+				//Skip the constructor.
+				if (key !== 'constructor') {
+					const descriptor: PropertyDescriptor = Object.getOwnPropertyDescriptor(trait.prototype, key);
+					target.prototype[key] = trait.prototype[key];
+
+					//If this is an accessor descriptor.
+					if (descriptor && typeof(descriptor.value) === 'undefined') {
+						Object.defineProperty(target.prototype, key, descriptor);
+					}
+				}
 			});
 		});
 	};

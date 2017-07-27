@@ -6,7 +6,7 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import {ColorName, ICssColor, isColorName, IVector2d} from '../types';
+import { ColorName, ICssColor, isColorName, IVector2d } from '../types';
 import { injectable } from 'inversify';
 
 /**

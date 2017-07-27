@@ -285,8 +285,8 @@ export interface IMath {
  * @interface
  */
 export interface IShape {
-	position: IVector2d;
-	getArea: number;
+	position: IVector2dMath|IVector2d;
+	getArea?: number;
 }
 
 /**

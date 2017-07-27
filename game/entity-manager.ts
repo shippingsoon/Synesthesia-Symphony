@@ -42,16 +42,10 @@ export class EntityManager {
 		};
 
 		//Create the player.
-		this.playerState = new PlayerState(new Player(
-			new Vector2dMath({x: 0, y: 0}),
-			10,
-			new CssColor('green'),
-			768,
-			1,
-			1,
-			1,
-			Keydown,
-			new CssColor('blue')
+		this.playerState = new PlayerState(
+			new Player(
+				new CssColor('green'),
+				new Vector2dMath({x: 0, y: 0})
 			)
 		);
 	}

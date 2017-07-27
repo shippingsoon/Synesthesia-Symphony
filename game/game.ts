@@ -6,8 +6,8 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import {ICanvasResource, IFsm, IState, IWindow} from '../system/types';
-import {injectable, inject, unmanaged} from 'inversify';
+import { ICanvasResource, IFsm, IState, IWindow } from '../system/types';
+import { injectable, inject, unmanaged } from 'inversify';
 import { TYPES } from '../bootstrap/inversify.types';
 import { IGame } from './types';
 import { FsmEvent } from '../system/mixin-traits';

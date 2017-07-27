@@ -7,25 +7,16 @@
  */
 
 import { injectable, unmanaged } from 'inversify';
-import { ICircle, IDrawable, IVector2dMath } from '../types';
+import { ICircle, IVector2dMath } from '../types';
 import { Shape } from './shape';
-import { Mixin } from '../../system/mixin';
-import { DrawCircle } from './draw-circle'
 
 /**
  * @classdesc A circle shape.
  */
 @injectable()
-@Mixin(DrawCircle)
-export class Circle extends Shape implements ICircle, IDrawable, DrawCircle {
+export class Circle extends Shape implements ICircle {
 	//The circle's radius. This value must be positive.
 	protected _r: number;
-
-	/**
-	 * Mixins.
-	 * @see the class for a proper JSDoc description.
-	 */
-	public render: () => void;
 
 	/**
 	 * @param position - The circle's x coordinate

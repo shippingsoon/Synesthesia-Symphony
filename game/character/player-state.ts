@@ -9,15 +9,25 @@
 import { ICanvasResource } from '../../system/types';
 import { unmanaged } from 'inversify';
 import { State } from '../../system/state';
+import { DrawCircle } from '../../graphics/shape/draw-circle';
+import { Mixin } from '../../system/mixin';
+import {Player} from './player';
 
 /**
  * @classdesc The player state class.
  */
-export class PlayerState extends State {
+@Mixin(DrawCircle)
+export class PlayerState extends State implements DrawCircle {
+	/**
+	 * Mixins
+	 * See the class for a proper JsDoc description.
+	 */
+	public render: (...args: any[]) => void;
+
 	/**
 	 * @param player -
 	 */
-	public constructor(@unmanaged() private player) {
+	public constructor(@unmanaged() private player: Player) {
 		super();
 	}
 
@@ -29,7 +39,7 @@ export class PlayerState extends State {
 	}
 
 	public draw(resource: ICanvasResource): void {
-		this.player.render(
+		this.render(
 			resource.ctx,
 			this.player.position,
 			this.player.r,
