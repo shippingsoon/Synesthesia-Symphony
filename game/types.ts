@@ -6,7 +6,7 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IColor } from '../graphics/types';
+import {ColorName, IColor, IVector2d} from '../graphics/types';
 
 /**
  * @interface
@@ -75,26 +75,14 @@ export interface IConfig {
 	readonly MIDI_DIRECTORY: string;
 	//The path to the soundfonts used by MidiJs.js
 	readonly SOUNDFONT_DIRECTORY: string;
+	//Project name.
+	readonly PROJECT_NAME: string;
 	//The canvas' width and height at various resolutions. See IResolution for more info.
 	readonly RESOLUTIONS: {
 		readonly LOW: IResolution,
 		readonly MEDIUM: IResolution,
 		readonly HIGH: IResolution
 	};
-	//The player's initial lives.
-	readonly PLAYER_INITIAL_LIVES: number;
-	//The player's max power.
-	readonly PLAYER_MAX_POWER: number;
-	//The player's initial speed.
-	readonly PLAYER_INITIAL_POWER: number;
-	//The player's speed.
-	readonly PLAYER_SPEED: number;
-	//The player's speed when the SHIFT KEY is pressed.
-	readonly PLAYER_FOCUS_SPEED: number;
-	//The player's hitbox radius.
-	readonly PLAYER_HITBOX_RADIUS: number;
-	//Determines how long in milliseconds the player will be invulnerable after taking damage.
-	readonly PLAYER_INVULNERABILITY_TIMEOUT: number;
 }
 
 /**
@@ -104,7 +92,7 @@ export interface ISession {
 	readonly bgmVolumeLevel: number;
 	readonly sfxVolumeLevel: number;
 	config: IConfig;
-	data: any;//Interface TBA
+	data: IGameData;
 }
 
 /**
@@ -140,18 +128,23 @@ export interface IGame {
  * @interface
  */
 export interface IGameData {d
-	enemies: Array<any>;
-	player: object;
-	songs: Array<any>;
+	readonly enemies: Array<any>;
+	readonly player: {
+		readonly position: IVector2d,
+		readonly r: number,
+		readonly speed: number,
+		readonly fillColor: IColor|ColorName,
+		readonly secondaryColor: IColor|string,
+		readonly secondarySpeed: number
+	};
+	readonly songs: Array<any>;
 }
 
 /**
  * @interface
  */
-export interface IMidiJs {
-	Soundfont: any;
-	GeneralMIDI: any;
-	Player: any;
-	loader: any;
-	programChange(channel: number, program: number): void;
+export interface IPianoKey {
+	isBlack: boolean;
+	draw(ctx: CanvasRenderingContext2D);
+	destroy(): void;
 }

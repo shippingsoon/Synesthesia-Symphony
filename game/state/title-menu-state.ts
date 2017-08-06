@@ -6,8 +6,6 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-'use strict';
-
 /**
  * @class
  * @classdesc The title menu state.

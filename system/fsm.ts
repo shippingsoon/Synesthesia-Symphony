@@ -6,9 +6,9 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IFsm, IStack, IState, ICanvasResource } from './types';
-import { injectable, inject } from 'inversify';
-import { TYPES } from '../bootstrap/inversify.types';
+import {IFsm, IStack, IState, ICanvasResource} from './types';
+import {injectable, inject} from 'inversify';
+import {TYPES} from '../bootstrap/inversify.types';
 
 /**
  * @classdesc The Fsm (Finite State Machine) is a design pattern that allows developers to easily manage game states.
@@ -24,12 +24,13 @@ export class Fsm implements IFsm {
 	/**
 	 * Handle logic in the current state.
 	 * @param dt - The delta time between the current and previous frames.
+	 * @param resource - An object containing a 2D drawing context and HTML5 canvas element.
 	 */
-	public update(dt: number): void {
+	public update(dt: number, resource: ICanvasResource): void {
 		//If the games states array is not empty.
 		if (!this.states.isEmpty()) {
 			//Handle logic in the current state.
-			this.states.peek().update(dt);
+			this.states.peek().update(dt, resource);
 		}
 	}
 

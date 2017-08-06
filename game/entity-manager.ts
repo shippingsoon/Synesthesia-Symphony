@@ -7,17 +7,17 @@
  * @see {@link https://blog.codinghorror.com/i-shall-call-it-somethingmanager/}
  */
 
-import { Player } from './character/player';
-import { Enemy } from './character/enemy';
-import { clearCanvas } from '../graphics/graphics';
-import { EntityType, IGameData } from './types';
-import { LoDashStatic } from 'lodash';
-import { ICanvasResource } from '../system/types';
-import { inject, injectable } from 'inversify';
-import { TYPES } from '../bootstrap/inversify.types';
-import { CssColor } from '../graphics/css-color';
-import { Vector2dMath } from '../graphics/vector-2d-math';
-import { PlayerState } from './character/player-state';
+import {Player} from './character/player';
+import {Enemy} from './character/enemy';
+import {clearCanvas} from '../graphics/graphics';
+import {EntityType, IGameData} from './types';
+import {LoDashStatic} from 'lodash';
+import {ICanvasResource} from '../system/types';
+import {inject, injectable, unmanaged} from 'inversify';
+import {TYPES} from '../bootstrap/inversify.types';
+import {CssColor} from '../graphics/css-color';
+import {Vector2dMath} from '../graphics/vector-2d-math';
+import {PlayerState} from './character/player-state';
 
 declare const Keydown: any;
 
@@ -33,7 +33,7 @@ export class EntityManager {
 	 * @param data - The remotely loaded game data.
 	 * @param _ - Lodash library.
 	 */
-	public constructor(data: IGameData, @inject(TYPES.Lodash) private _: LoDashStatic) {
+	public constructor(@unmanaged() data: IGameData, @inject(TYPES.Lodash) private _: LoDashStatic) {
 		this.entities = {
 			bosses: [],
 			enemies: [],
@@ -44,26 +44,22 @@ export class EntityManager {
 		//Create the player.
 		this.playerState = new PlayerState(
 			new Player(
-				new CssColor('green'),
-				new Vector2dMath({x: 0, y: 0})
+				new CssColor(data.player.fillColor),
+				new Vector2dMath(data.player.position),
+				data.player.r,
+				data.player.speed
 			)
 		);
 	}
 
-	public update(dt: number): void {
+	public update(dt: number, resource: ICanvasResource): void {
 		//Handle logic for the player.
-		if (!this._.isEmpty(this.playerState)) {
-			this.playerState.update(dt);
-		}
+		this.playerState.update(dt, resource);
 	}
 
 	public draw(resource: ICanvasResource): void {
-		clearCanvas(resource.ctx, resource.canvas);
-
 		//Draw the player.
-		if (!this._.isEmpty(this.playerState)) {
-			this.playerState.draw(resource);
-		}
+		this.playerState.draw(resource);
 	}
 
 	/**

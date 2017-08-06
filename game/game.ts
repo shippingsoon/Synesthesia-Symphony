@@ -6,12 +6,12 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { ICanvasResource, IFsm, IState, IWindow } from '../system/types';
-import { injectable, inject, unmanaged } from 'inversify';
-import { TYPES } from '../bootstrap/inversify.types';
-import { IGame } from './types';
-import { FsmEvent } from '../system/mixin-traits';
-import { Mixin } from '../system/mixin';
+import {ICanvasResource, IFsm, IState, IWindow} from '../system/types';
+import {injectable, inject, unmanaged} from 'inversify';
+import {TYPES} from '../bootstrap/inversify.types';
+import {IGame} from './types';
+import {FsmEvent} from '../system/mixin-traits';
+import {Mixin} from '../system/mixin';
 
 /**
  * Game class.
@@ -83,7 +83,7 @@ export class Game implements IGame, FsmEvent {
 
 		//Handle logic in the current state.
 		//If dt is greater than our target FPS we cap it off by substituting it with the target FPS value.
-		this.fsm.update((dt > this.targetFps) ? this.targetFps : dt);
+		this.fsm.update((dt > this.targetFps) ? this.targetFps : dt, this.resource);
 
 		//Render the current state.
 		this.fsm.draw(this.resource);

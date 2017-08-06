@@ -6,13 +6,15 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { State } from '../../system/state';
-import { EntityManager } from '../entity-manager';
-import { inject, injectable } from 'inversify';
-import { ICanvasResource } from '../../system/types';
-import { ISession } from '../types';
-import { TYPES } from '../../bootstrap/inversify.types';
+import {State} from '../../system/state';
+import {EntityManager} from '../entity-manager';
+import {inject, injectable} from 'inversify';
+import {ICanvasResource} from '../../system/types';
+import {ISession} from '../types';
+import {TYPES} from '../../bootstrap/inversify.types';
 import _ from 'lodash';
+import {Piano} from '../piano';
+import {clearCanvas} from '../../graphics/graphics';
 
 /**
  * @class
@@ -22,18 +24,20 @@ import _ from 'lodash';
 export class StageState implements State {
 	private entityManger: EntityManager;
 
-	public constructor(@inject(TYPES.Session) private session: ISession) {}
+	public constructor(@inject(TYPES.Session) private session: ISession, @inject(TYPES.Piano) private piano: Piano) {}
 
 	public start(): void {
 		console.log('StageState');
 		this.entityManger = new EntityManager(this.session.data, _);
 	}
 
-	public update(dt: number): void {
-		this.entityManger.update(dt);
+	public update(dt: number, resource: ICanvasResource): void {
+		this.entityManger.update(dt, resource);
 	}
 
 	public draw(resource: ICanvasResource): void {
+		clearCanvas(resource.ctx, resource.canvas);
+		this.piano.draw(resource);
 		this.entityManger.draw(resource);
 	}
 

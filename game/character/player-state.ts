@@ -6,18 +6,18 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { ICanvasResource } from '../../system/types';
-import { unmanaged } from 'inversify';
-import { State } from '../../system/state';
-import { DrawCircle } from '../../graphics/shape/draw-circle';
-import { Mixin } from '../../system/mixin';
+import {ICanvasResource} from '../../system/types';
+import {unmanaged} from 'inversify';
+import {State} from '../../system/state';
+import {DrawableCircle} from '../../graphics/mixin/drawable-circle';
+import {Mixin} from '../../system/mixin';
 import {Player} from './player';
 
 /**
  * @classdesc The player state class.
  */
-@Mixin(DrawCircle)
-export class PlayerState extends State implements DrawCircle {
+@Mixin(DrawableCircle)
+export class PlayerState extends State implements DrawableCircle {
 	/**
 	 * Mixins
 	 * See the class for a proper JsDoc description.
@@ -33,7 +33,7 @@ export class PlayerState extends State implements DrawCircle {
 
 	public start() {}
 
-	public update(dt: number): void {
+	public update(dt: number, resource: ICanvasResource): void {
 		//Handle keyboard input.
 		this.player.handleInput(dt);
 	}

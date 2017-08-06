@@ -6,11 +6,11 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { ICanvasResource, IState } from '../../system/types';
-import { injectable, inject } from 'inversify';
-import { TYPES } from '../../bootstrap/inversify.types';
-import { State } from '../../system/state';
-import { ISession } from '../types';
+import {ICanvasResource, IState} from '../../system/types';
+import {injectable, inject} from 'inversify';
+import {TYPES} from '../../bootstrap/inversify.types';
+import {State} from '../../system/state';
+import {ISession} from '../types';
 
 /**
  * @classdesc The load state
@@ -31,8 +31,7 @@ export class LoadAudioState extends State {
 
 	public start() {
 		console.log('LoadAudioState');
-		this.emit('pushState', {state: this.nextState});
-		/*
+		//this.emit('pushState', {state: this.nextState});
 		this.loadAudio(() => {
 			//Set the volume.
 			this.audio.midiJs.setVolume(0, this.session.bgmVolumeLevel);
@@ -46,10 +45,9 @@ export class LoadAudioState extends State {
 			//Use the finite state machine to transition to the Intro state. See fsm.ts for more details.
 			this.emit('pushState', {state: this.nextState});
 		});
-		*/
 	};
 
-	public update(dt: number): void {}
+	public update(dt: number, resource: ICanvasResource): void {}
 	public draw(resource: ICanvasResource): void {}
 	public pause(): void {}
 	public play(): void {}
@@ -67,7 +65,19 @@ export class LoadAudioState extends State {
 			targetFormat: 'mp3',
 			soundfontUrl: this.session.config.SOUNDFONT_DIRECTORY,
 			instruments: this.session.config.ONLY_USE_PIANO_INSTRUMENT ? ['acoustic_grand_piano'] : instruments,
-			callback: callback
+			callback: () => {
+				//Set the volume.
+				this.audio.midiJs.setVolume(0, this.session.bgmVolumeLevel || 127);
+
+				//The speed the songs are played at.
+				this.audio.midiJs.Player.timeWarp = 1;
+
+				//Remove the loading widget.
+				this.audio.midiJs.loader.stop();
+
+				//Use the finite state machine to transition to the Intro state. See fsm.ts for more details.
+				this.emit('pushState', {state: this.nextState});
+			}
 		});
 	}
 }

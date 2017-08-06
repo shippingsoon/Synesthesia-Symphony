@@ -22,7 +22,7 @@ const TYPES = {
 	Vector2d: Symbol('Vector2d'),
 	Vector2dMath: Symbol('Vector2dMath'),
 	Shape: Symbol('Shape'),
-	DrawCircle: Symbol('DrawCircle'),
+	DrawCircle: Symbol('DrawableCircle'),
 	Circle: Symbol('Circle'),
 
 	//Game
@@ -33,6 +33,12 @@ const TYPES = {
 	StageState: Symbol('StageState'),
 	EntityManager: Symbol('EntityManager'),
 	Player: Symbol('Player'),
+	PianoKey: Symbol('PianoKey'),
+	Piano: Symbol('Piano'),
+	NewablePianoKey: Symbol('NewablePianoKey'),
+	NewableColor: Symbol('NewableColor'),
+	NewableCssColor: Symbol('NewableCssColor'),
+	NewableVector2d: Symbol('NewableVector2d'),
 
 	//Audio
 	Audio: Symbol('Audio'),

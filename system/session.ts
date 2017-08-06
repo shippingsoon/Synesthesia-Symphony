@@ -15,10 +15,10 @@ import {injectable, unmanaged} from 'inversify';
 @injectable()
 export class Session implements ISession {
 	//Background music volume level.
-	private _bgmVolumeLevel: number;
+	private _bgmVolumeLevel: number = 127;
 
 	//Sound effects volume level.
-	private _sfxVolumeLevel: number;
+	private _sfxVolumeLevel: number = 127;
 
 	//Read only configuration data. This data is stored in a config.json file. See IConfig for more details.
 	private _config: IConfig;
@@ -37,9 +37,16 @@ export class Session implements ISession {
 
 	/**
 	 * Sets the background music volume level.
-	 * @param bgmVolumeLevel - The background music volume level.
+	 * @param bgmVolumeLevel - The background music volume level. Must be between 0-127.
+	 * @throws {Error}
 	 */
-	public set bgmVolumeLevel(bgmVolumeLevel: number) {this._bgmVolumeLevel = bgmVolumeLevel;}
+	public set bgmVolumeLevel(bgmVolumeLevel: number) {
+		if (bgmVolumeLevel < 0 || bgmVolumeLevel > 127) {
+			throw new Error('Background music volume level must be between 0 and 127');
+		}
+
+		this._bgmVolumeLevel = bgmVolumeLevel;
+	}
 
 	/**
 	 * Gets the sound effects volume level.
@@ -49,9 +56,16 @@ export class Session implements ISession {
 
 	/**
 	 * Sets the sound effects volume level.
-	 * @param {number} sfxVolumeLevel - The sound effects volume to set.
+	 * @param {number} sfxVolumeLevel - The sound effects volume to set. Must be between 0-127.
+	 * @throws {Error}
 	 */
-	public set sfxVolumeLevel(sfxVolumeLevel: number) {this._bgmVolumeLevel = sfxVolumeLevel;}
+	public set sfxVolumeLevel(sfxVolumeLevel: number) {
+		if (sfxVolumeLevel < 0 || sfxVolumeLevel > 127) {
+			throw new Error('Sound effects volume level must be between 0 and 127');
+		}
+
+		this._bgmVolumeLevel = sfxVolumeLevel;
+	}
 
 	/**
 	 * Gets the readonly configuration data. See config.json or IConfig for more details.

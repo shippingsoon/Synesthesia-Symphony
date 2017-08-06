@@ -6,9 +6,15 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony/} for online demo
  */
 
-/**
- * @classdesc The projectile patterns (a.k.a Danmaku).
- */
-export class Pattern {
+import {injectable} from 'inversify';
 
+/**
+ * @classdesc The projectile pattern (a.k.a Danmaku).
+ */
+@injectable()
+export class ProjectilePattern {
+	public constructor(
+	) {
+
+	}
 }

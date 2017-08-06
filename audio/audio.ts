@@ -6,10 +6,11 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IConfig, IMidiJs } from '../game/types';
-import { TYPES } from '../bootstrap/inversify.types';
-import { inject, injectable } from 'inversify';
-import { LoDashStatic } from 'lodash';
+import {IConfig} from '../game/types';
+import {TYPES} from '../bootstrap/inversify.types';
+import {inject, injectable} from 'inversify';
+import {LoDashStatic} from 'lodash';
+import {IMidiJs, IMidiJsData} from './types';
 
 /**
  * @classdesc Audio class. This class contains helper methods for MidiJs. It was originally a singleton but was refactored to use InversifyJs' singleton scope.
@@ -74,7 +75,7 @@ export class Audio {
 	 * @param config - Game configuration data. See Game.IConfig for more details.
 	 * @param eventListener - A callback that is passed to the MidiJs.loadFile method.
 	 */
-	public playSong(song: {filename: string, instruments: any}, config: IConfig, eventListener: Function = null): void {
+	public playSong(song: {filename: string, instruments: any}, config: IConfig, eventListener: (data: IMidiJsData) => void = null): void {
 		//Set the full path to the MidiJs song that will be loaded.
 		const midiFilePath: string = config.MIDI_DIRECTORY + (this._.endsWith(config.MIDI_DIRECTORY, '/') ? '' : '/') + song.filename;
 
@@ -87,12 +88,13 @@ export class Audio {
 		//Load and play the menu music.
 		this.midiJs.Player.loadFile(midiFilePath, () => {
 			//MidiJs event listener.
-			if (!this._.isEmpty(eventListener)) {
+			if (eventListener) {
 				this.midiJs.Player.addListener(eventListener);
 			}
 
 			//Start the music.
 			this.midiJs.Player.start();
+
 		});
 	}
 

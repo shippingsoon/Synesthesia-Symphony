@@ -1,16 +1,18 @@
 /**
- * @file Stack class.
+ * @file Stack class extends the Array class with an isEmpty() and peek() method.
  * @copyright 2014 Shipping Soon
  * @license GPLv3
  * @see {@link https://github.com/shippingsoon/Synesthesia-Symphony} for sourcecode
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IStack } from './types';
-import { injectable, decorate, unmanaged } from 'inversify';
+import {IStack} from './types';
+import {injectable, decorate, unmanaged} from 'inversify';
 
 //Here we decorate the 3rd party object.
 decorate(injectable(), Array);
+
+//Tell InversifyJs to not manage the first parameter of the Array constructor.
 decorate(unmanaged(), Array, 0);
 
 /**
@@ -23,7 +25,7 @@ export class Stack<T> extends Array<T> implements IStack<T> {
 	 * @param {T} value - The value to be pushed on the stack.
 	 */
 	public constructor(@unmanaged() value: T) {
-		if (typeof value !== 'undefined') {
+		if (typeof(value) !== 'undefined') {
 			super(value);
 		}
 		else {

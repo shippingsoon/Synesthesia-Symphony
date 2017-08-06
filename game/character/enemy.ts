@@ -8,10 +8,10 @@
 
 'use strict';
 
-import { LifeForm } from './lifeform';
-import { IState } from '../../system/types';
-import { IColor, ColorName } from '../../graphics/types';
-import { IEntity } from '../types';
+import {LifeForm} from './lifeform';
+import {IState} from '../../system/types';
+import {IColor, ColorName} from '../../graphics/types';
+import {IEntity} from '../types';
 
 /**
  * @class

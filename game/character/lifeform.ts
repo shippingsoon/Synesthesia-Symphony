@@ -6,8 +6,8 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IColor, ICssColor, IVector2dMath } from '../../graphics/types';
-import { injectable, unmanaged } from 'inversify';
+import {IColor, ICssColor, IVector2dMath} from '../../graphics/types';
+import {injectable, unmanaged} from 'inversify';
 import {Vector2dMath} from '../../graphics/vector-2d-math';
 import {CssColor} from '../../graphics/css-color';
 

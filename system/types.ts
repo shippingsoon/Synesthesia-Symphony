@@ -11,7 +11,7 @@
  */
 export interface IState {
 	start(): void;
-	update(dt: number): void;
+	update(dt: number, resource: ICanvasResource): void;
 	draw(resource: ICanvasResource): void;
 	stop(): void;
 	play(): void;
@@ -34,7 +34,7 @@ export interface ICustomEventData {
  * @interface
  */
 export interface IFsm {
-	update(dt: number): void;
+	update(dt: number, resource: ICanvasResource): void;
 	draw(resource: ICanvasResource): void;
 	push(state: IState): void;
 	pop(stopCurrentState: boolean): void;

@@ -6,13 +6,13 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { ICanvasResource, IState } from '../../system/types';
-import { injectable, inject } from 'inversify';
-import { TYPES } from '../../bootstrap/inversify.types';
-import { State } from '../../system/state';
-import { IConfig, IGameData, ISession } from '../types';
-import { Loader } from '../../system/mixin-traits';
-import { Mixin } from '../../system/mixin';
+import {ICanvasResource, IState} from '../../system/types';
+import {injectable, inject} from 'inversify';
+import {TYPES} from '../../bootstrap/inversify.types';
+import {State} from '../../system/state';
+import {IConfig, IGameData, ISession} from '../types';
+import {Loader} from '../../system/mixin-traits';
+import {Mixin} from '../../system/mixin';
 
 /**
  * @classdesc The load state
@@ -92,7 +92,7 @@ export class LoadSessionState extends State implements Loader {
 		});
 	}
 
-	public update(dt: number): void {}
+	public update(dt: number, resource: ICanvasResource): void {}
 	public draw(resource: ICanvasResource): void {}
 	public pause(): void {}
 	public play(): void {}

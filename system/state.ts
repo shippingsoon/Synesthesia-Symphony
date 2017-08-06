@@ -6,10 +6,10 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IState, ICanvasResource, IWindow, ICustomEventData, FsmEvents } from './types';
-import { injectable } from 'inversify';
-import { Mixin } from './mixin';
-import { Emitable } from './mixin-traits';
+import {IState, ICanvasResource, IWindow, ICustomEventData, FsmEvents} from './types';
+import {injectable} from 'inversify';
+import {Mixin} from './mixin';
+import {Emitable} from './mixin-traits';
 
 /**
  * @classdesc Abstract State class.
@@ -29,12 +29,13 @@ export abstract class State implements IState, Emitable {
 	/**
 	 * Handles logic for the state.
 	 * @param dt - The delta time between the current and previous frame.
+	 * @param resource - An object containing the 2D drawing context and HTML5 canvas element.
 	 */
-	public abstract update(dt: number): void;
+	public abstract update(dt: number, resource: ICanvasResource): void;
 
 	/**
 	 * Renders the state.
-	 * @param resource - An object containing the 2D drawing context and delta time.
+	 * @param resource - An object containing the 2D drawing context and HTML5 canvas element.
 	 */
 	public abstract draw(resource: ICanvasResource): void;
 

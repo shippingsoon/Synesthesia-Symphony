@@ -6,9 +6,9 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IColor, ColorName, isColorName, COLORS } from './types';
-import { Color } from './color';
-import { injectable, unmanaged } from 'inversify';
+import {IColor, ColorName, isColorName, COLORS} from './types';
+import {Color} from './color';
+import {injectable, unmanaged} from 'inversify';
 
 /**
  * @classdesc Creates an object containing RGBA components.

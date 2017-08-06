@@ -6,9 +6,9 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { LifeForm } from './lifeform';
+import {LifeForm} from './lifeform';
 import {IColor, ICssColor, IVector2d, IVector2dMath} from '../../graphics/types';
-import { unmanaged } from 'inversify';
+import {unmanaged} from 'inversify';
 import {CssColor} from '../../graphics/css-color';
 import {Vector2dMath} from '../../graphics/vector-2d-math';
 
@@ -35,9 +35,9 @@ export class Player extends LifeForm {
 	 */
 	public constructor(
 		@unmanaged() _fillColor: ICssColor = new CssColor('green'),
-		@unmanaged() _position: IVector2dMath = new Vector2dMath({x: 0, y: 0}),
+		@unmanaged() _position: IVector2dMath = new Vector2dMath({x: 300, y: 100}),
 		@unmanaged() _r: number = 30,
-		@unmanaged() _speed: number = 700,
+		@unmanaged() _speed: number = 770,
 		@unmanaged() _lifePoints: number = 1,
 		@unmanaged() _healthPoints: number = 1,
 		@unmanaged() readonly maxHealthPoints: number = 1,

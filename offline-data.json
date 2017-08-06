@@ -1,49 +1,29 @@
 {
   "enemies": [
 	{
-	  "x": 200,
-	  "y": 100,
+	  "position": {"x": 200, "y": 100},
 	  "r": 20,
 	  "speed": 10,
-	  "lp": 1,
-	  "hp": 10,
 	  "fillColor": "DarkGreen",
-	  "lineWidth": 1,
-	  "lineColor": "black",
-	  "patterns": [
-		{
-		  "position": {
-			"x": null,
-			"y": null
-		  },
-		  "offsets": {
-			"x": 0,
-			"y": 0
-		  },
+	  "patterns": [{
+		  "position": {"x": null, "y": null},
+		  "offsets": {"x": 0, "y": 0},
 		  "maxProjectiles": 10,
 		  "targetType": null,
-		  "speeds": [
-			4
-		  ],
-		  "fillColors": [
-			"DarkGreen"
-		  ],
-		  "radii": [
-			10
-		  ],
-		  "isOpens": [
-			false
-		  ]
-		}
-	  ]
+		  "speeds": [4],
+		  "fillColors": ["DarkGreen"],
+		  "radii": [10],
+		  "isOpens": [false]
+		}]
 	}
   ],
   "player": {
-	"x": 200,
-	"y": 400,
+	"position": {"x": 400, "y": 200},
 	"r": 15,
-	"speed": 500,
-	"fillColor": "LightBlue"
+	"speed": 770,
+	"fillColor": "blue",
+	"secondaryColor": "green",
+	"secondarySpeed": 300
   },
   "songs": [{
 	"filename":"intro.mid",

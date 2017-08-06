@@ -6,8 +6,8 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { injectable, unmanaged } from 'inversify';
-import { ICanvasResource } from '../system/types';
+import {injectable, unmanaged} from 'inversify';
+import {ICanvasResource} from '../system/types';
 
 /**
  * @classdesc This class contains various configuration and game data.
@@ -27,10 +27,15 @@ export class CanvasResource implements ICanvasResource {
 	 * @param bgCanvas
 	 */
 	public constructor(@unmanaged() canvas?: HTMLCanvasElement, @unmanaged() bgCanvas?: HTMLCanvasElement) {
+		//TODO: Remove these hard coded lines of code.
 		this._canvas = canvas ? canvas : <HTMLCanvasElement> document.querySelector('#canvas-layer');
 		this._bgCanvas = bgCanvas ? canvas : <HTMLCanvasElement> document.querySelector('#background-layer');
 		this._ctx = this.canvas.getContext('2d');
 		this._bgCtx = this.bgCanvas.getContext('2d');
+		this._canvas.width = 768;
+		this._canvas.height = 672;
+		this._bgCanvas.width = 1280;
+		this._bgCanvas.width = 720;
 	}
 
 	//#region Mutator Region (Note: regions are collapsible with IntelliJ)

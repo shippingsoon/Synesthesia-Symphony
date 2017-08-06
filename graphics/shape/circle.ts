@@ -6,9 +6,9 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { injectable, unmanaged } from 'inversify';
-import { ICircle, IVector2dMath } from '../types';
-import { Shape } from './shape';
+import {injectable, unmanaged} from 'inversify';
+import {ICircle, IVector2dMath} from '../types';
+import {Shape} from './shape';
 
 /**
  * @classdesc A circle shape.

@@ -6,9 +6,9 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { FsmEvents, ICustomEventData, IFsm, IWindow } from './types';
-import { inject, injectable } from 'inversify';
-import { TYPES } from '../bootstrap/inversify.types';
+import {FsmEvents, ICustomEventData, IFsm, IWindow} from './types';
+import {inject, injectable} from 'inversify';
+import {TYPES} from '../bootstrap/inversify.types';
 
 /**
  * @classdesc Emitable class mixin.

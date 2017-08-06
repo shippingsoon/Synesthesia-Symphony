@@ -6,9 +6,9 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IVector2d, isVector, IMath } from './types';
-import { injectable } from 'inversify';
-import { Vector2d } from './vector-2d';
+import {IVector2d, isVector, IMath} from './types';
+import {injectable} from 'inversify';
+import {Vector2d} from './vector-2d';
 
 //Let our compiler know that this object is defined elsewhere.
 declare const Math: IMath;

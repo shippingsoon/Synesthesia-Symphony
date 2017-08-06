@@ -6,8 +6,8 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import { IVector2d, isVector } from './types';
-import { injectable } from 'inversify';
+import {IVector2d, isVector} from './types';
+import {injectable} from 'inversify';
 
 /**
  * @classdesc Vector2d class.

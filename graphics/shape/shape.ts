@@ -8,7 +8,7 @@
  */
 
 import {IShape, IVector2dMath} from '../types';
-import { injectable, unmanaged } from 'inversify';
+import {injectable, unmanaged} from 'inversify';
 
 /**
  * @classdesc An abstract class for 2D shapes
