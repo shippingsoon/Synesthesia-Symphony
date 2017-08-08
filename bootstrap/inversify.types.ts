@@ -39,6 +39,7 @@ const TYPES = {
 	NewableColor: Symbol('NewableColor'),
 	NewableCssColor: Symbol('NewableCssColor'),
 	NewableVector2d: Symbol('NewableVector2d'),
+	Projectiles: Symbol('Projectiles'),
 
 	//Audio
 	Audio: Symbol('Audio'),

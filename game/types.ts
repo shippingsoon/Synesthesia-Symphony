@@ -7,6 +7,7 @@
  */
 
 import {ColorName, IColor, IVector2d} from '../graphics/types';
+import {Projectile} from './projectile';
 
 /**
  * @interface
@@ -17,40 +18,9 @@ export interface IEntity {
 }
 
 /**
- * @interface
- */
-export interface EntityType {
-	readonly bosses: IEntity[];
-	readonly enemies: IEntity[],
-	readonly projectiles: IEntity[],
-	readonly items: IEntity[]
-}
-
-/**
- * @interface
- */
-export interface EntityData {
-	readonly manager: any;
-	readonly dt: number;
-}
-
-/**
  * @type EntityKeys
  */
 export type EntityKeys = 'bosses' | 'enemies' | 'projectiles' | 'items';
-
-/**
- * Placeholder test interface
- * @interface
- */
-export interface ILifeform {
-	x: number;
-	y: number;
-	radius: number;
-	fillColor?: IColor;
-	borderColor?: IColor;
-	borderWidth?: number;
-}
 
 /**
  * @interface
@@ -96,17 +66,6 @@ export interface ISession {
 }
 
 /**
- * @interface
- */
-export interface IResource {
-	readonly canvas: HTMLCanvasElement;
-	readonly backgroundCanvas: HTMLCanvasElement;
-	readonly context: CanvasRenderingContext2D;
-	readonly backgroundContext: CanvasRenderingContext2D;
-	readonly foo?: number;
-}
-
-/**
  * Screen resolution data structure.
  * @interface
  */
@@ -127,7 +86,7 @@ export interface IGame {
 /**
  * @interface
  */
-export interface IGameData {d
+export interface IGameData {
 	readonly enemies: Array<any>;
 	readonly player: {
 		readonly position: IVector2d,
@@ -148,3 +107,16 @@ export interface IPianoKey {
 	draw(ctx: CanvasRenderingContext2D);
 	destroy(): void;
 }
+
+/*
+gameData;
+export const canvasResource: ICanvasResource = new CanvasResource();
+
+export const projectiles: Set<Projectile> = new Set<Projectile>();
+export const items: Set<IItem> = new Set<IItem>();
+export const enemies: Set<IEnemy> = new Set<IEnemy>();
+export const bosses: Set<IBoss> = new Set<IBoss>();
+*/
+
+export const projectiles: Set<Projectile> = new Set<Projectile>();
+export let loadedGameData: IGameData;

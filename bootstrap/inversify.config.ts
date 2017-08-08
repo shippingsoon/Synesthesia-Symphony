@@ -23,7 +23,7 @@ import {LoadAudioState} from '../game/state/load-audio-state';
 import {IntroState} from '../game/state/intro-state';
 import {IColor, ICssColor, IVector2d} from '../graphics/types';
 import {ICanvasResource, IFsm, IStack, IState} from '../system/types';
-import {IGame, IPianoKey, ISession} from '../game/types';
+import {IGame, IPianoKey, ISession, projectiles} from '../game/types';
 import _ from 'lodash';
 import {Session} from '../system/session';
 import {Vector2dMath} from '../graphics/vector-2d-math';
@@ -34,6 +34,7 @@ import {Player} from '../game/character/player';
 import {PianoKey} from '../game/piano-key';
 import {IMidiJs} from '../audio/types';
 import {Piano} from '../game/piano';
+import {Projectile} from '../game/projectile';
 
 //Let the IDE know this 3rd party MidiJs.js module is defined elsewhere.
 declare const MIDI: any;
@@ -81,6 +82,7 @@ const applicationDependencies = new ContainerModule((bind) => {
 	bind<interfaces.Newable<IColor>>(TYPES.NewableColor).toConstructor<IColor>(Color);
 	bind<interfaces.Newable<ICssColor>>(TYPES.NewableCssColor).toConstructor<ICssColor>(CssColor);
 	bind<interfaces.Newable<IVector2d>>(TYPES.NewableVector2d).toConstructor<IVector2d>(Vector2d);
+	bind<Set<Projectile>>(TYPES.Projectiles).toConstantValue(projectiles);
 
 	//Audio
 	bind<Audio>(TYPES.Audio).to(Audio).inSingletonScope();

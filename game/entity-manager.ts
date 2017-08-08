@@ -8,9 +8,7 @@
  */
 
 import {Player} from './character/player';
-import {Enemy} from './character/enemy';
-import {clearCanvas} from '../graphics/graphics';
-import {EntityType, IGameData} from './types';
+import {IGameData} from './types';
 import {LoDashStatic} from 'lodash';
 import {ICanvasResource} from '../system/types';
 import {inject, injectable, unmanaged} from 'inversify';
@@ -27,7 +25,7 @@ declare const Keydown: any;
 @injectable()
 export class EntityManager {
 	protected readonly playerState: PlayerState;
-	private entities: EntityType;
+	private entities: any;
 
 	/**
 	 * @param data - The remotely loaded game data.
