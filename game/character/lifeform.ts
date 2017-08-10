@@ -10,12 +10,13 @@ import {IColor, ICssColor, IVector2dMath} from '../../graphics/types';
 import {injectable, unmanaged} from 'inversify';
 import {Vector2dMath} from '../../graphics/vector-2d-math';
 import {CssColor} from '../../graphics/css-color';
+import {ILifeform} from '../types';
 
 /**
  * @classdesc LifeForm class.
  */
 @injectable()
-export class LifeForm {
+export class LifeForm implements ILifeform {
 	/**
 	 * @param _fillColor - The fill color.
 	 * @param _position - The entity's position.
@@ -27,8 +28,8 @@ export class LifeForm {
 	 * @param _pattern - To be announced.
 	 */
 	public constructor(
-		@unmanaged() protected _fillColor: ICssColor = new CssColor('green'),
-		@unmanaged() protected _position: IVector2dMath = new Vector2dMath({x: 50, y: 50}),
+		@unmanaged() protected _fillColor: ICssColor,
+		@unmanaged() protected _position: IVector2dMath,
 		@unmanaged() protected _r: number = 1,
 		@unmanaged() protected _speed: number = 10,
 		@unmanaged() protected _lifePoints: number = 1,

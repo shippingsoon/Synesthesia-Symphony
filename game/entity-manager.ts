@@ -8,9 +8,9 @@
  */
 
 import {Player} from './character/player';
-import {IGameData} from './types';
+import {IBoss, IEnemy, IGameData, IItem, IPlayer, IProjectile, ISession} from './types';
 import {LoDashStatic} from 'lodash';
-import {ICanvasResource} from '../system/types';
+import {ICanvasResource, IState} from '../system/types';
 import {inject, injectable, unmanaged} from 'inversify';
 import {TYPES} from '../bootstrap/inversify.types';
 import {CssColor} from '../graphics/css-color';
@@ -24,30 +24,14 @@ declare const Keydown: any;
  */
 @injectable()
 export class EntityManager {
-	protected readonly playerState: PlayerState;
-	private entities: any;
-
-	/**
-	 * @param data - The remotely loaded game data.
-	 * @param _ - Lodash library.
-	 */
-	public constructor(@unmanaged() data: IGameData, @inject(TYPES.Lodash) private _: LoDashStatic) {
-		this.entities = {
-			bosses: [],
-			enemies: [],
-			projectiles: [],
-			items: []
-		};
-
-		//Create the player.
-		this.playerState = new PlayerState(
-			new Player(
-				new CssColor(data.player.fillColor),
-				new Vector2dMath(data.player.position),
-				data.player.r,
-				data.player.speed
-			)
-		);
+	public constructor(
+		@inject(TYPES.Session) private session: ISession,
+		@inject(TYPES.Projectiles) private projectiles: Set<IProjectile>,
+		@inject(TYPES.Items) private items: Set<IItem>,
+		@inject(TYPES.Enemies) private enemies: Set<IEnemy>,
+		@inject(TYPES.Bosses) private bosses: Set<IBoss>,
+		@inject(TYPES.PlayerState) private playerState: IState
+	) {
 	}
 
 	public update(dt: number, resource: ICanvasResource): void {
@@ -60,16 +44,9 @@ export class EntityManager {
 		this.playerState.draw(resource);
 	}
 
-	/**
-	 * This method is a good example of Functional programming.
-	 * @param {Object} collections -
-	 * @param {Function} command - The command to run.
-	 * @param {Function} [condition=null] - The condition to check.
-	 * @return {void}
-	 */
 	private _invokeAll<T>(collections: T[], command: Function, condition: Function = null): void {
 		collections.forEach((entity) => {
-			if (!this._.isEmpty(entity) && (condition === null || condition(entity))) {
+			if (entity && (condition === null || condition(entity))) {
 				command(entity);
 			}
 		});

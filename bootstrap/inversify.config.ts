@@ -23,7 +23,7 @@ import {LoadAudioState} from '../game/state/load-audio-state';
 import {IntroState} from '../game/state/intro-state';
 import {IColor, ICssColor, IVector2d} from '../graphics/types';
 import {ICanvasResource, IFsm, IStack, IState} from '../system/types';
-import {IGame, IPianoKey, ISession, projectiles} from '../game/types';
+import {IBoss, IEnemy, IGame, IItem, IPianoKey, IProjectile, ISession} from '../game/types';
 import _ from 'lodash';
 import {Session} from '../system/session';
 import {Vector2dMath} from '../graphics/vector-2d-math';
@@ -35,6 +35,8 @@ import {PianoKey} from '../game/piano-key';
 import {IMidiJs} from '../audio/types';
 import {Piano} from '../game/piano';
 import {Projectile} from '../game/projectile';
+import {bosses, enemies, items, pianoKeys, projectiles} from '../game/data';
+import {PlayerState} from '../game/character/player-state';
 
 //Let the IDE know this 3rd party MidiJs.js module is defined elsewhere.
 declare const MIDI: any;
@@ -76,13 +78,18 @@ const applicationDependencies = new ContainerModule((bind) => {
 	bind<StageState>(TYPES.StageState).to(StageState);
 	bind<EntityManager>(TYPES.EntityManager).to(EntityManager).inSingletonScope();
 	bind<Player>(TYPES.Player).to(Player).inSingletonScope();
+	bind<PlayerState>(TYPES.PlayerState).to(PlayerState).inSingletonScope();
 	bind<IPianoKey>(TYPES.PianoKey).to(PianoKey);
 	bind<Piano>(TYPES.Piano).to(Piano);
 	bind<interfaces.Newable<IPianoKey>>(TYPES.NewablePianoKey).toConstructor<IPianoKey>(PianoKey);
 	bind<interfaces.Newable<IColor>>(TYPES.NewableColor).toConstructor<IColor>(Color);
 	bind<interfaces.Newable<ICssColor>>(TYPES.NewableCssColor).toConstructor<ICssColor>(CssColor);
 	bind<interfaces.Newable<IVector2d>>(TYPES.NewableVector2d).toConstructor<IVector2d>(Vector2d);
-	bind<Set<Projectile>>(TYPES.Projectiles).toConstantValue(projectiles);
+	bind<Set<IProjectile>>(TYPES.Projectiles).toConstantValue(projectiles);
+	bind<Set<IItem>>(TYPES.Items).toConstantValue(items);
+	bind<Set<IEnemy>>(TYPES.Enemies).toConstantValue(enemies);
+	bind<Set<IBoss>>(TYPES.Bosses).toConstantValue(bosses);
+	bind<Array<IPianoKey>>(TYPES.PianoKeys).toConstantValue(pianoKeys);
 
 	//Audio
 	bind<Audio>(TYPES.Audio).to(Audio).inSingletonScope();

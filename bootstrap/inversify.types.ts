@@ -33,6 +33,7 @@ const TYPES = {
 	StageState: Symbol('StageState'),
 	EntityManager: Symbol('EntityManager'),
 	Player: Symbol('Player'),
+	PlayerState: Symbol('PlayerState'),
 	PianoKey: Symbol('PianoKey'),
 	Piano: Symbol('Piano'),
 	NewablePianoKey: Symbol('NewablePianoKey'),
@@ -40,6 +41,10 @@ const TYPES = {
 	NewableCssColor: Symbol('NewableCssColor'),
 	NewableVector2d: Symbol('NewableVector2d'),
 	Projectiles: Symbol('Projectiles'),
+	Items: Symbol('Items'),
+	Enemies: Symbol('Enemies'),
+	Bosses: Symbol('Bosses'),
+	PianoKeys: Symbol('PianoKeys'),
 
 	//Audio
 	Audio: Symbol('Audio'),

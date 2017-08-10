@@ -36,7 +36,7 @@ export class Player extends LifeForm {
 	public constructor(
 		@unmanaged() _fillColor: ICssColor = new CssColor('green'),
 		@unmanaged() _position: IVector2dMath = new Vector2dMath({x: 300, y: 100}),
-		@unmanaged() _r: number = 30,
+		@unmanaged() _r: number = 15,
 		@unmanaged() _speed: number = 770,
 		@unmanaged() _lifePoints: number = 1,
 		@unmanaged() _healthPoints: number = 1,

@@ -15,11 +15,9 @@ import {ICanvasResource} from '../system/types';
 
 @injectable()
 export class Piano {
-	//An array of piano keys.
-	private pianoKeys: Array<IPianoKey> = [];
-
 	public constructor(
-		@inject(TYPES.MidiJs) midiJs: IMidiJs,
+		@inject(TYPES.PianoKeys) readonly pianoKeys: Array<IPianoKey>,
+		@inject(TYPES.MidiJs) readonly midiJs: IMidiJs,
 		@inject(TYPES.NewablePianoKey) readonly PianoKey: Newable<IPianoKey>,
 		@inject(TYPES.NewableCssColor) readonly CssColor: Newable<ICssColor>,
 		@inject(TYPES.NewableVector2d) readonly Vector2d: Newable<IVector2d>,
@@ -30,15 +28,16 @@ export class Piano {
 
 		//The margin between white piano keys. DevNote: there are 51 white keys and 36 black keys.
 		const keyMargin: number = resource.canvas.width / 51;
-		debugger;
+
 		//The offset between piano keys.
 		let offset: number = 0;
 		let count: number = 0;
+
 		//21 - 108.
 		for (let note = 0x15; note < 0x6C; note++) {
 			//Determine if the piano key is white or black.
 			const isBlack: boolean = pianoKeyColors[note % 12] === 1;
-			if (isBlack) {count++;}
+
 			//The piano key's width.
 			const keyWidth: number = isBlack ? (keyMargin / 1.5) : keyMargin;
 

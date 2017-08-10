@@ -7,16 +7,19 @@
  */
 
 import {ICanvasResource} from '../../system/types';
-import {unmanaged} from 'inversify';
+import {inject, injectable, unmanaged} from 'inversify';
 import {State} from '../../system/state';
 import {DrawableCircle} from '../../graphics/mixin/drawable-circle';
 import {Mixin} from '../../system/mixin';
 import {Player} from './player';
+import {TYPES} from '../../bootstrap/inversify.types';
+import {IPlayer, ISession} from '../types';
 
 /**
  * @classdesc The player state class.
  */
 @Mixin(DrawableCircle)
+@injectable()
 export class PlayerState extends State implements DrawableCircle {
 	/**
 	 * Mixins
@@ -26,8 +29,9 @@ export class PlayerState extends State implements DrawableCircle {
 
 	/**
 	 * @param player -
+	 * @param session -
 	 */
-	public constructor(@unmanaged() private player: Player) {
+	public constructor(@inject(TYPES.Player) private player: IPlayer, @inject(TYPES.Session) session: ISession) {
 		super();
 	}
 

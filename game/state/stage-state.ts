@@ -24,21 +24,25 @@ import {clearCanvas} from '../../graphics/graphics';
 export class StageState implements State {
 	private entityManger: EntityManager;
 
-	public constructor(@inject(TYPES.Session) private session: ISession, @inject(TYPES.Piano) private piano: Piano) {}
+	public constructor(
+		@inject(TYPES.Session) private session: ISession,
+		@inject(TYPES.Piano) private piano: Piano,
+		@inject(TYPES.EntityManager) private entityManager: EntityManager
+	) {
+	}
 
 	public start(): void {
 		console.log('StageState');
-		this.entityManger = new EntityManager(this.session.data, _);
 	}
 
 	public update(dt: number, resource: ICanvasResource): void {
-		this.entityManger.update(dt, resource);
+		this.entityManager.update(dt, resource);
 	}
 
 	public draw(resource: ICanvasResource): void {
 		clearCanvas(resource.ctx, resource.canvas);
 		this.piano.draw(resource);
-		this.entityManger.draw(resource);
+		this.entityManager.draw(resource);
 	}
 
 	public pause(): void {}

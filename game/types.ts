@@ -6,7 +6,7 @@
  * @see {@link https://www.shippingsoon.com/synesthesia-symphony} for online demo
  */
 
-import {ColorName, IColor, IVector2d} from '../graphics/types';
+import {ColorName, IColor, ICssColor, IVector2d, IVector2dMath} from '../graphics/types';
 import {Projectile} from './projectile';
 
 /**
@@ -21,14 +21,6 @@ export interface IEntity {
  * @type EntityKeys
  */
 export type EntityKeys = 'bosses' | 'enemies' | 'projectiles' | 'items';
-
-/**
- * @interface
- */
-export interface IItem {
-	x: number;
-	y: number;
-}
 
 /**
  * An interface for configuration data.
@@ -108,15 +100,53 @@ export interface IPianoKey {
 	destroy(): void;
 }
 
+/**
+ * @interface
+ */
+export interface ILifeform {
+	fillColor: ICssColor;
+	position: IVector2dMath;
+	lifePoints: number;
+	healthPoints: number;
+	speed: number;
+	r: number;
+}
+
+/**
+ * @interface
+ */
+export interface IProjectile {
+}
+
+/**
+ * @interface
+ */
+export interface IItem {
+}
+
+/**
+ * @interface
+ */
+export interface IEnemy extends ILifeform {
+}
+
+/**
+ * @interface
+ */
+export interface IBoss extends ILifeform {
+}
+
+/**
+ * @interface
+ */
+export interface IPlayer extends ILifeform {
+	handleInput(dt: number): void;
+}
+
+export interface IProjectilePattern {}
+
 /*
-gameData;
-export const canvasResource: ICanvasResource = new CanvasResource();
+projectile hits:
+	projectile, item, player, enemy, boss, pianoKeys
 
-export const projectiles: Set<Projectile> = new Set<Projectile>();
-export const items: Set<IItem> = new Set<IItem>();
-export const enemies: Set<IEnemy> = new Set<IEnemy>();
-export const bosses: Set<IBoss> = new Set<IBoss>();
 */
-
-export const projectiles: Set<Projectile> = new Set<Projectile>();
-export let loadedGameData: IGameData;

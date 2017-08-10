@@ -43,9 +43,8 @@ export class PianoKey extends Rectangle implements IPianoKey {
 	public hasCollidedWithPlayer() {
 		//Handle collison.
 	}
+
 	public draw(ctx: CanvasRenderingContext2D) {
-		//
-		//console.log(this.w, this.h);
 		this.render(ctx, this.position, this.w, this.h, this.fillColor);
 	}
 
