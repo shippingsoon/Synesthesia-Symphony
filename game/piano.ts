@@ -12,6 +12,7 @@ import Newable = interfaces.Newable;
 import {IColor, ICssColor, IVector2d} from '../graphics/types';
 import {IMidiJs} from '../audio/types';
 import {ICanvasResource} from '../system/types';
+import {Player} from './character/player';
 
 @injectable()
 export class Piano {
@@ -21,7 +22,8 @@ export class Piano {
 		@inject(TYPES.NewablePianoKey) readonly PianoKey: Newable<IPianoKey>,
 		@inject(TYPES.NewableCssColor) readonly CssColor: Newable<ICssColor>,
 		@inject(TYPES.NewableVector2d) readonly Vector2d: Newable<IVector2d>,
-		@inject(TYPES.CanvasResource) readonly resource: ICanvasResource
+		@inject(TYPES.CanvasResource) readonly resource: ICanvasResource,
+		@inject(TYPES.Player) private readonly player: any
 	) {
 		//Zero is for white keys and one is for black keys.
 		const pianoKeyColors: Array<number> = [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0];
@@ -78,6 +80,9 @@ export class Piano {
 		this.pianoKeys = this.pianoKeys.sort((key: IPianoKey): number => (key.isBlack) ? 1 : 0);
 	}
 
+	public test() {
+		console.log(this.player);
+	}
 	public draw(resource: ICanvasResource) {
 		for (let pianoKey of this.pianoKeys) {
 			pianoKey.draw(resource.ctx);

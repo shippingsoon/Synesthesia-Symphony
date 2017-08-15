@@ -34,7 +34,6 @@ import {Player} from '../game/character/player';
 import {PianoKey} from '../game/piano-key';
 import {IMidiJs} from '../audio/types';
 import {Piano} from '../game/piano';
-import {Projectile} from '../game/projectile';
 import {bosses, enemies, items, pianoKeys, projectiles} from '../game/data';
 import {PlayerState} from '../game/character/player-state';
 

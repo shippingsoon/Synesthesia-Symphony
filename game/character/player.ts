@@ -7,7 +7,7 @@
  */
 
 import {LifeForm} from './lifeform';
-import {IColor, ICssColor, IVector2d, IVector2dMath} from '../../graphics/types';
+import {ICssColor, IVector2dMath} from '../../graphics/types';
 import {unmanaged} from 'inversify';
 import {CssColor} from '../../graphics/css-color';
 import {Vector2dMath} from '../../graphics/vector-2d-math';
